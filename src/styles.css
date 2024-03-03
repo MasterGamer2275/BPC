@@ -3,3 +3,30 @@ h1 {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: normal;
 }
+loginfooter {
+  text-align: center;
+  padding: 3px;
+  background-color: rgb(173, 103, 79);
+  color: white;
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  width: 100%
+  }
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: rgb(173, 103, 79);
+  color: white;
+  width: 100%
+  }
+button {
+  background-color: #1284b16b; /* Blue */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
