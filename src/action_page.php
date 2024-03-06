@@ -7,8 +7,6 @@ Password  <?php echo $_POST["pwd"]; ?><br>
 Login  <?php echo $_POST["login"]; ?><br>
 Signup  <?php echo $_POST["signup"]; ?><br>
 -->
-<?php CREATE DATABASE testDB; ?>
-
 <?php if ($_SERVER["REQUEST_METHOD"] == "POST") { ?>
     <?php $name = $_POST["uname"]; ?>
     <?php $password = $_POST["pwd"]; ?>
@@ -18,7 +16,6 @@ Signup  <?php echo $_POST["signup"]; ?><br>
   <?php if ($lgn != "" && $name == "Admin1234567" && $password == "Admin") { ?>
      <!-- Place holder to open the .htm file for main log in page -->
      <?php include 'main-page/main-page.php';?>
-     <?php echo $lgn; ?>
     <?php } ?>
   <?php if ($sp != "") { ?>
     <?php echo $sp; ?>
