@@ -6,8 +6,8 @@
 <h2>Please enter the below details and submit to register. A response with employee ID and confirmation will be emailed by the web host in 24-48 Hrs.</h2>
 
 <form action="\new_user_action_page.php" method="post" enctype="multipart/form-data">
-  Company Name:<input type="text" id="fname" name="fname" value="" style="font-size: 100%;"><br><br>
-  First Name:<input type="dropdownbox" id="fname" name="fname" value="" style="font-size: 100%;"><br><br>
+  Company Name:<input type="text" id="cname" name="cname" value="" style="font-size: 100%;"><br><br>
+  First Name:<input type="text" id="fname" name="fname" value="" style="font-size: 100%;"><br><br>
   Last Name:<input type="text" id="lname" name="lname" value="" style="font-size: 100%;"><br><br>
   Email ID:<input type="email" id="eid" name="eid" value="" style="font-size: 100%;"><br><br>
   BirthDate:<input type="date" id="bd" name="bd" value="" style="font-size: 100%;"><br><br>

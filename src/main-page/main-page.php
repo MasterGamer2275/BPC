@@ -3,50 +3,25 @@
 <html>
 <?php include 'header.php';?>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.topnav {
-  overflow: hidden;
-  background-color: rgb(173, 103, 79);
-}
-
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav a.active {
-  background-color: #ddd;
-  color: black;
-}
-</style>
-</head>
 <body>
-
-<div class="topnav">
+ <div class="topnav">
   <a class="active" href="#home">Home</a>
-  <a href="#news">News</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
+  <a href="customers-page.php">Customers</a>
+  <a href="#stock">Stock</a>
+  <a href="#production">Production</a>
+  <a href="#finishedgoods">End Product</a>
+  <a href="#dispatch">Dispatch</a>
+  <a href="#sales">Sales</a>
+  <a href="#contactus">Contact Us</a>
+</div>
+<!-- change for each tab -->
+<div style="padding-left:16px" id="home">
+  <h2>Home Page</h2>
+  <p>Welcome to Kraft Paper Company - MES Site</p>
+  <p>Yet to be added...</p>
 </div>
 
-<div style="padding-left:16px">
-  <h2>Top Navigation Example</h2>
-  <p>Some content..</p>
-</div>
+<!-- ------------------ -->
 
 
 <?php include 'loginfooter.php';?>

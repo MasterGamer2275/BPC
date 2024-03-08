@@ -18,7 +18,6 @@ Signup  <?php echo $_POST["signup"]; ?><br>
      <?php include 'main-page/main-page.php';?>
     <?php } ?>
   <?php if ($sp != "") { ?>
-    <?php echo $sp; ?>
     <!-- Place holder to open the .htm file for registration -->
     <?php include 'new-user/new-user-form.php';?>
     <!-- <?php header("Location: new-user\new-user-form.php"); ?> -->
