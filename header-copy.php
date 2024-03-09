@@ -14,5 +14,5 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="styles.css" /> 
     <title>Link CSS to HTML</title>
-    <img src="Site_Header.png" alt="The Kraft Paper Co." style="width:100%;height:100px;">
+    <img src="Images/Site_Header.png" alt="The Kraft Paper Co." style="width:100%;height:100px;">
 </header>
