@@ -11,8 +11,10 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <header>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="styles.css" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--<title>InfiPackaging</title>
+    <link rel="icon" type="image/x-icon" href="/Images/usericon.ico"> -->
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <title>Link CSS to HTML</title>
     <div class="parent" >
     <img class="image1" src="Images/Title_Block.PNG" />
