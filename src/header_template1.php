@@ -20,7 +20,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <img class="image1" src="Images/Title_Block.PNG" />
     <img class="image2" src="Images/Website_Logo.png" />
     <img class="image3" src="Images/Company_Logo.png" />
-    <h1 class="header1_title" >Welcome to the Manufacturing Execution System Portal</h1>
+    <h1 class="header1_title" >Welcome to the Manufacturing Execution System Portal</h1><br>
     <iframe class="runningquotes" src="runningquotest.php"></iframe>
     </div>
 </header>
