@@ -2,9 +2,34 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php
+$root = $_SERVER['DOCUMENT_ROOT'];
+//include ($root."/main-page/db-setup.php");
+?>
 <style>
 * {box-sizing: border-box}
 body {font-family: "Lato", sans-serif;}
+
+.rectangle1 {
+  position: absolute;
+  top: 100px;
+  left: 130px;
+  width: 1060px;
+  height: 78%;
+  border-color: rgb(192, 192, 192);
+  font-size: 20px;
+  text-align: left;
+}
+.rectangle2 {
+  position: absolute;
+  top: 100px;
+  left: 1200px;
+  width: 330px;
+  height: 78%;
+  border-color: rgb(192, 192, 192);
+  font-size: 20px;
+  text-align: left;
+}
 
 /* Style the tab */
 .tab {
@@ -37,7 +62,7 @@ body {font-family: "Lato", sans-serif;}
   color: white;
   padding: 22px 16px;
   width: 100%;
-  height: 1.5%;
+  height: 1%;
   line-height: 1%;
   border: none;
   outline: none;
@@ -119,7 +144,7 @@ body {font-family: "Lato", sans-serif;}
 }
 */
 
-/* Style the sub-tab content */
+/* Style the sub-tab content
 .sub-tabcontent {
   float: left;
   padding: 0px 12px;
@@ -130,12 +155,17 @@ body {font-family: "Lato", sans-serif;}
   border-left: none;
   height: auto;
 }
+
+ */
 </style>
 </head>
 <body>
-
+<div class="iframe">
+    <iframe class="rectangle1" src="home.php" id = "rect1" name = "rect1"></iframe>
+    <iframe class="rectangle2" src="frame_2.php" id = "rect2" name = "rect2"></iframe>
+</div>
 <div class="tab">
-  <button class="tablinks" onclick="opensubtab(event, 'Welcome UN')" Style="font-size:15px;color:black;" id="defaultOpen">Welcome UN</button>
+  <button class="tablinks" onclick="openphp(event, 'home.php', 'frame1.php')" Style="font-size:15px;color:black;" id="defaultOpen">Welcome UN</button>
   <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
   <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
   <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
@@ -150,27 +180,49 @@ body {font-family: "Lato", sans-serif;}
 </div>
 
 <div class="sub-tab" id = "Inventory >">
-  <button class="subtablinks1" onclick="#">Commodity</button>
-  <button class="subtablinks1" onclick="#">Supplier</button>
-  <button class="subtablinks1" onclick="#">Feed Stock</button>
-  <button class="subtablinks1" onclick="#">Stock Analysis</button>
-  <button class="subtablinks1" onclick="#">Purchase Orders</button>
+  <button class="subtablinks1" onclick="openphp(event, 'forms/commodity.php', 'frame1.php')">Commodity</button>
+  <button class="subtablinks1" onclick="openphp(event, 'forms/supplier.php', 'frame1.php')">Supplier</button>
+  <button class="subtablinks1" onclick="openphp(event, 'forms/stock.php', 'frame1.php')">Feed Stock</button>
+  <button class="subtablinks1" onclick="openphp(event, 'forms/stockstatistics.php', 'frame1.php')">Stock Statistics</button>
+  <button class="subtablinks1" onclick="openphp(event, 'forms/stockpurchaseorders.php', 'frame1.php')">Purchase Orders</button>
 </div>
 
 <div class="sub-tab" id = "Sales >">
-  <button class="subtablinks2" onclick="#">Customers</button>
-  <button class="subtablinks2" onclick="#">Prodcuts</button>
-  <button class="subtablinks2" onclick="#">Sales Invoice</button>
-  <button class="subtablinks2" onclick="#">Quotations</button>
+  <button class="subtablinks2" onclick="openphp(event, 'forms/customers.php', 'frame1.php')">Customers</button>
+  <button class="subtablinks2" onclick="openphp(event, 'forms/products.php', 'frame1.php')">Prodcuts</button>
+  <button class="subtablinks2" onclick="openphp(event, 'forms/salesinvoice.php', 'frame1.php')">Sales Invoice</button>
+  <button class="subtablinks2" onclick="openphp(event, 'forms/quotes.php', 'frame1.php')">Quotations</button>
 </div>
 
 <div class="sub-tab" id = "Production >">
-  <button class="subtablinks3" onclick="#">Daily Report</button>
-  <button class="subtablinks3" onclick="#">Dispatch Status</button>
-  <button class="subtablinks3" onclick="#">Finished Goods</button>
+  <button class="subtablinks3" onclick="openphp(event, 'forms/dailyfeed.php', 'frame1.php')">Daily Feed</button>
+  <button class="subtablinks3" onclick="openphp(event, 'forms/dispactch.php', 'frame1.php')">Dispatch Status</button>
+  <button class="subtablinks3" onclick="openphp(event, 'forms/finishedgoods.php', 'frame1.php')">Finished Goods</button>
 </div>
 
 <script>
+
+function openphp(evt, filename, framename) {
+  var i, subtablinks1, subtablinks2, subtablinks3, tablinks, framerect1;
+  tablinks = document.getElementsByClassName("tablinks");
+  subtablinks1 = document.getElementsByClassName("subtablinks1");
+  subtablinks2 = document.getElementsByClassName("subtablinks2");
+  subtablinks3 = document.getElementsByClassName("subtablinks3");
+  framerect1 = document.getElementById("rect1");
+  framerect1.src = filename;
+  //clear all the sub tab displays
+  for (i = 0; i < subtablinks1.length; i++) {
+    subtablinks1[i].style.display = "none";
+    }
+  for (i = 0; i < subtablinks2.length; i++) {
+    subtablinks2[i].style.display = "none";
+   }
+  for (i = 0; i < subtablinks3.length; i++) {
+    subtablinks3[i].style.display = "none";
+   }
+}
+
+
 
 function opensubtab(evt, tabname, tabindex) {
   //define all the variables used
@@ -212,10 +264,15 @@ function opensubtab(evt, tabname, tabindex) {
    evt.currentTarget.className += " active";
 }
 
+
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
-</script>
 
+
+</script>
+<?php
+//include ($root."/main-page/db-close.php");
+?>
 </body>
 </html> 

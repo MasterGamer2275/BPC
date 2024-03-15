@@ -1,8 +1,22 @@
  <!DOCTYPE html>
  <html>
- <body>
- <h1>Frame 1</h1>
- <p>Contents of Frame 1</p>
- </body>
+ 
+ <!--
+ //$filename = "forms/commodity.php";
+ //$filenam = "1.php";
+ /*
+ include 'forms/commodity.php';
+ */
+  <?php 
+ echo $filename;
+ include $filename; ?>
+ include 'forms/commodity.php';
+
+ -->
+ <?php 
+
+ include $file; ?>
+
+
  </html>
 

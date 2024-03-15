@@ -1,5 +1,7 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 .rectangle1 {
   position: absolute;
@@ -24,7 +26,7 @@
 </style>
 
 <form>
-    <iframe class="rectangle1" src="frame_1.php"></iframe>
+    <iframe class="rectangle1" src="home.php"></iframe>
     <iframe class="rectangle2" src="frame_2.php"></iframe>
 </form>
 

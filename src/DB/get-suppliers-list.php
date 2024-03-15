@@ -1,0 +1,1 @@
+<?php $suppliers = ["Mill NO 1", "Mill NO 2", "Mill NO 3"]; ?>

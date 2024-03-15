@@ -97,7 +97,7 @@ function ShowQuotes() {
   QuoteIndex++;
   if (QuoteIndex > slides.length) {QuoteIndex = 1}
   slides[QuoteIndex-1].style.display = "block";
-  setTimeout(ShowQuotes, 25000); // Change quote text every 25 seconds
+  setTimeout(ShowQuotes, 15000); // Change quote text every 15 seconds
 }
 </script>
 
