@@ -1,13 +1,4 @@
- 
-  <?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-}
-?>
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,15 +31,18 @@ tr:nth-child(even) {
         ?>
 <br><br>
 <label for="Sname"><b>Supplier Name: *</label>
-<input type = "text" id = "Sname" name = "Sname" required>
+<input type = "text" id = "Sname" name = "Sname" required size="50">
+<label for="SPh"><b>Phone: +91</label>
+<input type = "text" inputmode="numeric" pattern="[0-9]{10}" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
+<label for="SEmail"><b>Email:</label>
+<input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30" pattern="[a-z @]{30}">
 <br><br>
 <label for="SAddr"><b>Address:</label>
-<input type = "text" id = "SAddr" name = "SAddr">
-<br><br>
+<input type = "text" id = "SAddr" name = "SAddr" size="35" maxlength = "35">
 <label for="SCity"><b>City:</label>
-<input type = "text" id = "SCity" name = "SCity">
+<input type = "text" id = "SCity" name = "SCity" size="25" maxlength = "25">
 <label for="SState"><b>State:</label>
-<select name="Sstate" id="Sstate">
+<select name="Sstate" id="Sstate" width ="15px">
 <option value="Andhra Pradesh">Andhra Pradesh</option>
 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -86,13 +80,8 @@ tr:nth-child(even) {
 <option value="Uttarakhand">Uttarakhand</option>
 <option value="West Bengal">West Bengal</option>
 </select>
-<label for="Pcode"><b>PIN Code:</label>
-<input type = "text" id = "Pcode" name = "Pcode" pattern="[0-9]{6}" maxlength = "6">
-<br><br>
-<label for="SPh"><b>Phone:</label>
-<input type = "text" id = "SPh" name = "SPh">
-<label for="SEmail"><b>Email:</label>
-<input type = "email" id = "SEmail" name = "SEmail">
+<label for="Pcode"><b>Pincode:</label>
+<input type = "text" id = "Pcode" name = "Pcode" pattern="[0-9]" maxlength = "6" size = "6" inputmode="numeric">
 <input type = "submit" id = "SAdd" name = "SAdd" value = "Add">
 <br><br>
 <table>

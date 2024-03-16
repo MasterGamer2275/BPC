@@ -1,0 +1,1 @@
+<p>Ad page / Latest News</p>

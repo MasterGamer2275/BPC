@@ -74,17 +74,17 @@ img {vertical-align: middle;}
 
 <div class="mySlides fade">
   <div class="numbertext">1 / 3</div>
-  <img src="Images/Image1.png" style="width:100%;">
+  <img src="/Images/Image1.png" style="width:100%;">
 </div>
 
 <div class="mySlides fade">
   <div class="numbertext">2 / 3</div>
-  <img src="Images/Image2.png" style="width:100%;">
+  <img src="/Images/Image2.png" style="width:100%;">
 </div>
 
 <div class="mySlides fade">
   <div class="numbertext">3 / 3</div>
-  <img src="Images/Image3.png" style="width:100%;">
+  <img src="/Images/Image3.png" style="width:100%;">
 </div>
 
 </div>

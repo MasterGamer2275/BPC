@@ -51,9 +51,9 @@ tr:nth-child(even) {
     </select>
 <br><br>
 <label for="GSM"><b>GSM: *</label>
-<input type = "number" id = "GSM" name = "GSM" required>
+<input type = "number" id = "GSM" name = "GSM" required min = "10" max= "500" >
 <label for="BF"><b>BF: *</label>
-<input type = "number" id = "BF" name = "BF" required>
+<input type = "number" id = "BF" name = "BF" required min = "1" max= "500">
 <input type = "submit" id = "CAdd" name = "CAdd" value = "Add">
 <br><br>
 

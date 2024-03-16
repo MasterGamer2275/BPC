@@ -44,7 +44,7 @@ footer {
   position: absolute;
   left: 0%;
   bottom: 0%;
-  width: 100%
+  width: 100%;
   text-align: center;
   padding: 3px;
   background-color: rgb(173, 103, 79);
@@ -113,7 +113,18 @@ footer {
   top: 100px;
   left: 1200px;
   width: 330px;
-  height: 78%;
+  height: 40%;
+  border-color: rgb(192, 192, 192);
+  font-size: 20px;
+  text-align: left;
+}
+
+.rectangle3 {
+  position: absolute;
+  top: 380px;
+  left: 1200px;
+  width: 330px;
+  height: 38%;
   border-color: rgb(192, 192, 192);
   font-size: 20px;
   text-align: left;
@@ -166,7 +177,7 @@ footer {
   background-color: rgb(173, 103, 79);
   color: white;
   padding: 22px 16px;
-  width: 100%;
+  width: auto;
   height: 1%;
   line-height: 1%;
   border: none;

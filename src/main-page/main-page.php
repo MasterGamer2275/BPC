@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
+ <?php
 // If the request is made from our space preview functionality then turn on PHP error reporting
 if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
   ini_set('display_errors', 1);
@@ -8,6 +6,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   error_reporting(E_ALL);
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
 <header>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -28,6 +28,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <div class="iframe">
      <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
      <iframe class="rectangle2" src="/main-page/frame_2.php" id = "rect2" name = "rect2"></iframe>
+     <iframe class="rectangle3" src="/main-page/Spare-box.php" id = "rect3" name = "rect3"></iframe>
     </div>
     <div class="tab">
       <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php')" Style="font-size:15px;color:black;" id="defaultOpen">Welcome UN</button>

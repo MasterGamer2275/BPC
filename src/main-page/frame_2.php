@@ -1,6 +1,6 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
  <html>
  <body>
-   <?php include '/main-page/runningimagedisplay.php'; ?>
+<?php include 'runningimagedisplay.php'; ?>
  </body>
  </html>
