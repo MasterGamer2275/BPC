@@ -54,7 +54,7 @@ tr:nth-child(even) {
 <input type = "number" id = "GSM" name = "GSM" required>
 <label for="BF"><b>BF: *</label>
 <input type = "number" id = "BF" name = "BF" required>
-<input type = "submit" id = "Add" name = "Add" value = "Add">
+<input type = "submit" id = "CAdd" name = "CAdd" value = "Add">
 <br><br>
 
 <table>

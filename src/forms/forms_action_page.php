@@ -32,6 +32,27 @@ EOF;
       echo "Records created successfully\n";
    }
 }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Cname = $_POST["Cname"];
+    $Sup = $_POST["Sup"];
+    $GSM = $_POST["GSM"];
+    $BF = $_POST["BF"];
+    $CAdd = $_POST["CAdd"];
+    }
+if $CAdd = "SAdd" {
+//validate record
+$sql =<<<EOF
+      ALTER TABLE TEST_SUPPLIER AUTO_INCREMENT = 100;
+      INSERT INTO TEST_COMMODITY (NAME,SUPPLIERID,GSM,BF)
+      VALUES ($Cname,$Sup ,$GSM,$BF);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret) {
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Records created successfully\n";
+   }
+}
 
 //      INSERT INTO TEST_COMMODITY (ID,NAME,SUPPLIERID,GSM,BF)
 //      VALUES (2, 'GYS', 1, 70, 8);
