@@ -1,62 +1,33 @@
+
+<?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+}
+?>
 <html>
 <body>
 <!-- define variables and set to empty values*-->
-Sname echo $_POST["Sname"];<br> 
-<!--
-Password  echo $_POST["pwd"];<br>
-Login  echo $_POST["login"];<br>
-Signup  echo $_POST["signup"];<br>
--->
-<?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Sname = $_POST["Sname"];
-    $SuGST = $_POST["SuGST"];
-    $SAddr = $_POST["SAddr"];
-    $SCity = $_POST["SCity"];
-    $SState = $_POST["SState"];
-    $Pcode = $_POST["Pcode"];
-    $SPh = $_POST["SPh"];
-    $SEmail= $_POST["SEmail"];
-    $SAdd = $_POST["SAdd"];
-    }
-if $SAdd = "SAdd" {
-//validate record
-$sql =<<<EOF
-      INSERT INTO TEST_SUPPLIER_2 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
-      VALUES ($Sname, $SuGST,$SAddr, $SCity, $SState, $Pcode, $SPh, $SEmail);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret) {
-      echo $db->lastErrorMsg();
-   } else {
-      echo "Records created successfully\n";
-   }
-}
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Cname = $_POST["Cname"];
-    $Sup = $_POST["Sup"];
-    $GSM = $_POST["GSM"];
-    $BF = $_POST["BF"];
-    $CAdd = $_POST["CAdd"];
-    }
-if $CAdd = "SAdd" {
-//validate record
-$sql =<<<EOF
-      ALTER TABLE TEST_SUPPLIER AUTO_INCREMENT = 100;
-      INSERT INTO TEST_COMMODITY (NAME,SUPPLIERID,GSM,BF)
-      VALUES ($Cname,$Sup ,$GSM,$BF);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret) {
-      echo $db->lastErrorMsg();
-   } else {
-      echo "Records created successfully\n";
-   }
-}
+Welcome  <?php echo $_POST["Sname"]; ?><br>
+<?php $Sname = $_POST["Sname"]; ?>
+<?php $SuGST = $_POST["SuGST"]; ?>
+<?php $SAddr = $_POST["SAddr"]; ?>
+<?php $SCity = $_POST["SCity"]; ?>
+<?php $SState = $_POST["SState"]; ?>
+<?php $SPcode = $_POST["Pcode"]; ?>
+<?php $SPh = $_POST["SPh"]; ?>
+<?php $SEmail= $_POST["SEmail"]; ?>
+<?php $SAdd = $_POST["SAdd"]; ?>
+<?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
+<?php include ($root."/DB/db-setup.php"); ?>
+<?php if ($SAdd != "") {  ?>
+  <?php echo "welcome to add to supplier record<br>"; ?>
+  <?php /*validate record */ ?>  
+  <?php include ($root."/DB/add-supplier-record.php"); ?>
+<?php } ?>
+<?php include ($root."/DB/db-close.php"); ?>
 
-//      INSERT INTO TEST_COMMODITY (ID,NAME,SUPPLIERID,GSM,BF)
-//      VALUES (2, 'GYS', 1, 70, 8);
-
-?>
 </body>
 </html>

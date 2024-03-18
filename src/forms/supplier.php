@@ -41,15 +41,15 @@ input(type=number) {
 </style>
 
 
-<form action="/forms_action_page.php" method="post">
+<form action="forms_action_page.php" method="post">
 <p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
 <label for="Sname"><b>Supplier Name: *</label>
 <input type = "text" id = "Sname" name = "Sname" required size="50">
 <label for="SuGST"><b>GSTIN/UIN: *</label>
-<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required pattern="(A-Z0-9)+"> 
+<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required> 
 <br><br>
 <label for="SPh"><b>Phone: +91</label>
-<input type = "text" inputmode="numeric" pattern="(0-9)+" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
+<input type = "text" inputmode="numeric" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
 <label for="SEmail"><b>Email:</label>
 <input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30">
 <br><br>

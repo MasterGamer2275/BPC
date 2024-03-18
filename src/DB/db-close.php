@@ -1,4 +1,4 @@
 <?php
    $db->close();
-   //echo "Closed database successfully\n";
+   echo "Closed database successfully<br>";
 ?>

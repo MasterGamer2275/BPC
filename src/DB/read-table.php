@@ -12,7 +12,7 @@ EOF;
    if(!$ret) {
       echo $db->lastErrorMsg();
    } else {
-      //echo "Tabe Read Successfully\n";
+      echo "Tabe Read Successfully\n";
    }
 
 //include ($root."/DB/db-close.php");
