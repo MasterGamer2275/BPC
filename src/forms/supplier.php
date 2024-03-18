@@ -44,21 +44,15 @@ input(type=number) {
 <form action="forms_action_page.php" method="post">
 <p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
 <label for="Sname"><b>Supplier Name: *</label>
-<input type = "text" id = "Sname" name = "Sname" required size="50">
-<label for="SuGST"><b>GSTIN/UIN: *</label>
-<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required> 
-<br><br>
-<label for="SPh"><b>Phone: +91</label>
-<input type = "text" inputmode="numeric" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
-<label for="SEmail"><b>Email:</label>
-<input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30">
+<input type = "text" id = "Sname" name = "Sname" required size="105">
 <br><br>
 <label for="SAddr"><b>Address:</label>
-<input type = "text" id = "SAddr" name = "SAddr" size="35" maxlength = "35">
+<input type = "text" id = "SAddr" name = "SAddr" size="80" maxlength = "80">
 <label for="SCity"><b>City:</label>
-<input type = "text" id = "SCity" name = "SCity" size="25" maxlength = "25">
+<input type = "text" id = "SCity" name = "SCity" size="20" maxlength = "20">
+<br><br>
 <label for="SState"><b>State:</label>
-<select name="Sstate" id="Sstate" width ="15px">
+<select name="Sstate" id="Sstate">
 <option value="Andhra Pradesh">Andhra Pradesh</option>
 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -98,8 +92,15 @@ input(type=number) {
 </select>
 <label for="Pcode"><b>Pincode:</label>
 <input type = "text" id = "Pcode" name = "Pcode" maxlength = "6" size = "6" pattern="\d{6}">
+<label for="SuGST"><b>GSTIN/UIN:</label>
+<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15"> 
+<label for="SPh"><b>Mobile: +91</label>
+<input type = "text" inputmode="numeric" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
+<label for="SEmail"><b>Email:</label>
+<input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30">
 <input type = "submit" id = "SAdd" name = "SAdd" value = "Add">
 <br><br>
+
 <table>
   <tr>
     <th>Supplier ID</th>
