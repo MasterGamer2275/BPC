@@ -41,27 +41,27 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
+      <button class="tablinks" onclick="openphp(event, '/forms/company.php', '/main-page/frame1.php')">My Company</button>
       <button class="tablinks">My Account</button>
     </div>
 
     <div class="sub-tab" id = "Inventory >">
-      <button class="subtablinks1" onclick="openphp(event, '/forms/commodity.php', '/main-page/frame1.php')">Commodity</button>
-      <button class="subtablinks1" onclick="openphp(event, '/forms/supplier.php', '/main-page/frame1.php')">Supplier</button>
-      <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Feed Stock</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/supplier.php', '/main-page/frame1.php')">Suppliers</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/commodity.php', '/main-page/frame1.php')">Commodities</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Stock Feed</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stockstatistics.php', '/main-page/frame1.php')">Stock Statistics</button>
-      <button class="subtablinks1" onclick="openphp(event, '/forms/stockpurchaseorders.php', '/main-page/frame1.php')">Purchase Orders</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/purchaseorders.php', '/main-page/frame1.php')">Purchase Orders</button>
    </div>
 
     <div class="sub-tab" id = "Sales >">
-      <button class="subtablinks2" onclick="openphp(event, '/forms/customers.php', '/main-page/frame1.php')">Customers</button>
-      <button class="subtablinks2" onclick="openphp(event, '/forms/products.php', '/main-page/frame1.php')">Prodcuts</button>
+      <button class="subtablinks2" onclick="openphp(event, '/forms/customer.php', '/main-page/frame1.php')">Customers</button>
+      <button class="subtablinks2" onclick="openphp(event, '/forms/product.php', '/main-page/frame1.php')">Prodcuts</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/salesinvoice.php', '/main-page/frame1.php')">Sales Invoice</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/quotes.php', '/main-page/frame1.php')">Quotations</button>
     </div>
 
     <div class="sub-tab" id = "Production >">
-      <button class="subtablinks3" onclick="openphp(event, '/forms/dailyfeed.php', '/main-page/frame1.php')">Daily Feed</button>
+      <button class="subtablinks3" onclick="openphp(event, '/forms/dailyfeed.php', '/main-page/frame1.php')">Production Feed</button>
       <button class="subtablinks3" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Status</button>
       <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
     </div>

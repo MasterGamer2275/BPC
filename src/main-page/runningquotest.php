@@ -80,6 +80,7 @@ img {vertical-align: middle;}
   <p class="quotelinks">“No girl has offered to go to bed with me in return for a part (in a film). I wish it would happen.” – Manmohan Desai</p>
   <p class="quotelinks">“Education is the manifestation of perfection already in a man.” – Swami Vivekananda</p>
   <p class="quotelinks">“Indian men are still used to the traditional role given to women; they want intelligent girls for company but not to marry…(they) have yet to taste and relish the company of mature women.” – Amrita Pritam</p>
+  <p class="quotelinks">"Imagination is more important than knowledge. For knowledge is limited to all we know and understand, while imagination embraces the entire world, and all there ever will be to know and understand." – Albert Einstein</p>
   <p class="quotelinks">“You must be the change you want to see in the world.” – Mahatma Gandhi.</p>
 </div>
 

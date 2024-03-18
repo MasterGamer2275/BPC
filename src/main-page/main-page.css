@@ -9,6 +9,18 @@ h1 {
   font-weight: normal;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* If the screen size is 601px or more, set the font-size of <div> to 80px
 @media only screen and (min-width: 601px) {
   h1 {
@@ -32,7 +44,7 @@ h1 {
 */
 .header1_title {
   position: absolute;
-  top: 0px;
+  top: 10px;
   left: 50%;
   transform: translate(-50%, -50%);
   border: none;

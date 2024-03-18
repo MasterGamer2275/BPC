@@ -1,12 +1,3 @@
-<?php
-  // Read Supplier table
-  $root = $_SERVER['DOCUMENT_ROOT'];
-  include ($root."/DB/db-setup.php");
-  $tablename = "TEST_SUPPLIER_2";
-  $data = array(array());
-  include ($root."/DB/read-table.php");
-  include ($root."/DB/db-close.php");
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +18,7 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -35,30 +27,33 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input(type=number) {
+input[type=number] {
   -moz-appearance: textfield;
 }
 </style>
 
-
 <form action="/forms_action_page.php" method="post">
-<p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
-<label for="Sname"><b>Supplier Name: *</label>
-<input type = "text" id = "Sname" name = "Sname" required size="50">
-<label for="SuGST"><b>GSTIN/UIN: *</label>
-<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required pattern="(A-Z0-9)+"> 
+<p>Customers : Please feed the new customer name, address and GST info in to the MES System.</p>
+<label for="Clname"><b>Client Name:</label>
+<input type = "text" id = "Clname" name = "Clname" size="50">
+<label for="CPh"><b>Mobile No: * +91</label>
+<input type = "text" inputmode="numeric" pattern="[0-9]{10}" id = "CPh" name = "CPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required>
 <br><br>
-<label for="SPh"><b>Phone: +91</label>
-<input type = "text" inputmode="numeric" pattern="(0-9)+" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
-<label for="SEmail"><b>Email:</label>
-<input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30">
+<label for="Cname"><b>Customer Name: *</label>
+<input type = "text" id = "Cname" name = "Cname" required size="50">
+<label for="Acode"><b>Admin Offcie Contact: * </label>
+<input type = "text" inputmode="numeric" pattern="[0-9]" id = "Acode" name = "Acode" size="6" maxlength = "6" placeholder="xxxxxx" required>
+<input type = "text" inputmode="numeric" pattern="[0-9]{8}" id = "APh" name = "APh" size="8" maxlength = "8" placeholder="xxxxxxxxxxxx" required>
 <br><br>
-<label for="SAddr"><b>Address:</label>
-<input type = "text" id = "SAddr" name = "SAddr" size="35" maxlength = "35">
-<label for="SCity"><b>City:</label>
-<input type = "text" id = "SCity" name = "SCity" size="25" maxlength = "25">
-<label for="SState"><b>State:</label>
-<select name="Sstate" id="Sstate" width ="15px">
+<label for="CEmail"><b>Email: *</label>
+<input type = "email" id = "CEmail" name = "CEmail" size="30" maxlength = "30" required>
+<br><br>
+<label for="CAddr"><b>Address: *</label>
+<input type = "text" id = "CAddr" name = "CAddr" size="35" maxlength = "35" required>
+<label for="CCity"><b>City: *</label>
+<input type = "text" id = "CCity" name = "CCity" size="25" maxlength = "25" required>
+<label for="CState"><b>State:</label>
+<select name="Cstate" id="Cstate" width ="15px">
 <option value="Andhra Pradesh">Andhra Pradesh</option>
 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -96,33 +91,36 @@ input(type=number) {
 <option value="Uttarakhand">Uttarakhand</option>
 <option value="West Bengal">West Bengal</option>
 </select>
-<label for="Pcode"><b>Pincode:</label>
-<input type = "text" id = "Pcode" name = "Pcode" maxlength = "6" size = "6" pattern="\d{6}">
-<input type = "submit" id = "SAdd" name = "SAdd" value = "Add">
+<label for="CPcode"><b>Pincode: *</label>
+<input type = "text" id = "CPcode" name = "CPcode" pattern="[0-9]" maxlength = "6" size = "6" inputmode="numeric" required>
+<br><br>
+<label for="CSAddr"><b>Secondary Address:</label>
+<input type = "text" id = "CSAddr" name = "CSAddr" size="50" maxlength = "50">
+<br><br>
+<label for="CGST"><b>GSTIN/UIN: *</label>
+<input type = "text" id = "CGST" name = "CGST" maxlength = "15" size = "15" inputmode="numeric" required>
+<input type = "submit" id = "CAdd" name = "CAdd" value = "Add">
 <br><br>
 <table>
   <tr>
-    <th>Supplier ID</th>
-    <th>Supplier Name</th>
-    <th>GSTIN/UIN</th>
+    <th>Customer ID</th>
+    <th>Customer Name</th>
+    <th>Client Name</th>
     <th>Address</th>
     <th>City</th>
     <th>State</th>
     <th>Pin Code</th>
-    <th>Phone</th>
+    <th>Mobile</th>
+    <th>Admin Office Contact</th>
     <th>Email</th>
+    <th>Secondary Address</th>
+    <th>GSTIN/UIN</th>
   </tr>
-        <?php
-        // Loop through the array to generate table rows
-        foreach ($data as $row) {
-            echo "<tr>";
-            foreach ($row as $cell) {
-                echo "<td>$cell</td>";
-            }
-            echo "</tr>";
-        }
-        ?>
 </table>
 
+<script>
+
+
+</script>
 </body>
-</html> 
+</html>

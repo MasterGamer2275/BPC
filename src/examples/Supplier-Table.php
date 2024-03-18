@@ -1,23 +1,28 @@
- <?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-}
-?>
- <?php
-include 'main-page/db-setup.php';
+<?php
+
+   class MyDB extends SQLite3 {
+      function __construct() {
+         $this->open('w3s-dynamic-storage\database.db');
+      }
+   }
+   $db = new MyDB();
+   if(!$db) {
+      echo $db->lastErrorMsg();
+   } else {
+     echo "Opened database successfully\n";
+   }
+
 $sql =<<<EOF
-   CREATE TABLE TEST_SUPPLIER(
-   ID INT PRIMARY KEY     NOT NULL,
-   NAME           TEXT    NOT NULL,
-   ADDRESS        TEXT    NOT NULL,
-   CITY           TEXT     NOT NULL,
-   STATE          TEXT     NOT NULL,
-   PINCODE        TEXT     NOT NULL,
-   PHONE          TEXT     NOT NULL,
-   EMAIL          TEXT     NOT NULL
+   CREATE TABLE TEST_SUPPLIER_2(
+   ID INTEGER  PRIMARY KEY AUTOINCREMENT,
+   NAME           TEXT  NOT NULL,
+   GSTIN          TEXT  NOT NULL,
+   ADDRESS        TEXT,
+   CITY           TEXT,
+   STATE          TEXT,
+   PINCODE        TEXT,
+   PHONE          TEXT,
+   EMAIL          TEXT
 );
 EOF;
    $ret = $db->exec($sql);
@@ -27,8 +32,10 @@ EOF;
       echo "Table created successfully\n";
    }
 $sql =<<<EOF
-      INSERT INTO TEST_SUPPLIER (ID,NAME,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
-      VALUES (1, 'Sup1', '20 Mount Road', 'Chennai', 'Tamilnadu', '401789','9788856789','test@gmail.com');
+      INSERT INTO TEST_SUPPLIER_2 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
+      VALUES ('Mill no.1', '1234567891011','20 Mount Road', 'Chennai', 'Tamilnadu', '401789','9788856789','test@gmail.com');
+      INSERT INTO TEST_SUPPLIER_2 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
+      VALUES ('Mill no.2', '1234567891011','', '', '', '','','');
 EOF;
    $ret = $db->exec($sql);
    if(!$ret) {
@@ -36,7 +43,7 @@ EOF;
    } else {
       echo "Records created successfully\n";
    }
-$res = $db->query("SELECT * FROM TEST_SUPPLIER");
+$res = $db->query("SELECT * FROM TEST_SUPPLIER_2");
 $data = array(array());
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($data,$row);
@@ -54,7 +61,11 @@ EOF;
    } else {
       echo "Tabe Read Successfully\n";
    }
+?>
 
-include 'main-page/db-close.php';
+<?php
+
+   $db->close();
+   echo "Closed database successfully\n";
 
 ?>

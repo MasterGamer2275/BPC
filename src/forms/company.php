@@ -1,13 +1,4 @@
-<?php
-  // Read Supplier table
-  $root = $_SERVER['DOCUMENT_ROOT'];
-  include ($root."/DB/db-setup.php");
-  $tablename = "TEST_SUPPLIER_2";
-  $data = array(array());
-  include ($root."/DB/read-table.php");
-  include ($root."/DB/db-close.php");
-?>
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,30 +26,30 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input(type=number) {
+input[type=number] {
   -moz-appearance: textfield;
 }
+
 </style>
 
-
 <form action="/forms_action_page.php" method="post">
-<p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
-<label for="Sname"><b>Supplier Name: *</label>
-<input type = "text" id = "Sname" name = "Sname" required size="50">
-<label for="SuGST"><b>GSTIN/UIN: *</label>
-<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required pattern="(A-Z0-9)+"> 
-<br><br>
-<label for="SPh"><b>Phone: +91</label>
-<input type = "text" inputmode="numeric" pattern="(0-9)+" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
-<label for="SEmail"><b>Email:</label>
-<input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30">
-<br><br>
-<label for="SAddr"><b>Address:</label>
-<input type = "text" id = "SAddr" name = "SAddr" size="35" maxlength = "35">
-<label for="SCity"><b>City:</label>
-<input type = "text" id = "SCity" name = "SCity" size="25" maxlength = "25">
-<label for="SState"><b>State:</label>
-<select name="Sstate" id="Sstate" width ="15px">
+<h3>My Company: Edit Profile</h3>
+<label for="Coname"><b>Name:</label>
+<input type = "text" id = "Coname" name = "Coname" size="50"><br><br>
+<label for="CoPh"><b>Mobile No: * +91</label>
+<input type = "text" inputmode="numeric" pattern="[0-9]{10}" id = "CoPh" name = "CoPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required><br><br>
+<label for="CoAcode"><b>Admin Offcie Contact: * </label>
+<input type = "text" inputmode="numeric" pattern="[0-9]" id = "CoAcode" name = "CoAcode" size="6" maxlength = "6" placeholder="+9144" required>
+<input type = "text" inputmode="numeric" pattern="[0-9]{8}" id = "CoAPh" name = "CoAPh" size="8" maxlength = "8" placeholder="xxxxxxxx" required><br><br>
+
+<label for="CoEmail"><b>Email: *</label>
+<input type = "email" id = "CoEmail" name = "CoEmail" size="30" maxlength = "30" required><br><br>
+<label for="CoAddr"><b>Address: *</label>
+<input type = "text" id = "CoAddr" name = "CoAddr" size="35" maxlength = "35" required><br><br>
+<label for="CoCity"><b>City: *</label>
+<input type = "text" id = "CoCity" name = "CoCity" size="25" maxlength = "25" required><br><br>
+<label for="CoState"><b>State:</label>
+<select name="Costate" id="Costate" width ="15px">
 <option value="Andhra Pradesh">Andhra Pradesh</option>
 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -95,34 +86,20 @@ input(type=number) {
 <option value="Uttar Pradesh">Uttar Pradesh</option>
 <option value="Uttarakhand">Uttarakhand</option>
 <option value="West Bengal">West Bengal</option>
-</select>
-<label for="Pcode"><b>Pincode:</label>
-<input type = "text" id = "Pcode" name = "Pcode" maxlength = "6" size = "6" pattern="\d{6}">
-<input type = "submit" id = "SAdd" name = "SAdd" value = "Add">
+</select><br><br>
+<label for="CoPcode"><b>Pincode: *</label>
+<input type = "text" id = "CoPcode" name = "CoPcode" pattern="[0-9]" maxlength = "6" size = "6" inputmode="numeric" required>
 <br><br>
-<table>
-  <tr>
-    <th>Supplier ID</th>
-    <th>Supplier Name</th>
-    <th>GSTIN/UIN</th>
-    <th>Address</th>
-    <th>City</th>
-    <th>State</th>
-    <th>Pin Code</th>
-    <th>Phone</th>
-    <th>Email</th>
-  </tr>
-        <?php
-        // Loop through the array to generate table rows
-        foreach ($data as $row) {
-            echo "<tr>";
-            foreach ($row as $cell) {
-                echo "<td>$cell</td>";
-            }
-            echo "</tr>";
-        }
-        ?>
-</table>
+<label for="CoGST"><b>GSTIN/UIN: *</label>
+<input type = "text" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required><br><br>
+<label for="fileToUpload"><b>Company Logo: *</label>
+<input type="file" name="fileToUpload" id="fileToUpload" required><br><br>
+<input type = "submit" id = "CoSave" name = "CoSave" value = "Save">
+<br><br>
 
+<script>
+
+
+</script>
 </body>
-</html> 
+</html>

@@ -1,7 +1,7 @@
 <html>
 <body>
 <!-- define variables and set to empty values*-->
-echo $_POST["Sname"];<br> 
+Sname echo $_POST["Sname"];<br> 
 <!--
 Password  echo $_POST["pwd"];<br>
 Login  echo $_POST["login"];<br>
@@ -10,6 +10,7 @@ Signup  echo $_POST["signup"];<br>
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Sname = $_POST["Sname"];
+    $SuGST = $_POST["SuGST"];
     $SAddr = $_POST["SAddr"];
     $SCity = $_POST["SCity"];
     $SState = $_POST["SState"];
@@ -21,9 +22,8 @@ Signup  echo $_POST["signup"];<br>
 if $SAdd = "SAdd" {
 //validate record
 $sql =<<<EOF
-      ALTER TABLE TEST_SUPPLIER AUTO_INCREMENT = 100;
-      INSERT INTO TEST_SUPPLIER (NAME,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
-      VALUES ($Sname, $SAddr, $SCity, $SState, $Pcode, $SPh, $SEmail);
+      INSERT INTO TEST_SUPPLIER_2 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
+      VALUES ($Sname, $SuGST,$SAddr, $SCity, $SState, $Pcode, $SPh, $SEmail);
 EOF;
    $ret = $db->exec($sql);
    if(!$ret) {
