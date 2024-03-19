@@ -2,7 +2,8 @@
   // Read Supplier table
   $root = $_SERVER['DOCUMENT_ROOT'];
   include ($root."/DB/db-setup.php");
-  $tablename = "TEST_SUPPLIER_2";
+  $tablename = "TEST_SUPPLIER_4";
+  include ($root."/DB/create-supplier-table.php");
   $data = array(array());
   include ($root."/DB/read-table.php");
   include ($root."/DB/db-close.php");
@@ -13,16 +14,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 
+select {
+width: 13%;
+/* width: 120px;*/
+height: 20px;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
   border: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 th, td {
   text-align: left;
   padding: 16px;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 tr:nth-child(even) {
   background-color: #f2f2f2
@@ -44,12 +55,14 @@ input(type=number) {
 <form action="forms_action_page.php" method="post">
 <p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
 <label for="Sname"><b>Supplier Name: *</label>
-<input type = "text" id = "Sname" name = "Sname" required size="105">
+<input type= "text" id = "Sname" name = "Sname" required size="75">
+<label for="SuGST"><b>GSTIN/UIN:</label>
+<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15">
 <br><br>
 <label for="SAddr"><b>Address:</label>
-<input type = "text" id = "SAddr" name = "SAddr" size="80" maxlength = "80">
+<input type = "text" id = "SAddr" name = "SAddr" size="75" maxlength = "75">
 <label for="SCity"><b>City:</label>
-<input type = "text" id = "SCity" name = "SCity" size="20" maxlength = "20">
+<input type = "text" id = "SCity" name = "SCity" size="32" maxlength = "32">
 <br><br>
 <label for="SState"><b>State:</label>
 <select name="Sstate" id="Sstate">
@@ -92,12 +105,10 @@ input(type=number) {
 </select>
 <label for="Pcode"><b>Pincode:</label>
 <input type = "text" id = "Pcode" name = "Pcode" maxlength = "6" size = "6" pattern="\d{6}">
-<label for="SuGST"><b>GSTIN/UIN:</label>
-<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15"> 
 <label for="SPh"><b>Mobile: +91</label>
 <input type = "text" inputmode="numeric" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
 <label for="SEmail"><b>Email:</label>
-<input type = "email" id = "SEmail" name = "SEmail" size="30" maxlength = "30">
+<input type = "email" id = "SEmail" name = "SEmail" size="43" maxlength = "43">
 <input type = "submit" id = "SAdd" name = "SAdd" value = "Add">
 <br><br>
 
@@ -112,6 +123,7 @@ input(type=number) {
     <th>Pin Code</th>
     <th>Phone</th>
     <th>Email</th>
+    <th>CompanyID</th>
   </tr>
         <?php
         // Loop through the array to generate table rows

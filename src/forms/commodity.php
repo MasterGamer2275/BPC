@@ -10,26 +10,28 @@
   $columnname = "SUPPLIERID";
   $tablename = "TEST_COMMODITY";
   include($root."/DB/get-column-values.php");
-  // Get Supplier name
+  // Get Supplier name for the supplied id's on the table
   $id = $colvalues;
-  $tablename = "TEST_SUPPLIER";
+  $tablename = "TEST_SUPPLIER_4";
   $varname = "NAME";
-  /*
-   foreach ($colvalues as $row) {
-    foreach ($row as $value) {
-        echo "<tr>$value</tr>";
-        }
-    }
-    */
-  $id = array("1", "1", "1", "1");
-  $names = array("Mill no.1", "Mill no.2", "Mill no.3", "Mill no.4");
-  //include($root."/DB/get-names.php");
-  /*
-   foreach ($names as $row) {
+  include($root."/DB/get-names.php");
+    /* foreach ($names as $row) {
      foreach ($row as $value) {
         echo "<tr>$value</tr>";
         }
-    }*/
+     }*/
+  // replace $data read from the table with the supplier names
+
+  //get list of supplier names
+  include($root."/DB/get-all-names.php");
+     /*foreach ($allnames as $row) {
+     foreach ($row as $value) {
+        echo "<tr>$value</tr>";
+        }
+     }
+     */
+  
+  
   include ($root."/DB/db-close.php");
 ?>
 <!DOCTYPE html>
@@ -74,7 +76,7 @@ input[type=number] {
     <select id="Sup" name="Sup" required>
   <?php
   // Loop through the array to generate list items
-  foreach ($names as $row) {
+  foreach ($allnames as $row) {
       foreach ($row as $value) {
   echo "<option value>$value</option>";
       }

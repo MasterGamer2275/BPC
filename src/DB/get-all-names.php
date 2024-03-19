@@ -7,23 +7,26 @@ WHERE id = player_locations.playerid
   AND player_locations.location = "DOWNTOWN";
   */
 
-$names = array();
-$length = count($id);
+$allnames = array();
+$res = $db->query(f"SELECT COUNT(*) FROM {$tablename}");
+$value = $res->fetchone();
+$row_count = $res[0];
+echo "$row_count";
 $i = 0;
-for ($i = 0; $i <= $length; $i++) {
-        $res = $db->query("SELECT $varname FROM $tablename WHERE ID = '1'");
-        echo "$id[$i]";
+for ($i = 0; $i <= $row_count; $i++) {
+        $res = $db->query("SELECT $varname FROM $tablename WHERE ID = '$i'");
+        echo "$i";
         while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
-   array_push($names,$value);
+   array_push($allnames,$value);
     }
  }
-/*
- foreach ($names as $row) {
+
+ foreach ($allnames as $row) {
     foreach ($row as $value) {
         echo "<tr>$value</tr>";
         }
     }
-*/
+
 $sql =<<<EOF
 EOF;
    $ret = $db->exec($sql);
@@ -35,4 +38,4 @@ EOF;
 
 //include ($root."/DB/db-close.php");
 
-?>
+?> 

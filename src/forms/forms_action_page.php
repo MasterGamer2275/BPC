@@ -10,12 +10,14 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <html>
 <body>
 <!-- define variables and set to empty values*-->
+
+<?php /*form - supplier-------------------------------------------------- */ ?>
 Welcome  <?php echo $_POST["Sname"]; ?><br>
 <?php $Sname = $_POST["Sname"]; ?>
 <?php $SuGST = $_POST["SuGST"]; ?>
 <?php $SAddr = $_POST["SAddr"]; ?>
 <?php $SCity = $_POST["SCity"]; ?>
-<?php $SState = $_POST["SState"]; ?>
+<?php $SState = $_POST["Sstate"]; ?>
 <?php $SPcode = $_POST["Pcode"]; ?>
 <?php $SPh = $_POST["SPh"]; ?>
 <?php $SEmail= $_POST["SEmail"]; ?>
@@ -28,6 +30,8 @@ Welcome  <?php echo $_POST["Sname"]; ?><br>
   <?php include ($root."/DB/add-supplier-record.php"); ?>
 <?php } ?>
 <?php include ($root."/DB/db-close.php"); ?>
+<?php //header("Location: supplier.php"); ?>
+<?php //exit; ?>
 
 </body>
 </html>

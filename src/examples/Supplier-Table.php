@@ -13,16 +13,17 @@
    }
 
 $sql =<<<EOF
-   CREATE TABLE TEST_SUPPLIER_2(
-   ID INTEGER  PRIMARY KEY AUTOINCREMENT,
-   NAME           TEXT  NOT NULL,
-   GSTIN          TEXT  NOT NULL,
+   CREATE TABLE TEST_SUPPLIER_4(
+   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   NAME           TEXT  NOT NULL UNIQUE,
+   GSTIN          VARCHAR(15)  NOT NULL,
    ADDRESS        TEXT,
    CITY           TEXT,
    STATE          TEXT,
-   PINCODE        TEXT,
-   PHONE          TEXT,
-   EMAIL          TEXT
+   PINCODE        INTEGER(6),
+   PHONE          INTEGER(10),
+   EMAIL          TEXT,
+   COMPANYID   INTEGER
 );
 EOF;
    $ret = $db->exec($sql);
@@ -32,10 +33,10 @@ EOF;
       echo "Table created successfully\n";
    }
 $sql =<<<EOF
-      INSERT INTO TEST_SUPPLIER_2 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
-      VALUES ('Mill no.1', '1234567891011','20 Mount Road', 'Chennai', 'Tamilnadu', '401789','9788856789','test@gmail.com');
-      INSERT INTO TEST_SUPPLIER_2 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL)
-      VALUES ('Mill no.2', '1234567891011','', '', '', '','','');
+      INSERT INTO TEST_SUPPLIER_4 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID)
+      VALUES ('Bluemount Paper Board', '33asfhpp2146b','24- 42 Rupa Nagar, Vincent Road Sun', 'Coimbatore', 'Tamilnadu', '641045', '9894007403', 'infipackaging@gmail.com','6100');
+      INSERT INTO TEST_SUPPLIER_4 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID)
+      VALUES ('Sri Ragunandha Paper Board P ltd', '33AAShpp2146B','J 201 J Block Deccan All Seasons ap', 'COIMBATORE', 'Tamilnadu', '641045', '9894007403','infipackaging@gmail.com','6100');
 EOF;
    $ret = $db->exec($sql);
    if(!$ret) {
@@ -43,7 +44,7 @@ EOF;
    } else {
       echo "Records created successfully\n";
    }
-$res = $db->query("SELECT * FROM TEST_SUPPLIER_2");
+$res = $db->query("SELECT * FROM TEST_SUPPLIER_4");
 $data = array(array());
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($data,$row);
