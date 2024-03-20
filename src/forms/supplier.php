@@ -6,14 +6,12 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  dbsetup();
-  //---create table if not found
   $tablename = "TEST_SUPPLIER_4";
-  dbcreatesuppliertable($tablename);
-  //---read table
-  dbreadtable($tablename);
-  //---close .db file
-  dbclose()
+  dbsetup($db);
+  dbcreatesuppliertable($db, $tablename);
+  $dbtabdata = array(array());
+  dbreadtable($db, $tablename, $dbtabdata);
+  dbclose($db);
 ?>
 <!DOCTYPE html>
 <html>
@@ -137,7 +135,7 @@ input(type=number) {
   </tr>
         <?php
         // Loop through the array to generate table rows
-        foreach ($data as $row) {
+        foreach ($dbtabdata as $row) {
             echo "<tr>";
             foreach ($row as $cell) {
                 echo "<td>$cell</td>";

@@ -6,6 +6,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   error_reporting(E_ALL);
 }
 ?>
+
 <?php
 
 include 'main-page/main-page.php';

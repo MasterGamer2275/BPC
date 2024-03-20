@@ -1,20 +1,22 @@
+
 <?php
-  // Read Commodity table
+  //---define all variables and constants used
+  //---read a table
+  //find the root path to calling the php filles by path
   $root = $_SERVER['DOCUMENT_ROOT'];
-  include ($root."/DB/db-setup.php");
+  //---add the DB API file
+  require $root."/DB/call-db.php";
+  //---open SQL lite 3 .db file
   $tablename = "TEST_COMMODITY_3";
-  include ($root."/DB/create-commodity-table.php");
-  $data = array(array());
-  $allnames = array(array());
-  $colvalues = array(array());
-  include ($root."/DB/read-table.php");
-  //get list of supplier names
+  dbsetup($db);
+  dbcreatecommoditytable($db, $tablename);
+  $dbtabdata = array(array());
+  dbreadtable($db, $tablename, $dbtabdata);
   $tablename = "TEST_SUPPLIER_4";
   $columnname = "NAME";
-  include($root."/DB/get-column-values.php");
-  $allnames = $colvalues;
-
-include ($root."/DB/db-close.php");
+  $dbcolvalues = array(array());
+  dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues);
+  dbclose($db);
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,7 +66,7 @@ input[type=number] {
   <?php
   
   // Loop through the array to generate list items
-  foreach ($allnames as $row) {
+  foreach ($dbcolvalues as $row) {
       foreach ($row as $value) {
   echo "<option value='$value'>$value</option>";
       }
@@ -90,7 +92,7 @@ input[type=number] {
   </tr>
   <?php
   // Loop through the array to generate table rows
-  foreach ($data as $row) {
+  foreach ($dbtabdata as $row) {
       echo "<tr>";
       foreach ($row as $cell) {
   echo "<td>$cell</td>";
