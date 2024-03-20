@@ -1,3 +1,21 @@
+ <?php
+  // Read Stock table
+  $root = $_SERVER['DOCUMENT_ROOT'];
+  include ($root."/DB/db-setup.php");
+  //$tablename = "TEST_PURCHASE_STOCK";
+  //include ($root."/DB/create-stocks-table.php");
+  //$data = array(array());
+  //include ($root."/DB/read-table.php");
+  //get list of supplier names
+  $tablename = "TEST_SUPPLIER_4";
+  $columnname = "NAME";
+  $colvalues = array(array());
+  $supnames = array(array());
+  include($root."/DB/get-column-values.php");
+  $supnames = $colvalues;
+  include ($root."/DB/db-close.php");
+?>
+ 
  <!DOCTYPE html>
 <html>
 <head>
@@ -31,43 +49,50 @@ input[type=number] {
 }
 </style>
 
-<form action="/forms_action_page.php" method="post">
+<form action="forms_action_page.php" method="post">
 <h3>Stock Feed:</h3>
 <label for="Pdate"><b>Purchase Date:</label>
-<input type = "date" id = "Pdate" name = "Pdate""  size="0">
-<label for="Sname"><b>Supplier: *</label>
-<select name= = "Sname" id = "Sname">
-
+<input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>">
+<label for="PSname"><b>Supplier: *</label>
+<select name= = "PSname" id = "PSname" onclick = "getcommoditylist()">
+<option value="Default">Default</option>
+  <?php
+    // Loop through the array to generate list items
+  foreach ($supnames as $row) {
+      foreach ($row as $value) {
+  echo "<option value='$value'>$value</option>";
+      }
+  }
+  ?>
 </select>
-<label for="Cname"><b>Commodity</label>
-<select name="Cname" id="Cname">
-
+<label for="PCname"><b>Commodity</label>
+<select name="PCname" id="PCname">
+<option value="Default">Default</option>
 </select>
-
 <label for="GSM"><b>GSM: *</label>
 <input type = "text" id = "GSM" name = "GSM" required size="5" disabled>
 <label for="BF"><b>BF: *</label>
 <input type = "text" id = "BF" name = "BF" required disabled size="5"><br><br>
-<label for="RS"><b>Reel Size (Cm): *</label>
-<input type = "number" id = "RS" name = "RS" required width="5px" min = "0" max= "1000" step=".01">
-<label for="RN"><b>Reel Number :*</label>
-<input type = "number" id = "RN" name = "RN" required width="4px" min = "5" max= "1000" step=".01">
-<label for="RW"><b>Reel Weight (Kg) : *</label>
-<input type = "number" id = "RW" name = "RW" required width="4px" min = "10" max= "500" step=".01">
-<label for="Rate"><b>Rate(Rs.): *</label>
-<input type = "number" id = "Rate" name = "Rate" required width="5px" min = "0" max= "200" step=".01">
+<label for="PRS"><b>Reel Size (Cm): *</label>
+<input type = "number" id = "PRS" name = "PRS" required width="5px" min = "0" max= "1000" step=".01">
+<label for="PRN"><b>Reel Number :*</label>
+<input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" max= "1000" step=".01">
+<label for="PRW"><b>Reel Weight (Kg) : *</label>
+<input type = "number" id = "PRW" name = "PRW" required width="4px" min = "10" max= "500" step=".01">
+<label for="PRate"><b>Rate(Rs.): *</label>
+<input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0" max= "200" step=".01">
 <br><br>
-<label for="SGST"><b>SGST(%): *</label>
-<input type = "number" id = "SGST" name = "SGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
-<label for="CGST"><b>CGST(%): *</label>
-<input type = "number" id = "CGST" name = "CGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
-<label for="IGST"><b>IGST(%): *</label>
-<input type = "number" id = "IGST" name = "IGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
-<label for="Total"><b>Total(Rs.): *</label>
-<input type = "number" id = "Total" name = "Total" required width="15px" min = "500" max= "100000" disabled step=".01">
-<input type = "submit" id = "StAdd" name = "StAdd" value = "Add to Table"><br><br>
+<label for="PSGST"><b>SGST(%): *</label>
+<input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
+<label for="PCGST"><b>CGST(%): *</label>
+<input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
+<label for="PIGST"><b>IGST(%): *</label>
+<input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
+<label for="PTotal"><b>Total(Rs.): *</label>
+<input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" disabled step=".01">
+<input type = "submit" id = "PAdd" name = "PAdd" value = "Add to List"><br><br>
 <p>Verify the below table and click on submit to log the stock data in to the MES system</p>
-<input type = "submit" id = "Submit" name = "Submit" value = "Submit"><br><br>
+<input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record"><br><br>
 <!--
 <label for="Fdate"><b>Filter - From:</label>
 <input type = "date" id = "Fdate1" name = "Fdate1"  size="0">
@@ -78,8 +103,8 @@ input[type=number] {
 <table>
   <tr>
       <th>Stock ID</th>
-      <th>Supplier Name</th>
       <th>Date</th>
+      <th>Supplier Name</th>
       <th>Commodity Name</th>
       <th>Reel Weight (Kg)</th>    
       <th>Reel Number</th>    
@@ -90,4 +115,29 @@ input[type=number] {
       <th>Total(Rs.)</th>  
   </tr>
 </table>
+
+
+<script>
+
+function getcommoditylist() {
+ <?php
+  $x = document.getElementById('PSname');
+  $tablename = "TEST_COMMODITY_3";
+  $columnname = "NAME";
+  $filterbyname = "$x";
+  include($root."/DB/get-column-values-filtered.php");
+  // Loop through the array to generate list items
+  foreach ($colvalues as $row) {
+      foreach ($row as $value) {
+            optionText = $value;
+            optionValue = $value;
+            let optionHTML = `
+            <option value="${optionValue}"> 
+                ${optionText} 
+            </option>`;
+            $('#PCname').append(optionHTML);
+      }
+  }
+  ?>
+}
 </form>

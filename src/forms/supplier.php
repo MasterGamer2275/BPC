@@ -56,8 +56,10 @@ input(type=number) {
 <p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
 <label for="Sname"><b>Supplier Name: *</label>
 <input type= "text" id = "Sname" name = "Sname" required size="75">
-<label for="SuGST"><b>GSTIN/UIN:</label>
+<label for="SuGST"><b>GSTIN/UIN: *</label>
 <input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15">
+<label for="SIGST"><b>(IGST):</label>
+<input type = "checkbox" id = "SIGST" name = "SIGST">
 <br><br>
 <label for="SAddr"><b>Address:</label>
 <input type = "text" id = "SAddr" name = "SAddr" size="75" maxlength = "75">
@@ -109,7 +111,7 @@ input(type=number) {
 <input type = "text" inputmode="numeric" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
 <label for="SEmail"><b>Email:</label>
 <input type = "email" id = "SEmail" name = "SEmail" size="43" maxlength = "43">
-<input type = "submit" id = "SAdd" name = "SAdd" value = "Add">
+<input type = "submit" id = "SAdd" name = "SAdd" value = "Add Record">
 <br><br>
 
 <table>
@@ -124,6 +126,7 @@ input(type=number) {
     <th>Phone</th>
     <th>Email</th>
     <th>CompanyID</th>
+    <th>IGST</th>
   </tr>
         <?php
         // Loop through the array to generate table rows

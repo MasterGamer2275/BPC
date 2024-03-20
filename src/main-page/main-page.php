@@ -43,6 +43,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks" onclick="openphp(event, '/forms/company.php', '/main-page/frame1.php')">My Company</button>
       <button class="tablinks">My Account</button>
+      <buttonDisabled class="tablinks"></buttonDisabled>
     </div>
 
     <div class="sub-tab" id = "Inventory >">

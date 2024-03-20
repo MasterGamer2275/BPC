@@ -23,7 +23,8 @@ $sql =<<<EOF
    PINCODE        INTEGER(6),
    PHONE          INTEGER(10),
    EMAIL          TEXT,
-   COMPANYID   INTEGER
+   COMPANYID   INTEGER,
+   IGST        TEXT
 );
 EOF;
    $ret = $db->exec($sql);
@@ -33,10 +34,10 @@ EOF;
       echo "Table created successfully\n";
    }
 $sql =<<<EOF
-      INSERT INTO TEST_SUPPLIER_4 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID)
-      VALUES ('Bluemount Paper Board', '33asfhpp2146b','24- 42 Rupa Nagar, Vincent Road Sun', 'Coimbatore', 'Tamilnadu', '641045', '9894007403', 'infipackaging@gmail.com','6100');
-      INSERT INTO TEST_SUPPLIER_4 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID)
-      VALUES ('Sri Ragunandha Paper Board P ltd', '33AAShpp2146B','J 201 J Block Deccan All Seasons ap', 'COIMBATORE', 'Tamilnadu', '641045', '9894007403','infipackaging@gmail.com','6100');
+      INSERT INTO TEST_SUPPLIER_4 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
+      VALUES ('Bluemount Paper Board', '33asfhpp2146b','24- 42 Rupa Nagar, Vincent Road Sun', 'Coimbatore', 'Tamilnadu', '641045', '9894007403', 'infipackaging@gmail.com','6100','Enabled');
+      INSERT INTO TEST_SUPPLIER_4 (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
+      VALUES ('Sri Ragunandha Paper Board P ltd', '33AAShpp2146B','J 201 J Block Deccan All Seasons ap', 'COIMBATORE', 'Tamilnadu', '641045', '9894007403','infipackaging@gmail.com','6100','');
 EOF;
    $ret = $db->exec($sql);
    if(!$ret) {

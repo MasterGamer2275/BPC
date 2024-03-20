@@ -1,0 +1,6 @@
+DELETE FROM $tablename WHERE ID BETWEEN 5 AND 8;
+ALTER TABLE TEST_SUPPLIER_4 ADD COLUMN IGST Text;
+ UPDATE $tablename
+ SET IGST = 'off' WHERE ID = "3";
+ UPDATE $tablename
+ SET IGST = 'off' WHERE ID = "4";

@@ -11,27 +11,44 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <body>
 <!-- define variables and set to empty values*-->
 
-<?php /*form - supplier-------------------------------------------------- */ ?>
+
 Welcome  <?php echo $_POST["Sname"]; ?><br>
-<?php $Sname = $_POST["Sname"]; ?>
-<?php $SuGST = $_POST["SuGST"]; ?>
-<?php $SAddr = $_POST["SAddr"]; ?>
-<?php $SCity = $_POST["SCity"]; ?>
-<?php $SState = $_POST["Sstate"]; ?>
-<?php $SPcode = $_POST["Pcode"]; ?>
-<?php $SPh = $_POST["SPh"]; ?>
-<?php $SEmail= $_POST["SEmail"]; ?>
+Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php $SAdd = $_POST["SAdd"]; ?>
-<?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
-<?php include ($root."/DB/db-setup.php"); ?>
+<?php $CAdd = $_POST["CAdd"]; ?>
+<?php /*form - supplier-------------------------------------------------- */ ?>
 <?php if ($SAdd != "") {  ?>
+  <?php $Sname = $_POST["Sname"]; ?>
+  <?php $SuGST = $_POST["SuGST"]; ?>
+  <?php $SIGST = $_POST["SIGST"]; ?>
+  <?php $SAddr = $_POST["SAddr"]; ?>
+  <?php $SCity = $_POST["SCity"]; ?>
+  <?php $SState = $_POST["Sstate"]; ?>
+  <?php $SPcode = $_POST["Pcode"]; ?>
+  <?php $SPh = $_POST["SPh"]; ?>
+  <?php $SEmail= $_POST["SEmail"]; ?>
+  <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
+  <?php include ($root."/DB/db-setup.php"); ?>
   <?php echo "welcome to add to supplier record<br>"; ?>
-  <?php /*validate record */ ?>  
   <?php include ($root."/DB/add-supplier-record.php"); ?>
+  <?php include ($root."/DB/db-close.php"); ?>
+  <?php //header("Location: supplier.php"); ?>
+  <?php //exit; ?>
 <?php } ?>
-<?php include ($root."/DB/db-close.php"); ?>
-<?php //header("Location: supplier.php"); ?>
-<?php //exit; ?>
+<?php /*form - commodity-------------------------------------------------- */ ?>
+<?php if ($CAdd != "") {  ?>
+  <?php $Cname = $_POST["Cname"]; ?>
+  <?php $CSname = $_POST["CSname"]; ?>
+  <?php $CGSM = $_POST["CGSM"]; ?>
+  <?php $CBF = $_POST["CBF"]; ?>
+  <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
+  <?php include ($root."/DB/db-setup.php"); ?>
+  <?php echo "welcome to add to commodity record<br>"; ?>
+  <?php include ($root."/DB/add-commodity-record.php"); ?>
+  <?php include ($root."/DB/db-close.php"); ?>
+  <?php //header("Location: commodity.php"); ?>
+  <?php //exit; ?>
+<?php } ?>
 
 </body>
 </html>

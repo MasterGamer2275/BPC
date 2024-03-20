@@ -1,7 +1,8 @@
  <?php
 //$root = $_SERVER['DOCUMENT_ROOT'];
 //include ($root."/DB/db-setup.php");
-$res = $db->query("SELECT $columnname FROM $tablename");
+echo $filterbyname;
+$res = $db->query("SELECT $columnname FROM $tablename WHERE $columnname = '$filterbyname'");
 $colvalues = array();
 while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
   array_push($colvalues,$value);
@@ -15,29 +16,4 @@ EOF;
       echo "Tabe Read Successfully\n";
    }
 //include ($root."/DB/db-close.php");
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+?> 

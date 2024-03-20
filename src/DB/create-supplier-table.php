@@ -11,7 +11,8 @@
  PINCODE        INTEGER(6),
  PHONE          INTEGER(10),
  EMAIL          TEXT,
- COMPANYID   INTEGER
+ COMPANYID   INTEGER,
+ IGST           TEXT
 );
 EOF;
 $ret = $db->exec($sql);
