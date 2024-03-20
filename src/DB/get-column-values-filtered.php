@@ -2,7 +2,7 @@
 //$root = $_SERVER['DOCUMENT_ROOT'];
 //include ($root."/DB/db-setup.php");
 echo $filterbyname;
-$res = $db->query("SELECT $columnname FROM $tablename WHERE $columnname = '$filterbyname'");
+$res = $db->query("SELECT FROM $tablename WHERE $columnname = '$filterbyname'");
 $colvalues = array();
 while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
   array_push($colvalues,$value);

@@ -1,12 +1,19 @@
 <?php
-  // Read Supplier table
+  //---define all variables and constants used
+  //---read a table
+  //find the root path to calling the php filles by path
   $root = $_SERVER['DOCUMENT_ROOT'];
-  include ($root."/DB/db-setup.php");
+  //---add the DB API file
+  require $root."/DB/call-db.php";
+  //---open SQL lite 3 .db file
+  dbsetup();
+  //---create table if not found
   $tablename = "TEST_SUPPLIER_4";
-  include ($root."/DB/create-supplier-table.php");
-  $data = array(array());
-  include ($root."/DB/read-table.php");
-  include ($root."/DB/db-close.php");
+  dbcreatesuppliertable($tablename);
+  //---read table
+  dbreadtable($tablename);
+  //---close .db file
+  dbclose()
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,7 +64,7 @@ input(type=number) {
 <label for="Sname"><b>Supplier Name: *</label>
 <input type= "text" id = "Sname" name = "Sname" required size="75">
 <label for="SuGST"><b>GSTIN/UIN: *</label>
-<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15">
+<input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required>
 <label for="SIGST"><b>(IGST):</label>
 <input type = "checkbox" id = "SIGST" name = "SIGST">
 <br><br>
