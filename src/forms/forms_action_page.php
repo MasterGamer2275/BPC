@@ -17,6 +17,7 @@ Welcome  <?php echo $_POST["Sname"]; ?><br>
 Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php $SAdd = $_POST["SAdd"]; ?>
 <?php $CAdd = $_POST["CAdd"]; ?>
+<?php $S2Save = $_POST["S2Save"]; ?>
 <?php /*form - supplier-------------------------------------------------- */ ?>
 <?php if ($SAdd != "") {  ?>
   <?php $Sname = $_POST["Sname"]; ?>
@@ -53,8 +54,23 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php //header("Location: commodity.php"); ?>
   <?php //exit; ?>
 <?php } ?>
-
-
+<?php /*form - update supplier record-------------------------------------------------- */ ?>
+<?php if ($S2Save != "") {  ?>
+  <?php $ID= $_POST["SID"]; ?>
+  <?php $SuGST = $_POST["SuGST2"]; ?>
+  <?php $SIGST = $_POST["SIGST2"]; ?>
+  <?php $SAddr = $_POST["SAddr2"]; ?>
+  <?php $SCity = $_POST["SCity2"]; ?>
+  <?php $SState = $_POST["Sstate2"]; ?>
+  <?php $SPcode = $_POST["Pcode2"]; ?>
+  <?php $SPh = $_POST["SPh2"]; ?>
+  <?php $SEmail= $_POST["SEmail2"]; ?>
+  <?php echo "welcome to update to supplier record<br>"; ?>
+  <?php $tablename = "TEST_SUPPLIER_4"; ?>
+  <?php dbsetup($db); ?>
+  <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST ); ?>
+  <?php dbclose($db); ?>
+<?php } ?>
 
 </body>
 </html>

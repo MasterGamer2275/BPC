@@ -54,6 +54,27 @@ function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCi
           echo "Records created succssfully\n";
       }
 }
+//----------------------------------------DB - Update record (Supplier Table)----------------------------------------//
+
+function dbeditsupplierrecord(&$db, &$tablename, &$ID, &$SuGST, &$SAddr, &$SCity, &$SState, &$SPcode, &$SPh, &$SEmail, &$SIGST) { 
+  $sql =<<<EOF
+    UPDATE $tablename SET 
+    GSTIN = '$SuGST',
+    ADDRESS = '$SAddr',
+    CITY='$SCity',
+    STATE='$SState',
+    PINCODE='$SPcode',
+    PHONE='$SPh',
+    EMAIL='$SEmail',
+    IGST='$SIGST' WHERE ID = '$ID';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          echo $db->lastErrorMsg();
+        } else { 
+          echo "Records updated succssfully\n";
+      }
+}
 
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 

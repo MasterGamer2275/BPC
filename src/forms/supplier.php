@@ -17,7 +17,6 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 /* The popup form - hidden by default */
 .form-popup {
@@ -26,7 +25,7 @@
   max-width: 300px;
   width: auto;
   bottom: 0;
-  right: 20px;
+  right: 15px;
   border: 3px solid #f1f1f1;
   z-index: 9;
   color: white;
@@ -35,7 +34,6 @@
 /* Add styles to the form container */
 .form-container {
   max-width: 300px;
-  width: 300px;
   padding: 10px;
   background-color: rgb(173, 103, 79);
  
@@ -66,20 +64,24 @@
 
 /* Set a style for the submit/login button */
 .form-container .btn {
-  background: rgb(240, 227, 210);
+  background-color: rgb(240, 227, 210);
   color: rgb(240, 227, 210);
-  padding: 16px 20px;
   border: none;
   cursor: pointer;
-  width: 100%;
   margin-bottom:10px;
   opacity: 0.2;
+}
+/* Add a red background color to the cancel button */
+.form-container .updatebtn {
+  background-color: #CEB9A4;
+  color: Green;
+  opacity: 0.7;
 }
 
 /* Add a red background color to the cancel button */
 .form-container .cancel {
   background-color: #CEB9A4;
-  opacity: 0.2;
+  opacity: 0.5;
 }
 
 /* Add some hover effects to buttons */
@@ -214,9 +216,8 @@ input(type=number) {
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post">
   <input type = "text" id = "SID" name = "SID" maxlength = "6" size = "6" disabled hidden>
-   <label for="Sname2"><b>Supplier Name: * &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-   <button style="font-size:18px" input type = "submit" ><i class="fa fa-save" ></i></button>
-   <button style="font-size:18px" input type = "submit" ><i class="fa fa-trash-o"></i></button>
+   <label for="Sname2"><b>Supplier Name: * &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+   <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save" name = "S2Save" value = "V" ></i></button>
    <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel" name = "Scancel" value = "X" onclick= "closeForm()">
    <input type= "text" id = "Sname2" name = "Sname2" required size="75" disabled>
    <label for="SuGST2"><b>GSTIN/UIN: *</label>
@@ -227,45 +228,8 @@ input(type=number) {
    <input type = "text" id = "SAddr2" name = "SAddr2" size="75" maxlength = "75">
    <label for="SCity2"><b>City:</label>
    <input type = "text" id = "SCity2" name = "SCity2" size="32" maxlength = "32">
-   <label for="SState2"><b>State:</label>
-     <select name="Sstate2" id="Sstate2" input type="select">
-       <option value="Andhra Pradesh">Andhra Pradesh</option>
-       <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-       <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-       <option value="Assam">Assam</option>
-       <option value="Bihar">Bihar</option>
-       <option value="Chandigarh">Chandigarh</option>
-       <option value="Chhattisgarh">Chhattisgarh</option>
-       <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-       <option value="Daman and Diu">Daman and Diu</option>
-       <option value="Delhi">Delhi</option>
-       <option value="Lakshadweep">Lakshadweep</option>
-       <option value="Puducherry">Puducherry</option>
-       <option value="Goa">Goa</option>
-       <option value="Gujarat">Gujarat</option>
-       <option value="Haryana">Haryana</option>
-       <option value="Himachal Pradesh">Himachal Pradesh</option>
-       <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-       <option value="Jharkhand">Jharkhand</option>
-       <option value="Karnataka">Karnataka</option>
-       <option value="Kerala">Kerala</option>
-       <option value="Madhya Pradesh">Madhya Pradesh</option>
-       <option value="Maharashtra">Maharashtra</option>
-       <option value="Manipur">Manipur</option>
-       <option value="Meghalaya">Meghalaya</option>
-       <option value="Mizoram">Mizoram</option>
-       <option value="Nagaland">Nagaland</option>
-       <option value="Odisha">Odisha</option>
-       <option value="Punjab">Punjab</option>
-       <option value="Rajasthan">Rajasthan</option>
-       <option value="Sikkim">Sikkim</option>
-       <option value="Tamil Nadu">Tamil Nadu</option>
-       <option value="Telangana">Telangana</option>
-       <option value="Tripura">Tripura</option>
-       <option value="Uttar Pradesh">Uttar Pradesh</option>
-       <option value="Uttarakhand">Uttarakhand</option>
-       <option value="West Bengal">West Bengal</option>
-	   </select>
+   <label for="Sstate2"><b>State:</label>
+    <input type = "text" name="Sstate2" id="Sstate2">
    <label for="SPcode2"><b>Pincode:</label>
    <input type = "text" id = "SPcode2" name = "SPcode2" maxlength = "6" size = "6" pattern="\d{6}">
    <label for="SPh2"><b>Mobile: +91</label>
@@ -298,28 +262,32 @@ input(type=number) {
       var row = event.target.parentNode; // Get the parent row (<tr>)
       var cells = row.getElementsByTagName("td"); // Get all cells (<td>) in the row
       // Extract the data from cells
-      var id_2 = cells[0].innerText;
+      var id = cells[0].innerText;
       var name = cells[1].innerText;
       var gstin = cells[2].innerText;
       var addr = cells[3].innerText;
       var city = cells[4].innerText;
       var state = cells[5].innerText;
-      var pincode_1 = cells[6].innerText;
+      var pincode = cells[6].innerText;
       var phone = cells[7].innerText;
       var email = cells[8].innerText;
       var igst = cells[10].innerText;
-
+      var igstboolean = (igst == "on");
+      var statearray = ["Andhra Pradesh", "Andaman and Nicobar Islands", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadar and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
+      var strstr = JSON.stringify(state);
+      var x = statearray.indexOf(state);
       // Set the values of the form fields
       document.getElementById("SID").value = id;
       document.getElementById("Sname2").value = name;
       document.getElementById("SuGST2").value = gstin;
       document.getElementById("SAddr2").value = addr;
       document.getElementById("SCity2").value = city;
-      document.getElementById("SState2").value = state;
-      document.getElementById("SPcode2").value = pincode_1;
+      //document.getElementById("Sstate2").selectedIndex = x;
+      document.getElementById("Sstate2").value = state;
+      document.getElementById("SPcode2").value = pincode;
       document.getElementById("SPh2").value = phone;
       document.getElementById("SEmail2").value = email;
-      document.getElementById("SIGST2").value = igst;
+      document.getElementById("SIGST2").checked = igstboolean;
       
     }
   });
