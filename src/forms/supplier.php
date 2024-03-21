@@ -137,9 +137,15 @@ input(type=number) {
         // Loop through the array to generate table rows
         foreach ($dbtabdata as $row) {
             echo "<tr>";
+            $i = 0;
             foreach ($row as $cell) {
+              if ($i == 0) {
+              echo "<td><a href='editsupplier.php'>$cell</a></td>";
+              } else {
                 echo "<td>$cell</td>";
-            }
+              }
+              $i++;
+                }         
             echo "</tr>";
         }
         ?>

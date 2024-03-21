@@ -10,6 +10,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <html>
 <body>
 <!-- define variables and set to empty values*-->
+<?php $CompanyID = "6100"; ?>
 <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
 <?php require $root.'/DB/call-db.php'; ?>
 Welcome  <?php echo $_POST["Sname"]; ?><br>
@@ -52,6 +53,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php //header("Location: commodity.php"); ?>
   <?php //exit; ?>
 <?php } ?>
+
+
 
 </body>
 </html>

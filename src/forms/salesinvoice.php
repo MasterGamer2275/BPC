@@ -47,7 +47,7 @@ td {
     <tr>
 
     <th>Reference: *</th>
-  	<td><div input type = "text" contenteditable></div></td>
+  	<td><div input type = "text" contenteditable></div>check</td>
     <th>Other: *</th>
   	<td><div input type = "text" contenteditable></div></td>
     <th>References: *</th>

@@ -14,7 +14,6 @@ function dbsetup(&$db) {
      echo "Opened database successfully\n";
    }
 }
-
 //----------------------------------------DB - Close----------------------------------------//
 
 function dbclose (&$db) {
@@ -25,7 +24,8 @@ function dbclose (&$db) {
 //----------------------------------------DB - Read Table----------------------------------------//
 
 function dbreadtable(&$db, &$tablename, &$dbtabdata) {
-  $res = $db->query("SELECT * FROM $tablename");
+  $CompanyID = "6100";
+  $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = '$CompanyID' ORDER BY ID DESC");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
   }
@@ -124,7 +124,7 @@ $ret = $db->exec($sql);
 //----------------------------------------DB - Get Column Values----------------------------------------//
 
 function dbgetcolumnname(&$db, &$tablename, &$columnname, &$dbcolvalues) {
-  $res = $db->query("SELECT $columnname FROM $tablename");
+  $res = $db->query("SELECT $columnname FROM $tablename ORDER BY ID DESC");
   $dbcolvalues = array();
   while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
       array_push($dbcolvalues,$value);
@@ -139,25 +139,23 @@ function dbgetcolumnname(&$db, &$tablename, &$columnname, &$dbcolvalues) {
     }
 }
 
-//----------------------------------------DB - Get Value----------------------------------------//
-
-function dbgetvalue(&$db, &$tablename, &$columnname) {
-  $res = $db->query("SELECT $columnname FROM $tablename");
-  $colvalues = array();
+//----------------------------------------DB - Get Single Value----------------------------------------//
+function dbgetvalue(&$db, &$tablename, &$columnname, &$paramname, &$paramvalue, &$outputvalue) {
+  $res = $db->query("SELECT $columnname FROM $tablename WHERE $paramname = '$paramvalue'");
+  //$res = $db->query("SELECT IGST FROM TEST_SUPPLIER_4");
+  $outputvalue = array();
   while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
-      array_push($colvalues,$value);
+      array_push($outputvalue,$value);
       }
+
   $sql =<<<EOF
   EOF;
     $ret = $db->exec($sql);
     if(!$ret) {
         echo $db->lastErrorMsg();
     } else {
-        echo "Column Read Successfully\n";
+        echo "Data Read Successfully\n";
     }
 }
-
-//----------------------------------------DB - Get Column Values (filter by)----------------------------------------//
-
 
 ?>

@@ -1,3 +1,4 @@
+ 
 <?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
@@ -8,16 +9,7 @@
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues);
-  $igstlist = array();
-  $columnname = "IGST";
-  dbgetcolumnname($db, $tablename, $columnname, $igstlist);
-  // Convert the array of objects to a JSON array
-  $jsonArray = json_encode($igstlist);
-  // Echo the JSON array
-  echo '<script>';
-  echo 'var jsArray = ' . $jsonArray . ';';
-  echo 'console.log(jsArray);'; // Output the array in the browser console
-  echo '</script>';
+  dbclose($db);
 ?>
  
 <!DOCTYPE html>
@@ -77,7 +69,7 @@ input[type=number] {
 <label for="Pdate"><b>Purchase Date:</label>
 <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>">
 <label for="PSname"><b>Supplier: *</label>
-<select name= = "PSname" id = "PSname" onchange="getcommoditylist()">
+<select name= = "PSname" id = "PSname" onchange = "getcommoditylist()">
 <option value="Default">Default</option>
   <?php
     // Loop through the array to generate list items
@@ -95,7 +87,7 @@ input[type=number] {
 <label for="PGSM"><b>GSM: *</label>
 <input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>
 <label for="PBF"><b>BF: *</label>
-<input type = "text" id = "PBF" name = "PBF" required size="5"><br><br>
+<input type = "text" id = "PBF" name = "PBF" required disabled size="50"><br><br>
 <label for="PRS"><b>Reel Size (Cm): *</label>
 <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "0" max= "1000" step=".01">
 <label for="PRN"><b>Reel Number :*</label>
@@ -106,11 +98,11 @@ input[type=number] {
 <input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0" max= "200" step=".01">
 <br><br>
 <label for="PSGST"><b>SGST(%): *</label>
-<input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled>
+<input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
 <label for="PCGST"><b>CGST(%): *</label>
-<input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled>
+<input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
 <label for="PIGST"><b>IGST(%): *</label>
-<input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled>
+<input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01">
 <label for="PTotal"><b>Total(Rs.): *</label>
 <input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" disabled step=".01">
 <input type = "submit" id = "PAdd" name = "PAdd" value = "Add to List">
@@ -144,27 +136,9 @@ input[type=number] {
 
 <script>
 function getcommoditylist() {
-  document.getElementById("PIGST").value = 0;
-  document.getElementById("PSGST").value = 0;
-  document.getElementById("PCGST").value = 0;
-  var index = document.getElementById("PSname").selectedIndex;
-  // Encode the PHP array to JSON
-  str = jsArray[index-1];
-  var stringData = JSON.stringify(str);
-  var contains = stringData.includes("off");
-  if (contains) {
-  document.getElementById("PIGST").disabled = true;
-  document.getElementById("PSGST").disabled = false;
-  document.getElementById("PCGST").disabled = false;
-    } else {
-  document.getElementById("PIGST").disabled = false;
-  document.getElementById("PSGST").disabled = true;
-  document.getElementById("PCGST").disabled = true;
-        }
+
 }
 
 </script>
 </html>
 
-</body>
-</html>
