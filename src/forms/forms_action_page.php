@@ -59,16 +59,17 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $ID= $_POST["SID"]; ?>
   <?php $SuGST = $_POST["SuGST2"]; ?>
   <?php $SIGST = $_POST["SIGST2"]; ?>
+  <?php echo $SIGST; ?>
   <?php $SAddr = $_POST["SAddr2"]; ?>
   <?php $SCity = $_POST["SCity2"]; ?>
   <?php $SState = $_POST["Sstate2"]; ?>
-  <?php $SPcode = $_POST["Pcode2"]; ?>
+  <?php $SPcode = $_POST["SPcode2"]; ?>
   <?php $SPh = $_POST["SPh2"]; ?>
   <?php $SEmail= $_POST["SEmail2"]; ?>
-  <?php echo "welcome to update to supplier record<br>"; ?>
+  <?php echo "welcome to update supplier record<br>"; ?>
   <?php $tablename = "TEST_SUPPLIER_4"; ?>
   <?php dbsetup($db); ?>
-  <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST ); ?>
+  <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST); ?>
   <?php dbclose($db); ?>
 <?php } ?>
 

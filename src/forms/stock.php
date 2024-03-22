@@ -151,15 +151,15 @@ function getcommoditylist() {
   // Encode the PHP array to JSON
   str = jsArray[index-1];
   var stringData = JSON.stringify(str);
-  var contains = stringData.includes("off");
+  var contains = stringData.includes("on");
   if (contains) {
-  document.getElementById("PIGST").disabled = true;
-  document.getElementById("PSGST").disabled = false;
-  document.getElementById("PCGST").disabled = false;
-    } else {
   document.getElementById("PIGST").disabled = false;
   document.getElementById("PSGST").disabled = true;
   document.getElementById("PCGST").disabled = true;
+    } else {
+  document.getElementById("PIGST").disabled = true;
+  document.getElementById("PSGST").disabled = false;
+  document.getElementById("PCGST").disabled = false;
         }
 }
 

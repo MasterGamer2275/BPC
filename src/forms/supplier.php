@@ -18,80 +18,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-/* The popup form - hidden by default */
-.form-popup {
-  display: none;
-  position: fixed;
-  max-width: 300px;
-  width: auto;
-  bottom: 0;
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  color: white;
-}
-
-/* Add styles to the form container */
-.form-container {
-  max-width: 300px;
-  padding: 10px;
-  background-color: rgb(173, 103, 79);
- 
-}
-
-/* Full-width input fields */
-.form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date]{
-  width: 90%;
-  height: 0px;
-  padding: 15px;
-  margin: 5px 0 2px 0;
-  border: none;
-  font-size: 16px;
-  background: rgb(240, 227, 210);
-}
-.form-container select{
-  width: 90%;
-  padding: auto;
-  border: none;
-  background: rgb(240, 227, 210);
-}
-
-/* When the inputs get focus, do something */
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-  background-color: rgb(240, 227, 220);
-  outline: none;
-}
-
-/* Set a style for the submit/login button */
-.form-container .btn {
-  background-color: rgb(240, 227, 210);
-  color: rgb(240, 227, 210);
-  border: none;
-  cursor: pointer;
-  margin-bottom:10px;
-  opacity: 0.2;
-}
-/* Add a red background color to the cancel button */
-.form-container .updatebtn {
-  background-color: #CEB9A4;
-  color: Green;
-  opacity: 0.7;
-}
-
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-  background-color: #CEB9A4;
-  opacity: 0.5;
-}
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
-}
-select {
-width: 13%;
-/* width: 120px;*/
-height: 20px;
+body {
+  margin: 0;
+  font-family: "Source Sans Pro", "sans-serif";
 }
 
 table {
@@ -122,6 +51,82 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input(type=number) {
   -moz-appearance: textfield;
+}
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  max-width: 300px;
+  width: auto;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  color: black;
+}
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+  font: inherit;
+ 
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date]{
+  width: 90%;
+  height: 0px;
+  padding: 15px;
+  margin: 5px 0 2px 0;
+  border: none;
+  font-family: "Source Sans Pro", "sans-serif";
+  font-size: 16px;
+  background: #f2f2f2;
+}
+.form-container select{
+  width: 90%;
+  padding: auto;
+  border: none;
+  background: #f2f2f2;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #f2f2f2;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #f2f2f2;
+  color: #f2f2f2;
+  border: none;
+  cursor: pointer;
+  margin-bottom:10px;
+  opacity: 0.2;
+}
+/* Add a red background color to the cancel button */
+.form-container .updatebtn {
+  background-color: #f2f2f2;
+  color: Green;
+  opacity: 0.7;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: #f2f2f2;
+  opacity: 0.5;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+select {
+width: 13%;
+/* width: 120px;*/
+height: 20px;
 }
 </style>
 <div id="id01">
@@ -215,9 +220,9 @@ input(type=number) {
 </div>
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post">
-  <input type = "text" id = "SID" name = "SID" maxlength = "6" size = "6" disabled hidden>
+   <input type = "number" id = "SID" name = "SID" maxlength = "6" size = "6" hidden>
    <label for="Sname2"><b>Supplier Name: * &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-   <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save" name = "S2Save" value = "V" ></i></button>
+   <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save" name = "S2Save" value = "V" ></button>
    <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel" name = "Scancel" value = "X" onclick= "closeForm()">
    <input type= "text" id = "Sname2" name = "Sname2" required size="75" disabled>
    <label for="SuGST2"><b>GSTIN/UIN: *</label>
