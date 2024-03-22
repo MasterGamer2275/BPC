@@ -44,11 +44,11 @@ input[type=number] {
       <th>Reel Size (m)</th>    
       <th>Reel No.</th>    
       <th>Total Weight (kg)</th>    
-      <th>Current Price (Rs.)</th>    
-      <th>Avg. Price (Rs.)</th>    
+      <th>Current Price (Rs.)</th>      
       <th>SGST (%)</th>    
       <th>CGST (%)</th>    
       <th>Total (Rs.)</th>
+      <th>Avg. Price (Rs.)</th>
   </tr>
 </table>
 </form>

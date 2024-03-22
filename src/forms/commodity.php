@@ -54,6 +54,12 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+select {
+width: 25%;
+/* width: 120px;*/
+height: 20px;
+}
+
 </style>
 
 <form action="forms_action_page.php" method="post">

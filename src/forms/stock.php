@@ -1,12 +1,3 @@
- <?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-}
-?>
-
 <?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
@@ -44,9 +35,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
 button {
   padding: 1px 6px 1px 6px;
-  position: relative;
+  position: absolute;
   left: 90%;
-  bottom: 60%;
+  bottom: 48%;
 }
 button img {
   width: 22px;
@@ -83,18 +74,23 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+select {
+width: 18%;
+/* width: 120px;*/
+height: 20px;
+}
+
 </style>
 </head>
  
 <body>
 
-<form action="forms_action_page.php" method="post">
+<form onsubmit="addtotable()">
 <h3>Stock Feed:</h3>
-<p id="demo"></p>
 <label for="Pdate"><b>Purchase Date:</label>
-<input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>">
+<input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
 <label for="PSname"><b>Supplier: *</label>
-<select name= = "PSname" id = "PSname" onchange="getcommoditylist()">
+<select name= = "PSname" id = "PSname" onchange="setformstate();getcommoditylist();">
 <option value="Default">Default</option>
   <?php
     // Loop through the array to generate list items
@@ -106,13 +102,13 @@ input[type=number] {
   ?>
 </select>
 <label for="PCname"><b>Commodity</label>
-<select name="PCname" id="PCname">
+<select name="PCname" id="PCname" onchange = "updateval();">
 <option value="Default">Default</option>
 </select>
 <label for="PGSM"><b>GSM: *</label>
-<input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>
+<input type = "text" id = "PGSM" name = "PGSM" required size="5" readonly>
 <label for="PBF"><b>BF: *</label>
-<input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
+<input type = "text" id = "PBF" name = "PBF" required size="5" readonly><br><br>
 <label for="PRS"><b>Reel Size (Cm): *</label>
 <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "0" max= "1000" step=".01">
 <label for="PRN"><b>Reel Number :*</label>
@@ -129,30 +125,33 @@ input[type=number] {
 <label for="PIGST"><b>IGST(%): *</label>
 <input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
 <label for="PTotal"><b>Total(Rs.): *</label>
-<input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" disabled step=".01">
-<input type = "submit" id = "PAdd" name = "PAdd" value = "Add to List">
+<input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" readonly step=".01">
+<input type = "submit" id = "PAdd" name = "PAdd" value = "Add to Table">
 <br><br>
+</form>
+<form action="forms_action_page.php" method="post">
 <p>Verify the below table and click on submit to log the stock data in to the MES system</p>
-<input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record"><br><br>
+<input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record">
 </form>
 <form action="#" method="post">
 <button id = "PExpEx" name = "PExpEx">
-  <span>Export</span>
+  <span>Export to</span>
   <img src="/icons/icons8-excel-48.png" alt="excelpng" />
 </button>
 </form>
 <table>
   <tr>
-      <th>Stock ID</th>
+      <th>S No:</th>
       <th>Date</th>
       <th>Supplier Name</th>
-      <th>Commodity Name</th>
-      <th>Reel Weight (Kg)</th>    
-      <th>Reel Number</th>    
-      <th>Reel Size (Cm)</th>    
+      <th>Commodity(Desc)</th>
+      <th>Reel Size (Cm)</th>
+      <th>Reel Number</th> 
+      <th>Reel Weight (Kg)</th>     
       <th>Rate (Rs.)</th>    
       <th>SGST(%)</th>    
-      <th>CGST(%)</th>    
+      <th>CGST(%)</th>  
+      <th>IGST(%)</th>   
       <th>Total(Rs.)</th>  
   </tr>
 </table>
@@ -160,7 +159,7 @@ input[type=number] {
 </body>
 
 <script>
-function getcommoditylist() {
+function setformstate() {
   document.getElementById("PIGST").value = 0;
   document.getElementById("PSGST").value = 0;
   document.getElementById("PCGST").value = 0;
@@ -180,6 +179,41 @@ function getcommoditylist() {
         }
 }
 
+
+function getcommoditylist() {
+  var select = document.getElementById("PCname");
+  var numberOfOptions = select.options.length;
+  for (let i = 1; i < numberOfOptions; i++) {
+  select.remove(1);
+    }
+  //update commodity list
+  var supplierstr = document.getElementById("PSname").value;
+  var tr = "\"" + supplierstr + "\"";
+  for (let i = 1; i < jsArray_2.length; i++) {
+    let c = JSON.stringify(jsArray_2[i]);
+    let position = c.search(tr);
+    let found = (position>0);
+    if (found) {
+          const myArray = c.split(",");
+          let word1 = myArray[1];
+          let gsm1 = myArray[3];
+          let bf1 = myArray[4];
+          const myArray2 = word1.split(":");
+          let word2 = myArray2[1];
+          let word3 = word2. replaceAll("\"", "");
+          const myArray3 = gsm1.split(":");
+          let gsm2 = myArray3[1];
+          const myArray4 = bf1.split(":");
+          let bf2 = myArray4[1];
+          var option = document.createElement("option");
+          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2;
+          option.value = i;
+          select.appendChild(option);
+      }
+  }
+}
+
+
 function calculatetotal() {
   t1 = document.getElementById("PIGST").value;
   t2 = document.getElementById("PSGST").value;
@@ -191,8 +225,23 @@ function calculatetotal() {
   taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
   document.getElementById("PTotal").value = (rweight * rate) + taxsum;
 }
-function updateval() {}
-function addtotable() {}
+function updateval() {
+  var selectElement = document.getElementById("PCname");
+  var c = selectElement.options[selectElement.selectedIndex].text;
+  const myArray = c.split("-");
+  let word1 = myArray[1];
+  let word2 = myArray[2];
+  const myArray1 = word1.split(":");
+  const myArray2 = word2.split(":");
+  document.getElementById("PGSM").value = myArray1[1];
+  document.getElementById("PBF").value = myArray2[1];
+}
+
+function addtotable() {
+
+}
+
+<tr><td>$cell</td><td>$cell</td><td>$cell</td><td>$cell</td></tr>
 
 </script>
 

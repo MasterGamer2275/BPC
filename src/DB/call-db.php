@@ -141,6 +141,34 @@ $ret = $db->exec($sql);
         echo "Commodity Table created successfully\n";
     }
 }
+//----------------------------------------DB - Create Table (Stock)----------------------------------------//
+
+function dbcreatestocktable(&$db, &$tablename) {
+   echo "welcome to create stock table if not exists";
+
+  $sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   DATE                 VARCHAR(15)  NOT NULL,
+   SUPPLIERNAME         TEXT  NOT NULL,
+   COMMODITYNAMEORDESC  TEXT  NOT NULL,
+   REELSIZE          INTEGER(20)  NOT NULL,
+   REELNUMBER         INTEGER(20) NOT NULL,
+   REELWEIGHT       INTEGER(20)  NOT NULL,
+   RATE          INTEGER(10)  NOT NULL,
+   SGST          INTEGER(3) NOT NULL,
+   CGST          INTEGER(3) NOT NULL,
+   IGST          INTEGER(3) NOT NULL,
+   TOTAL        INTEGER(20) NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Table created successfully\n";
+   }
+}
 
 //----------------------------------------DB - Get Column Values----------------------------------------//
 
