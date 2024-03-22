@@ -11,12 +11,19 @@
   $igstlist = array();
   $columnname = "IGST";
   dbgetcolumnname($db, $tablename, $columnname, $igstlist);
+  $tablename = "TEST_COMMODITY_3";
+  $dbtabdata = array(array());
+  dbreadtable($db, $tablename, $dbtabdata);
+  dbclose($db);
   // Convert the array of objects to a JSON array
-  $jsonArray = json_encode($igstlist);
+  $jsonArray_1 = json_encode($igstlist);
+  $jsonArray_2 = json_encode($dbtabdata);
   // Echo the JSON array
   echo '<script>';
-  echo 'var jsArray = ' . $jsonArray . ';';
-  echo 'console.log(jsArray);'; // Output the array in the browser console
+  echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
+  echo 'console.log(jsArray_1);'; // Output the array in the browser console
+  echo 'var jsArray_2 = ' . $jsonArray_2 . ';';
+  echo 'console.log(jsArray_2);'; // Output the array in the browser console
   echo '</script>';
 ?>
  
@@ -95,22 +102,22 @@ input[type=number] {
 <label for="PGSM"><b>GSM: *</label>
 <input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>
 <label for="PBF"><b>BF: *</label>
-<input type = "text" id = "PBF" name = "PBF" required size="5"><br><br>
+<input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
 <label for="PRS"><b>Reel Size (Cm): *</label>
 <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "0" max= "1000" step=".01">
 <label for="PRN"><b>Reel Number :*</label>
 <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" max= "1000" step=".01">
 <label for="PRW"><b>Reel Weight (Kg) : *</label>
-<input type = "number" id = "PRW" name = "PRW" required width="4px" min = "10" max= "500" step=".01">
+<input type = "number" id = "PRW" name = "PRW" required width="4px" min = "10" max= "500" step=".01" onchange = "calculatetotal()">
 <label for="PRate"><b>Rate(Rs.): *</label>
-<input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0" max= "200" step=".01">
+<input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0" max= "200" step=".01" onchange = "calculatetotal()">
 <br><br>
 <label for="PSGST"><b>SGST(%): *</label>
-<input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled>
+<input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
 <label for="PCGST"><b>CGST(%): *</label>
-<input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled>
+<input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange= "calculatetotal()">
 <label for="PIGST"><b>IGST(%): *</label>
-<input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled>
+<input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
 <label for="PTotal"><b>Total(Rs.): *</label>
 <input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" disabled step=".01">
 <input type = "submit" id = "PAdd" name = "PAdd" value = "Add to List">
@@ -120,7 +127,7 @@ input[type=number] {
 </form>
 <form action="#" method="post">
 <button id = "PExpEx" name = "PExpEx">
-  <span>Open</span>
+  <span>Export</span>
   <img src="/icons/icons8-excel-48.png" alt="excelpng" />
 </button>
 </form>
@@ -149,7 +156,7 @@ function getcommoditylist() {
   document.getElementById("PCGST").value = 0;
   var index = document.getElementById("PSname").selectedIndex;
   // Encode the PHP array to JSON
-  str = jsArray[index-1];
+  str = jsArray_1[index-1];
   var stringData = JSON.stringify(str);
   var contains = stringData.includes("on");
   if (contains) {
@@ -163,8 +170,21 @@ function getcommoditylist() {
         }
 }
 
+function calculatetotal() {
+  t1 = document.getElementById("PIGST").value;
+  t2 = document.getElementById("PSGST").value;
+  t3 = document.getElementById("PCGST").value;
+  rsize = document.getElementById("PRS").value;
+  rweight = document.getElementById("PRW").value;
+  rate = document.getElementById("PRate").value;
+  taxsum = 0;
+  taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
+  document.getElementById("PTotal").value = (rweight * rate) + taxsum;
+}
+function updateval() {}
+function addtotable() {}
+
 </script>
-</html>
 
 </body>
 </html>
