@@ -1,3 +1,12 @@
+ <?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+}
+?>
+
 <?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
@@ -81,6 +90,7 @@ input[type=number] {
 
 <form action="forms_action_page.php" method="post">
 <h3>Stock Feed:</h3>
+<p id="demo"></p>
 <label for="Pdate"><b>Purchase Date:</label>
 <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>">
 <label for="PSname"><b>Supplier: *</label>
