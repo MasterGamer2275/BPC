@@ -54,6 +54,23 @@ function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCi
           echo "Records created succssfully\n";
       }
 }
+
+//----------------------------------------DB - Add record (Stock Table)----------------------------------------//
+
+function dbaddstockrecord(&$db, &$tablename, &$date, &$invnum,&$name, &$desc, &$rs, &$rn, &$rw, &$rate, &$sgst, &$cgst, &$igst, &$total) { 
+  $CompanyID = "6100";
+  $sql =<<<EOF
+    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAMEORDESC,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
+    VALUES ('$date', '$invnum', '$name', '$desc', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          echo $db->lastErrorMsg();
+        } else { 
+          echo "Records created succssfully\n";
+      }
+}
+
 //----------------------------------------DB - Update record (Supplier Table)----------------------------------------//
 
 function dbeditsupplierrecord(&$db, &$tablename, &$ID, &$SuGST, &$SAddr, &$SCity, &$SState, &$SPcode, &$SPh, &$SEmail, &$SIGST) { 
@@ -145,28 +162,29 @@ $ret = $db->exec($sql);
 
 function dbcreatestocktable(&$db, &$tablename) {
    echo "welcome to create stock table if not exists";
-
-  $sql =<<<EOF
+$sql =<<<EOF
    CREATE TABLE if not exists $tablename(
    ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
    DATE                 VARCHAR(15)  NOT NULL,
+   INVNUM               VARCHAR(50) NOT NULL,
    SUPPLIERNAME         TEXT  NOT NULL,
-   COMMODITYNAMEORDESC  TEXT  NOT NULL,
+   COMMODITYNAMEORDESC  VARCHAR(50) NOT NULL,
    REELSIZE          INTEGER(20)  NOT NULL,
    REELNUMBER         INTEGER(20) NOT NULL,
    REELWEIGHT       INTEGER(20)  NOT NULL,
-   RATE          INTEGER(10)  NOT NULL,
+   RATE          INTEGER(20)  NOT NULL,
    SGST          INTEGER(3) NOT NULL,
    CGST          INTEGER(3) NOT NULL,
    IGST          INTEGER(3) NOT NULL,
-   TOTAL        INTEGER(20) NOT NULL
+   TOTAL        INTEGER(20) NOT NULL,
+   COMPANYID    INTEGER     NOT NULL
 );
 EOF;
    $ret = $db->exec($sql);
    if(!$ret){
       echo $db->lastErrorMsg();
    } else {
-      echo "Table created successfully\n";
+      echo "Stock table created successfully\n";
    }
 }
 

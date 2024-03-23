@@ -1,4 +1,19 @@
- <!DOCTYPE html>
+<?php
+  //---define all variables and constants used
+  //---read a table
+  //find the root path to calling the php filles by path
+  $root = $_SERVER['DOCUMENT_ROOT'];
+  //---add the DB API file
+  require $root."/DB/call-db.php";
+  //---open SQL lite 3 .db file
+  $tablename = "TEST_STOCK_1";
+  dbsetup($db);
+  dbcreatestocktable($db, $tablename);
+  $dbtabdata = array(array());
+  dbreadtable($db, $tablename, $dbtabdata);
+  dbclose($db);
+?>
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +45,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 </style>
-
+<body>
 <form action="/forms_action_page.php" method="post">
 <h3>Stock Statistics</h3>
 <label for="Fdate"><b>Filter By Date</label>
@@ -38,17 +53,33 @@ input[type=number] {
 <br><br>
 <table>
   <tr>
+      <th>Stock ID</th> 
       <th>Date</th>    
-      <th>Commodity</th>   
-      <th>GSM</th>    
-      <th>Reel Size (m)</th>    
-      <th>Reel No.</th>    
-      <th>Total Weight (kg)</th>    
-      <th>Current Price (Rs.)</th>      
-      <th>SGST (%)</th>    
-      <th>CGST (%)</th>    
-      <th>Total (Rs.)</th>
+      <th>Invoice No.</th> 
+      <th>SupplierName</th> 
+      <th>Commodity/Desc</th>   
+      <th>ReelSize(Cm)</th>    
+      <th>ReelNo.</th>    
+      <th>TotalWeight (kg)</th>    
+      <th>CurrentPrice (Rs.)</th>      
+      <th>SGST(%)</th>    
+      <th>CGST(%)</th>    
+      <th>Total(Rs.)</th>
+      <th>CompanyID</th>
       <th>Avg. Price (Rs.)</th>
   </tr>
+    <?php
+            // Loop through the array to generate table rows
+            foreach ($dbtabdata as $row) {
+                echo "<tr>";
+                foreach ($row as $cell) {
+                    echo "<td>$cell</td>";
+                  }      
+                echo "</tr>";
+            }
+      ?>
 </table>
 </form>
+</body>
+</head>
+</html> 

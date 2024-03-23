@@ -60,5 +60,6 @@ input[type=number] {
     <th>Weight(kg)</th>    
     <th>No. of Reels</th>  
   </tr>
+
 </table>
 </form>

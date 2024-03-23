@@ -18,6 +18,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php $SAdd = $_POST["SAdd"]; ?>
 <?php $CAdd = $_POST["CAdd"]; ?>
 <?php $S2Save = $_POST["S2Save"]; ?>
+<?php $InvNum= $_POST["PSInumber"]; ?>
 <?php /*form - supplier-------------------------------------------------- */ ?>
 <?php if ($SAdd != "") {  ?>
   <?php $Sname = $_POST["Sname"]; ?>
@@ -72,6 +73,25 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST); ?>
   <?php dbclose($db); ?>
 <?php } ?>
-
+<?php /*form - stock-------------------------------------------------- */ ?>
+<?php /*PSubmit not returned in script submit mode ------------------- */ ?>
+<?php if ($InvNum != "") {  ?>
+  <?php echo "welcome to add stock to record<br>"; ?>
+  <?php $InvNum= $_POST["PSInumber"]; ?>
+  <?php $tableDataJSON = $_POST['tableData']; ?>
+  <?php $tableData = json_decode($tableDataJSON, true); ?>
+  <?php echo $tableData; ?><br>
+  <?php $tablename = "TEST_STOCK_1"; ?>
+  <?php dbsetup($db); ?>
+  <?php dbcreatestocktable($db, $tablename); ?>
+  <?php $i = 0; ?>
+  <?php foreach ($tableData as $row) { ?>
+      <?php if ($i >= 1) { ?>
+        <?php dbaddstockrecord($db, $tablename, $row[2], $InvNum, $row[3], $row[4], $row[5], $row[6], $row[7], $row[8],$row[9], $row[10],$row[11], $row[12]); ?>
+      <?php  } ?>
+    <?php i = i+1; ?>
+  <?php} ?>
+  <?php dbclose($db); ?>
+<?php } ?>
 </body>
 </html>
