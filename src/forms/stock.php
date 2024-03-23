@@ -32,7 +32,6 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-
 button {
   padding: 1px 6px 1px 6px;
   position: absolute;
@@ -54,11 +53,14 @@ table {
   border-spacing: 0;
   width: 100%;
   border: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 th, td {
   text-align: left;
   padding: 16px;
+  border: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 tr:nth-child(even) {
   background-color: #f2f2f2
@@ -84,77 +86,83 @@ height: 20px;
 </head>
  
 <body>
-
-<form onsubmit="addtotable()">
-<h3>Stock Feed:</h3>
-<label for="Pdate"><b>Purchase Date:</label>
-<input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
-<label for="PSname"><b>Supplier: *</label>
-<select name= = "PSname" id = "PSname" onchange="setformstate();getcommoditylist();">
-<option value="Default">Default</option>
-  <?php
-    // Loop through the array to generate list items
-  foreach ($dbcolvalues as $row) {
-      foreach ($row as $value) {
-         echo "<option value='$value'>$value</option>";
+<div id="id01">
+  <form onsubmit="addtotable();handleSubmit(event);">
+    <h3>Stock Feed:</h3>
+    <label for="Pdate"><b>Purchase Date:</label>
+    <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
+    <label for="PSname"><b>Supplier: *</label>
+    <select name= = "PSname" id = "PSname" onchange="setformstate();getcommoditylist();">
+    <option value="Default">Default</option>
+      <?php
+        // Loop through the array to generate list items
+      foreach ($dbcolvalues as $row) {
+          foreach ($row as $value) {
+            echo "<option value='$value'>$value</option>";
+          }
       }
-  }
-  ?>
-</select>
-<label for="PCname"><b>Commodity</label>
-<select name="PCname" id="PCname" onchange = "updateval();">
-<option value="Default">Default</option>
-</select>
-<label for="PGSM"><b>GSM: *</label>
-<input type = "text" id = "PGSM" name = "PGSM" required size="5" readonly>
-<label for="PBF"><b>BF: *</label>
-<input type = "text" id = "PBF" name = "PBF" required size="5" readonly><br><br>
-<label for="PRS"><b>Reel Size (Cm): *</label>
-<input type = "number" id = "PRS" name = "PRS" required width="5px" min = "0" max= "1000" step=".01">
-<label for="PRN"><b>Reel Number :*</label>
-<input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" max= "1000" step=".01">
-<label for="PRW"><b>Reel Weight (Kg) : *</label>
-<input type = "number" id = "PRW" name = "PRW" required width="4px" min = "10" max= "500" step=".01" onchange = "calculatetotal()">
-<label for="PRate"><b>Rate(Rs.): *</label>
-<input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0" max= "200" step=".01" onchange = "calculatetotal()">
-<br><br>
-<label for="PSGST"><b>SGST(%): *</label>
-<input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
-<label for="PCGST"><b>CGST(%): *</label>
-<input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange= "calculatetotal()">
-<label for="PIGST"><b>IGST(%): *</label>
-<input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
-<label for="PTotal"><b>Total(Rs.): *</label>
-<input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" readonly step=".01">
-<input type = "submit" id = "PAdd" name = "PAdd" value = "Add to Table">
-<br><br>
-</form>
-<form action="forms_action_page.php" method="post">
-<p>Verify the below table and click on submit to log the stock data in to the MES system</p>
-<input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record">
-</form>
-<form action="#" method="post">
-<button id = "PExpEx" name = "PExpEx">
-  <span>Export to</span>
-  <img src="/icons/icons8-excel-48.png" alt="excelpng" />
-</button>
-</form>
-<table>
-  <tr>
-      <th>S No:</th>
-      <th>Date</th>
-      <th>Supplier Name</th>
-      <th>Commodity(Desc)</th>
-      <th>Reel Size (Cm)</th>
-      <th>Reel Number</th> 
-      <th>Reel Weight (Kg)</th>     
-      <th>Rate (Rs.)</th>    
-      <th>SGST(%)</th>    
-      <th>CGST(%)</th>  
-      <th>IGST(%)</th>   
-      <th>Total(Rs.)</th>  
-  </tr>
-</table>
+      ?>
+    </select>
+    <label for="PCname"><b>Commodity</label>
+    <select name="PCname" id="PCname" onchange = "updateval();">
+    <option value="Default">Default</option>
+    </select>
+    <label for="PGSM"><b>GSM: *</label>
+    <input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>
+    <label for="PBF"><b>BF: *</label>
+    <input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
+    <label for="PRS"><b>Reel Size (Cm): *</label>
+    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" max= "1000" step="1">
+    <label for="PRN"><b>Reel Number :*</label>
+    <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" max= "9999999" step="1">
+    <label for="PRW"><b>Reel Weight (Kg) : *</label>
+    <input type = "number" id = "PRW" name = "PRW" required width="4px" min = "10" max= "500" step=".01" onchange = "calculatetotal()">
+    <label for="PRate"><b>Rate(Rs.): *</label>
+    <input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0" max= "200" step=".01" onchange = "calculatetotal()">
+    <br><br>
+    <label for="PSGST"><b>SGST(%): *</label>
+    <input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01" onchange = "calculatetotal()">
+    <label for="PCGST"><b>CGST(%): *</label>
+    <input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01" onchange= "calculatetotal()">
+    <label for="PIGST"><b>IGST(%): *</label>
+    <input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
+    <label for="PTotal"><b>Total(Rs.): *</label>
+    <input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "500" max= "100000" disabled step=".01">
+    <input type = "number" id = "tableindex" name = "tableindex" hidden step="1" value = "1">
+    <input type = "submit" id = "PAdd" name = "PAdd" value = "Add to Table" disabled>
+    <br><br>
+  </form>
+</div>
+<div id="id02">
+  <form action="forms_action_page.php" method="post">
+    <p>Verify the below table and click on submit to log the stock data in to the MES system</p>
+    <input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record">
+    <table id= "myTable">
+      <tr>
+        <th>S No:</th>
+        <th>Date</th>
+        <th>Supplier Name</th>
+        <th>Commodity(Desc)</th>
+        <th>Reel Size (Cm)</th>
+        <th>Reel Number</th> 
+        <th>Reel Weight (Kg)</th>     
+        <th>Rate (Rs.)</th>    
+        <th>SGST(%)</th>    
+        <th>CGST(%)</th>  
+        <th>IGST(%)</th>   
+        <th>Total(Rs.)</th>  
+    </tr>
+    </table>
+  </form>
+</div>
+<div id="id03">
+    <form action="#">
+      <button id = "PExpEx" name = "PExpEx" onclick = "exporttoexcel();handleSubmit(event);">
+        <span>Export to</span>
+        <img src="/icons/icons8-excel-48.png" alt="excelpng" />
+      </button>
+    </form>
+</div>
 
 </body>
 
@@ -226,6 +234,7 @@ function calculatetotal() {
   document.getElementById("PTotal").value = (rweight * rate) + taxsum;
 }
 function updateval() {
+  var button = document.getElementById("PAdd");
   var selectElement = document.getElementById("PCname");
   var c = selectElement.options[selectElement.selectedIndex].text;
   const myArray = c.split("-");
@@ -235,14 +244,35 @@ function updateval() {
   const myArray2 = word2.split(":");
   document.getElementById("PGSM").value = myArray1[1];
   document.getElementById("PBF").value = myArray2[1];
+  updated = (selectElement.options[selectElement.selectedIndex].value >1)
+  if (updated){
+    button.disabled = false;
+  } else {
+    button.disabled = true;
+  }
 }
-
 function addtotable() {
-
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var newRow = table.insertRow(table.rows.length);
+  const selectElement = document.getElementById("PCname");
+  const selectValue= selectElement.options[selectElement.selectedIndex].text;
+  const tableindex = parseInt(document.getElementById("tableindex").value);
+  const myArray = [tableindex, document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value];
+        for (let i = 0; i < myArray.length; i++) {
+        var cell = newRow.insertCell(i);
+        cell.innerHTML = myArray[i];
+         }
+  document.getElementById("tableindex").value= tableindex +1;
 }
-
-<tr><td>$cell</td><td>$cell</td><td>$cell</td><td>$cell</td></tr>
-
+function handleSubmit(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+  const inputField = document.getElementById('inputField');
+  console.log("Input value:", inputField.value);
+  // Further processing or form submission logic can go here
+    }
+function exporttoexcel() {
+javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
+}
 </script>
 
 </body>
