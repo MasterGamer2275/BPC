@@ -87,7 +87,7 @@ height: 20px;
  
 <body>
 <div id="id01">
-  <form onsubmit="addtotable();handleSubmit(event);">
+  <form onsubmit="addtotable();handleSubmit(event);checkDuplicates();">
     <h3>Stock Feed:</h3>
     <label for="Pdate"><b>Purchase Date:</label>
     <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
@@ -273,6 +273,31 @@ function handleSubmit(event) {
 function exporttoexcel() {
 javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
 }
+
+function checkDuplicates() {
+  var table = document.getElementById("myTable");
+  var seen = {};
+  var duplicates = [];
+  // Iterate over each row of the table (starting from index 1 to skip header row)
+    for (var i = 0; i < table.rows.length; i++) {
+      var currentRow = table.rows[i];
+      var key = currentRow.cells[5].innerText; // Assuming the first cell contains the value to check for duplicates
+      var snum = currentRow.cells[0].innerText;
+      // Check if the value is already seen
+        if (seen[key]) {
+                duplicates.push(key);
+            } else {
+                seen[key] = true;
+            }
+        }
+
+        // Display the duplicate values, if any
+        if (duplicates.length > 0) {
+            alert("Duplicate entries found: " + duplicates.join(", "));
+        } else {
+            //alert("No duplicate entries found.");
+        }
+    }
 </script>
 
 </body>
