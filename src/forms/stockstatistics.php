@@ -6,7 +6,7 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  $tablename = "TEST_STOCK_1";
+  $tablename = "TEST_STOCK_3";
   dbsetup($db);
   dbcreatestocktable($db, $tablename);
   $dbtabdata = array(array());
@@ -49,7 +49,7 @@ input[type=number] {
 <form action="/forms_action_page.php" method="post">
 <h3>Stock Statistics</h3>
 <label for="Fdate"><b>Filter By Date</label>
-<input type = "date" id = "Fdate" name = "Fdate"  size="0">
+<input type = "date" id = "Fdate" name = "Fdate"  size="0" onchange = "sortbydate()">
 <br><br>
 <table>
   <tr>
@@ -64,6 +64,7 @@ input[type=number] {
       <th>CurrentPrice (Rs.)</th>      
       <th>SGST(%)</th>    
       <th>CGST(%)</th>    
+      <th>IGST(%)</th> 
       <th>Total(Rs.)</th>
       <th>CompanyID</th>
       <th>Avg. Price (Rs.)</th>

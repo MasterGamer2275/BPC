@@ -80,17 +80,21 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $InvNum= $_POST["PSInumber"]; ?>
   <?php $tableDataJSON = $_POST['tableData']; ?>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
-  <?php echo $tableData; ?><br>
-  <?php $tablename = "TEST_STOCK_1"; ?>
+  <?php $tablename = "TEST_STOCK_3"; ?>
   <?php dbsetup($db); ?>
   <?php dbcreatestocktable($db, $tablename); ?>
   <?php $i = 0; ?>
   <?php foreach ($tableData as $row) { ?>
-      <?php if ($i >= 1) { ?>
-        <?php dbaddstockrecord($db, $tablename, $row[2], $InvNum, $row[3], $row[4], $row[5], $row[6], $row[7], $row[8],$row[9], $row[10],$row[11], $row[12]); ?>
-      <?php  } ?>
-    <?php i = i+1; ?>
-  <?php} ?>
+        <?php if ($i >= 1) { ?>
+        <?php $rowstr = json_encode($row); ?>
+        <?php $word1 = str_replace("]","",$rowstr); ?>
+        <?php $word2 = str_replace("[","", $word1); ?>
+        <?php $word3 = str_replace('"', '',$word2); ?>
+        <?php $myArray = explode(",", $word3); ?>
+        <?php dbaddstockrecord($db, $tablename, $myArray[2], $InvNum, $myArray[3], $myArray[4], $myArray[5], $myArray[6], $myArray[7], $myArray[8],$myArray[9], $myArray[10],$myArray[11], $myArray[12]); ?>
+        <?php  } ?>
+      <?php $i = $i+1; ?>
+  <?php } ?>
   <?php dbclose($db); ?>
 <?php } ?>
 </body>

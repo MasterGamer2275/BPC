@@ -13,21 +13,21 @@
    }
 
 $sql =<<<EOF
-   CREATE TABLE if not exists TEST_STOCK_1(
-   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   DATE                 VARCHAR(15)  NOT NULL,
-   INVNUM               VARCHAR(50) NOT NULL,
-   SUPPLIERNAME         TEXT  NOT NULL,
-   COMMODITYNAMEORDESC  VARCHAR(50) NOT NULL,
-   REELSIZE          INTEGER(20)  NOT NULL,
-   REELNUMBER         INTEGER(20) NOT NULL,
-   REELWEIGHT       INTEGER(20)  NOT NULL,
-   RATE          INTEGER(20)  NOT NULL,
-   SGST          INTEGER(3) NOT NULL,
-   CGST          INTEGER(3) NOT NULL,
-   IGST          INTEGER(3) NOT NULL,
-   TOTAL        INTEGER(20) NOT NULL,
-   COMPANYID    INTEGER     NOT NULL
+   CREATE TABLE if not exists TEST_STOCK_3(
+   ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+   DATE                 TEXT        NOT NULL,
+   INVNUM               TEXT        NOT NULL,
+   SUPPLIERNAME         TEXT        NOT NULL,
+   COMMODITYNAME        TEXT        NOT NULL,
+   REELSIZE             INTEGER     NOT NULL,
+   REELNUMBER           INTEGER     NOT NULL,
+   REELWEIGHT           INTEGER     NOT NULL,
+   RATE                 INTEGER     NOT NULL,
+   SGST                 INTEGER     NOT NULL,
+   CGST                 INTEGER     NOT NULL,
+   IGST                 INTEGER     NOT NULL,
+   TOTAL                INTEGER     NOT NULL,
+   COMPANYID            INTEGER     NOT NULL
 );
 EOF;
    $ret = $db->exec($sql);
@@ -37,9 +37,9 @@ EOF;
       echo "Table created successfully\n";
    }
 $sql =<<<EOF
-    INSERT INTO TEST_STOCK_1 (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAMEORDESC,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
+    INSERT INTO TEST_STOCK_3 (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME ,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
     VALUES ('03/24/2024', 'ASD12', 'SUP1', 'SLDX', '37.5', '9003', '146', '35', '6', '6', '0', '22.6', "6100");
-    INSERT INTO TEST_STOCK_1 (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAMEORDESC,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
+    INSERT INTO TEST_STOCK_3 (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME ,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
     VALUES ('03/24/2024', 'ASD12', 'SUP1', 'SLDX', '37.5', '9003', '10', '35', '0', '0', '0', '11.3', "6100");
 EOF;
 $ret = $db->exec($sql);
@@ -48,7 +48,7 @@ $ret = $db->exec($sql);
         } else { 
           echo "Records created succssfully\n";
       }
-$res = $db->query("SELECT * FROM TEST_STOCK_1 ");
+$res = $db->query("SELECT * FROM TEST_STOCK_3 ");
 $data = array(array());
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($data,$row);

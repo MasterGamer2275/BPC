@@ -60,7 +60,7 @@ function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCi
 function dbaddstockrecord(&$db, &$tablename, &$date, &$invnum,&$name, &$desc, &$rs, &$rn, &$rw, &$rate, &$sgst, &$cgst, &$igst, &$total) { 
   $CompanyID = "6100";
   $sql =<<<EOF
-    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAMEORDESC,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
+    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME ,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
     VALUES ('$date', '$invnum', '$name', '$desc', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
@@ -161,23 +161,23 @@ $ret = $db->exec($sql);
 //----------------------------------------DB - Create Table (Stock)----------------------------------------//
 
 function dbcreatestocktable(&$db, &$tablename) {
-   echo "welcome to create stock table if not exists";
+   echo "welcome to create stock table if not exists\n";
 $sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   DATE                 VARCHAR(15)  NOT NULL,
-   INVNUM               VARCHAR(50) NOT NULL,
-   SUPPLIERNAME         TEXT  NOT NULL,
-   COMMODITYNAMEORDESC  VARCHAR(50) NOT NULL,
-   REELSIZE          INTEGER(20)  NOT NULL,
-   REELNUMBER         INTEGER(20) NOT NULL,
-   REELWEIGHT       INTEGER(20)  NOT NULL,
-   RATE          INTEGER(20)  NOT NULL,
-   SGST          INTEGER(3) NOT NULL,
-   CGST          INTEGER(3) NOT NULL,
-   IGST          INTEGER(3) NOT NULL,
-   TOTAL        INTEGER(20) NOT NULL,
-   COMPANYID    INTEGER     NOT NULL
+   CREATE TABLE if not exists TEST_STOCK_3(
+   ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+   DATE                 TEXT        NOT NULL,
+   INVNUM               TEXT        NOT NULL,
+   SUPPLIERNAME         TEXT        NOT NULL,
+   COMMODITYNAME        TEXT        NOT NULL,
+   REELSIZE             INTEGER     NOT NULL,
+   REELNUMBER           INTEGER     NOT NULL,
+   REELWEIGHT           INTEGER     NOT NULL,
+   RATE                 INTEGER     NOT NULL,
+   SGST                 INTEGER     NOT NULL,
+   CGST                 INTEGER     NOT NULL,
+   IGST                 INTEGER     NOT NULL,
+   TOTAL                INTEGER     NOT NULL,
+   COMPANYID            INTEGER     NOT NULL
 );
 EOF;
    $ret = $db->exec($sql);
