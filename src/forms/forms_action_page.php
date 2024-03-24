@@ -13,14 +13,17 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <?php $CompanyID = "6100"; ?>
 <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
 <?php require $root.'/DB/call-db.php'; ?>
+<?php /* Debug strings------------------------------------------------- */ ?><!--
 Welcome  <?php echo $_POST["Sname"]; ?><br>
 Welcome  <?php echo $_POST["CSname"]; ?><br>
-<?php $SAdd = $_POST["SAdd"]; ?>
-<?php $CAdd = $_POST["CAdd"]; ?>
-<?php $S2Save = $_POST["S2Save"]; ?>
-<?php $InvNum= $_POST["PSInumber"]; ?>
+-->
+<?php //$SAdd = $_POST["SAdd"]; ?>
+<?php //$CAdd = $_POST["CAdd"]; ?>
+<?php //$S2Save = $_POST["S2Save"]; ?>
+<?php //$InvNum= $_POST["PSInumber"]; ?>
+<?php /* ---------------------------------------------------------------- */ ?>
 <?php /*form - supplier-------------------------------------------------- */ ?>
-<?php if ($SAdd != "") {  ?>
+<?php if ($_POST["SAdd"] != "") {  ?>
   <?php $Sname = $_POST["Sname"]; ?>
   <?php $SuGST = $_POST["SuGST"]; ?>
   <?php $SIGST = $_POST["SIGST"]; ?>
@@ -41,7 +44,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php //exit; ?>
 <?php } ?>
 <?php /*form - commodity-------------------------------------------------- */ ?>
-<?php if ($CAdd != "") {  ?>
+<?php if ($_POST["CAdd"] != "") {  ?>
   <?php $Cname = $_POST["Cname"]; ?>
   <?php $CSname = $_POST["CSname"]; ?>
   <?php $CGSM = $_POST["CGSM"]; ?>
@@ -56,7 +59,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php //exit; ?>
 <?php } ?>
 <?php /*form - update supplier record-------------------------------------------------- */ ?>
-<?php if ($S2Save != "") {  ?>
+<?php if ($_POST["S2Save"] != "") {  ?>
   <?php $ID= $_POST["SID"]; ?>
   <?php $SuGST = $_POST["SuGST2"]; ?>
   <?php $SIGST = $_POST["SIGST2"]; ?>
@@ -75,7 +78,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php } ?>
 <?php /*form - stock-------------------------------------------------- */ ?>
 <?php /*PSubmit not returned in script submit mode ------------------- */ ?>
-<?php if ($InvNum != "") {  ?>
+<?php if ($_POST["PSInumber"] != "") {  ?>
   <?php echo "welcome to add stock to record<br>"; ?>
   <?php $InvNum= $_POST["PSInumber"]; ?>
   <?php $tableDataJSON = $_POST['tableData']; ?>

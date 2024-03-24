@@ -10,15 +10,16 @@ function dbsetup(&$db) {
    $db = new MyDB();
    if(!$db) {
       echo $db->lastErrorMsg();
+      echo "<br>";
    } else {
-     echo "Opened database successfully\n";
+     echo "Opened database successfully<br>";
    }
 }
 //----------------------------------------DB - Close----------------------------------------//
 
 function dbclose (&$db) {
    $db->close();
-   echo "Closed database successfully\n";
+   echo "Closed database successfully<br>";
 }
 
 //----------------------------------------DB - Read Table----------------------------------------//
@@ -34,8 +35,9 @@ function dbreadtable(&$db, &$tablename, &$dbtabdata) {
    $ret = $db->exec($sql);
    if(!$ret) {
       echo $db->lastErrorMsg();
+      echo "<br>";
    } else {
-      echo "Tabe Read Successfully\n";
+      echo "Tabe Read Successfully<br>";
     }
 }  
 
@@ -50,8 +52,9 @@ function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCi
   $ret = $db->exec($sql);
      if(!$ret) {
           echo $db->lastErrorMsg();
+          echo "<br>";
         } else { 
-          echo "Records created succssfully\n";
+          echo "Records created succssfully<br>";
       }
 }
 
@@ -66,8 +69,9 @@ function dbaddstockrecord(&$db, &$tablename, &$date, &$invnum,&$name, &$desc, &$
   $ret = $db->exec($sql);
      if(!$ret) {
           echo $db->lastErrorMsg();
+          echo "<br>";
         } else { 
-          echo "Records created succssfully\n";
+          echo "Records created succssfully<br>";
       }
 }
 
@@ -88,8 +92,9 @@ function dbeditsupplierrecord(&$db, &$tablename, &$ID, &$SuGST, &$SAddr, &$SCity
   $ret = $db->exec($sql);
      if(!$ret) {
           echo $db->lastErrorMsg();
+          echo "<br>";
         } else { 
-          echo "Records updated successfully\n";
+          echo "Records updated successfully<br>";
       }
 }
 
@@ -104,8 +109,9 @@ function dbaddcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CB
  $ret = $db->exec($sql);
      if(!$ret) {
           echo $db->lastErrorMsg();
+          echo "<br>";
         } else { 
-          echo "Records created succssfully\n";
+          echo "Records created succssfully<br>";
       }
 }
 
@@ -132,8 +138,9 @@ EOF;
    $ret = $db->exec($sql);
    if(!$ret){
       echo $db->lastErrorMsg();
+      echo "<br>";
    } else {
-      echo "Table created successfully\n";
+      echo "Table created successfully<br>";
    }
 }
 
@@ -154,14 +161,15 @@ EOF;
 $ret = $db->exec($sql);
     if(!$ret){
         echo $db->lastErrorMsg();
+        echo "<br>";
     } else {
-        echo "Commodity Table created successfully\n";
+        echo "Commodity Table created successfully<br>";
     }
 }
 //----------------------------------------DB - Create Table (Stock)----------------------------------------//
 
 function dbcreatestocktable(&$db, &$tablename) {
-   echo "welcome to create stock table if not exists\n";
+   echo "welcome to create stock table if not exists<br>";
 $sql =<<<EOF
    CREATE TABLE if not exists TEST_STOCK_3(
    ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -183,8 +191,9 @@ EOF;
    $ret = $db->exec($sql);
    if(!$ret){
       echo $db->lastErrorMsg();
+      echo "<br>";
    } else {
-      echo "Stock table created successfully\n";
+      echo "Stock table created successfully<br>";
    }
 }
 
@@ -201,8 +210,9 @@ function dbgetcolumnname(&$db, &$tablename, &$columnname, &$dbcolvalues) {
     $ret = $db->exec($sql);
     if(!$ret) {
         echo $db->lastErrorMsg();
+        echo "<br>";
     } else {
-        echo "Column Read Successfully\n";
+        echo "Column Read Successfully<br>";
     }
 }
 
@@ -220,8 +230,9 @@ function dbgetvalue(&$db, &$tablename, &$columnname, &$paramname, &$paramvalue, 
     $ret = $db->exec($sql);
     if(!$ret) {
         echo $db->lastErrorMsg();
+        echo "<br>";
     } else {
-        echo "Data Read Successfully\n";
+        echo "Data Read Successfully<br>";
     }
 }
 
