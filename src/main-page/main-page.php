@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <img class="image2" src="Images/Website_Logo.png" />
     <img class="image3" src="Images/Company_Logo.png" />
     <h1 class="header1_title" >Welcome to the Manufacturing Execution System Portal</h1><br>
-    <iframe class="runningquotes" src="/main-page/runningquotest.php"></iframe>
+    <iframe class="runningquotes" src="/main-page/runningquotest.php"></iframe>\\HOME.html.docx
     </div>
   </header>
   <body>
@@ -31,7 +31,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
      <iframe class="rectangle3" src="/main-page/Spare-box.php" id = "rect3" name = "rect3"></iframe>-->
     </div>
     <div class="tab">
-      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Dashboard')" Style="font-size:15px;color:black;" id="defaultOpen">Dashboard</button>
+      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen">HOME</button>
       <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>

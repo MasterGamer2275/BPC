@@ -7,7 +7,7 @@
 </head>
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -34,7 +34,7 @@ body {
 
 .box p {
     margin-bottom: 0;
-    font-size : 12px;
+    font-size : 15px;
     position: relative;
     left: 30%;
     top: 0%;
@@ -74,8 +74,8 @@ body {
     </div>
         <div class="dashboard">
         <div class="box">
-        <h2 style="left:0%;">Home Page</h2><br><br>
-        <h2 style="left:0%;">What is an MES?</h2><br><br>
+        <h2 style="left:0%;">Home Page</h2>
+        <h2 style="left:0%;">What is an MES?</h2>
         <p style="left:0%;">A manufacturing execution system (MES) is a software-based solution used in manufacturing to monitor and control production processes on the shop floor.</p>
         <p style="left:0%;">An MES is a software-based solution used in manufacturing to monitor and control production processes on the shop floor. In manufacturing operations management, an MES serves as a bridge between the planning and control systems of an enterprise, such as an enterprise resource planning (ERP) system, and the actual manufacturing operations.</p>
         <p style="left:0%;">The primary purpose of an MES is to track and document the transformation of raw materials into finished products in real time. It captures data from various sources, including machines, sensors and operators, to provide accurate and up-to-date information about the status of production activities.</p>

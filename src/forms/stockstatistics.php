@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Filter Table by Date</title>
+<title>Filter Stock by Date</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <style>
@@ -38,7 +38,7 @@ input[type=number] {
 }
 </style>
 <body>
-  <h2>Filter Table by Date</h2>
+  <h2>Filter Stock by Date</h2>
   <label for="fromDate">From:</label>
   <input type="date" id="fromDate" name="fromDate">
   <label for="toDate">To:</label>
