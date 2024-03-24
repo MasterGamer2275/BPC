@@ -83,6 +83,11 @@ input(type=number) {
   font-size: 16px;
   background: #f2f2f2;
 }
+label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+}
 .form-container select{
   width: 90%;
   padding: auto;
@@ -131,7 +136,7 @@ height: 20px;
 <div id="id01">
 
   <form action="forms_action_page.php" method="post">
-    <p>Suppliers : Please feed the new supplier name, address and GST. in to the MES System.<p>
+    <h3>Suppliers : Add/Edit Suppliers<h3p><br><br>
     <label for="Sname"><b>Supplier Name: *</label>
     <input type= "text" id = "Sname" name = "Sname" required size="75">
     <label for="SuGST"><b>GSTIN/UIN: *</label>

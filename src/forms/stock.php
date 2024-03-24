@@ -143,7 +143,7 @@ height: 20px;
     <input type = "text" id = "PSInumber" name = "PSInumber" maxlength = "50" size = "52" required><br><br>
     <input type="hidden" id="tableData" name="tableData">
     <label for="PSubmit"><b>Verify the below table and click on Save Record to log the stock data in to the MES system : </label>
-    <input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record"><br><br>
+    <input type = "submit" id = "PSubmit" name = "PSubmit" value = "Save Record" disabled><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -277,6 +277,7 @@ function addtotable() {
         cell.innerHTML = myArray[i];
          }
   document.getElementById("tableindex").value= tableindex +1;
+  document.getElementById("PSubmit").disabled = false;
 }
 function handleSubmit(event) {
   event.preventDefault(); // Prevent default form submission behavior

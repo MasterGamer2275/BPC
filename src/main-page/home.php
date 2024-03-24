@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Dashboard Boxes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample Dashboard Boxes</title>
 </head>
 <style>
 body {
@@ -54,6 +54,7 @@ body {
 </style>
 
 <body>
+<h3>👋 Welcome User!<h3>
     <div class="dashboard">
         <div class="box">
             <h2>Items Low in Stock:</h2>

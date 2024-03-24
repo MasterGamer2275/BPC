@@ -3,7 +3,11 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-
+label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+}
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -32,7 +36,7 @@ input[type=number] {
 </style>
 
 <form action="/forms_action_page.php" method="post">
-<p>Purchase Orders : Please feed the below details to the MES System and generate an automated PO.</p>
+<h3>Generate Purchase Order:</h3>
 <label for="Cname"><b>Commodity Name: *</label>
 <select name="Cname" id="Cname">
 

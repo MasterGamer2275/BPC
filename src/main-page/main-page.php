@@ -31,7 +31,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
      <iframe class="rectangle3" src="/main-page/Spare-box.php" id = "rect3" name = "rect3"></iframe>-->
     </div>
     <div class="tab">
-      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Welcome UN')" Style="font-size:15px;color:black;" id="defaultOpen">Welcome UN</button>
+      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Dashboard')" Style="font-size:15px;color:black;" id="defaultOpen">Dashboard</button>
       <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>

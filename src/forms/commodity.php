@@ -23,7 +23,11 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-
+label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+}
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -63,7 +67,7 @@ height: 20px;
 </style>
 
 <form action="forms_action_page.php" method="post">
-<p>Commodities : Please feed the new raw material name, source and correspoding spec. in to the MES System.</p>
+<h3>Commodities : Add Commodity Spec</p>
 <label for="Cname"><b>Commodity Name: *</label>
 <input type = "text" id = "Cname" name = "Cname" required>
 <label for="CSname"><b>Supplier Name: *</label>
