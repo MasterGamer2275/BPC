@@ -144,6 +144,7 @@ height: 20px;
     <input type = "text" id = "SCity" name = "SCity" size="32" maxlength = "32"><br><br>
     <label for="SState"><b>State:</label>
       <select name="Sstate" id="Sstate">
+        <option value="">Select</option>
         <option value="Andhra Pradesh">Andhra Pradesh</option>
         <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
         <option value="Arunachal Pradesh">Arunachal Pradesh</option>

@@ -82,7 +82,7 @@ footer {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 10%;
+  width: 8.3%;
   height: 101px;
   //border: 1px solid #000000;
   border: none
@@ -91,8 +91,8 @@ footer {
 .image3 {
   position: absolute;
   top: 0px;
-  left: 90%;
-  width: 10%;
+  left: 92.7%;
+  width: 8.3%;
   height: 101px;
   //border: 1px solid #000000;
   border: none
@@ -101,8 +101,10 @@ footer {
 .runningquotes {
   position: absolute;
   top: 30px;
-  left: 580px;
-  width: 700px;
+  //left: 580px;
+  left: 150px;
+  width: 1060px;
+  //width: 700px;
   height: auto;
   border: none;
   color: rgb(173, 103, 79);
@@ -112,11 +114,17 @@ footer {
 
 .rectangle1 {
   position: absolute;
-  top: 100px;
-  left: 130px;
-  width: 1060px;
-  height: 78%;
-  border-color: rgb(192, 192, 192);
+  //top: 100px;
+  top: 102px;
+  //left: 130px;
+  left: 138px;
+  //width: 1060px;
+  width: 1390px;
+  //height: 78%;
+  height: 75%;
+  border: none;
+  border-color: white;
+  //border-color: rgb(192, 192, 192);
   font-size: 20px;
   text-align: left;
 }
@@ -126,7 +134,8 @@ footer {
   left: 1200px;
   width: 330px;
   height: 40%;
-  border-color: rgb(192, 192, 192);
+  border: none;
+  //border-color: rgb(192, 192, 192);
   font-size: 20px;
   text-align: left;
 }
@@ -233,6 +242,12 @@ footer {
 
 /* Create an active/current "tab button" class */
 .tab button.active {
+  background-color: rgb(222, 191, 175);
+  color: black;
+}
+
+/* Create an active/current "tab button" class */
+.tab buttonDisabled.active {
   background-color: rgb(222, 191, 175);
   color: black;
 }

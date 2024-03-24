@@ -97,7 +97,7 @@ height: 20px;
     <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
     <label for="PSname"><b>Supplier: *</label>
     <select name= = "PSname" id = "PSname" onchange="getcommoditylist();updateval();setformstate();">
-    <option value="Default">Default</option>
+    <option value="">Select</option>
       <?php
         // Loop through the array to generate list items
       foreach ($dbcolvalues as $row) {
@@ -109,7 +109,7 @@ height: 20px;
     </select>
     <label for="PCname"><b>Commodity</label>
     <select name="PCname" id="PCname" onchange = "updateval();">
-    <option value="Default">Default</option>
+    <option value="">Select</option>
     </select>
     <label for="PGSM"><b>GSM: *</label>
     <input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>

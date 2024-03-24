@@ -27,11 +27,11 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   <body>
     <div class="iframe">
      <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
-     <iframe class="rectangle2" src="/main-page/frame_2.php" id = "rect2" name = "rect2"></iframe>
-     <iframe class="rectangle3" src="/main-page/Spare-box.php" id = "rect3" name = "rect3"></iframe>
+     <!--<iframe class="rectangle2" src="/main-page/frame_2.php" id = "rect2" name = "rect2"></iframe>
+     <iframe class="rectangle3" src="/main-page/Spare-box.php" id = "rect3" name = "rect3"></iframe>-->
     </div>
     <div class="tab">
-      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php')" Style="font-size:15px;color:black;" id="defaultOpen">Welcome UN</button>
+      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Welcome UN')" Style="font-size:15px;color:black;" id="defaultOpen">Welcome UN</button>
       <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
@@ -40,8 +40,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <button class="tablinks" onclick="openphp(event, '/forms/company.php', '/main-page/frame1.php')">My Company</button>
+      <button class="tablinks" onclick="openphp(event, '/forms/company.php', '/main-page/frame1.php', 'My Comapny')">My Company</button>
       <button class="tablinks">My Account</button>
       <buttonDisabled class="tablinks"></buttonDisabled>
     </div>
@@ -66,15 +65,20 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks3" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Status</button>
       <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
     </div>
-</body>
+
 <footer>
-<div class="footer">
-<p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.</p></div>
+    <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.</p>
+    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">About</a></p>
+    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Disclaimer</a></p>
+    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Privacy Policy</a></p>
+    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Terms of Service</a></p>
+    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Help</a></p>
 </footer>
+</body>
 
 <script>
 
-function openphp(evt, filename, framename) {
+function openphp(evt, filename, framename, tabname) {
   var i, subtablinks1, subtablinks2, subtablinks3, tablinks, framerect1;
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
