@@ -64,8 +64,8 @@ function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCi
 function dbaddstockrecord(&$db, &$tablename, &$date, &$invnum,&$name, &$desc, &$rs, &$rn, &$rw, &$rate, &$sgst, &$cgst, &$igst, &$total) { 
   $CompanyID = "6100";
   $sql =<<<EOF
-    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME ,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
-    VALUES ('$date', '$invnum', '$name', '$desc', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
+    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
+    VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -214,20 +214,19 @@ $ret = $db->exec($sql);
 function dbcreatestocktable(&$db, &$tablename) {
    echo "welcome to create stock table if not exists<br>";
 $sql =<<<EOF
-   CREATE TABLE if not exists TEST_STOCK_3(
+   CREATE TABLE if not exists $tablename(
    ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
    DATE                 TEXT        NOT NULL,
    INVNUM               TEXT        NOT NULL,
    SUPPLIERNAME         TEXT        NOT NULL,
    COMMODITYNAME        TEXT        NOT NULL,
-   REELSIZE             INTEGER     NOT NULL,
    REELNUMBER           INTEGER     NOT NULL,
    REELWEIGHT           INTEGER     NOT NULL,
-   RATE                 INTEGER     NOT NULL,
-   SGST                 INTEGER     NOT NULL,
-   CGST                 INTEGER     NOT NULL,
-   IGST                 INTEGER     NOT NULL,
-   TOTAL                INTEGER     NOT NULL,
+   RATE                 INTEGER,
+   SGST                 INTEGER,
+   CGST                 INTEGER,
+   IGST                 INTEGER,
+   TOTAL                INTEGER,
    COMPANYID            INTEGER     NOT NULL
 );
 EOF;

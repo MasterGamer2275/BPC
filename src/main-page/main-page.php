@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-1687735452309402">
     <!--<title>InfiPackaging</title> -->
     <link rel="stylesheet" type="text/css" href="/main-page/main-page.css" />
     <title>MES Portal</title>

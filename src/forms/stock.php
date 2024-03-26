@@ -81,6 +81,86 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  max-width: 500px;
+  width: 320px;
+  top: 10px;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  color: black;
+}
+/* Add styles to the form container */
+.form-container {
+  max-width: 500px;
+  width: 320px;
+  padding: 10px;
+  background-color: white;
+  font: inherit;
+ 
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date], .form-container input[type=number]{
+  width: 55%;
+  height: 0px;
+  padding: 15px;
+  margin: 5px 0 2px 0;
+  border: none;
+  font-family: "Source Sans Pro", "sans-serif";
+  font-size: 15px;
+  background: #f2f2f2;
+  text-align: right;
+}
+.form-container label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+.form-container select{
+  width: 90%;
+  padding: auto;
+  border: none;
+  background: #f2f2f2;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #f2f2f2;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #f2f2f2;
+  color: #f2f2f2;
+  border: none;
+  cursor: pointer;
+  margin-bottom:10px;
+  opacity: 0.2;
+}
+/* Add a red background color to the cancel button */
+.form-container .updatebtn {
+  background-color: #f2f2f2;
+  color: Green;
+  opacity: 0.7;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: #f2f2f2;
+  opacity: 0.5;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
 select {
 width: 18%;
 /* width: 120px;*/
@@ -117,22 +197,22 @@ height: 20px;
     <label for="PBF"><b>BF: *</label>
     <input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
     <label for="PRS"><b>Reel Size (Cm): *</label>
-    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" max= "1000" step="0.01" disabled>
+    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" step="0.01" disabled>
     <label for="PRN"><b>Reel Number :*</label>
-    <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" max= "9999999" step="1">
+    <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" step="1">
     <label for="PRW"><b>Reel Weight (Kg) : *</label>
-    <input type = "number" id = "PRW" name = "PRW" required width="4px" min = "1" max= "500" step=".01" onchange = "calculatetotal()">
-    <label for="PRate"><b>Rate(Rs.): *</label>
-    <input type = "number" id = "PRate" name = "PRate" required width="5px" min = "0.01" max= "200" step=".01" onchange = "calculatetotal()">
+    <input type = "number" id = "PRW" name = "PRW" required width="4px" min = "1" step=".01" onchange = "calculatetotal()">
+    <label for="PRate"><b>Rate(Rs.):</label>
+    <input type = "number" id = "PRate" name = "PRate" width="5px" min = "0.01" step=".01" onchange = "calculatetotal()">
     <br><br>
-    <label for="PSGST"><b>SGST(%): *</label>
-    <input type = "number" id = "PSGST" name = "PSGST" required width="2px" min = "0" max= "15" value = "0" step=".01" onchange = "calculatetotal()">
-    <label for="PCGST"><b>CGST(%): *</label>
-    <input type = "number" id = "PCGST" name = "PCGST" required width="2px" min = "0" max= "15" value = "0" step=".01" onchange= "calculatetotal()">
-    <label for="PIGST"><b>IGST(%): *</label>
-    <input type = "number" id = "PIGST" name = "PIGST" required width="2px" min = "0" max= "15" value = "0" step=".01" disabled onchange = "calculatetotal()">
-    <label for="PTotal"><b>Total(Rs.): *</label>
-    <input type = "number" id = "PTotal" name = "PTotal" required width="15px" min = "1" max= "100000" disabled step=".01">
+    <label for="PSGST"><b>SGST(%):</label>
+    <input type = "number" id = "PSGST" name = "PSGST" width="2px" min = "0" value = "0" step=".01" onchange = "calculatetotal()">
+    <label for="PCGST"><b>CGST(%):</label>
+    <input type = "number" id = "PCGST" name = "PCGST" width="2px" min = "0" value = "0" step=".01" onchange= "calculatetotal()">
+    <label for="PIGST"><b>IGST(%):</label>
+    <input type = "number" id = "PIGST" name = "PIGST" width="2px" min = "0" value = "0" step=".01" disabled onchange = "calculatetotal()">
+    <label for="PTotal"><b>Total(Rs.):</label>
+    <input type = "number" id = "PTotal" name = "PTotal" width="15px" min = "1" max= "100000" disabled step=".01">
     <input type = "number" id = "tableindex" name = "tableindex" hidden step="1" value = "1">
     <input type = "submit" id = "PAdd" name = "PAdd" value = "Add to Table" disabled>
     <br><br>
@@ -152,12 +232,11 @@ height: 20px;
         <th>Date</th>
         <th>SupplierName</th>
         <th>Commodity(Desc)</th>
-        <th>ReelSize(Cm)</th>
         <th>ReelNumber</th> 
         <th>ReelWeight(Kg)</th>     
         <th>Rate(Rs.)</th>    
         <th>SGST(%)</th>    
-        <th>CGST(%)</th>  
+        <th>CGST(%)</th>
         <th>IGST(%)</th>   
         <th>Total(Rs.)</th>
     </tr>
@@ -172,10 +251,89 @@ height: 20px;
       </button>
     </form>
 </div>
+<div class="form-popup" id="myForm">
+  <form onsubmit="edittable();checkDuplicates();handleSubmit(event);" class="form-container">
+    <label for="Pdate2"><b>Purchase Date: *</label>
+    <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required><br>
+    <input type = "number" id = "tabindex2" name = "tabindex2" hidden>
+    <label for="!"><b>!:</label>
+    <input type = "text" name= "!" id = "!" disabled"><br>
+    <label for="PSname2"><b>Supplier:</label>
+    <input type = "text" name= "PSname2" id = "PSname2" disabled"><br>
+    <label for="PCname2"><b>Commodity/Desc</label>
+    <input type = "text" name="PCname2" id="PCname2" disabled"><br>
+    <label for="PRN2"><b>Reel Number :*</label>
+    <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
+    <label for="PRW2"><b>Reel Weight (Kg) : *</label>
+    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange = "calculatetotal2()"><br>
+    <label for="PRate2"><b>Rate(Rs.):</label>
+    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" onchange = "calculatetotal2()"><br>
+    <label for="PSGST2"><b>SGST(%):</label>
+    <input type = "number" id = "PSGST2" name = "PSGST2" width="2px" min = "0" step=".01" onchange = "calculatetotal2()"><br>
+    <label for="PCGST2"><b>CGST(%):</label>
+    <input type = "number" id = "PCGST2" name = "PCGST2" width="2px" min = "0" step=".01" onchange= "calculatetotal2()"><br>
+    <label for="PIGST2"><b>IGST(%):</label>
+    <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange = "calculatetotal2()"><br>
+    <label for="PTotal2"><b>Total(Rs.):</label>
+    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br><br>
+    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save" name = "S2Save" value = "V" ></button>
+    <input type = "submit" style="font-size:18px" class = "delete" id = "Sdelete" name = "Sdelete" value = "Del">
+    <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel" name = "Scancel" value = "X" onclick= "closeForm()">
 
+  </form>
+</div>
 </body>
 
 <script>
+  document.getElementById("myForm").style.display = "none";
+  /*
+  function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+  */
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+  // Get the table element
+  var table = document.getElementById("myTable");
+
+  // Attach a click event listener to the table
+  table.addEventListener("click", function(event) {
+    // Check if the clicked element is a table row
+    if (event.target.tagName === "TD") {
+      document.getElementById("myForm").style.display = "block";
+      // Get the data of the clicked row
+      var row = event.target.parentNode; // Get the parent row (<tr>)
+      var cells = row.getElementsByTagName("td"); // Get all cells (<td>) in the row
+      // Extract the data from cells
+      var id = cells[0].innerText;
+      var warning= cells[1].innerText;
+      var date = cells[2].innerText;
+      var sname = cells[3].innerText;
+      var cname = cells[4].innerText;
+      var rn= cells[5].innerText;
+      var rw = cells[6].innerText;
+      var rate= cells[7].innerText;
+      var sgst = cells[8].innerText;
+      var cgst = cells[9].innerText;
+      var igst = cells[10].innerText;
+      var total = cells[11].innerText;
+      // Set the values of the form fields
+      document.getElementById("tabindex2").value = row.rowIndex;
+      document.getElementById("Pdate2").value = date;
+      document.getElementById("!").value = warning;
+      document.getElementById("PSname2").value = sname;
+      document.getElementById("PCname2").value = cname;
+      document.getElementById("PRN2").value = rn;
+      document.getElementById("PRW2").value = rw;
+      document.getElementById("PRate2").value = rate;
+      document.getElementById("PSGST2").value = sgst;
+      document.getElementById("PCGST2").value = cgst;
+      document.getElementById("PIGST2").value = igst;
+      document.getElementById("PTotal2").value = total;
+      }
+  });
+
 function setformstate() {
   document.getElementById("PIGST").value = 0;
   document.getElementById("PSGST").value = 0;
@@ -247,8 +405,24 @@ function calculatetotal() {
   rate = document.getElementById("PRate").value;
   taxsum = 0;
   taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
-  document.getElementById("PTotal").value = (rweight * rate) + taxsum;
+  total= (rweight * rate) + taxsum;
+  document.getElementById("PTotal").value = parseFloat(total).toFixed(2);
 }
+
+function calculatetotal2() {
+  t1 = document.getElementById("PIGST2").value;
+  t2 = document.getElementById("PSGST2").value;
+  t3 = document.getElementById("PCGST2").value;
+  rsize = document.getElementById("PRS2").value;
+  rweight = document.getElementById("PRW2").value;
+  rate = document.getElementById("PRate2").value;
+  taxsum = 0;
+  taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
+  total= (rweight * rate) + taxsum;
+  document.getElementById("PTotal2").value = parseFloat(total).toFixed(2);
+}
+
+
 function updateval() {
   var button = document.getElementById("PAdd");
   var selectElement = document.getElementById("PCname");
@@ -280,13 +454,22 @@ function addtotable() {
   const selectElement = document.getElementById("PCname");
   const selectValue= selectElement.options[selectElement.selectedIndex].text;
   const tableindex = parseInt(document.getElementById("tableindex").value);
-  const myArray = [tableindex, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value];
+  const myArray = [tableindex, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
          }
   document.getElementById("tableindex").value= tableindex +1;
   document.getElementById("PSubmit").disabled = false;
+}
+
+funtion edittable() {
+
+const tableindex = parseInt(document.getElementById("tableindex").value);
+
+
+
+
 }
 function handleSubmit(event) {
   event.preventDefault(); // Prevent default form submission behavior
