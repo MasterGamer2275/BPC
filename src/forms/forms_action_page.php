@@ -1,12 +1,3 @@
-
-<?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-}
-?>
 <html>
 <body>
 <!-- define variables and set to empty values*-->
@@ -49,11 +40,16 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CSname = $_POST["CSname"]; ?>
   <?php $CGSM = $_POST["CGSM"]; ?>
   <?php $CBF = $_POST["CBF"]; ?>
+  <?php $CRS= $_POST["CRS"]; ?>
+  <?php $found= 0; ?>
   <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
   <?php echo "welcome to add to commodity record<br>"; ?>
   <?php $tablename = "TEST_COMMODITY_3"; ?>
   <?php dbsetup($db); ?>
-  <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID); ?>
+  <?php dbcheckcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $found); ?>
+  <?php if ($found == 0) {  ?>
+  <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS); ?>
+  <?php  }  ?>
   <?php dbclose($db); ?>
   <?php //header("Location: commodity.php"); ?>
   <?php //exit; ?>
@@ -74,6 +70,15 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $tablename = "TEST_SUPPLIER_4"; ?>
   <?php dbsetup($db); ?>
   <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST); ?>
+  <?php dbclose($db); ?>
+<?php } ?>
+<?php /*form - delete supplier record-------------------------------------------------- */ ?>
+<?php if ($_POST["Sdelete"] != "") {  ?>
+  <?php $ID= $_POST["SID"]; ?>
+  <?php echo "welcome to delete supplier record<br>"; ?>
+  <?php $tablename = "TEST_SUPPLIER_4"; ?>
+  <?php dbsetup($db); ?>
+  <?php dbdeletesupplierrecord($db, $tablename, $ID); ?>
   <?php dbclose($db); ?>
 <?php } ?>
 <?php /*form - stock-------------------------------------------------- */ ?>

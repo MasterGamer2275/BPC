@@ -15,6 +15,7 @@ function dbsetup(&$db) {
      echo "Opened database successfully<br>";
    }
 }
+
 //----------------------------------------DB - Close----------------------------------------//
 
 function dbclose (&$db) {
@@ -98,13 +99,28 @@ function dbeditsupplierrecord(&$db, &$tablename, &$ID, &$SuGST, &$SAddr, &$SCity
       }
 }
 
+//----------------------------------------DB - Delete record (Supplier Table)----------------------------------------//
+
+function dbdeletesupplierrecord(&$db, &$tablename, &$ID) { 
+  $sql =<<<EOF
+  DELETE FROM $tablename WHERE ID = '$ID';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          echo $db->lastErrorMsg();
+          echo "<br>";
+        } else { 
+          echo "Records deleted successfully<br>";
+      }
+}
+
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 
-function dbaddcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CBF, &$CompanyID) {
+function dbaddcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CBF, &$CompanyID, &$ReelSize) {
   $CompanyID = "6100";
   $sql =<<<EOF
-    INSERT INTO $tablename (NAME,SUPPLIERNAME,GSM,BF,COMPANYID)
-    VALUES ('$Cname', '$CSname', '$CGSM', '$CBF', '$CompanyID');
+    INSERT INTO $tablename (NAME,SUPPLIERNAME,GSM,BF,COMPANYID, REELSIZEinCM)
+    VALUES ('$Cname', '$CSname', '$CGSM', '$CBF', '$CompanyID', '$ReelSize');
  EOF;
  $ret = $db->exec($sql);
      if(!$ret) {
@@ -114,6 +130,32 @@ function dbaddcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CB
           echo "Records created succssfully<br>";
       }
 }
+
+//----------------------------------------DB - check record (Commodity Table)----------------------------------------//
+
+function dbcheckcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CBF, &$CompanyID, &$ReelSize, &$found) {
+  $CompanyID = "6100";
+  $dbtabdata = array(array());
+  $i = 0;
+  $res = $db->query("SELECT * FROM $tablename WHERE NAME='$Cname' and SUPPLIERNAME='$CSname' and GSM='$CGSM' and BF='$CBF' and COMPANYID ='$CompanyID' and REELSIZEinCM = '$ReelSize'");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  array_push($dbtabdata,$row);
+  $i = $i+1;
+  }
+  $found = ($i>0);
+  if ($found) {
+   echo "Record Already Exists <br>";
+  }
+  $sql =<<<EOF
+  EOF;
+   $ret = $db->exec($sql);
+   if(!$ret) {
+      echo $db->lastErrorMsg();
+      echo "<br>";
+   } else {
+      echo "DB check completed<br>";
+    }
+} 
 
 //----------------------------------------DB - Create Table (Suppliers)----------------------------------------//
 
@@ -155,7 +197,8 @@ function dbcreatecommoditytable(&$db, &$tablename) {
    SUPPLIERNAME TEXT        NOT NULL,
    GSM          INTEGER     NOT NULL,
    BF           INTEGER     NOT NULL,
-   COMPANYID    INTEGER     NOT NULL
+   COMPANYID    INTEGER     NOT NULL,
+   REELSIZEinCM   INTEGER  NOT NULL
 );
 EOF;
 $ret = $db->exec($sql);

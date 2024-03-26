@@ -46,6 +46,13 @@ th, td {
 tr:nth-child(even) {
   background-color: rgb(255, 208, 162);
 }
+
+/* Hide the fifth column by default */
+  th:nth-child(6),
+  td:nth-child(6) {
+  display: none;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -85,9 +92,11 @@ height: 20px;
 </select>
 <br><br>
 <label for="CGSM"><b>GSM: *</label>
-<input type = "number" id = "CGSM" name = "CGSM" required min = "10" max= "500" step=".01">
+<input type = "number" id = "CGSM" name = "CGSM" required min = "1" step=".01">
 <label for="CBF"><b>BF: *</label>
-<input type = "number" id = "CBF" name = "CBF" required min = "1" max= "500" step=".01">
+<input type = "number" id = "CBF" name = "CBF" required min = "1" step=".01">
+<label for="CRS"><b>ReelSize(Cm): *</label>
+<input type = "number" id = "CRS" name = "CRS" required min = "1" step="0.01">
 <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
 <br><br>
 
@@ -99,6 +108,7 @@ height: 20px;
     <th>GSM</th>
     <th>BF</th>
     <th>COMPANYID</th>
+    <th>REELSize(Cm)</th>
   </tr>
   <?php
   // Loop through the array to generate table rows

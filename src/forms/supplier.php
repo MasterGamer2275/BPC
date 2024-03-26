@@ -226,8 +226,9 @@ height: 20px;
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post">
    <input type = "number" id = "SID" name = "SID" maxlength = "6" size = "6" hidden>
-   <label for="Sname2"><b>Supplier Name: * &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+   <label for="Sname2"><b>Supplier Name: * &nbsp;</label>
    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save" name = "S2Save" value = "V" ></button>
+   <input type = "submit" style="font-size:18px" class = "delete" id = "Sdelete" name = "Sdelete" value = "Del">
    <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel" name = "Scancel" value = "X" onclick= "closeForm()">
    <input type= "text" id = "Sname2" name = "Sname2" required size="75" disabled>
    <label for="SuGST2"><b>GSTIN/UIN: *</label>

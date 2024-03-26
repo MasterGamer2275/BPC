@@ -65,6 +65,7 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
+
 tr > img {
         width: 20px; /* Adjust the width as needed */
         height: 20px; /* Maintain aspect ratio */
@@ -116,7 +117,7 @@ height: 20px;
     <label for="PBF"><b>BF: *</label>
     <input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
     <label for="PRS"><b>Reel Size (Cm): *</label>
-    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" max= "1000" step="0.01">
+    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" max= "1000" step="0.01" disabled>
     <label for="PRN"><b>Reel Number :*</label>
     <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" max= "9999999" step="1">
     <label for="PRW"><b>Reel Weight (Kg) : *</label>
@@ -215,6 +216,7 @@ function getcommoditylist() {
           let word1 = myArray[1];
           let gsm1 = myArray[3];
           let bf1 = myArray[4];
+          let rs1 = myArray[6];
           const myArray2 = word1.split(":");
           let word2 = myArray2[1];
           let word3 = word2. replaceAll("\"", "");
@@ -222,8 +224,11 @@ function getcommoditylist() {
           let gsm2 = myArray3[1];
           const myArray4 = bf1.split(":");
           let bf2 = myArray4[1];
+          const myArray5 = rs1.split(":");
+          let rs2 = myArray5[1];
+          let rs3 = rs2. replaceAll("}", "");
           var option = document.createElement("option");
-          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2;
+          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs3;
           option.value = i;
           select.appendChild(option);
       } else {
@@ -255,14 +260,18 @@ function updateval() {
     const myArray = c.split("-");
     let word1 = myArray[1];
     let word2 = myArray[2];
+    let word3 = myArray[3];
     const myArray1 = word1.split(":");
     const myArray2 = word2.split(":");
+    const myArray3 = word3.split(":");
     document.getElementById("PGSM").value = myArray1[1];
     document.getElementById("PBF").value = myArray2[1];
+    document.getElementById("PRS").value = myArray3[1];
   } else {
     button.disabled = true;
     document.getElementById("PGSM").value = 0;
     document.getElementById("PBF").value = 0;
+    document.getElementById("PRS").value = 0;
   }
 }
 function addtotable() {

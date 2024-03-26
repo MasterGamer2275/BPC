@@ -13,3 +13,5 @@ SELECT * FROM Customers WHERE City LIKE 'a%';
 SELECT * FROM Customers WHERE City LIKE '_a%';
 SELECT * FROM Customers WHERE City LIKE '[acs]%';
 SELECT * FROM Customers WHERE Country IN ('Norway', 'France');
+ALTER TABLE TEST_COMMODITY_3 ADD REELSIZEinCM INTEGER;
+UPDATE $tablename SET REELSIZEinCM = '31.2' WHERE ID BETWEEN '1' AND '6';
