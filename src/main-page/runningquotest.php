@@ -2,7 +2,8 @@
 <html>
 <style>
 * {box-sizing: border-box;}
-body {font-family: Verdana, sans-serif;}
+//body {font-family: Verdana, sans-serif;}
+body {font-family: "Trebuchet MS", sans-serif;}
 .mySlides {display: none;}
 img {vertical-align: middle;}
 

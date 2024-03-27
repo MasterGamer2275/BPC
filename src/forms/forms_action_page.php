@@ -28,9 +28,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php //include ($root."/DB/db-setup.php"); ?>
   <?php echo "welcome to add to supplier record<br>"; ?>
   <?php $tablename = "TEST_SUPPLIER_4"; ?>
-  <?php dbsetup($db); ?>
-  <?php dbaddsupplierrecord($db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $CompanyID, $SIGST); ?>
-  <?php dbclose($db); ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbaddsupplierrecord($db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $CompanyID, $SIGST, $text); ?>
+  <?php dbclose($db, $text); ?>
   <?php //header("Location: supplier.php"); ?>
   <?php //exit; ?>
 <?php } ?>
@@ -45,12 +45,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
   <?php echo "welcome to add to commodity record<br>"; ?>
   <?php $tablename = "TEST_COMMODITY_3"; ?>
-  <?php dbsetup($db); ?>
-  <?php dbcheckcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $found); ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbcheckcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $found, $text); ?>
   <?php if ($found == 0) {  ?>
-  <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS); ?>
+  <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $text); ?>
   <?php  }  ?>
-  <?php dbclose($db); ?>
+  <?php dbclose($db, $text); ?>
   <?php //header("Location: commodity.php"); ?>
   <?php //exit; ?>
 <?php } ?>
@@ -68,18 +68,18 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $SEmail= $_POST["SEmail2"]; ?>
   <?php echo "welcome to update supplier record<br>"; ?>
   <?php $tablename = "TEST_SUPPLIER_4"; ?>
-  <?php dbsetup($db); ?>
-  <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST); ?>
-  <?php dbclose($db); ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST, $text); ?>
+  <?php dbclose($db, $text); ?>
 <?php } ?>
 <?php /*form - delete supplier record-------------------------------------------------- */ ?>
 <?php if ($_POST["Sdelete"] != "") {  ?>
   <?php $ID= $_POST["SID"]; ?>
   <?php echo "welcome to delete supplier record<br>"; ?>
   <?php $tablename = "TEST_SUPPLIER_4"; ?>
-  <?php dbsetup($db); ?>
-  <?php dbdeletesupplierrecord($db, $tablename, $ID); ?>
-  <?php dbclose($db); ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbdeletesupplierrecord($db, $tablename, $ID, $text); ?>
+  <?php dbclose($db, $text); ?>
 <?php } ?>
 <?php /*form - stock-------------------------------------------------- */ ?>
 <?php /*PSubmit not returned in script submit mode ------------------- */ ?>
@@ -89,8 +89,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $tableDataJSON = $_POST['tableData']; ?>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
   <?php $tablename = "TEST_STOCK_4"; ?>
-  <?php dbsetup($db); ?>
-  <?php dbcreatestocktable($db, $tablename); ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbcreatestocktable($db, $tablename, $text); ?>
   <?php $i = 0; ?>
   <?php foreach ($tableData as $row) { ?>
         <?php if ($i >= 1) { ?>
@@ -99,11 +99,11 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php $word2 = str_replace("[","", $word1); ?>
         <?php $word3 = str_replace('"', '',$word2); ?>
         <?php $myArray = explode(",", $word3); ?>
-        <?php dbaddstockrecord($db, $tablename, $myArray[2], $InvNum, $myArray[3], $myArray[4], $myArray[5], $myArray[6], $myArray[7],$myArray[8], $myArray[9],$myArray[10], $myArray[11]); ?>
+        <?php dbaddstockrecord($db, $tablename, $myArray[2], $InvNum, $myArray[3], $myArray[4], $myArray[5], $myArray[6], $myArray[7],$myArray[8], $myArray[9],$myArray[10], $myArray[11], $text); ?>
         <?php  } ?>
       <?php $i = $i+1; ?>
   <?php } ?>
-  <?php dbclose($db); ?>
+  <?php dbclose($db, $text); ?>
 <?php } ?>
 </body>
 </html>

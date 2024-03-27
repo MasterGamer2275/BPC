@@ -8,21 +8,25 @@
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
   $tablename = "TEST_COMMODITY_3";
-  dbsetup($db);
-  dbcreatecommoditytable($db, $tablename);
+  dbsetup($db, $text);
+  dbcreatecommoditytable($db, $tablename, $text);
   $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata);
+  dbreadtable($db, $tablename, $dbtabdata, $text);
   $tablename = "TEST_SUPPLIER_4";
   $columnname = "NAME";
   $dbcolvalues = array(array());
-  dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues);
-  dbclose($db);
+  dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
+  dbclose($db, $text);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+body {
+  font-family: "Source Sans Pro", "sans-serif";
+  //font-family: "Trebuchet MS", sans-serif;
+}
 label {
   /* Your general styles for labels */
   font-size: 16px;

@@ -3,18 +3,18 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  dbsetup($db);
+  dbsetup($db, $text);
   $tablename = "TEST_SUPPLIER_4";
   $columnname = "NAME";
   $dbcolvalues = array(array());
-  dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues);
+  dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $igstlist = array();
   $columnname = "IGST";
-  dbgetcolumnname($db, $tablename, $columnname, $igstlist);
+  dbgetcolumnname($db, $tablename, $columnname, $igstlist, $text);
   $tablename = "TEST_COMMODITY_3";
   $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata);
-  dbclose($db);
+  dbreadtable($db, $tablename, $dbtabdata, $text);
+  dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
   $jsonArray_2 = json_encode($dbtabdata);
@@ -252,7 +252,7 @@ height: 20px;
     </form>
 </div>
 <div class="form-popup" id="myForm">
-  <form onsubmit="edittable();checkDuplicates();handleSubmit(event);" class="form-container">
+  <form onsubmit="edittable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();" class="form-container">
     <label for="Pdate2"><b>Purchase Date: *</label>
     <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required><br>
     <input type = "number" id = "tabindex2" name = "tabindex2" hidden>
@@ -276,9 +276,9 @@ height: 20px;
     <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange = "calculatetotal2()"><br>
     <label for="PTotal2"><b>Total(Rs.):</label>
     <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br><br>
-    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save" name = "S2Save" value = "V" ></button>
-    <input type = "submit" style="font-size:18px" class = "delete" id = "Sdelete" name = "Sdelete" value = "Del">
-    <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel" name = "Scancel" value = "X" onclick= "closeForm()">
+    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" ></button>
+    <input type = "submit" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del">
+    <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel2" name = "Scancel2" value = "X" onclick= "closeForm()">
 
   </form>
 </div>
@@ -463,14 +463,24 @@ function addtotable() {
   document.getElementById("PSubmit").disabled = false;
 }
 
-funtion edittable() {
-
-const tableindex = parseInt(document.getElementById("tableindex").value);
-
-
-
-
+function edittable() {
+var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+const tableindex = parseInt(document.getElementById("tabindex2").value);
+var rowIndex = tabindex2-1;
+var row = table.rows[rowIndex]; 
+const button = parseInt(document.getElementById("S2Save2").value);
+if (button != "") {
+  const myArray = [tabindex2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value];
+  for (let i = 0; i < myArray.length; i++) {
+    var cell = row.insertCell(i);
+    cell.innerHTML = myArray[i];
+    }
+} else {
+table.deleteRow(rowIndex);
 }
+}
+
+
 function handleSubmit(event) {
   event.preventDefault(); // Prevent default form submission behavior
   const inputField = document.getElementById('inputField');

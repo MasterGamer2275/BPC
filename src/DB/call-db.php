@@ -1,7 +1,15 @@
 <?php
+//change the global variable to a function input
+//***SQL Injection Vulnerability: Your code is vulnerable to SQL injection attacks because it directly inserts variables into SQL queries. Consider using prepared statements or parameterized queries to prevent this vulnerability.
+//Passing variables by reference (&) is not necessary unless you intend to modify them within the function. In most cases, it's better to pass variables by value.
+//You're handling errors by appending them to $text, which is reasonable for debugging. However, it might be better to throw exceptions or return error codes for better error handling.global $text;
+//Function names like dbcreatesuppliertable could be made more concise and follow a consistent naming convention for better readability.
+//Ensure consistent indentation for better code readability.
+
 //SQL lite 3 DB API for all forms
 //----------------------------------------DB - Setup----------------------------------------//
-function dbsetup(&$db) {
+function dbsetup(&$db, &$text) {
+     $text = "Debug Mode:<br>";
      class MyDB extends SQLite3 {
       function __construct() {
          $this->open('w3s-dynamic-storage\database.db');
@@ -9,42 +17,43 @@ function dbsetup(&$db) {
    }
    $db = new MyDB();
    if(!$db) {
-      echo $db->lastErrorMsg();
-      echo "<br>";
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
    } else {
-     echo "Opened database successfully<br>";
+     $text .= "Opened database successfully<br>";
    }
 }
 
 //----------------------------------------DB - Close----------------------------------------//
 
-function dbclose (&$db) {
+function dbclose (&$db, &$text) {
    $db->close();
-   echo "Closed database successfully<br>";
+   $text .= "Closed database successfully<br>";
+   echo $text;
 }
 
 //----------------------------------------DB - Read Table----------------------------------------//
 
-function dbreadtable(&$db, &$tablename, &$dbtabdata) {
+function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
   $CompanyID = "6100";
   $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = '$CompanyID' ORDER BY ID DESC");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
   }
-  $sql =<<<EOF
-  EOF;
-   $ret = $db->exec($sql);
+  $ret = $db->exec($sql);
    if(!$ret) {
-      echo $db->lastErrorMsg();
-      echo "<br>";
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
    } else {
-      echo "Tabe Read Successfully<br>";
+      $text .= "Tabe Read Successfully<br>";
     }
 }  
 
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 
-function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCity, &$SState, &$SPcode, &$SPh, &$SEmail, &$CompanyID, &$SIGST) { 
+function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, &$CompanyID, $SIGST, &$text) { 
   $CompanyID = "6100";
   $sql =<<<EOF
     INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
@@ -52,16 +61,17 @@ function dbaddsupplierrecord(&$db, &$tablename, &$Sname, &$SuGST, &$SAddr, &$SCi
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
-          echo $db->lastErrorMsg();
-          echo "<br>";
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
         } else { 
-          echo "Records created succssfully<br>";
+          $text .= "Records created succssfully<br>";
       }
 }
 
 //----------------------------------------DB - Add record (Stock Table)----------------------------------------//
 
-function dbaddstockrecord(&$db, &$tablename, &$date, &$invnum,&$name, &$desc, &$rs, &$rn, &$rw, &$rate, &$sgst, &$cgst, &$igst, &$total) { 
+function dbaddstockrecord(&$db, $tablename, $date, $invnum,$name, $desc, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, &$text) { 
   $CompanyID = "6100";
   $sql =<<<EOF
     INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
@@ -69,16 +79,17 @@ function dbaddstockrecord(&$db, &$tablename, &$date, &$invnum,&$name, &$desc, &$
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
-          echo $db->lastErrorMsg();
-          echo "<br>";
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
         } else { 
-          echo "Records created succssfully<br>";
+          $text .= "Records created succssfully<br>";
       }
 }
 
 //----------------------------------------DB - Update record (Supplier Table)----------------------------------------//
 
-function dbeditsupplierrecord(&$db, &$tablename, &$ID, &$SuGST, &$SAddr, &$SCity, &$SState, &$SPcode, &$SPh, &$SEmail, &$SIGST) { 
+function dbeditsupplierrecord(&$db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $SIGST, &$text) { 
     $sql =<<<EOF
     UPDATE $tablename SET 
     GSTIN = '$SuGST',
@@ -92,31 +103,33 @@ function dbeditsupplierrecord(&$db, &$tablename, &$ID, &$SuGST, &$SAddr, &$SCity
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
-          echo $db->lastErrorMsg();
-          echo "<br>";
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
         } else { 
-          echo "Records updated successfully<br>";
+          $text .= "Records updated successfully<br>";
       }
 }
 
 //----------------------------------------DB - Delete record (Supplier Table)----------------------------------------//
 
-function dbdeletesupplierrecord(&$db, &$tablename, &$ID) { 
+function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) { 
   $sql =<<<EOF
   DELETE FROM $tablename WHERE ID = '$ID';
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
-          echo $db->lastErrorMsg();
-          echo "<br>";
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
         } else { 
-          echo "Records deleted successfully<br>";
+          $text .= "Records deleted successfully<br>";
       }
 }
 
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 
-function dbaddcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CBF, &$CompanyID, &$ReelSize) {
+function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$text) {
   $CompanyID = "6100";
   $sql =<<<EOF
     INSERT INTO $tablename (NAME,SUPPLIERNAME,GSM,BF,COMPANYID, REELSIZEinCM)
@@ -124,16 +137,17 @@ function dbaddcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CB
  EOF;
  $ret = $db->exec($sql);
      if(!$ret) {
-          echo $db->lastErrorMsg();
-          echo "<br>";
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
         } else { 
-          echo "Records created succssfully<br>";
+          $text .= "Records created succssfully<br>";
       }
 }
 
 //----------------------------------------DB - check record (Commodity Table)----------------------------------------//
 
-function dbcheckcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$CBF, &$CompanyID, &$ReelSize, &$found) {
+function dbcheckcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$found, &$text) {
   $CompanyID = "6100";
   $dbtabdata = array(array());
   $i = 0;
@@ -144,23 +158,22 @@ function dbcheckcommodityrecord(&$db, &$tablename, &$Cname, &$CSname, &$CGSM, &$
   }
   $found = ($i>0);
   if ($found) {
-   echo "Record Already Exists <br>";
+   $text .= "Record Already Exists <br>";
   }
-  $sql =<<<EOF
-  EOF;
-   $ret = $db->exec($sql);
+  $ret = $db->exec($sql);
    if(!$ret) {
-      echo $db->lastErrorMsg();
-      echo "<br>";
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
    } else {
-      echo "DB check completed<br>";
+      $text .= "DB check completed<br>";
     }
 } 
 
 //----------------------------------------DB - Create Table (Suppliers)----------------------------------------//
 
-function dbcreatesuppliertable(&$db, &$tablename) {
-   echo "welcome to create supplier table if not exists";
+function dbcreatesuppliertable(&$db, $tablename, &$text) {
+   $text .= "welcome to create supplier table if not exists";
 
   $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
@@ -179,17 +192,18 @@ function dbcreatesuppliertable(&$db, &$tablename) {
 EOF;
    $ret = $db->exec($sql);
    if(!$ret){
-      echo $db->lastErrorMsg();
-      echo "<br>";
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
    } else {
-      echo "Table created successfully<br>";
+      $text .= "Table created successfully<br>";
    }
 }
 
 //----------------------------------------DB - Create Table (Commodities)----------------------------------------//
 
-function dbcreatecommoditytable(&$db, &$tablename) {
- echo "welcome to create commodity table if not exists\n";
+function dbcreatecommoditytable(&$db, $tablename, &$text) {
+ $text .= "welcome to create commodity table if not exists\n";
  $sql =<<<EOF
    CREATE TABLE if not exists $tablename (
    ID           INTEGER     NOT NULL    PRIMARY KEY AUTOINCREMENT  UNIQUE,
@@ -203,16 +217,17 @@ function dbcreatecommoditytable(&$db, &$tablename) {
 EOF;
 $ret = $db->exec($sql);
     if(!$ret){
-        echo $db->lastErrorMsg();
-        echo "<br>";
+        $err = $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
     } else {
-        echo "Commodity Table created successfully<br>";
+        $text .= "Commodity Table created successfully<br>";
     }
 }
 //----------------------------------------DB - Create Table (Stock)----------------------------------------//
 
-function dbcreatestocktable(&$db, &$tablename) {
-   echo "welcome to create stock table if not exists<br>";
+function dbcreatestocktable(&$db, $tablename, &$text) {
+   $text .= "welcome to create stock table if not exists<br>";
 $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
    ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -232,49 +247,47 @@ $sql =<<<EOF
 EOF;
    $ret = $db->exec($sql);
    if(!$ret){
-      echo $db->lastErrorMsg();
-      echo "<br>";
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
    } else {
-      echo "Stock table created successfully<br>";
+      $text .= "Stock table created successfully<br>";
    }
 }
 
 //----------------------------------------DB - Get Column Values----------------------------------------//
 
-function dbgetcolumnname(&$db, &$tablename, &$columnname, &$dbcolvalues) {
+function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
   $res = $db->query("SELECT $columnname FROM $tablename ORDER BY ID DESC");
   $dbcolvalues = array();
   while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
       array_push($dbcolvalues,$value);
       }
-  $sql =<<<EOF
-  EOF;
     $ret = $db->exec($sql);
     if(!$ret) {
-        echo $db->lastErrorMsg();
-        echo "<br>";
+        $err = $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
     } else {
-        echo "Column Read Successfully<br>";
+        $text .= "Column Read Successfully<br>";
     }
 }
 
 //----------------------------------------DB - Get Single Value----------------------------------------//
-function dbgetvalue(&$db, &$tablename, &$columnname, &$paramname, &$paramvalue, &$outputvalue) {
+function dbgetvalue(&$db, $tablename, $columnname, $paramname, $paramvalue, &$outputvalue, &$text) {
   $res = $db->query("SELECT $columnname FROM $tablename WHERE $paramname = '$paramvalue'");
   //$res = $db->query("SELECT IGST FROM TEST_SUPPLIER_4");
   $outputvalue = array();
   while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
       array_push($outputvalue,$value);
       }
-
-  $sql =<<<EOF
-  EOF;
-    $ret = $db->exec($sql);
+  $ret = $db->exec($sql);
     if(!$ret) {
-        echo $db->lastErrorMsg();
-        echo "<br>";
+        $err = $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
     } else {
-        echo "Data Read Successfully<br>";
+        $text .= "Data Read Successfully<br>";
     }
 }
 

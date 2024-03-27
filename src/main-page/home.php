@@ -7,7 +7,8 @@
 </head>
 <style>
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    //font-family: Arial, Helvetica, sans-serif;
+    font-family: "Trebuchet MS", sans-serif;
     margin: 0;
     padding: 0;
 }

@@ -4,11 +4,11 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 //---add the DB API file
 require $root."/DB/call-db.php";
-$tablename = "TEST_STOCK_3";
+$tablename = "TEST_STOCK_4";
 $colname = "DATE";
 $dbtabdata = array(array());
-dbsetup($db);
-dbcreatestocktable($db, $tablename);
+dbsetup($db, $text);
+dbcreatestocktable($db, $tablename, $text);
 $dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "ReelSize(Cm)", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(Rs.)", "SGST(%)", "CGST(%)", "IGST(%)","Total(Rs.)", "CompanyID", "Avg.Price(Rs.)"];
 $fromDate = $_POST['fromDate'];
 $toDate = $_POST['toDate'];
@@ -46,5 +46,5 @@ if(!$ret) {
 }
 
 // Close connection
-dbclose($db);
+dbclose($db, $text);
 ?>

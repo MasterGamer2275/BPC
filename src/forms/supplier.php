@@ -7,11 +7,11 @@
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
   $tablename = "TEST_SUPPLIER_4";
-  dbsetup($db);
-  dbcreatesuppliertable($db, $tablename);
+  dbsetup($db, $text);
+  dbcreatesuppliertable($db, $tablename, $text);
   $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata);
-  dbclose($db);
+  dbreadtable($db, $tablename, $dbtabdata, $text);
+  dbclose($db, $text);
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +20,7 @@
 <style>
 body {
   font-family: "Source Sans Pro", "sans-serif";
+  //font-family: "Trebuchet MS", sans-serif;
 }
 
 table {
