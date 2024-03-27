@@ -3,6 +3,7 @@
 // Disable error reporting
 error_reporting(0);
 ?>
+  
 <?php
 
 include 'main-page/main-page.php';

@@ -71,13 +71,14 @@ function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $
 
 //----------------------------------------DB - Add record (Stock Table)----------------------------------------//
 
-function dbaddstockrecord(&$db, $tablename, $date, $invnum,$name, $desc, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, &$text) { 
+function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, &$text) { 
   $CompanyID = "6100";
   $sql =<<<EOF
     INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
     VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
+  echo $ret;
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -226,7 +227,7 @@ $ret = $db->exec($sql);
 }
 //----------------------------------------DB - Create Table (Stock)----------------------------------------//
 
-function dbcreatestocktable(&$db, $tablename, &$text) {
+function dbcreatestocktable(&$db, &$tablename, &$text) {
    $text .= "welcome to create stock table if not exists<br>";
 $sql =<<<EOF
    CREATE TABLE if not exists $tablename(

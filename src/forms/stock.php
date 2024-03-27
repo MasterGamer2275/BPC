@@ -173,6 +173,7 @@ height: 20px;
 <body>
 <div id="id01">
   <form onsubmit="addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
+    <!--addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();-->
     <h3>Stock Feed:</h3>
     <label for="Pdate"><b>Purchase Date:</label>
     <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
@@ -252,34 +253,33 @@ height: 20px;
     </form>
 </div>
 <div class="form-popup" id="myForm">
-  <form onsubmit="edittable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();" class="form-container">
+  <form class="form-container" id="form3">
     <label for="Pdate2"><b>Purchase Date: *</label>
     <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required><br>
     <input type = "number" id = "tabindex2" name = "tabindex2" hidden>
     <label for="!"><b>!:</label>
-    <input type = "text" name= "!" id = "!" disabled"><br>
+    <input type = "text" name= "!" id = "!" disabled><br>
     <label for="PSname2"><b>Supplier:</label>
-    <input type = "text" name= "PSname2" id = "PSname2" disabled"><br>
+    <input type = "text" name= "PSname2" id = "PSname2" disabled><br>
     <label for="PCname2"><b>Commodity/Desc</label>
-    <input type = "text" name="PCname2" id="PCname2" disabled"><br>
-    <label for="PRN2"><b>Reel Number :*</label>
+    <input type = "text" name="PCname2" id="PCname2" disabled><br>
+    <label for="PRN2"><b>Reel Number : *</label>
     <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
     <label for="PRW2"><b>Reel Weight (Kg) : *</label>
-    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange = "calculatetotal2()"><br>
+    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange="calculatetotal2()" ><br>
     <label for="PRate2"><b>Rate(Rs.):</label>
-    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" onchange = "calculatetotal2()"><br>
+    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" onchange="calculatetotal2()" ><br>
     <label for="PSGST2"><b>SGST(%):</label>
-    <input type = "number" id = "PSGST2" name = "PSGST2" width="2px" min = "0" step=".01" onchange = "calculatetotal2()"><br>
+    <input type = "number" id = "PSGST2" name = "PSGST2" width="2px" min = "0" step=".01" onchange="calculatetotal2()" ><br>
     <label for="PCGST2"><b>CGST(%):</label>
-    <input type = "number" id = "PCGST2" name = "PCGST2" width="2px" min = "0" step=".01" onchange= "calculatetotal2()"><br>
+    <input type = "number" id = "PCGST2" name = "PCGST2" width="2px" min = "0" step=".01" onchange="calculatetotal2()" ><br>
     <label for="PIGST2"><b>IGST(%):</label>
-    <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange = "calculatetotal2()"><br>
+    <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange="calculatetotal2()" ><br>
     <label for="PTotal2"><b>Total(Rs.):</label>
     <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br><br>
-    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" ></button>
-    <input type = "submit" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del">
+    <input type = "button" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" onclick = "edittable('S2Save2')">
+    <input type = "button" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del" onclick = "edittable('Sdelete2')">
     <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel2" name = "Scancel2" value = "X" onclick= "closeForm()">
-
   </form>
 </div>
 </body>
@@ -410,12 +410,14 @@ function calculatetotal() {
 }
 
 function calculatetotal2() {
+  alert("calc2");
   t1 = document.getElementById("PIGST2").value;
   t2 = document.getElementById("PSGST2").value;
   t3 = document.getElementById("PCGST2").value;
   rsize = document.getElementById("PRS2").value;
   rweight = document.getElementById("PRW2").value;
   rate = document.getElementById("PRate2").value;
+  alert(rate);
   taxsum = 0;
   taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
   total= (rweight * rate) + taxsum;
@@ -463,21 +465,22 @@ function addtotable() {
   document.getElementById("PSubmit").disabled = false;
 }
 
-function edittable() {
+function edittable(buttonname) {
 var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
 const tableindex = parseInt(document.getElementById("tabindex2").value);
-var rowIndex = tabindex2-1;
-var row = table.rows[rowIndex]; 
-const button = parseInt(document.getElementById("S2Save2").value);
-if (button != "") {
-  const myArray = [tabindex2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value];
+var rowIndex = tableindex;
+var row = table.rows[rowIndex];
+if (buttonname == "S2Save2") {
+  const myArray = [tabindex2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value];
   for (let i = 0; i < myArray.length; i++) {
-    var cell = row.insertCell(i);
+    var cell = row.cells(i);
     cell.innerHTML = myArray[i];
-    }
+        }
 } else {
 table.deleteRow(rowIndex);
 }
+checkDuplicates();
+closeForm();
 }
 
 
@@ -487,9 +490,12 @@ function handleSubmit(event) {
   console.log("Input value:", inputField.value);
   // Further processing or form submission logic can go here
     }
+
+
 function exporttoexcel() {
 javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
 }
+
 
 function checkDuplicates() {
   var table = document.getElementById("myTable");
