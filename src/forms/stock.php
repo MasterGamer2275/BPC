@@ -65,6 +65,11 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
+/* Hide the fifth column by default */
+  th:nth-child(14),
+  td:nth-child(14) {
+  display: none;
+}
 
 tr > img {
         width: 20px; /* Adjust the width as needed */
@@ -80,6 +85,7 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+  width: 147px; 
 }
 /* The popup form - hidden by default */
 .form-popup {
@@ -198,23 +204,22 @@ height: 20px;
     <label for="PBF"><b>BF: *</label>
     <input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
     <label for="PRS"><b>Reel Size (Cm): *</label>
-    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" step="0.01" disabled>
+    <input type = "number" id = "PRS" name = "PRS" required size="7" min = "1" step="0.01" disabled>
     <label for="PRN"><b>Reel Number :*</label>
-    <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" step="1">
+    <input type = "number" id = "PRN" name = "PRN" required size="7" min = "5" step="1">
     <label for="PRW"><b>Reel Weight (Kg) : *</label>
-    <input type = "number" id = "PRW" name = "PRW" required width="4px" min = "1" step=".01" onchange = "calculatetotal()">
+    <input type = "number" id = "PRW" name = "PRW" required size="7" min = "1" step=".01" onchange = "calculatetotal()">
     <label for="PRate"><b>Rate(Rs.):</label>
-    <input type = "number" id = "PRate" name = "PRate" width="5px" min = "0.01" step=".01" onchange = "calculatetotal()">
+    <input type = "number" id = "PRate" name = "PRate" size="7" min = "0.01" step=".01" onchange = "calculatetotal()">
     <br><br>
     <label for="PSGST"><b>SGST(%):</label>
-    <input type = "number" id = "PSGST" name = "PSGST" width="2px" min = "0" value = "0" step=".01" onchange = "calculatetotal()">
+    <input type = "number" id = "PSGST" name = "PSGST" size="3" min = "0" value = "0" step=".01" onchange = "calculatetotal()">
     <label for="PCGST"><b>CGST(%):</label>
-    <input type = "number" id = "PCGST" name = "PCGST" width="2px" min = "0" value = "0" step=".01" onchange= "calculatetotal()">
+    <input type = "number" id = "PCGST" name = "PCGST" size="3" min = "0" value = "0" step=".01" onchange= "calculatetotal()">
     <label for="PIGST"><b>IGST(%):</label>
-    <input type = "number" id = "PIGST" name = "PIGST" width="2px" min = "0" value = "0" step=".01" disabled onchange = "calculatetotal()">
+    <input type = "number" id = "PIGST" name = "PIGST" size="3" min = "0" value = "0" step=".01" disabled onchange = "calculatetotal()">
     <label for="PTotal"><b>Total(Rs.):</label>
-    <input type = "number" id = "PTotal" name = "PTotal" width="15px" min = "1" max= "100000" disabled step=".01">
-    <input type = "number" id = "tableindex" name = "tableindex" hidden step="1" value = "1">
+    <input type = "number" id = "PTotal" name = "PTotal" size="15" min = "1" max= "100000" disabled step=".01">
     <input type = "submit" id = "PAdd" name = "PAdd" value = "Add to Table" disabled>
     <br><br>
   </form>
@@ -233,13 +238,15 @@ height: 20px;
         <th>Date</th>
         <th>SupplierName</th>
         <th>Commodity(Desc)</th>
+        <th>ReelSize(Cm)</th>
         <th>ReelNumber</th> 
         <th>ReelWeight(Kg)</th>     
         <th>Rate(Rs.)</th>    
         <th>SGST(%)</th>    
         <th>CGST(%)</th>
-        <th>IGST(%)</th>   
+        <th>IGST(%)</th> 
         <th>Total(Rs.)</th>
+        <th>IGSTDISABLED</th> 
     </tr>
     </table>
   </form>
@@ -256,13 +263,14 @@ height: 20px;
   <form class="form-container" id="form3">
     <label for="Pdate2"><b>Purchase Date: *</label>
     <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required><br>
-    <input type = "number" id = "tabindex2" name = "tabindex2" hidden>
+    <input type = "number" id = "id2" name = "id2" hidden>
     <label for="!"><b>!:</label>
     <input type = "text" name= "!" id = "!" disabled><br>
     <label for="PSname2"><b>Supplier:</label>
     <input type = "text" name= "PSname2" id = "PSname2" disabled><br>
     <label for="PCname2"><b>Commodity/Desc</label>
     <input type = "text" name="PCname2" id="PCname2" disabled><br>
+    <input type = "number" id = "PRS2" name = "PRS2" hidden>
     <label for="PRN2"><b>Reel Number : *</label>
     <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
     <label for="PRW2"><b>Reel Weight (Kg) : *</label>
@@ -277,8 +285,8 @@ height: 20px;
     <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange="calculatetotal2()" ><br>
     <label for="PTotal2"><b>Total(Rs.):</label>
     <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br><br>
-    <input type = "button" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" onclick = "edittable('S2Save2')">
-    <input type = "button" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del" onclick = "edittable('Sdelete2')">
+    <input type = "button" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" onclick = "edittable('V')">
+    <input type = "button" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del" onclick = "edittable('Del')">
     <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel2" name = "Scancel2" value = "X" onclick= "closeForm()">
   </form>
 </div>
@@ -302,8 +310,9 @@ height: 20px;
     // Check if the clicked element is a table row
     if (event.target.tagName === "TD") {
       document.getElementById("myForm").style.display = "block";
-      // Get the data of the clicked row
-      var row = event.target.parentNode; // Get the parent row (<tr>)
+    // Get the data of the clicked row
+    var row = event.target.parentNode; // Get the parent row (<tr>)
+    // Loop through the rows of the table
       var cells = row.getElementsByTagName("td"); // Get all cells (<td>) in the row
       // Extract the data from cells
       var id = cells[0].innerText;
@@ -311,19 +320,22 @@ height: 20px;
       var date = cells[2].innerText;
       var sname = cells[3].innerText;
       var cname = cells[4].innerText;
-      var rn= cells[5].innerText;
-      var rw = cells[6].innerText;
-      var rate= cells[7].innerText;
-      var sgst = cells[8].innerText;
-      var cgst = cells[9].innerText;
-      var igst = cells[10].innerText;
-      var total = cells[11].innerText;
+      var rs= cells[5].innerText;
+      var rn= cells[6].innerText;
+      var rw = cells[7].innerText;
+      var rate= cells[8].innerText;
+      var sgst = cells[9].innerText;
+      var cgst = cells[10].innerText;
+      var igst = cells[11].innerText;
+      var total = cells[12].innerText;
+      var igstdisabled = cells[13].innerText.trim();
       // Set the values of the form fields
-      document.getElementById("tabindex2").value = row.rowIndex;
+      document.getElementById("id2").value = id;
       document.getElementById("Pdate2").value = date;
       document.getElementById("!").value = warning;
       document.getElementById("PSname2").value = sname;
       document.getElementById("PCname2").value = cname;
+      document.getElementById("PRS2").value = rs;
       document.getElementById("PRN2").value = rn;
       document.getElementById("PRW2").value = rw;
       document.getElementById("PRate2").value = rate;
@@ -331,6 +343,15 @@ height: 20px;
       document.getElementById("PCGST2").value = cgst;
       document.getElementById("PIGST2").value = igst;
       document.getElementById("PTotal2").value = total;
+      if (igstdisabled) {
+      document.getElementById("PIGST2").disabled = true;
+      document.getElementById("PCGST2").disabled = false;
+      document.getElementById("PSGST2").disabled = false;
+      } else {
+      document.getElementById("PIGST2").disabled = false;
+      document.getElementById("PCGST2").disabled = true;
+      document.getElementById("PSGST2").disabled = true;
+      }
       }
   });
 
@@ -410,14 +431,12 @@ function calculatetotal() {
 }
 
 function calculatetotal2() {
-  alert("calc2");
   t1 = document.getElementById("PIGST2").value;
   t2 = document.getElementById("PSGST2").value;
   t3 = document.getElementById("PCGST2").value;
   rsize = document.getElementById("PRS2").value;
   rweight = document.getElementById("PRW2").value;
   rate = document.getElementById("PRate2").value;
-  alert(rate);
   taxsum = 0;
   taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
   total= (rweight * rate) + taxsum;
@@ -452,32 +471,34 @@ function updateval() {
 }
 function addtotable() {
   var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var newRowId = table.rows.length;
   var newRow = table.insertRow(table.rows.length);
   const selectElement = document.getElementById("PCname");
   const selectValue= selectElement.options[selectElement.selectedIndex].text;
-  const tableindex = parseInt(document.getElementById("tableindex").value);
-  const myArray = [tableindex, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value];
+  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
          }
-  document.getElementById("tableindex").value= tableindex +1;
   document.getElementById("PSubmit").disabled = false;
 }
 
-function edittable(buttonname) {
+function edittable(buttonText) {
 var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
-const tableindex = parseInt(document.getElementById("tabindex2").value);
-var rowIndex = tableindex;
+const id2 = (document.getElementById("id2").value);
 var row = table.rows[rowIndex];
-if (buttonname == "S2Save2") {
-  const myArray = [tabindex2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value];
-  for (let i = 0; i < myArray.length; i++) {
-    var cell = row.cells(i);
-    cell.innerHTML = myArray[i];
-        }
-} else {
-table.deleteRow(rowIndex);
+var cells = row.getElementsByTagName("td");
+var edit = (buttonText == "V");
+var ddel = (buttonText == "Del");
+if (edit) {
+  const myArray = [id2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value, document.getElementById("PIGST2").disabled];
+        for (let i = 0; i < myArray.length; i++) {
+        cells[i].innerHTML = myArray[i];
+         }
+         }else { if (ddel) {
+                   table.deleteRow(rowIndex);
+                   document.getElementById("tableindex").value= tableindex -1;
+                }
 }
 checkDuplicates();
 closeForm();

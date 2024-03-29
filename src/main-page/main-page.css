@@ -53,7 +53,7 @@ input[type=number] {
 .header1_title {
   position: absolute;
   top: 10px;
-  left: 50%;
+  left: 35%;
   transform: translate(-50%, -50%);
   border: none;
   color: rgb(236, 234, 245);
@@ -64,7 +64,7 @@ footer {
   position: absolute;
   left: 0%;
   bottom: 0%;
-  width: 100%;
+  width: 83%;
   text-align: center;
   padding: 3px;
   background-color: rgb(173, 103, 79);
@@ -80,7 +80,7 @@ footer {
   position: relative;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 83%;
   height: 101px;
   //border: 1px solid #000000;
   border: none
@@ -99,7 +99,7 @@ footer {
 .image3 {
   position: absolute;
   top: 0px;
-  left: 92.7%;
+  left: 75.7%;
   width: 8.3%;
   height: 101px;
   //border: 1px solid #000000;
@@ -111,8 +111,8 @@ footer {
   top: 30px;
   //left: 580px;
   left: 150px;
-  width: 1060px;
-  //width: 700px;
+  width: 600px;
+  //width: 1060px;
   height: auto;
   border: none;
   color: rgb(173, 103, 79);
@@ -123,14 +123,14 @@ footer {
 .rectangle1 {
   position: absolute;
   //top: 100px;
-  top: 102px;
-  //left: 130px;
-  left: 138px;
-  //width: 1060px;
-  width: 1390px;
+  top: 101px;
+  //left: 128px;
+  left: 132px;
+  //width: 1390px;
+  width: 75.0%;
   //height: 78%;
   height: 75%;
-  border: none;
+  //border: none;
   border-color: white;
   //border-color: rgb(192, 192, 192);
   font-size: 20px;

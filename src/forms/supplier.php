@@ -38,6 +38,14 @@ th, td {
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
+tr, td {
+  text-align: left;
+  font-size: 15px;
+  font-weight: normal;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
 tr:nth-child(even) {
   background-color: #f2f2f2
 }

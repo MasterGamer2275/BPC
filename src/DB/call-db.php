@@ -30,7 +30,7 @@ function dbsetup(&$db, &$text) {
 function dbclose (&$db, &$text) {
    $db->close();
    $text .= "Closed database successfully<br>";
-   echo $text;
+   //echo $text;
 }
 
 //----------------------------------------DB - Read Table----------------------------------------//
@@ -78,7 +78,6 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $
     VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
-  echo $ret;
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;

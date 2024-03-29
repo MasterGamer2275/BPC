@@ -44,6 +44,8 @@ table {
 th, td {
   text-align: left;
   padding: 16px;
+  font-size: 15px;
+  font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
