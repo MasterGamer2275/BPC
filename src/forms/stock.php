@@ -485,7 +485,16 @@ function addtotable() {
 
 function edittable(buttonText) {
 var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
-const id2 = (document.getElementById("id2").value);
+var id2 = document.getElementById("id2").value;
+var columnValues = [];
+var rowIndex = -1;
+var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      if (cells[0].innerText == id2) {
+        rowIndex = i;
+      }
+    }
 var row = table.rows[rowIndex];
 var cells = row.getElementsByTagName("td");
 var edit = (buttonText == "V");
@@ -497,7 +506,6 @@ if (edit) {
          }
          }else { if (ddel) {
                    table.deleteRow(rowIndex);
-                   document.getElementById("tableindex").value= tableindex -1;
                 }
 }
 checkDuplicates();

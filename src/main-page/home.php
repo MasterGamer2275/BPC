@@ -36,6 +36,7 @@ body {
 .box p {
     margin-bottom: 0;
     font-size : 15px;
+    font-weight: normal;
     position: relative;
     left: 30%;
     top: 0%;
