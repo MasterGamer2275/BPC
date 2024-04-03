@@ -58,12 +58,13 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
+      <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')">My Company</button>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <button class="tablinks" onclick="openphp(event, '/forms/company.php', '/main-page/frame1.php', 'My Comapny')">My Company</button>
+      <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks">My Account</button>
       <buttonDisabled class="tablinks"></buttonDisabled>
     </div>

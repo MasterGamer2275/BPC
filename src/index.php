@@ -8,7 +8,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 ?>
 
 <?php
-
+/*
+include 'examples/company-table.php';
+*/
 include 'main-page/main-page.php';
 
  /*

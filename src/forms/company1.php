@@ -1,25 +1,19 @@
-<!-- form went to in to a invalid not working state -->
-<?php
+ <?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   require $root."/DB/call-db.php";
   dbsetup($db, $text);
   $tablename = "TEST_COMPANY_LIST_2";
   $paramname = "ID";
-  $paramvalue = 6100;
+  $paramvalue = "6100";
   $dbrowvalues = array();
   dbcreatecompanylisttable($db, $tablename, $text);
   dbreadrecord($db, $tablename, $paramname, $paramvalue, $dbrowvalues, $text);
-  $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
   $jsonArray_1 = json_encode($dbrowvalues);
-  $jsonArray_2 = json_encode($dbtabdata);
-  echo $jsonArray_1;
-  echo $jsonArray_2;
-  $jsonArray_1 = str_replace("\"", "", $jsonArray_1);
-  $jsonArray_1 = str_replace("]", "", $jsonArray_1);
-  $jsonArray_1 = str_replace("[", "", $jsonArray_1);
-  $datarray = explode(",", $jsonArray_1);
+  $val= str_replace("\"", "", $jsonArray_1);
+  $val = str_replace("]", "", $val);
+  $val = str_replace("[", "", $val);
+  $datarray = explode(":", $val);
   // Echo the JSON array
   echo '<script>';
   echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
@@ -134,11 +128,14 @@
         <label for="CoGST"><b>GSTIN/UIN: *</label>
         <input type = "text" class="input-box" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required value="<?php echo $datarray[2]; ?>"><br><br>
         <label for="fileToUpload1"><b>Company Logo: *</label>
-        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".png, .jpeg" required><br><br>
+        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".png, .jpeg" required >
+        <div id="filenameDisplay1"></div><br><br>
         <label for="fileToUpload2"><b>Digital Signature: *</label>
-        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".png, .jpeg" required><br><br>
+        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".png, .jpeg" required>
+        <div id="filenameDisplay2"></div><br><br>
         <label for="fileToUpload3"><b>Letter Head: *</label>
-        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".png, .jpeg" required><br><br>
+        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".png, .jpeg" required>
+        <div id="filenameDisplay3"></div><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>
@@ -147,7 +144,29 @@
   </div>
 </div>
 <script>
-   
+window.onload = function() {
+  var filename1 = jsArray_1[11];
+  var filename2 = jsArray_1[12];
+  var filename3 = jsArray_1[13];
+  var input = document.getElementById("fileToUpload1");
+  input.value = ""; // Clear the current selection
+  var input = document.getElementById("fileToUpload2");
+  input.value = ""; // Clear the current selection
+  var input = document.getElementById("fileToUpload3");
+  input.value = ""; // Clear the current selection
+  displayFilename(filename1, filename2, filename3);
+  var input = document.getElementById("Costate");
+  input.value = jsArray_1[5];
+}
+
+function displayFilename(filename1, filename2, filename3) {
+  var display = document.getElementById("filenameDisplay1");
+  display.textContent = filename1;
+  var display = document.getElementById("filenameDisplay2");
+  display.textContent = filename2;
+  var display = document.getElementById("filenameDisplay3");
+  display.textContent = filename3;
+        }
 </script>
 
 </body>

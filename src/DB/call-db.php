@@ -308,7 +308,7 @@ function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
 //----------------------------------------DB - Read db record----------------------------------------//
 
 function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, &$text) {
-  $res = $db->query("SELECT * FROM $tablename WHERE $paramname = '$paramvalue'");
+  $res = $db->query("SELECT * FROM $tablename WHERE ID = '6100'");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
           foreach($row as $key  => $value) {
              array_push($dbrowvalues,$value);

@@ -49,11 +49,13 @@ $data = array(array());
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($data,$row);
 }
+/*
 foreach ($data as $row) {
     foreach ($row as $value) {
         echo "<tr>$value</tr>";
         }
     }
+    */
 $sql =<<<EOF
 EOF;
    $ret = $db->exec($sql);
@@ -62,7 +64,26 @@ EOF;
    } else {
       echo "Tabe Read Successfully\n";
    }
-
+$dbrowvalues = array();
+  $res = $db->query("SELECT * FROM TEST_COMPANY_LIST_2 WHERE ID = '6100'");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+          foreach($row as $key  => $value) {
+             array_push($dbrowvalues,$value);
+         }
+    }
+    $sql =<<<EOF
+EOF;
+    $ret = $db->exec($sql);
+    if(!$ret) {
+        $err = $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
+    } else {
+        $text .= "Record Read Successfully<br>";
+    }
+    foreach ($dbrowvalues as $value) {
+        echo "<tr>$value</tr>";
+        }
 
 ?>
 
