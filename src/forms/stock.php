@@ -36,7 +36,7 @@ button {
   padding: 1px 6px 1px 6px;
   position: absolute;
   left: 90%;
-  bottom: 46.5%;
+  bottom: 94%;
 }
 button img {
   width: 22px;
@@ -178,7 +178,7 @@ height: 20px;
  
 <body>
 <div id="id01">
-  <form onsubmit="addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
+  <form onsubmit="reorderid();addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
     <!--addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();-->
     <h3>Stock Feed:</h3>
     <label for="Pdate"><b>Purchase Date:</label>
@@ -469,6 +469,15 @@ function updateval() {
     document.getElementById("PRS").value = 0;
   }
 }
+function reorderid() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      cells[0].innerText = i;
+    }
+}
+
 function addtotable() {
   var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
   var newRowId = table.rows.length;

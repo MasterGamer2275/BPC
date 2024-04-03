@@ -183,8 +183,8 @@ function dbcreatesuppliertable(&$db, $tablename, &$text) {
    ADDRESS        TEXT,
    CITY           TEXT,
    STATE          TEXT,
-   PINCODE        INTEGER(6),
-   PHONE          INTEGER(10),
+   PINCODE        TEXT(6),
+   PHONE          TEXT(10),
    EMAIL          TEXT,
    COMPANYID   INTEGER,
    IGST        TEXT
@@ -255,6 +255,38 @@ EOF;
    }
 }
 
+//----------------------------------------DB - Create Table (Company)----------------------------------------//
+
+function dbcreatecompanylisttable(&$db, &$tablename, &$text) {
+   $text .= "welcome to create companies list table if not exists<br>";
+$sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID                      INTEGER           PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   NAME                    TEXT              NOT NULL    UNIQUE,
+   GSTIN                   VARCHAR(15)       NOT NULL    UNIQUE,
+   ADDRESS                 TEXT              NOT NULL,
+   CITY                    TEXT              NOT NULL,
+   STATE                   TEXT              NOT NULL,
+   PINCODE                 TEXT              NOT NULL,
+   PHONE                   TEXT              NOT NULL,
+   EMAIL                   TEXT              NOT NULL,
+   ADMINPHONEAREACODE      TEXT,
+   ADMINPHONE              TEXT,
+   COMPANYLOGO             TEXT              NOT NULL,
+   DIGISIG                 TEXT              NOT NULL,
+   LETTERHEAD              TEXT              NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "companies list table created successfully<br>";
+   }
+}
+
 //----------------------------------------DB - Get Column Values----------------------------------------//
 
 function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
@@ -270,6 +302,25 @@ function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
         $text .= "<br>";
     } else {
         $text .= "Column Read Successfully<br>";
+    }
+}
+
+//----------------------------------------DB - Read db record----------------------------------------//
+
+function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, &$text) {
+  $res = $db->query("SELECT * FROM $tablename WHERE $paramname = '$paramvalue'");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+          foreach($row as $key  => $value) {
+             array_push($dbrowvalues,$value);
+         }
+    }
+    $ret = $db->exec($sql);
+    if(!$ret) {
+        $err = $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
+    } else {
+        $text .= "Record Read Successfully<br>";
     }
 }
 

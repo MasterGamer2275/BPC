@@ -1,3 +1,12 @@
+ <?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <header>
@@ -20,8 +29,29 @@
   <body>
     <div class="iframe">
      <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
-     <!--<iframe class="rectangle2" src="/main-page/frame_2.php" id = "rect2" name = "rect2"></iframe>
-     <iframe class="rectangle3" src="/main-page/Spare-box.php" id = "rect3" name = "rect3"></iframe>-->
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687735452309402"
+        crossorigin="anonymous"></script>
+    <!-- Ad1 -->
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:235px;height:220px;position:absolute;left:84%;top:10px;"
+        data-ad-client="ca-pub-1687735452309402"
+        data-ad-slot="7565856526"></ins>
+    <!-- ad2 -->
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:235px;height:220px;position:absolute;left:84%;top:240px;"
+        data-ad-client="ca-pub-1687735452309402"
+        data-ad-slot="5510221597"></ins>
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:235px;height:220px;position:absolute;left:84%;top:470px;"
+        data-ad-client="ca-pub-1687735452309402"
+        data-ad-slot="1933405832"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <!--
+     <iframe class="rectangle2" src="i.php" id = "rect2" name = "rect2"></iframe>
+     <iframe class="rectangle3" src="i.php" id = "rect3" name = "rect3"></iframe>
+     <iframe class="rectangle4" src="i.php" id = "rect4" name = "rect4"></iframe>-->
     </div>
     <div class="tab">
       <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen">HOME</button>

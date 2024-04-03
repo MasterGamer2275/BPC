@@ -31,8 +31,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbsetup($db, $text); ?>
   <?php dbaddsupplierrecord($db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $CompanyID, $SIGST, $text); ?>
   <?php dbclose($db, $text); ?>
-  <?php //header("Location: supplier.php"); ?>
-  <?php //exit; ?>
+  <?php echo "Record Added.<br>"; ?>
+  <?php header("Location: supplier.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /*form - commodity-------------------------------------------------- */ ?>
 <?php if ($_POST["CAdd"] != "") {  ?>
@@ -51,8 +52,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $text); ?>
   <?php  }  ?>
   <?php dbclose($db, $text); ?>
-  <?php //header("Location: commodity.php"); ?>
-  <?php //exit; ?>
+  <?php echo "Record Added.<br>"; ?>
+  <?php header("Location: commodity.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /*form - update supplier record-------------------------------------------------- */ ?>
 <?php if ($_POST["S2Save"] != "") {  ?>
@@ -71,6 +73,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbsetup($db, $text); ?>
   <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST, $text); ?>
   <?php dbclose($db, $text); ?>
+  <?php echo "Record Updated.<br>"; ?>
+  <?php header("Location: supplier.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /*form - delete supplier record-------------------------------------------------- */ ?>
 <?php if ($_POST["Sdelete"] != "") {  ?>
@@ -80,6 +85,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbsetup($db, $text); ?>
   <?php dbdeletesupplierrecord($db, $tablename, $ID, $text); ?>
   <?php dbclose($db, $text); ?>
+  <?php echo "Record Deleted.<br>"; ?>
+  <?php header("Location: supplier.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /*form - stock-------------------------------------------------- */ ?>
 <?php /*PSubmit not returned in script submit mode ------------------- */ ?>
@@ -105,6 +113,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php } ?>
   <?php echo "Records Added.<br>"; ?>
   <?php dbclose($db, $text); ?>
+  <?php header("Location: stock.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /*form - po------------------------------------------------- */ ?>
 <?php if ($_POST["POSubmit"] != "") {  ?>

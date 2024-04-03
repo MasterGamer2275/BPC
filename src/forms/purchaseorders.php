@@ -32,11 +32,20 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+.image1 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 101px;
+  //border: 1px solid #000000;
+  border: none
+}
 button {
   padding: 1px 6px 1px 6px;
   position: absolute;
   left: 90%;
-  bottom: 46.5%;
+  bottom: 94%;
 }
 button img {
   width: 22px;
@@ -53,22 +62,14 @@ table {
   border-spacing: 0;
   width: 100%;
   border: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid #000;
 }
 
 th, td {
   text-align: left;
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-}
-tr:nth-child(even) {
-  background-color: #f2f2f2
-}
-/* Hide the fifth column by default */
-  th:nth-child(14),
-  td:nth-child(14) {
-  display: none;
+  padding: 0px;
+  border: 1px solid #000;
+  border-right: 1px solid #000;
 }
 
 tr > img {
@@ -85,7 +86,14 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+  width: 103px;
+
 }
+
+input[type=date] {
+width: 100px;
+}
+
 /* The popup form - hidden by default */
 .form-popup {
   display: none;
@@ -167,7 +175,7 @@ input[type=number] {
   opacity: 1;
 }
 select {
-width: 18%;
+width: 12%;
 /* width: 120px;*/
 height: 20px;
 }
@@ -177,11 +185,11 @@ height: 20px;
  
 <body>
 <div id="id01">
-  <form id = "form1">
+  <form id = "form1" onsubmit="reorderid();addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
     <!--addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();-->
     <h3>Generate Purchase Order:</h3>
     <label for="Pdate"><b>Purchase Date:</label>
-    <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
+    <input type = "date" id = "Pdate" name = "Pdate" size="0" value="" required onchange="disable('Pdate')">
     <label for="PSname"><b>Supplier: *</label>
     <select name= = "PSname" id = "PSname" onchange="getcommoditylist();updateval();setformstate();">
     <option value="">Select</option>
@@ -201,18 +209,24 @@ height: 20px;
     <label for="PGSM"><b>GSM: *</label>
     <input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>
     <label for="PBF"><b>BF: *</label>
-    <input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
-    <label for="PRS"><b>Reel Size (Cm): *</label>
-    <input type = "number" id = "PRS" name = "PRS" required width="5px" min = "1" step="0.01" disabled>
+    <input type = "text" id = "PBF" name = "PBF" required size="5" disabled>
+    <label for="PRS"><b>RS(Cm): *</label>
+    <input type = "text" id = "PRS" name = "PRS" required size="5" disabled><br><br>
     <label for="PRN"><b>No. Of Reels: *</label>
-    <input type = "number" id = "PRN" name = "PRN" required width="4px" min = "5" step="1">
+    <input type = "number" id = "PRN" name = "PRN" required min = "1" step="1">
     <label for="PRW"><b>Weight (Kg) : *</label>
-    <input type = "number" id = "PRW" name = "PRW" required width="4px" min = "1" step=".01">
+    <input type = "number" id = "PRW" name = "PRW" required min = "1" step=".01" onchange = "calculatetotal()">
     <label for="PRate"><b>RatePerKg(Rs.):</label>
-    <input type = "number" id = "PRate" name = "PRate" width="5px" min = "0.01" step=".01">
-    <br><br>
-    <input type = "number" id = "tableindex" name = "tableindex" hidden step="1" value = "1">
-    <input type = "button" id = "POAdd" name = "POAdd" value = "Add to Table" disabled onclick="addtotable();checkDuplicates();">
+    <input type = "number" id = "PRate" name = "PRate" min = "0.01" step=".01" onchange = "calculatetotal()">
+    <label for="PDis"><b>Discount%:</label>
+    <input type = "number" id = "PDis" name = "PDis" step=".01" onchange = "calculatetotal()">
+    <label for="PTotal"><b>Amount(Rs.):</label>
+    <input type = "number" id = "PTotal" name = "PTotal" min = "0.01" step=".01" disabled><br><br>
+    <label for="PDdate1"><b>Delivery Date from:</label>
+    <input type = "date" id = "PDdate1" name = "PDdate1" size="0" value="<?php echo date('Y-m-d'); ?>" required>
+    <label for="PDdate2"><b>Delivery Date to:</label>
+    <input type = "date" id = "PDdate2" name = "PDdate2" size="0" value="<?php echo date('Y-m-d'); ?>" required>
+    <input type = "submit" id = "POAdd" name = "POAdd" value = "Add to Table" disabled>
     <br><br>
   </form>
 </div>
@@ -225,13 +239,15 @@ height: 20px;
       <tr>
         <th>S No:</th>
         <th>!</th>
-        <th>Date</th>
-        <th>SupplierName</th>
-        <th>Commodity(Desc)</th>
-        <th>ReelSize(Cm)</th>
+        <th>Particulars</th>
         <th>No. Of Reels</th>
-        <th>Weight(Kg)</th>     
-        <th>RatePerKg(Rs.)</th>    
+        <th>Rate Per</th> 
+        <th>Qnty</th>     
+        <th>Rate</th>
+        <th>Dis%</th>
+        <th>Amount</th>
+        <th>Delivery Date From</th>
+        <th>Delivery Date To</th>      
     </tr>
     </table>
   </form>
@@ -246,22 +262,25 @@ height: 20px;
 </div>
 <div class="form-popup" id="myForm">
   <form class="form-container" id="form3">
-    <label for="Pdate2"><b>Purchase Date: *</label>
-    <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required><br>
     <input type = "number" id = "id2" name = "id2" hidden>
     <label for="!"><b>!:</label>
     <input type = "text" name= "!" id = "!" disabled><br>
-    <label for="PSname2"><b>Supplier:</label>
-    <input type = "text" name= "PSname2" id = "PSname2" disabled><br>
     <label for="PCname2"><b>Commodity/Desc</label>
     <input type = "text" name="PCname2" id="PCname2" disabled><br>
-    <input type = "number" id = "PRS2" name = "PRS2" hidden>
     <label for="PRN2"><b>No. Of Reels: *</label>
     <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
     <label for="PRW2"><b>Weight(Kg) : *</label>
-    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" ><br>
+    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange = "calculatetotal2()" ><br>
     <label for="PRate2"><b>RatePerKg(Rs.):</label>
-    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" ><br>
+    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" onchange = "calculatetotal2()"><br>
+    <label for="PDis2"><b>Discount%:</label>
+    <input type = "number" id = "PDis2" name = "PDis2" step=".01" onchange = "calculatetotal2()"><br>
+    <label for="PTotal2"><b>Amount(Rs.):</label>
+    <input type = "number" id = "PTotal2" name = "PTotal2" min = "0.01" step=".01" disabled><br>
+    <label for="PDdate3"><b>Delivery Date from:</label>
+    <input type = "date" id = "PDdate3" name = "PDdate3" size="0" value="<?php echo date('Y-m-d'); ?>" required><br>
+    <label for="PDdate4"><b>Delivery Date to:</label>
+    <input type = "date" id = "PDdate4" name = "PDdate4" size="0" value="<?php echo date('Y-m-d'); ?>" required><br><br>
     <input type = "button" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" onclick = "edittable('V')">
     <input type = "button" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del" onclick = "edittable('Del')">
     <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel2" name = "Scancel2" value = "X" onclick= "closeForm()">
@@ -278,7 +297,9 @@ function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
 
-  // Attach a click event listener to the table
+// Get the table element
+  var table = document.getElementById("myTable");
+// Attach a click event listener to the table
 table.addEventListener("click", function(event) {
     // Check if the clicked element is a table row
     if (event.target.tagName === "TD") {
@@ -289,23 +310,25 @@ table.addEventListener("click", function(event) {
       // Extract the data from 
       var id= cells[0].innerText;
       var warning= cells[1].innerText;
-      var date = cells[2].innerText;
-      var sname = cells[3].innerText;
-      var cname = cells[4].innerText;
-      var rs= cells[5].innerText;
-      var rn= cells[6].innerText;
-      var rw = cells[7].innerText;
-      var rate= cells[8].innerText;
+      var cname = cells[2].innerText;
+      var rn= cells[3].innerText;
+      var rw = cells[5].innerText;
+      var rate= cells[6].innerText;
+      var dis = cells[7].innerText;
+      var amt= cells[8].innerText;
+      var dt1 = cells[9].innerText;
+      var dt2 = cells[10].innerText;
       // Set the values of the form fields
       document.getElementById("id2").value = id;
-      document.getElementById("Pdate2").value = date;
       document.getElementById("!").value = warning;
-      document.getElementById("PSname2").value = sname;
       document.getElementById("PCname2").value = cname;
-      document.getElementById("PRS2").value = rs;
-      document.getElementById("PRN2").value = rn;
+       document.getElementById("PRN2").value = rn;
       document.getElementById("PRW2").value = rw;
       document.getElementById("PRate2").value = rate;
+      document.getElementById("PDis2").value = dis;
+      document.getElementById("PTotal2").value = amt;
+      document.getElementById("PDdate3").value = dt1;
+      document.getElementById("PDdate4").value = dt2;
       }
   });
 
@@ -377,18 +400,37 @@ function updateval() {
     document.getElementById("PRS").value = 0;
   }
 }
+
+function calculatetotal() {
+  disp = document.getElementById("PDis").value;
+  rweight = document.getElementById("PRW").value;
+  rate = document.getElementById("PRate").value;
+  dis = 1- (parseInt(disp)/100);
+  total= (rweight * rate) * dis;
+  document.getElementById("PTotal").value = parseFloat(total).toFixed(2);
+}
+
+function calculatetotal2() {
+  disp = document.getElementById("PDis2").value;
+  rweight = document.getElementById("PRW2").value;
+  rate = document.getElementById("PRate2").value;
+  dis = 1- (parseInt(disp)/100);
+  total= (rweight * rate) + dis;
+  document.getElementById("PTotal2").value = parseFloat(total).toFixed(2);
+}
+
+
 function addtotable() {
   var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var newRowId = table.rows.length;
   var newRow = table.insertRow(table.rows.length);
   const selectElement = document.getElementById("PCname");
   const selectValue= selectElement.options[selectElement.selectedIndex].text;
-  const tableindex = parseInt(document.getElementById("tableindex").value);
-  const myArray = [tableindex, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value];
+  const myArray = [newRowId, "", selectValue, document.getElementById("PRN").value, "KG", document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PDis").value, document.getElementById("PTotal").value, document.getElementById("PDdate1").value, document.getElementById("PDdate2").value];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
          }
-  document.getElementById("tableindex").value= tableindex +1;
   document.getElementById("POSubmit").disabled = false;
 }
 
@@ -400,7 +442,7 @@ var cells = row.getElementsByTagName("td");
 var edit = (buttonText == "V");
 var ddel = (buttonText == "Del");
 if (edit) {
-  const myArray = [rowIndex, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value];
+  const myArray = [rowIndex, "", document.getElementById("PCname2").value, document.getElementById("PRN2").value, "KG", document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PDis2").value, document.getElementById("PTotal2").value, document.getElementById("PDdate3").value, document.getElementById("PDdate4").value];
         for (let i = 0; i < myArray.length; i++) {
         cells[i].innerHTML = myArray[i];
          }
@@ -412,6 +454,14 @@ checkDuplicates();
 closeForm();
 }
 
+function reorderid() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      cells[0].innerText = i;
+    }
+}
 
 function handleSubmit(event) {
   event.preventDefault(); // Prevent default form submission behavior
@@ -420,7 +470,9 @@ function handleSubmit(event) {
   // Further processing or form submission logic can go here
     }
 
-
+function disable(name) {
+document.getElementById(name).disabled = true;
+    }
 function exporttoexcel() {
 javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
 }
@@ -439,7 +491,7 @@ function checkDuplicates() {
   // Iterate over each row of the table (starting from index 1 to skip header row)
     for (let i =sr; i < er; i++) {
       var currentRow = table.rows[i];
-      var key = currentRow.cells[6].innerText; // Assuming the first cell contains the value to check for duplicates
+      var key = currentRow.cells[3].innerText; // Assuming the first cell contains the value to check for duplicates
       // Check if the value is already seen
         if (seen[key]) {
                 duplicates.push(key);
@@ -494,6 +546,31 @@ document.getElementById('form2').addEventListener('submit', function(event) {
     // Submit the form
     this.submit();
 });
+
+function numberToWords(number) {
+    // Arrays for units, teens, and tens
+    const units = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    if (number < 0 || number > 99) {
+        return "Number out of range";
+    }
+
+    if (number < 10) {
+        return units[number];
+    } else if (number < 20) {
+        return teens[number - 10];
+    } else {
+        const tensDigit = Math.floor(number / 10);
+        const unitsDigit = number % 10;
+        if (unitsDigit === 0) {
+            return tens[tensDigit];
+        } else {
+            return tens[tensDigit] + '-' + units[unitsDigit];
+        }
+    }
+}
 
 </script>
 
