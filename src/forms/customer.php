@@ -253,10 +253,10 @@ height: 20px;
   <form action="forms_action_page.php" class="form-container" method="post">
    <input type = "number" id = "CID2" name = "CID2" maxlength = "6" size = "6" hidden>
    <label for="Cname2"><b>Customer Name: * &nbsp;</label>
+   <input type= "text" id = "Cname2" name = "Cname2" required size="75" disabled>
    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "C2Save" name = "C2Save" value = "V" ></button>
    <input type = "submit" style="font-size:18px" class = "delete" id = "Cdelete" name = "Cdelete" value = "Del">
    <input type = "button" style="font-size:18px" class = "cancel" id = "Ccancel" name = "Ccancel" value = "X" onclick= "closeForm()">
-   <input type= "text" id = "Cname2" name = "Cname2" required size="75" disabled>
    <label for="CGST2"><b>GSTIN/UIN: *</label>
    <input type = "text" id = "CGST2" name = "CGST2" maxlength = "15" size = "15" required>
    <label for="CAddr2"><b>Address: *</label>

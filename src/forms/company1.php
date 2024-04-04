@@ -169,11 +169,9 @@ window.onload = function() {
   var filename1 = jsArray_1[11];
   var filename2 = jsArray_1[12];
   var filename3 = jsArray_1[13];
-  //input1.files[0] = filename1;
+  var input1 = document.getElementById("fileToUpload1");
   var input2 = document.getElementById("fileToUpload2");
-  //input2.files[0] = filename2;
   var input3 = document.getElementById("fileToUpload3");
-  //input3.files[0]= filename3;
   displayFilename(filename1, filename2, filename3);
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];

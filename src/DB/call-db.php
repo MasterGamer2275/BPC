@@ -454,7 +454,31 @@ function dbaddcustomersrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $
       }
 }
 
-
+//----------------------------------------DB - Update record (Customer Table)----------------------------------------//
+function dbeditcustomer(&$db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) { 
+   $sql =<<<EOF
+   UPDATE $tablename SET
+   NAME = '$Cname',
+   GSTIN = '$CGST',
+   ADDRESS = '$CAddr',
+   CITY= '$CCity',
+   STATE= '$CState',
+   PINCODE= '$CPcode',
+   PHONE= '$CPh',
+   EMAIL= '$CEmail',
+   SECADDRESS = '$CSAddr',
+   AREACODE = '$CACode',
+   ADMINPHONE = '$CACPh' WHERE ID = '$ID';
+ EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records updated successfully<br>";
+      }
+}
 
 
 ?>

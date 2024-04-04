@@ -210,16 +210,16 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CPh = $_POST["CPh2"]; ?>
   <?php $CEmail= $_POST["CEmail2"]; ?>
   <?php $CSAddr = $_POST["CSAddr2"]; ?>
-  <?php $CACode = $_POST["CACode2"]; ?>
-  <?php $CACPh = $_POST["CACPh2"]; ?>
+  <?php $CACode = $_POST["CAPhAc2"]; ?>
+  <?php $CACPh = $_POST["CAPh2"]; ?>
   <?php //echo "welcome to update cusotmer record<br>"; ?>
   <?php $tablename = "TEST_CUSTOMER_1"; ?>
   <?php dbsetup($db, $text); ?>
-  <?php dbeditcustomerrecord($db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $CompanyID, $text); ?>
+  <?php dbeditcustomer($db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php //echo "Record Updated.<br>"; ?>
-  <?php //header("Location: customer.php"); ?>
-  <?php //exit; ?>
+  <?php header("Location: customer.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /* ---------------------------------------------------------------- */ ?>
 <?php /*form - delete supplier record-------------------------------------------------- */ ?>
