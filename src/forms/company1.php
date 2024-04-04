@@ -10,10 +10,10 @@
   dbreadrecord($db, $tablename, $paramname, $paramvalue, $dbrowvalues, $text);
   dbclose($db, $text);
   $jsonArray_1 = json_encode($dbrowvalues);
-  $val= str_replace("\"", "", $jsonArray_1);
-  $val = str_replace("]", "", $val);
+  $val = str_replace("]", "", $jsonArray_1);
   $val = str_replace("[", "", $val);
-  $datarray = explode(":", $val);
+  $val = str_replace("\",", "", $val);
+  $datarray = explode("\"", $val);
   // Echo the JSON array
   echo '<script>';
   echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
@@ -67,14 +67,14 @@
   <div class="container">
     <div class="textbox">
       <div class="form-group">
-        <form action="forms_action_page.php" method="post" id = "myForm">
+        <form action="forms_action_page.php" class="form-container" method="post" id = "myForm" enctype="multipart/form-data">
         <h3>My Company: Edit Profile</h3>
         <label for="Coname"><b>Name: *</label>
         <input type = "text" class="input-box" id = "Coname" name = "Coname" value="<?php echo $datarray[1]; ?>" required><br><br>
         <label for="CoAddr"><b>Address: *</label>
         <input type = "text" class="input-box" id = "CoAddr" name = "CoAddr" value="<?php echo $datarray[3];?>"required><br><br>
         <label for="CoCity"><b>City: *</label>
-        <input type = "text" class="input-box" id = "CoCity" name = "CoCity" value="<?php echo $datarray[5]; ?>"required><br><br>
+        <input type = "text" class="input-box" id = "CoCity" name = "CoCity" value="<?php echo $datarray[4]; ?>"required><br><br>
         <label for="CoState"><b>State:</label>
         <select name="Costate" class="input-box" id="Costate">
         <option value="">Select</option>
@@ -116,15 +116,15 @@
         <option value="West Bengal">West Bengal</option>
         </select><br><br>
         <label for="CoPcode"><b>Pincode: *</label>
-        <input type = "text" class="input-box" id = "CoPcode" name = "CoPcode" maxlength = "6" size = "6" inputmode="numeric" required value="<?php echo $datarray[7]; ?>">
+        <input type = "text" class="input-box" id = "CoPcode" name = "CoPcode" maxlength = "6" size = "6" inputmode="numeric" required value="<?php echo $datarray[6]; ?>">
         <br><br>
         <label for="CoPh"><b>Mobile No: * +91</label>
-        <input type = "text" class="input-box" inputmode="numeric" id = "CoPh" name = "CoPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required value="<?php echo $datarray[8]; ?>"><br><br>
+        <input type = "text" class="input-box" inputmode="numeric" id = "CoPh" name = "CoPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required value="<?php echo $datarray[7]; ?>"><br><br>
         <label for="CoAcode"><b>Admin Offcie Contact: * </label><br><br>
-        <input type = "text" class="input-box" inputmode="numeric" id = "CoAcode" name = "CoAcode" size="6" maxlength = "6" placeholder="+9144" required value="<?php echo $datarray[10]; ?>">
-        <input type = "text" class="input-box" inputmode="numeric" id = "CoAPh" name = "CoAPh" size="20" maxlength = "8" placeholder="xxxxxxxx" required value="<?php echo $datarray[11]; ?>"><br><br>
+        <input type = "text" class="input-box" inputmode="numeric" id = "CoAcode" name = "CoAcode" size="6" maxlength = "6" placeholder="+9144" required value="<?php echo $datarray[9]; ?>">
+        <input type = "text" class="input-box" inputmode="numeric" id = "CoAPh" name = "CoAPh" size="20" maxlength = "8" placeholder="xxxxxxxx" required value="<?php echo $datarray[10]; ?>"><br><br>
         <label for="CoEmail"><b>Email: *</label>
-        <input type = "email" class="input-box" id = "CoEmail" name = "CoEmail"required value="<?php echo $datarray[9]; ?>"><br><br>
+        <input type = "email" class="input-box" id = "CoEmail" name = "CoEmail"required value="<?php echo $datarray[8]; ?>"><br><br>
         <label for="CoGST"><b>GSTIN/UIN: *</label>
         <input type = "text" class="input-box" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required value="<?php echo $datarray[2]; ?>"><br><br>
         <label for="fileToUpload1"><b>Company Logo: *</label>
@@ -148,12 +148,12 @@ window.onload = function() {
   var filename1 = jsArray_1[11];
   var filename2 = jsArray_1[12];
   var filename3 = jsArray_1[13];
-  var input = document.getElementById("fileToUpload1");
-  input.value = ""; // Clear the current selection
-  var input = document.getElementById("fileToUpload2");
-  input.value = ""; // Clear the current selection
-  var input = document.getElementById("fileToUpload3");
-  input.value = ""; // Clear the current selection
+  var input1 = document.getElementById("fileToUpload1");
+  input1.files[0].name = filename1;
+  var input2 = document.getElementById("fileToUpload2");
+  input2.files[0].name = filename2;
+  var input3 = document.getElementById("fileToUpload3");
+  input3.files[0].name= filename3;
   displayFilename(filename1, filename2, filename3);
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];

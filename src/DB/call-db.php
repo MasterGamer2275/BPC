@@ -111,6 +111,35 @@ function dbeditsupplierrecord(&$db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SS
       }
 }
 
+//----------------------------------------DB - Update record (CompanyList Table)----------------------------------------//
+
+function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, &$text) { 
+    $sql =<<<EOF
+    UPDATE $tablename SET 
+    NAME = '$Coname',
+    GSTIN = '$CoGST',
+    ADDRESS = '$CoAddr',
+    CITY= '$CoCity',
+    STATE= '$Costate',
+    PINCODE= '$CoPcode',
+    PHONE= '$CoPh',
+    EMAIL= '$CoEmail',
+    ADMINPHONEAREACODE = '$CoAcode',
+    ADMINPHONE = '$CoAPh',
+    COMPANYLOGO = '$fileToUpload1',
+    DIGISIG = '$fileToUpload2',
+    LETTERHEAD = '$fileToUpload3'  WHERE ID = '$ID';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records updated successfully<br>";
+      }
+}
+
 //----------------------------------------DB - Delete record (Supplier Table)----------------------------------------//
 
 function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) { 

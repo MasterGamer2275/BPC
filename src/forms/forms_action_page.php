@@ -118,10 +118,61 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php } ?>
 <?php /*form - po------------------------------------------------- */ ?>
 <?php if ($_POST["POSubmit"] != "") {  ?>
-  <?php //echo "welcome to add stock to record<br>"; ?>
+  <?php //echo "welcome to add po to record<br>"; ?>
   <?php $tableDataJSON = $_POST['tableData']; ?>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
   <?php $tablename = "TEST_PO_1"; ?>
+<?php } ?>
+<?php /*form - update company list record-------------------------------------------------- */ ?>
+<?php if ($_POST["CoSave"] != "") {  ?>
+  <?php $ID= '6100'; ?>
+  <?php $Coname = $_POST["Coname"]; ?>
+  <?php $CoGST = $_POST["CoGST"]; ?>
+  <?php $CoAddr = $_POST["CoAddr"]; ?>
+  <?php $CoCity = $_POST["CoCity"]; ?>
+  <?php $Costate = $_POST["Costate"]; ?>
+  <?php $CoPcode = $_POST["CoPcode"]; ?>
+  <?php $CoPh = $_POST["CoPh"]; ?>
+  <?php $CoEmail= $_POST["CoEmail"]; ?>
+  <?php $CoAcode= $_POST["CoAcode"]; ?>
+  <?php $CoAPh= $_POST["CoAPh"]; ?>
+  <?php $fileToUpload1 = $_POST["fileToUpload1"]; ?>
+  <?php $fileToUpload2 = $_POST["fileToUpload2"]; ?>
+  <?php $fileToUpload3 = $_POST["fileToUpload3"]; ?>
+  <?php echo "welcome to update company list record<br>"; ?>
+  <?php $tablename = "TEST_COMPANY_LIST_2"; ?>
+
+      <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload1"])) { ?>
+        <?php $targetDirectory = $root."/uploads/company/"; ?>
+        <?php $targetFile1 = $targetDirectory . basename($_FILES["fileToUpload1"]["name"]); ?>
+        <?php if (move_uploaded_file($_FILES["fileToUpload1"]["tmp_name"], $targetFile1)) { ?>
+            <?php echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload1"]["name"])) . " has been uploaded."; ?>
+        <?php } else { ?>
+            <?php echo "Sorry, there was an error uploading your file."; ?>
+        <?php } ?>
+                <?php $targetFile2 = $targetDirectory . basename($_FILES["fileToUpload2"]["name"]); ?>
+        <?php if (move_uploaded_file($_FILES["fileToUpload2"]["tmp_name"], $targetFile2)) { ?>
+            <?php echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload2"]["name"])) . " has been uploaded."; ?>
+        <?php } else { ?>
+            <?php echo "Sorry, there was an error uploading your file."; ?>
+        <?php } ?>
+                <?php $targetFile3 = $targetDirectory . basename($_FILES["fileToUpload3"]["name"]); ?>
+        <?php if (move_uploaded_file($_FILES["fileToUpload3"]["tmp_name"], $targetFile1)) { ?>
+            <?php echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload3"]["name"])) . " has been uploaded."; ?>
+        <?php } else { ?>
+            <?php echo "Sorry, there was an error uploading your file."; ?>
+        <?php } ?>
+   <?php  } ?>
+  <!--
+  Additionally, consider implementing security measures such as checking file types, file size limits, 
+  and preventing file overwrites if necessary.
+   -->
+  <?php dbsetup($db, $text); ?>
+  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text) ?>
+  <?php dbclose($db, $text); ?>
+  <?php echo "Record Updated.<br>"; ?>
+  <?php header("Location: comapny1.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 </body>
 </html>
