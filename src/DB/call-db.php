@@ -47,13 +47,30 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
       $text .= $err;
       $text .= "<br>";
    } else {
-      $text .= "Tabe Read Successfully<br>";
+      $text .= "Table Read Successfully<br>";
     }
 }  
 
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 
 function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, &$CompanyID, $SIGST, &$text) { 
+  $CompanyID = "6100";
+  $sql =<<<EOF
+    INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
+    VALUES ('$Sname', '$SuGST', '$SAddr', '$SCity', '$SState', '$SPcode', '$SPh', '$SEmail', '$CompanyID','$SIGST');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+//----------------------------------------DB - Add record (Customer Table)----------------------------------------//
+
+function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$CompanyID, &$text) { 
   $CompanyID = "6100";
   $sql =<<<EOF
     INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
@@ -370,5 +387,74 @@ function dbgetvalue(&$db, $tablename, $columnname, $paramname, $paramvalue, &$ou
         $text .= "Data Read Successfully<br>";
     }
 }
+
+//----------------------------------------DB - Create Table (Customers)----------------------------------------//
+
+function dbcreatecustomertable(&$db, $tablename, &$text) {
+   $text .= "welcome to create customer table if not exists";
+
+$sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   NAME           TEXT  NOT NULL UNIQUE,
+   GSTIN          VARCHAR(15)  NOT NULL,
+   ADDRESS        TEXT		   NOT NULL,
+   CITY           TEXT		   NOT NULL,
+   STATE          TEXT		   NOT NULL,
+   PINCODE        TEXT		   NOT NULL,
+   PHONE          TEXT		   NOT NULL,
+   EMAIL          TEXT		   NOT NULL,
+   SECADDRESS     TEXT,
+   AREACODE       TEXT,
+   ADMINPHONE     TEXT,
+   COMPANYID   INTEGER		   NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
+}
+
+//----------------------------------------DB - Delete record (Customer Table)----------------------------------------//
+
+function dbdeletecustomerrecord(&$db, $tablename, $ID, &$text) { 
+  $sql =<<<EOF
+  DELETE FROM $tablename WHERE ID = '$ID';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records deleted successfully<br>";
+      }
+}
+
+//----------------------------------------DB - Add record (Customer Table)----------------------------------------//
+
+function dbaddcustomersrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) {
+  $CompanyID = "6100";
+  $sql =<<<EOF
+    INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,SECADDRESS,AREACODE,ADMINPHONE,COMPANYID)
+    VALUES ('$Cname', '$CGST', '$CAddr', '$CCity', '$CState', '$CPcode', '$CPh', '$CEmail', '$CSAddr', '$CACode', '$CACPh', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+
+
+
 
 ?>

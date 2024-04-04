@@ -61,13 +61,34 @@
             color: #333;
             font-weight: bold; 
 }
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .file-input-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file-input-wrapper .custom-button {
+        /* Style your custom button as you like */
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
 </style>
 <body>
 <div id="id04">
   <div class="container">
     <div class="textbox">
       <div class="form-group">
-        <form action="forms_action_page.php" class="form-container" method="post" id = "myForm" enctype="multipart/form-data">
+        <form action="forms_action_page.php" class="form-container" method="post" id = "form" enctype="multipart/form-data">
         <h3>My Company: Edit Profile</h3>
         <label for="Coname"><b>Name: *</label>
         <input type = "text" class="input-box" id = "Coname" name = "Coname" value="<?php echo $datarray[1]; ?>" required><br><br>
@@ -128,13 +149,13 @@
         <label for="CoGST"><b>GSTIN/UIN: *</label>
         <input type = "text" class="input-box" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required value="<?php echo $datarray[2]; ?>"><br><br>
         <label for="fileToUpload1"><b>Company Logo: *</label>
-        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".png, .jpeg" required >
+        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".jpg, .jpeg, .png">
         <div id="filenameDisplay1"></div><br><br>
         <label for="fileToUpload2"><b>Digital Signature: *</label>
-        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".png, .jpeg" required>
+        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".jpg, .jpeg, .png">
         <div id="filenameDisplay2"></div><br><br>
         <label for="fileToUpload3"><b>Letter Head: *</label>
-        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".png, .jpeg" required>
+        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".jpg, .jpeg, .png">
         <div id="filenameDisplay3"></div><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
@@ -148,12 +169,11 @@ window.onload = function() {
   var filename1 = jsArray_1[11];
   var filename2 = jsArray_1[12];
   var filename3 = jsArray_1[13];
-  var input1 = document.getElementById("fileToUpload1");
-  input1.files[0].name = filename1;
+  //input1.files[0] = filename1;
   var input2 = document.getElementById("fileToUpload2");
-  input2.files[0].name = filename2;
+  //input2.files[0] = filename2;
   var input3 = document.getElementById("fileToUpload3");
-  input3.files[0].name= filename3;
+  //input3.files[0]= filename3;
   displayFilename(filename1, filename2, filename3);
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];

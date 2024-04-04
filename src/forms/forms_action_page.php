@@ -171,7 +171,67 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text) ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
-  <?php header("Location: comapny1.php"); ?>
+  <?php header("Location: company1.php"); ?>
+  <?php exit; ?>
+<?php } ?>
+<?php /* ---------------------------------------------------------------- */ ?>
+<?php /*form - customer-------------------------------------------------- */ ?>
+<?php if ($_POST["ClAdd"] != "") {  ?>
+  <?php $Cname = $_POST["Cname"]; ?>
+  <?php $CGST = $_POST["CGST"]; ?>
+  <?php $CAddr = $_POST["CAddr"]; ?>
+  <?php $CCity = $_POST["CCity"]; ?>
+  <?php $CState = $_POST["Cstate"]; ?>
+  <?php $CPcode = $_POST["CPcode"]; ?>
+  <?php $CPh = $_POST["CPh"]; ?>
+  <?php $CEmail= $_POST["CEmail"]; ?>
+  <?php $CSAddr = $_POST["CSAddr"]; ?>
+  <?php $CACode = $_POST["CACode"]; ?>
+  <?php $CAPh = $_POST["CAPh"]; ?>
+  <?php //echo "welcome to add to customer record<br>"; ?>
+  <?php $tablename = "TEST_CUSTOMER_1"; ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbaddcustomersrecord($db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CAPh, $CompanyID, $text); ?>
+  <?php dbclose($db, $text); ?>
+  <?php //echo "Record Added.<br>"; ?>
+  <?php header("Location: customer.php"); ?>
+  <?php exit; ?>
+<?php } ?>
+<?php /* ---------------------------------------------------------------- */ ?>
+<?php /*form - update customer record-------------------------------------------------- */ ?>
+<?php if ($_POST["C2Save"] != "") {  ?>
+  <?php $ID= $_POST["CID2"]; ?>
+  <?php $Cname = $_POST["Cname2"]; ?>
+  <?php $CGST = $_POST["CGST2"]; ?>
+  <?php $CAddr = $_POST["CAddr2"]; ?>
+  <?php $CCity = $_POST["CCity2"]; ?>
+  <?php $CState = $_POST["Cstate2"]; ?>
+  <?php $CPcode = $_POST["CPcode2"]; ?>
+  <?php $CPh = $_POST["CPh2"]; ?>
+  <?php $CEmail= $_POST["CEmail2"]; ?>
+  <?php $CSAddr = $_POST["CSAddr2"]; ?>
+  <?php $CACode = $_POST["CACode2"]; ?>
+  <?php $CACPh = $_POST["CACPh2"]; ?>
+  <?php //echo "welcome to update cusotmer record<br>"; ?>
+  <?php $tablename = "TEST_CUSTOMER_1"; ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbeditcustomerrecord($db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $CompanyID, $text); ?>
+  <?php dbclose($db, $text); ?>
+  <?php //echo "Record Updated.<br>"; ?>
+  <?php //header("Location: customer.php"); ?>
+  <?php //exit; ?>
+<?php } ?>
+<?php /* ---------------------------------------------------------------- */ ?>
+<?php /*form - delete supplier record-------------------------------------------------- */ ?>
+<?php if ($_POST["Cdelete"] != "") {  ?>
+  <?php $ID= $_POST["CID2"]; ?>
+  <?php //echo "welcome to delete customer record<br>"; ?>
+  <?php $tablename = "TEST_CUSTOMER_1"; ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbdeletecustomerrecord($db, $tablename, $ID, $text); ?>
+  <?php dbclose($db, $text); ?>
+  <?php //echo "Record Deleted.<br>"; ?>
+  <?php header("Location: customer.php"); ?>
   <?php exit; ?>
 <?php } ?>
 </body>
