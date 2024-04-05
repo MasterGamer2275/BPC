@@ -136,12 +136,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CoEmail= $_POST["CoEmail"]; ?>
   <?php $CoAcode= $_POST["CoAcode"]; ?>
   <?php $CoAPh= $_POST["CoAPh"]; ?>
-  <?php $fileToUpload1 = $_POST["fileToUpload1"]; ?>
-  <?php $fileToUpload2 = $_POST["fileToUpload2"]; ?>
-  <?php $fileToUpload3 = $_POST["fileToUpload3"]; ?>
+  <?php $fileToUpload1 = basename($_FILES["fileToUpload1"]["name"]); ?>
+  <?php $fileToUpload2 = basename($_FILES["fileToUpload2"]["name"]); ?>
+  <?php $fileToUpload3 = basename($_FILES["fileToUpload3"]["name"]); ?>
   <?php echo "welcome to update company list record<br>"; ?>
   <?php $tablename = "TEST_COMPANY_LIST_2"; ?>
-<!--
+
       <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload1"])) { ?>
         <?php $targetDirectory = $root."/uploads/company/"; ?>
         <?php $targetFile1 = $targetDirectory . basename($_FILES["fileToUpload1"]["name"]); ?>
@@ -163,13 +163,14 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
             <?php echo "Sorry, there was an error uploading your file."; ?>
         <?php } ?>
    <?php  } ?>
-   -->
+
   <!--
   Additionally, consider implementing security measures such as checking file types, file size limits, 
   and preventing file overwrites if necessary.
    -->
   <?php dbsetup($db, $text); ?>
-  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text) ?>
+  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text); ?>
+  <?php //dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
   <?php header("Location: company1.php"); ?>

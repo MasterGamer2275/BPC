@@ -62,6 +62,7 @@
             font-weight: bold; 
 }
 
+
 </style>
 <body>
 <div id="id04">
@@ -129,14 +130,14 @@
         <label for="CoGST"><b>GSTIN/UIN: *</label>
         <input type = "text" class="input-box" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required value="<?php echo $datarray[2]; ?>"><br><br>
         <label for="fileToUpload1"><b>Company Logo:</label>
-        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".jpg, .jpeg, .png">
-        <input type="text" id="filenameDisplay1"><br><br>
+        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".jpg, .jpeg, .png" onchange = "updateval();">
+        <input type="text" id="filenameDisplay1" Style = "border:none"><br><br>
         <label for="fileToUpload2"><b>Digital Signature:</label>
-        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".jpg, .jpeg, .png">
-        <input type="text" id="filenameDisplay2"><br><br>
+        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".jpg, .jpeg, .png" onchange = "updateval();">
+        <input type="text" id="filenameDisplay2" Style = "border:none"><br><br>
         <label for="fileToUpload3"><b>Letter Head:</label>
-        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".jpg, .jpeg, .png">
-        <input type="text"id="filenameDisplay3"><br><br>
+        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".jpg, .jpeg, .png" onchange = "updateval();">
+        <input type="text"id="filenameDisplay3" Style = "border:none"><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>
@@ -158,6 +159,15 @@ window.onload = function() {
   var input3 = document.getElementById("fileToUpload3");
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];
+}
+
+function updateval() {
+  var input1 = document.getElementById("fileToUpload1");
+  var input2 = document.getElementById("fileToUpload2");
+  var input3 = document.getElementById("fileToUpload3");
+  document.getElementById("filenameDisplay1").value = input1.files[0].name;
+  document.getElementById("filenameDisplay2").value = input2.files[0].name;
+  document.getElementById("filenameDisplay3").value = input3.files[0].name;
 }
 </script>
 

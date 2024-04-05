@@ -15,3 +15,13 @@ SELECT * FROM Customers WHERE City LIKE '[acs]%';
 SELECT * FROM Customers WHERE Country IN ('Norway', 'France');
 ALTER TABLE TEST_COMMODITY_3 ADD REELSIZEinCM INTEGER;
 UPDATE $tablename SET REELSIZEinCM = '31.2' WHERE ID BETWEEN '1' AND '6';
+
+  $sql =<<<EOF
+    DELETE FROM $tablename WHERE ID BETWEEN 15 AND 17;
+  EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Done!";
+   }

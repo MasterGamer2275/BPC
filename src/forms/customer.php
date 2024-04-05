@@ -252,7 +252,7 @@ height: 20px;
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post">
    <input type = "number" id = "CID2" name = "CID2" maxlength = "6" size = "6" hidden>
-   <label for="CName2"><b>Customer Name: ** &nbsp;</label>
+   <label for="CName2"><b>Customer Name: * &nbsp;</label>
    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "C2Save" name = "C2Save" value = "V" ></button>
    <input type = "submit" style="font-size:18px" class = "delete" id = "Cdelete" name = "Cdelete" value = "Del">
    <input type = "button" style="font-size:18px" class = "cancel" id = "Ccancel" name = "Ccancel" value = "X" onclick= "closeForm()">
@@ -264,8 +264,50 @@ height: 20px;
    <input type = "text" id = "CAddr2" name = "CAddr2" size="75">
    <label for="CCity2"><b>City: *</label>
    <input type = "text" id = "CCity2" name = "CCity2" size="32">
+   <label for="CState2"><b>State:</label>
+<select name="Cstate2" id="Cstate2">
+<option value="">Select</option>
+<option value="Andhra Pradesh">Andhra Pradesh</option>
+<option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+<option value="Assam">Assam</option>
+<option value="Bihar">Bihar</option>
+<option value="Chandigarh">Chandigarh</option>
+<option value="Chhattisgarh">Chhattisgarh</option>
+<option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+<option value="Daman and Diu">Daman and Diu</option>
+<option value="Delhi">Delhi</option>
+<option value="Lakshadweep">Lakshadweep</option>
+<option value="Puducherry">Puducherry</option>
+<option value="Goa">Goa</option>
+<option value="Gujarat">Gujarat</option>
+<option value="Haryana">Haryana</option>
+<option value="Himachal Pradesh">Himachal Pradesh</option>
+<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+<option value="Jharkhand">Jharkhand</option>
+<option value="Karnataka">Karnataka</option>
+<option value="Kerala">Kerala</option>
+<option value="Madhya Pradesh">Madhya Pradesh</option>
+<option value="Maharashtra">Maharashtra</option>
+<option value="Manipur">Manipur</option>
+<option value="Meghalaya">Meghalaya</option>
+<option value="Mizoram">Mizoram</option>
+<option value="Nagaland">Nagaland</option>
+<option value="Odisha">Odisha</option>
+<option value="Punjab">Punjab</option>
+<option value="Rajasthan">Rajasthan</option>
+<option value="Sikkim">Sikkim</option>
+<option value="Tamil Nadu">Tamil Nadu</option>
+<option value="Telangana">Telangana</option>
+<option value="Tripura">Tripura</option>
+<option value="Uttar Pradesh">Uttar Pradesh</option>
+<option value="Uttarakhand">Uttarakhand</option>
+<option value="West Bengal">West Bengal</option>
+</select>
+   <!--
    <label for="Cstate2"><b>State:</label>
     <input type = "text" name="Cstate2" id="Cstate2">
+    -->
    <label for="CPcode2"><b>Pincode: *</label>
    <input type = "text" id = "CPcode2" name = "CPcode2" maxlength = "6" size = "6">
    <label for="CPh2"><b>Mobile: *+91</label>
@@ -313,9 +355,9 @@ height: 20px;
       var saddr = cells[9].innerText;
       var adphac= cells[10].innerText;
       var adph = cells[11].innerText;
-      var statearray = ["Andhra Pradesh", "Andaman and Nicobar Islands", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadar and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-      var strstr = JSON.stringify(state);
-      var x = statearray.indexOf(state);
+      //var statearray = ["Andhra Pradesh", "Andaman and Nicobar Islands", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadar and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
+      //var strstr = JSON.stringify(state);
+      //var x = statearray.indexOf(state);
       // Set the values of the form fields
       document.getElementById("CID2").value = id;
       document.getElementById("CName2").value = name;

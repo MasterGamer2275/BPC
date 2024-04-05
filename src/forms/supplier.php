@@ -248,8 +248,49 @@ height: 20px;
    <input type = "text" id = "SAddr2" name = "SAddr2" size="75" maxlength = "75">
    <label for="SCity2"><b>City:</label>
    <input type = "text" id = "SCity2" name = "SCity2" size="32" maxlength = "32">
-   <label for="Sstate2"><b>State:</label>
+       <label for="Sstate2"><b>State:</label>
+      <select name="Sstate2" id="Sstate2">
+        <option value="">Select</option>
+        <option value="Andhra Pradesh">Andhra Pradesh</option>
+        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+        <option value="Assam">Assam</option>
+        <option value="Bihar">Bihar</option>
+        <option value="Chandigarh">Chandigarh</option>
+        <option value="Chhattisgarh">Chhattisgarh</option>
+        <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+        <option value="Daman and Diu">Daman and Diu</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Lakshadweep">Lakshadweep</option>
+        <option value="Puducherry">Puducherry</option>
+        <option value="Goa">Goa</option>
+        <option value="Gujarat">Gujarat</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Himachal Pradesh">Himachal Pradesh</option>
+        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+        <option value="Jharkhand">Jharkhand</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Kerala">Kerala</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Manipur">Manipur</option>
+        <option value="Meghalaya">Meghalaya</option>
+        <option value="Mizoram">Mizoram</option>
+        <option value="Nagaland">Nagaland</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Punjab">Punjab</option>
+        <option value="Rajasthan">Rajasthan</option>
+        <option value="Sikkim">Sikkim</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Telangana">Telangana</option>
+        <option value="Tripura">Tripura</option>
+        <option value="Uttar Pradesh">Uttar Pradesh</option>
+        <option value="Uttarakhand">Uttarakhand</option>
+        <option value="West Bengal">West Bengal</option>
+      </select>
+   <!--<label for="Sstate2"><b>State:</label>
     <input type = "text" name="Sstate2" id="Sstate2">
+    -->
    <label for="SPcode2"><b>Pincode:</label>
    <input type = "text" id = "SPcode2" name = "SPcode2" maxlength = "6" size = "6" pattern="\d{6}">
    <label for="SPh2"><b>Mobile: +91</label>
@@ -293,9 +334,9 @@ height: 20px;
       var email = cells[8].innerText;
       var igst = cells[10].innerText;
       var igstboolean = (igst == "on");
-      var statearray = ["Andhra Pradesh", "Andaman and Nicobar Islands", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadar and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-      var strstr = JSON.stringify(state);
-      var x = statearray.indexOf(state);
+      //var statearray = ["Andhra Pradesh", "Andaman and Nicobar Islands", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadar and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
+      //var strstr = JSON.stringify(state);
+      //var x = statearray.indexOf(state);
       // Set the values of the form fields
       document.getElementById("SID").value = id;
       document.getElementById("Sname2").value = name;
