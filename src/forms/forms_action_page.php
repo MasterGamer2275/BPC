@@ -174,8 +174,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
-  <?php //header("Location: company1.php"); ?>
-  <?php //exit; ?>
+  <?php header("Location: company1.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 <?php /* ---------------------------------------------------------------- */ ?>
 <?php /*form - customer-------------------------------------------------- */ ?>
