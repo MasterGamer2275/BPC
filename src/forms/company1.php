@@ -68,7 +68,7 @@ input[type="file"] {
 
 /* Style the custom file input button */
 .custom-file-input {
-    background-color: #3498db;
+    background-color: #ddd;
     color: #fff;
     padding: 8px 12px;
     border-radius: 5px;
@@ -153,16 +153,19 @@ input[type="file"] {
         <input type="file" id="file1">
         <!-- Display selected file name -->
         <label for="file1" id="file1-label"></label><br><br>
+        <input type="text" name="file1_name" id="file1-name-hidden" hidden>
         <!-- Custom file input -->
         <label for="file2" class="custom-file-input">Choose a Digital Signature File</label>
         <input type="file" id="file2">
         <!-- Display selected file name -->
         <label for="file2" id="file2-label"></label><br><br>
+        <input type="text" name="file2_name" id="file2-name-hidden" hidden>
         <!-- Custom file input -->
         <label for="file3" class="custom-file-input">Choose a Letterhead File</label>
         <input type="file" id="file3">
         <!-- Display selected file name -->
         <label for="file3" id="file3-label"></label><br><br>
+        <input type="text" name="file3_name" id="file3-name-hidden" hidden>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>
@@ -173,18 +176,24 @@ input[type="file"] {
 <script>
 const fileInput1 = document.getElementById('file1');
 const fileLabel1 = document.getElementById('file1-label');
+const filename1 = document.getElementById('file1-name-hidden');
 const fileInput2 = document.getElementById('file2');
 const fileLabel2 = document.getElementById('file2-label');
+const filename2 = document.getElementById('file2-name-hidden');
 const fileInput3 = document.getElementById('file3');
 const fileLabel3 = document.getElementById('file3-label');
+const filename3 = document.getElementById('file3-name-hidden');
 fileInput1.addEventListener('change', function() {
     fileLabel1.textContent = this.files[0].name;
+    filename1.value = this.files[0].name;
 });
 fileInput2.addEventListener('change', function() {
     fileLabel2.textContent = this.files[0].name;
+    filename2.value = this.files[0].name;
 });
 fileInput3.addEventListener('change', function() {
     fileLabel3.textContent = this.files[0].name;
+    filename3.value = this.files[0].name;
 });
 
 window.onload = function() {
@@ -194,21 +203,13 @@ window.onload = function() {
   document.getElementById("file1-label").textContent = filename1;
   document.getElementById("file2-label").textContent = filename2;
   document.getElementById("file3-label").textContent= filename3;
-  var input1 = document.getElementById("fileToUpload1");
-  var input2 = document.getElementById("fileToUpload2");
-  var input3 = document.getElementById("fileToUpload3");
+  document.getElementById("file1-name-hidden").value = filename1;
+  document.getElementById("file2-name-hidden").value = filename2;
+  document.getElementById("file3-name-hidden").value = filename3;
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];
 }
 
-function updateval() {
-  var input1 = document.getElementById("fileToUpload1");
-  var input2 = document.getElementById("fileToUpload2");
-  var input3 = document.getElementById("fileToUpload3");
-  document.getElementById("filenameDisplay1").value = input1.files[0].name;
-  document.getElementById("filenameDisplay2").value = input2.files[0].name;
-  document.getElementById("filenameDisplay3").value = input3.files[0].name;
-}
 </script>
 
 </body>

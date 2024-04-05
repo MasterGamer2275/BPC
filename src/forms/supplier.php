@@ -145,7 +145,7 @@ height: 20px;
 <div id="id01">
 
   <form action="forms_action_page.php" method="post">
-    <h3>Suppliers : Add/Edit Suppliers<h3p><br><br>
+    <h3>Supplier Portal: Add/Edit Suppliers<h3p><br><br>
     <label for="Sname"><b>Supplier Name: *</label>
     <input type= "text" id = "Sname" name = "Sname" required size="75">
     <label for="SuGST"><b>GSTIN/UIN: *</label>

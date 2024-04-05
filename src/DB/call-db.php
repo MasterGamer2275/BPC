@@ -397,6 +397,7 @@ $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
    ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
    NAME           TEXT  NOT NULL UNIQUE,
+   CLIENTNAME     TEXT,
    GSTIN          VARCHAR(15)  NOT NULL,
    ADDRESS        TEXT		   NOT NULL,
    CITY           TEXT		   NOT NULL,
@@ -407,7 +408,7 @@ $sql =<<<EOF
    SECADDRESS     TEXT,
    AREACODE       TEXT,
    ADMINPHONE     TEXT,
-   COMPANYID   INTEGER		   NOT NULL
+   COMPANYID      INTEGER		   NOT NULL   
 );
 EOF;
    $ret = $db->exec($sql);
@@ -438,11 +439,11 @@ function dbdeletecustomerrecord(&$db, $tablename, $ID, &$text) {
 
 //----------------------------------------DB - Add record (Customer Table)----------------------------------------//
 
-function dbaddcustomersrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) {
+function dbaddcustomersrecord(&$db, $tablename, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) {
   $CompanyID = "6100";
   $sql =<<<EOF
-    INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,SECADDRESS,AREACODE,ADMINPHONE,COMPANYID)
-    VALUES ('$Cname', '$CGST', '$CAddr', '$CCity', '$CState', '$CPcode', '$CPh', '$CEmail', '$CSAddr', '$CACode', '$CACPh', '$CompanyID');
+    INSERT INTO $tablename (NAME,CLIENTNAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,SECADDRESS,AREACODE,ADMINPHONE,COMPANYID)
+    VALUES ('$Cname', '$Clname', '$CGST', '$CAddr', '$CCity', '$CState', '$CPcode', '$CPh', '$CEmail', '$CSAddr', '$CACode', '$CACPh', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -455,10 +456,11 @@ function dbaddcustomersrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $
 }
 
 //----------------------------------------DB - Update record (Customer Table)----------------------------------------//
-function dbeditcustomer(&$db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) { 
+function dbeditcustomer(&$db, $tablename, $ID, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) { 
    $sql =<<<EOF
    UPDATE $tablename SET
    NAME = '$Cname',
+   CLIENTNAME = '$Clname',
    GSTIN = '$CGST',
    ADDRESS = '$CAddr',
    CITY= '$CCity',
@@ -480,5 +482,75 @@ function dbeditcustomer(&$db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $C
       }
 }
 
+//----------------------------------------DB - Create Table (Products)----------------------------------------//
+
+function dbcreateproducttable(&$db, $tablename, &$text) {
+   $text .= "welcome to create product table if not exists";
+
+$sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID INTEGER  PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+   CUSTOMERNAME   TEXT        NOT NULL,
+   DESCRIPTION    TEXT        NOT NULL,
+   SPEC           TEXT		   NOT NULL,
+   GSM            TEXT		   NOT NULL,
+   SIZE           TEXT		   NOT NULL,
+   UNIT           TEXT		   NOT NULL,
+   RATE           TEXT		   NOT NULL,
+   COMPANYID      INTEGER		NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
+}
+
+//----------------------------------------DB - Add record (Product Table)----------------------------------------//
+
+function dbaddproductrecord(&$db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PSize, $Punit, $PRate, &$text) {
+  $CompanyID = "6100";
+  $sql =<<<EOF
+    INSERT INTO $tablename (CUSTOMERNAME,DESCRIPTION,SPEC,GSM,SIZE,UNIT,RATE,COMPANYID)
+    VALUES ('$PCName', '$PDes', '$PSpec', '$PGSM', '$PSize', '$Punit', '$PRate', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+
+//----------------------------------------DB - check record (Product Table)----------------------------------------//
+
+function dbcheckproductrecord(&$db, $tablename, $PCName, $PSpec, $PSize, $Punit, $CompanyID, $found, &$text) {
+  $CompanyID = "6100";
+  $dbtabdata = array(array());
+  $i = 0;
+  $res = $db->query("SELECT * FROM $tablename WHERE NAME='$PCName' and SPEC='$PSpec' and SIZE='$PSize' and UNIT='$Punit' and COMPANYID ='$CompanyID'");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  array_push($dbtabdata,$row);
+  $i = $i+1;
+  }
+  $found = ($i>0);
+  if ($found) {
+   $text .= "Record Already Exists <br>";
+  }
+  $ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "DB check completed<br>";
+    }
+} 
 
 ?>

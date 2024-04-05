@@ -136,13 +136,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CoEmail= $_POST["CoEmail"]; ?>
   <?php $CoAcode= $_POST["CoAcode"]; ?>
   <?php $CoAPh= $_POST["CoAPh"]; ?>
-  <?php $fileToUpload1 = $_FILES["file1"]["name"]; ?>
-  <?php echo $fileToUpload1; ?>
-  <?php $fileToUpload2 = $_FILES["file2"]["name"]; ?>
-  <?php $fileToUpload3 = $_FILES["file3"]["name"]; ?>
+  <?php $upload1 = $_POST["file1-name-hidden"]; ?>
+  <?php echo $upload1; ?>
+  <?php $upload2 = $_POST["file2-name-hidden"]; ?>
+  <?php $upload3 = $_POST["file3-name-hidden"]; ?>
   <?php echo "welcome to update company list record<br>"; ?>
   <?php $tablename = "TEST_COMPANY_LIST_2"; ?>
-
       <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file1"]) &&  isset($_FILES["file2"]) &&  isset($_FILES["file3"])) { ?>
         <?php $targetDirectory = $root."/uploads/company/"; ?>
         <?php $targetFile1 = $targetDirectory . basename($_FILES["file1"]["name"]); ?>
@@ -174,13 +173,14 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
-  <?php header("Location: company1.php"); ?>
-  <?php exit; ?>
+  <?php //header("Location: company1.php"); ?>
+  <?php //exit; ?>
 <?php } ?>
 <?php /* ---------------------------------------------------------------- */ ?>
 <?php /*form - customer-------------------------------------------------- */ ?>
 <?php if ($_POST["ClAdd"] != "") {  ?>
   <?php $Cname = $_POST["Cname"]; ?>
+  <?php $Clname = $_POST["Clname"]; ?>
   <?php $CGST = $_POST["CGST"]; ?>
   <?php $CAddr = $_POST["CAddr"]; ?>
   <?php $CCity = $_POST["CCity"]; ?>
@@ -192,9 +192,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CACode = $_POST["CACode"]; ?>
   <?php $CAPh = $_POST["CAPh"]; ?>
   <?php //echo "welcome to add to customer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_2"; ?>
+  <?php $tablename = "TEST_CUSTOMER_3"; ?>
   <?php dbsetup($db, $text); ?>
-  <?php dbaddcustomersrecord($db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CAPh, $CompanyID, $text); ?>
+  <?php dbaddcustomersrecord($db, $tablename, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CAPh, $CompanyID, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php //echo "Record Added.<br>"; ?>
   <?php header("Location: customer.php"); ?>
@@ -205,6 +205,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php if ($_POST["C2Save"] != "") {  ?>
   <?php $ID= $_POST["CID2"]; ?>
   <?php $Cname = $_POST["CN2"]; ?>
+  <?php $Clname = $_POST["ClN2"]; ?>
   <?php $CGST = $_POST["CGST2"]; ?>
   <?php $CAddr = $_POST["CAddr2"]; ?>
   <?php $CCity = $_POST["CCity2"]; ?>
@@ -216,9 +217,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CACode = $_POST["CAPhAc2"]; ?>
   <?php $CACPh = $_POST["CAPh2"]; ?>
   <?php //echo "welcome to update cusotmer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_2"; ?>
+  <?php $tablename = "TEST_CUSTOMER_3"; ?>
   <?php dbsetup($db, $text); ?>
-  <?php dbeditcustomer($db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $text); ?>
+  <?php dbeditcustomer($db, $tablename, $ID, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
   <?php header("Location: customer.php"); ?>
@@ -229,12 +230,44 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php if ($_POST["Cdelete"] != "") {  ?>
   <?php $ID= $_POST["CID2"]; ?>
   <?php //echo "welcome to delete customer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_2"; ?>
+  <?php $tablename = "TEST_CUSTOMER_3"; ?>
   <?php dbsetup($db, $text); ?>
   <?php dbdeletecustomerrecord($db, $tablename, $ID, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php //echo "Record Deleted.<br>"; ?>
   <?php header("Location: customer.php"); ?>
+  <?php exit; ?>
+<?php } ?>
+<?php /* ---------------------------------------------------------------- */ ?>
+<?php /*form - products-------------------------------------------------- */ ?>
+<?php if ($_POST["PAdd"] != "") {  ?>
+  <?php $PCName = $_POST["pCus"]; ?>
+  <?php $PDes = $_POST["pDes"]; ?>
+  <?php $PSpec = $_POST["pSpec"]; ?>
+  <?php $PGSM= $_POST["pGSM"]; ?>
+  <?php $Str = ""; ?>
+  <?php for ($i = 1; $i < 4; $i++) {; ?>
+     <?php $Str1 = $_POST["pSize" . $i]; ?>
+     <?php if ($Str1 == "") {  ?>
+        <?php } else { ?>
+            <?php $Str = $Str . "x" . $Str1; ?>
+        <?php } ?>
+  <?php } ?>
+  <?php $PSize = substr($Str, 1); ?>
+  <?php $Punit = $_POST["pUnit"]; ?>
+  <?php $PRate= $_POST["pRate"]; ?>
+  <?php $found= 0; ?>
+  <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
+  <?php //echo "welcome to add to product record<br>"; ?>
+  <?php $tablename = "TEST_PRODUCT_1"; ?>
+  <?php dbsetup($db, $text); ?>
+  <?php dbcheckproductrecord($db, $tablename, $PCName, $PSpec, $PSize, $Punit, $CompanyID, $found, $text); ?>
+  <?php if ($found == 0) {  ?>
+  <?php dbaddproductrecord($db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PSize, $Punit, $PRate, $text); ?>
+  <?php  }  ?>
+  <?php dbclose($db, $text); ?>
+  <?php echo "Record Added.<br>"; ?>
+  <?php header("Location: product.php"); ?>
   <?php exit; ?>
 <?php } ?>
 </body>

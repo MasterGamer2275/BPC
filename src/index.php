@@ -6,7 +6,20 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   error_reporting(E_ALL);
 }
 ?>
+<!--
+<!DOCTYPE html>
+<html>
+<body>
 
+<form action="upload.php" method="post" enctype="multipart/form-data">
+  Select image to upload:
+  <input type="file" name="fileToUpload" id="fileToUpload">
+  <input type="submit" value="Upload Image" name="submit">
+</form>
+
+</body>
+</html>
+-->
 <?php
 /*
 include 'examples/company-table.php';

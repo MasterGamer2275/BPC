@@ -7,7 +7,7 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  $tablename = "TEST_CUSTOMER_2";
+  $tablename = "TEST_CUSTOMER_3";
   dbsetup($db, $text);
   dbcreatecustomertable($db, $tablename, $text);
   $dbtabdata = array(array());
@@ -154,7 +154,9 @@ height: 20px;
 </style>
 
 <form action="forms_action_page.php" method="post">
-<h3>Customers : Please feed the new customer name, address and GST info in to the MES System.</h3>
+<h3>Client Portal : Add/Edit Client</h3>
+<label for="Clname"><b>Client Name: *</label>
+<input type = "text" id = "Clname" name = "Clname" required size="141"><br><br>
 <label for="Cname"><b>Customer Name: *</label>
 <input type = "text" id = "Cname" name = "Cname" required size="100">
 <label for="CGST"><b>GSTIN/UIN: *</label>
@@ -209,7 +211,7 @@ height: 20px;
 <label for="CPh"><b>Mobile No: * +91</label>
 <input type = "text" inputmode="numeric" id = "CPh" name = "CPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required>
 <label for="CEmail"><b>Email: *</label>
-<input type = "email" id = "CEmail" name = "CEmail" size="51" required>
+<input type = "email" id = "CEmail" name = "CEmail" size="60" required>
 <br><br>
 <label for="CSAddr"><b>Secondary Address:</label>
 <input type = "text" id = "CSAddr" name = "CSAddr" size="82">
@@ -223,6 +225,7 @@ height: 20px;
   <tr>
     <th>Customer ID</th>
     <th>Customer Name</th>
+    <th>Client Name</th>
     <th>GSTIN/UIN</th>
     <th>Address</th>
     <th>City</th>
@@ -252,12 +255,15 @@ height: 20px;
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post">
    <input type = "number" id = "CID2" name = "CID2" maxlength = "6" size = "6" hidden>
-   <label for="CName2"><b>Customer Name: * &nbsp;</label>
+   <label for="ClName2"><b>Client Name: * &nbsp;</label>
    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "C2Save" name = "C2Save" value = "V" ></button>
    <input type = "submit" style="font-size:18px" class = "delete" id = "Cdelete" name = "Cdelete" value = "Del">
    <input type = "button" style="font-size:18px" class = "cancel" id = "Ccancel" name = "Ccancel" value = "X" onclick= "closeForm()">
-   <input type= "text" id = "CName2" name = "CName2" required size="75" disabled>
+   <input type= "text" id = "ClName2" name = "ClName2" required size="75">
    <input type= "text" id = "CN2" name = "CN2" required size="75" hidden>
+   <input type= "text" id = "ClN2" name = "ClN2" required size="75" hidden>
+   <!--<label for="CName2"><b>Customer Name: * &nbsp;</label> -->
+   <input type= "text" id = "CName2" name = "CName2" required size="75" disabled hidden>
    <label for="CGST2"><b>GSTIN/UIN: *</label>
    <input type = "text" id = "CGST2" name = "CGST2" maxlength = "15" size = "15" required>
    <label for="CAddr2"><b>Address: *</label>
@@ -345,22 +351,25 @@ height: 20px;
       // Extract the data from cells
       var id = cells[0].innerText;
       var name = cells[1].innerText;
-      var gstin = cells[2].innerText;
-      var addr = cells[3].innerText;
-      var city = cells[4].innerText;
-      var state = cells[5].innerText;
-      var pincode = cells[6].innerText;
-      var phone = cells[7].innerText;
-      var email = cells[8].innerText;
-      var saddr = cells[9].innerText;
-      var adphac= cells[10].innerText;
-      var adph = cells[11].innerText;
+      var clname = cells[2].innerText;
+      var gstin = cells[3].innerText;
+      var addr = cells[4].innerText;
+      var city = cells[5].innerText;
+      var state = cells[6].innerText;
+      var pincode = cells[7].innerText;
+      var phone = cells[8].innerText;
+      var email = cells[9].innerText;
+      var saddr = cells[10].innerText;
+      var adphac= cells[11].innerText;
+      var adph = cells[12].innerText;
       //var statearray = ["Andhra Pradesh", "Andaman and Nicobar Islands", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadar and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Puducherry", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
       //var strstr = JSON.stringify(state);
       //var x = statearray.indexOf(state);
       // Set the values of the form fields
       document.getElementById("CID2").value = id;
       document.getElementById("CName2").value = name;
+      document.getElementById("ClName2").value = clname;
+      document.getElementById("ClN2").value = clname;
       document.getElementById("CN2").value = name;
       document.getElementById("CGST2").value = gstin;
       document.getElementById("CAddr2").value = addr;

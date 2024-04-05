@@ -80,8 +80,8 @@ height: 20px;
 </style>
 
 <form action="forms_action_page.php" method="post">
-<h3>Commodities : Add Commodity Spec</p>
-<label for="Cname"><b>Commodity Name: *</label>
+<h3>Create/Add Raw Material Master:</p>
+<label for="Cname"><b>Material Type: *</label>
 <input type = "text" id = "Cname" name = "Cname" required>
 <label for="CSname"><b>Supplier Name: *</label>
 <select name="CSname" id="CSname">
@@ -109,7 +109,7 @@ height: 20px;
 <table>
   <tr>
     <th>Commodity ID</th>
-    <th>Commodity Name</th>
+    <th>Material Type</th>
     <th>Supplier Name</th>
     <th>GSM</th>
     <th>BF</th>
