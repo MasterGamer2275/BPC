@@ -7,15 +7,16 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  $tablename = "TEST_COMMODITY_3";
   dbsetup($db, $text);
+  $tablename = $_SESSION["ComListTabName"];
   dbcreatecommoditytable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
-  $tablename = "TEST_SUPPLIER_4";
+  $tablename = $_SESSION["SListTabName"];
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
+  include $root."errorhandler.php";
   dbclose($db, $text);
 ?>
 <!DOCTYPE html>

@@ -23,6 +23,15 @@ function dbsetup(&$db, &$text) {
    } else {
      $text .= "Opened database successfully<br>";
    }
+session_start();
+$_SESSION["companyID"] = "6100";
+$_SESSION["SListTabName"] = "TEST_SUPPLIER_4";
+$_SESSION["ComListTabName"] = "TEST_COMMODITY_3";
+$_SESSION["StListTabName"] = "TEST_STOCK_4";
+$_SESSION["POListTabName"] = "TEST_PO_LIST_1";
+$_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
+$_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
+$_SESSION["PListTabName"] = "TEST_PRODUCT_1";
 }
 
 //----------------------------------------DB - Close----------------------------------------//
@@ -31,12 +40,14 @@ function dbclose (&$db, &$text) {
    $db->close();
    $text .= "Closed database successfully<br>";
    //echo $text;
+   session_destroy();
 }
 
 //----------------------------------------DB - Read Table----------------------------------------//
 
 function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
+  //echo "<script>alert('" . "Hello!" . "');</script>";
   $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = '$CompanyID' ORDER BY ID DESC");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
@@ -46,6 +57,7 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
       $err = $db->lastErrorMsg();
       $text .= $err;
       $text .= "<br>";
+      echo "<script>alert('" . $err . "');</script>";
    } else {
       $text .= "Table Read Successfully<br>";
     }
@@ -64,6 +76,7 @@ function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -81,6 +94,7 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -99,6 +113,7 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -123,6 +138,7 @@ function dbeditsupplierrecord(&$db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SS
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records updated successfully<br>";
       }
@@ -152,6 +168,7 @@ function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCit
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records updated successfully<br>";
       }
@@ -168,6 +185,7 @@ function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) {
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records deleted successfully<br>";
       }
@@ -186,6 +204,7 @@ function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
+          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }

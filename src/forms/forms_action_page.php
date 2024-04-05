@@ -27,8 +27,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
   <?php //include ($root."/DB/db-setup.php"); ?>
   <?php //echo "welcome to add to supplier record<br>"; ?>
-  <?php $tablename = "TEST_SUPPLIER_4"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["SListTabName"]; ?>
   <?php dbaddsupplierrecord($db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $CompanyID, $SIGST, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Added.<br>"; ?>
@@ -45,8 +45,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $found= 0; ?>
   <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
   <?php //echo "welcome to add to commodity record<br>"; ?>
-  <?php $tablename = "TEST_COMMODITY_3"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["ComListTabName"]; ?>
   <?php dbcheckcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $found, $text); ?>
   <?php if ($found == 0) {  ?>
   <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $text); ?>
@@ -69,8 +69,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $SPh = $_POST["SPh2"]; ?>
   <?php $SEmail= $_POST["SEmail2"]; ?>
   <?php //echo "welcome to update supplier record<br>"; ?>
-  <?php $tablename = "TEST_SUPPLIER_4"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["SListTabName"]; ?>
   <?php dbeditsupplierrecord($db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail,$SIGST, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
@@ -81,8 +81,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php if ($_POST["Sdelete"] != "") {  ?>
   <?php $ID= $_POST["SID"]; ?>
   <?php //echo "welcome to delete supplier record<br>"; ?>
-  <?php $tablename = "TEST_SUPPLIER_4"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["SListTabName"]; ?>
   <?php dbdeletesupplierrecord($db, $tablename, $ID, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Deleted.<br>"; ?>
@@ -96,8 +96,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $InvNum= $_POST["PSInumber"]; ?>
   <?php $tableDataJSON = $_POST['tableData']; ?>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
-  <?php $tablename = "TEST_STOCK_4"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["StListTabName"]; ?>
   <?php dbcreatestocktable($db, $tablename, $text); ?>
   <?php $i = 0; ?>
   <?php foreach ($tableData as $row) { ?>
@@ -141,8 +141,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $upload2 = $_POST["file2-name-hidden"]; ?>
   <?php $upload3 = $_POST["file3-name-hidden"]; ?>
   <?php echo "welcome to update company list record<br>"; ?>
-  <?php $tablename = "TEST_COMPANY_LIST_2"; ?>
-      <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file1"]) &&  isset($_FILES["file2"]) &&  isset($_FILES["file3"])) { ?>
+        <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file1"]) &&  isset($_FILES["file2"]) &&  isset($_FILES["file3"])) { ?>
         <?php $targetDirectory = $root."/uploads/company/"; ?>
         <?php $targetFile1 = $targetDirectory . basename($_FILES["file1"]["name"]); ?>
         <?php if (move_uploaded_file($_FILES["file1"]["tmp_name"], $targetFile1)) { ?>
@@ -169,6 +168,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   and preventing file overwrites if necessary.
    -->
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["CoListTabName"]; ?>
   <?php //dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text); ?>
   <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
   <?php dbclose($db, $text); ?>
@@ -192,8 +192,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CACode = $_POST["CACode"]; ?>
   <?php $CAPh = $_POST["CAPh"]; ?>
   <?php //echo "welcome to add to customer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_3"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["ClListTabName"]; ?>
   <?php dbaddcustomersrecord($db, $tablename, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CAPh, $CompanyID, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php //echo "Record Added.<br>"; ?>
@@ -217,8 +217,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CACode = $_POST["CAPhAc2"]; ?>
   <?php $CACPh = $_POST["CAPh2"]; ?>
   <?php //echo "welcome to update cusotmer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_3"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["ClListTabName"]; ?>
   <?php dbeditcustomer($db, $tablename, $ID, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
@@ -230,8 +230,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php if ($_POST["Cdelete"] != "") {  ?>
   <?php $ID= $_POST["CID2"]; ?>
   <?php //echo "welcome to delete customer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_3"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["ClListTabName"]; ?>
   <?php dbdeletecustomerrecord($db, $tablename, $ID, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php //echo "Record Deleted.<br>"; ?>
@@ -259,15 +259,15 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $found= 0; ?>
   <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
   <?php //echo "welcome to add to product record<br>"; ?>
-  <?php $tablename = "TEST_PRODUCT_1"; ?>
   <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["PListTabName"]; ?>
   <?php dbcheckproductrecord($db, $tablename, $PCName, $PSpec, $PSize, $Punit, $CompanyID, $found, $text); ?>
   <?php if ($found == 0) {  ?>
   <?php dbaddproductrecord($db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PSize, $Punit, $PRate, $text); ?>
   <?php  }  ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Added.<br>"; ?>
-  <?php header("Location: product.php"); ?>
+  <?php header("Location: product1.php"); ?>
   <?php exit; ?>
 <?php } ?>
 </body>

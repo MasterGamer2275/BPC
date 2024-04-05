@@ -4,6 +4,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
+  // Start the session
+  //session_start();
 }
 ?>
 
@@ -79,7 +81,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
     <div class="sub-tab" id = "Sales >">
       <button class="subtablinks2" onclick="openphp(event, '/forms/customer.php', '/main-page/frame1.php')">Add/Edit Clients</button>
-      <button class="subtablinks2" onclick="openphp(event, '/forms/product.php', '/main-page/frame1.php')">Client Master</button>
+      <button class="subtablinks2" onclick="openphp(event, '/forms/product1.php', '/main-page/frame1.php')">Client Master</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/salesinvoice.php', '/main-page/frame1.php')">Sales Invoice</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/quotes.php', '/main-page/frame1.php')">Quotations</button>
     </div>
