@@ -61,27 +61,7 @@
             color: #333;
             font-weight: bold; 
 }
-    .file-input-wrapper {
-        position: relative;
-        overflow: hidden;
-        display: inline-block;
-    }
 
-    .file-input-wrapper input[type=file] {
-        font-size: 100px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0;
-    }
-
-    .file-input-wrapper .custom-button {
-        /* Style your custom button as you like */
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        cursor: pointer;
-    }
 </style>
 <body>
 <div id="id04">
@@ -148,15 +128,15 @@
         <input type = "email" class="input-box" id = "CoEmail" name = "CoEmail"required value="<?php echo $datarray[8]; ?>"><br><br>
         <label for="CoGST"><b>GSTIN/UIN: *</label>
         <input type = "text" class="input-box" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required value="<?php echo $datarray[2]; ?>"><br><br>
-        <label for="fileToUpload1"><b>Company Logo: *</label>
+        <label for="fileToUpload1"><b>Company Logo:</label>
         <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".jpg, .jpeg, .png">
-        <div id="filenameDisplay1"></div><br><br>
-        <label for="fileToUpload2"><b>Digital Signature: *</label>
+        <input type="text" id="filenameDisplay1"><br><br>
+        <label for="fileToUpload2"><b>Digital Signature:</label>
         <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".jpg, .jpeg, .png">
-        <div id="filenameDisplay2"></div><br><br>
-        <label for="fileToUpload3"><b>Letter Head: *</label>
+        <input type="text" id="filenameDisplay2"><br><br>
+        <label for="fileToUpload3"><b>Letter Head:</label>
         <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".jpg, .jpeg, .png">
-        <div id="filenameDisplay3"></div><br><br>
+        <input type="text"id="filenameDisplay3"><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>
@@ -165,26 +145,20 @@
   </div>
 </div>
 <script>
+
 window.onload = function() {
   var filename1 = jsArray_1[11];
   var filename2 = jsArray_1[12];
   var filename3 = jsArray_1[13];
+  document.getElementById("filenameDisplay1").value = filename1;
+  document.getElementById("filenameDisplay2").value = filename2;
+  document.getElementById("filenameDisplay3").value = filename3;
   var input1 = document.getElementById("fileToUpload1");
   var input2 = document.getElementById("fileToUpload2");
   var input3 = document.getElementById("fileToUpload3");
-  displayFilename(filename1, filename2, filename3);
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];
 }
-
-function displayFilename(filename1, filename2, filename3) {
-  var display = document.getElementById("filenameDisplay1");
-  display.textContent = filename1;
-  var display = document.getElementById("filenameDisplay2");
-  display.textContent = filename2;
-  var display = document.getElementById("filenameDisplay3");
-  display.textContent = filename3;
-        }
 </script>
 
 </body>

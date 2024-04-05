@@ -141,7 +141,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $fileToUpload3 = $_POST["fileToUpload3"]; ?>
   <?php echo "welcome to update company list record<br>"; ?>
   <?php $tablename = "TEST_COMPANY_LIST_2"; ?>
-
+<!--
       <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload1"])) { ?>
         <?php $targetDirectory = $root."/uploads/company/"; ?>
         <?php $targetFile1 = $targetDirectory . basename($_FILES["fileToUpload1"]["name"]); ?>
@@ -163,6 +163,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
             <?php echo "Sorry, there was an error uploading your file."; ?>
         <?php } ?>
    <?php  } ?>
+   -->
   <!--
   Additionally, consider implementing security measures such as checking file types, file size limits, 
   and preventing file overwrites if necessary.
@@ -189,7 +190,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CACode = $_POST["CACode"]; ?>
   <?php $CAPh = $_POST["CAPh"]; ?>
   <?php //echo "welcome to add to customer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_1"; ?>
+  <?php $tablename = "TEST_CUSTOMER_2"; ?>
   <?php dbsetup($db, $text); ?>
   <?php dbaddcustomersrecord($db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CAPh, $CompanyID, $text); ?>
   <?php dbclose($db, $text); ?>
@@ -201,7 +202,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php /*form - update customer record-------------------------------------------------- */ ?>
 <?php if ($_POST["C2Save"] != "") {  ?>
   <?php $ID= $_POST["CID2"]; ?>
-  <?php $Cname = $_POST["Cname2"]; ?>
+  <?php $Cname = $_POST["CN2"]; ?>
   <?php $CGST = $_POST["CGST2"]; ?>
   <?php $CAddr = $_POST["CAddr2"]; ?>
   <?php $CCity = $_POST["CCity2"]; ?>
@@ -213,11 +214,11 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CACode = $_POST["CAPhAc2"]; ?>
   <?php $CACPh = $_POST["CAPh2"]; ?>
   <?php //echo "welcome to update cusotmer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_1"; ?>
+  <?php $tablename = "TEST_CUSTOMER_2"; ?>
   <?php dbsetup($db, $text); ?>
   <?php dbeditcustomer($db, $tablename, $ID, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, $text); ?>
   <?php dbclose($db, $text); ?>
-  <?php //echo "Record Updated.<br>"; ?>
+  <?php echo "Record Updated.<br>"; ?>
   <?php header("Location: customer.php"); ?>
   <?php exit; ?>
 <?php } ?>
@@ -226,7 +227,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php if ($_POST["Cdelete"] != "") {  ?>
   <?php $ID= $_POST["CID2"]; ?>
   <?php //echo "welcome to delete customer record<br>"; ?>
-  <?php $tablename = "TEST_CUSTOMER_1"; ?>
+  <?php $tablename = "TEST_CUSTOMER_2"; ?>
   <?php dbsetup($db, $text); ?>
   <?php dbdeletecustomerrecord($db, $tablename, $ID, $text); ?>
   <?php dbclose($db, $text); ?>

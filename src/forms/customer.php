@@ -7,7 +7,7 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  $tablename = "TEST_CUSTOMER_1";
+  $tablename = "TEST_CUSTOMER_2";
   dbsetup($db, $text);
   dbcreatecustomertable($db, $tablename, $text);
   $dbtabdata = array(array());
@@ -252,11 +252,12 @@ height: 20px;
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post">
    <input type = "number" id = "CID2" name = "CID2" maxlength = "6" size = "6" hidden>
-   <label for="Cname2"><b>Customer Name: * &nbsp;</label>
-   <input type= "text" id = "Cname2" name = "Cname2" required size="75" disabled>
+   <label for="CName2"><b>Customer Name: ** &nbsp;</label>
    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "C2Save" name = "C2Save" value = "V" ></button>
    <input type = "submit" style="font-size:18px" class = "delete" id = "Cdelete" name = "Cdelete" value = "Del">
    <input type = "button" style="font-size:18px" class = "cancel" id = "Ccancel" name = "Ccancel" value = "X" onclick= "closeForm()">
+   <input type= "text" id = "CName2" name = "CName2" required size="75" disabled>
+   <input type= "text" id = "CN2" name = "CN2" required size="75" hidden>
    <label for="CGST2"><b>GSTIN/UIN: *</label>
    <input type = "text" id = "CGST2" name = "CGST2" maxlength = "15" size = "15" required>
    <label for="CAddr2"><b>Address: *</label>
@@ -317,7 +318,8 @@ height: 20px;
       var x = statearray.indexOf(state);
       // Set the values of the form fields
       document.getElementById("CID2").value = id;
-      document.getElementById("Cname2").value = name;
+      document.getElementById("CName2").value = name;
+      document.getElementById("CN2").value = name;
       document.getElementById("CGST2").value = gstin;
       document.getElementById("CAddr2").value = addr;
       document.getElementById("CCity2").value = city;
