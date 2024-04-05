@@ -49,7 +49,7 @@
 .input-box {
             flex: 1;
             margin-left: 10px;
-            width: 100%;
+            width: 200%;
             font-size: 16px;
         }
 .form-group label {
@@ -61,7 +61,26 @@
             color: #333;
             font-weight: bold; 
 }
+/* Hide the default file input button */
+input[type="file"] {
+    display: none;
+}
 
+/* Style the custom file input button */
+.custom-file-input {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Style the file name display */
+.custom-file-input + label {
+    margin-left: 10px;
+    color: #ff0000; /* Change the font color here */
+}
 
 </style>
 <body>
@@ -129,15 +148,21 @@
         <input type = "email" class="input-box" id = "CoEmail" name = "CoEmail"required value="<?php echo $datarray[8]; ?>"><br><br>
         <label for="CoGST"><b>GSTIN/UIN: *</label>
         <input type = "text" class="input-box" id = "CoGST" name = "CoGST" maxlength = "15" size = "15" inputmode="numeric" required value="<?php echo $datarray[2]; ?>"><br><br>
-        <label for="fileToUpload1"><b>Company Logo:</label>
-        <input type="file" class="input-box" name="fileToUpload1" id="fileToUpload1" accept=".jpg, .jpeg, .png" onchange = "updateval();">
-        <input type="text" id="filenameDisplay1" Style = "border:none"><br><br>
-        <label for="fileToUpload2"><b>Digital Signature:</label>
-        <input type="file" class="input-box" name="fileToUpload2" id="fileToUpload2" accept=".jpg, .jpeg, .png" onchange = "updateval();">
-        <input type="text" id="filenameDisplay2" Style = "border:none"><br><br>
-        <label for="fileToUpload3"><b>Letter Head:</label>
-        <input type="file" class="input-box" name="fileToUpload3" id="fileToUpload3" accept=".jpg, .jpeg, .png" onchange = "updateval();">
-        <input type="text"id="filenameDisplay3" Style = "border:none"><br><br>
+        <!-- Custom file input -->
+        <label for="file1" class="custom-file-input">Choose a Logo File</label>
+        <input type="file" id="file1">
+        <!-- Display selected file name -->
+        <label for="file1" id="file1-label"></label><br><br>
+        <!-- Custom file input -->
+        <label for="file2" class="custom-file-input">Choose a Digital Signature File</label>
+        <input type="file" id="file2">
+        <!-- Display selected file name -->
+        <label for="file2" id="file2-label"></label><br><br>
+        <!-- Custom file input -->
+        <label for="file3" class="custom-file-input">Choose a Letterhead File</label>
+        <input type="file" id="file3">
+        <!-- Display selected file name -->
+        <label for="file3" id="file3-label"></label><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>
@@ -146,14 +171,29 @@
   </div>
 </div>
 <script>
+const fileInput1 = document.getElementById('file1');
+const fileLabel1 = document.getElementById('file1-label');
+const fileInput2 = document.getElementById('file2');
+const fileLabel2 = document.getElementById('file2-label');
+const fileInput3 = document.getElementById('file3');
+const fileLabel3 = document.getElementById('file3-label');
+fileInput1.addEventListener('change', function() {
+    fileLabel1.textContent = this.files[0].name;
+});
+fileInput2.addEventListener('change', function() {
+    fileLabel2.textContent = this.files[0].name;
+});
+fileInput3.addEventListener('change', function() {
+    fileLabel3.textContent = this.files[0].name;
+});
 
 window.onload = function() {
   var filename1 = jsArray_1[11];
   var filename2 = jsArray_1[12];
   var filename3 = jsArray_1[13];
-  document.getElementById("filenameDisplay1").value = filename1;
-  document.getElementById("filenameDisplay2").value = filename2;
-  document.getElementById("filenameDisplay3").value = filename3;
+  document.getElementById("file1-label").textContent = filename1;
+  document.getElementById("file2-label").textContent = filename2;
+  document.getElementById("file3-label").textContent= filename3;
   var input1 = document.getElementById("fileToUpload1");
   var input2 = document.getElementById("fileToUpload2");
   var input3 = document.getElementById("fileToUpload3");

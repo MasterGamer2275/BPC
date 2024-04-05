@@ -136,29 +136,30 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CoEmail= $_POST["CoEmail"]; ?>
   <?php $CoAcode= $_POST["CoAcode"]; ?>
   <?php $CoAPh= $_POST["CoAPh"]; ?>
-  <?php $fileToUpload1 = basename($_FILES["fileToUpload1"]["name"]); ?>
-  <?php $fileToUpload2 = basename($_FILES["fileToUpload2"]["name"]); ?>
-  <?php $fileToUpload3 = basename($_FILES["fileToUpload3"]["name"]); ?>
+  <?php $fileToUpload1 = $_FILES["file1"]["name"]; ?>
+  <?php echo $fileToUpload1; ?>
+  <?php $fileToUpload2 = $_FILES["file2"]["name"]; ?>
+  <?php $fileToUpload3 = $_FILES["file3"]["name"]; ?>
   <?php echo "welcome to update company list record<br>"; ?>
   <?php $tablename = "TEST_COMPANY_LIST_2"; ?>
 
-      <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload1"])) { ?>
+      <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file1"]) &&  isset($_FILES["file2"]) &&  isset($_FILES["file3"])) { ?>
         <?php $targetDirectory = $root."/uploads/company/"; ?>
-        <?php $targetFile1 = $targetDirectory . basename($_FILES["fileToUpload1"]["name"]); ?>
-        <?php if (move_uploaded_file($_FILES["fileToUpload1"]["tmp_name"], $targetFile1)) { ?>
-            <?php echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload1"]["name"])) . " has been uploaded."; ?>
+        <?php $targetFile1 = $targetDirectory . basename($_FILES["file1"]["name"]); ?>
+        <?php if (move_uploaded_file($_FILES["file1"]["tmp_name"], $targetFile1)) { ?>
+            <?php echo "The file " . htmlspecialchars(basename($_FILES["file1"]["name"])) . " has been uploaded."; ?>
         <?php } else { ?>
             <?php echo "Sorry, there was an error uploading your file."; ?>
         <?php } ?>
-                <?php $targetFile2 = $targetDirectory . basename($_FILES["fileToUpload2"]["name"]); ?>
-        <?php if (move_uploaded_file($_FILES["fileToUpload2"]["tmp_name"], $targetFile2)) { ?>
-            <?php echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload2"]["name"])) . " has been uploaded."; ?>
+                <?php $targetFile2 = $targetDirectory . basename($_FILES["file2"]["name"]); ?>
+        <?php if (move_uploaded_file($_FILES["file2"]["tmp_name"], $targetFile2)) { ?>
+            <?php echo "The file " . htmlspecialchars(basename($_FILES["file2"]["name"])) . " has been uploaded."; ?>
         <?php } else { ?>
             <?php echo "Sorry, there was an error uploading your file."; ?>
         <?php } ?>
-                <?php $targetFile3 = $targetDirectory . basename($_FILES["fileToUpload3"]["name"]); ?>
-        <?php if (move_uploaded_file($_FILES["fileToUpload3"]["tmp_name"], $targetFile1)) { ?>
-            <?php echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload3"]["name"])) . " has been uploaded."; ?>
+                <?php $targetFile3 = $targetDirectory . basename($_FILES["file3"]["name"]); ?>
+        <?php if (move_uploaded_file($_FILES["file3"]["tmp_name"], $targetFile1)) { ?>
+            <?php echo "The file " . htmlspecialchars(basename($_FILES["file3"]["name"])) . " has been uploaded."; ?>
         <?php } else { ?>
             <?php echo "Sorry, there was an error uploading your file."; ?>
         <?php } ?>
@@ -169,12 +170,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   and preventing file overwrites if necessary.
    -->
   <?php dbsetup($db, $text); ?>
-  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text); ?>
-  <?php //dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
+  <?php //dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text); ?>
+  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
-  <?php header("Location: company1.php"); ?>
-  <?php exit; ?>
+  <?php //header("Location: company1.php"); ?>
+  <?php //exit; ?>
 <?php } ?>
 <?php /* ---------------------------------------------------------------- */ ?>
 <?php /*form - customer-------------------------------------------------- */ ?>
