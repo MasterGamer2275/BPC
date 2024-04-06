@@ -7,6 +7,7 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
+  //echo "<script>alert('" . "Hello!" . "');</script>";
   dbsetup($db, $text);
   $tablename = $_SESSION["ComListTabName"];
   dbcreatecommoditytable($db, $tablename, $text);
@@ -16,7 +17,6 @@
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
-  include $root."errorhandler.php";
   dbclose($db, $text);
 ?>
 <!DOCTYPE html>

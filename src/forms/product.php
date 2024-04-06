@@ -7,11 +7,11 @@
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
-  $tablename = "TEST_CUSTOMER_2";
+  $tablename = $_SESSION["ClListTabName"];
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
-  $tablename = "TEST_PRODUCT_1";
+  $tablename = $_SESSION["PListTabName"];
   dbcreateproducttable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
@@ -107,7 +107,7 @@ height: 20px;
       <input type = "text" id = "pSize3" name = "pSize3" size="5" maxlength = "5" min = "1" step = "1">
       <label for="pUnit"><b>Unit: *</label>
       <input type = "text" id = "pUnit" name = "pUnit" required size="5" placeholder = "cm">
-      <label for="pRate"><b>Rate:*</label>
+      <label for="pRate"><b>Rate(Rs.):*</label>
       <input type = "number" id = "pRate" name = "pRate" required min = "1" step = "0.01" class = "number">
       <input type = "submit" id = "PAdd" name = "PAdd" value = "Add Record"></div>
     </div><br><br>
@@ -120,7 +120,7 @@ height: 20px;
             <th>GSM</th>    
             <th>Size</th>   
             <th>Unit</th> 
-            <th>Rate</th>  
+            <th>Rate(Rs.)</th>  
             <th>CompanyID</th>
       </tr>
         <?php

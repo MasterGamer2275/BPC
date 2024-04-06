@@ -1,7 +1,6 @@
 <html>
 <body>
 <!-- define variables and set to empty values*-->
-<?php $CompanyID = "6100"; ?>
 <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
 <?php require $root.'/DB/call-db.php'; ?>
 <?php /* Debug strings------------------------------------------------- */ ?><!--
@@ -257,17 +256,16 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $Punit = $_POST["pUnit"]; ?>
   <?php $PRate= $_POST["pRate"]; ?>
   <?php $found= 0; ?>
-  <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
   <?php //echo "welcome to add to product record<br>"; ?>
   <?php dbsetup($db, $text); ?>
   <?php $tablename = $_SESSION["PListTabName"]; ?>
-  <?php dbcheckproductrecord($db, $tablename, $PCName, $PSpec, $PSize, $Punit, $CompanyID, $found, $text); ?>
+  <?php dbcheckprrecord($db, $tablename, $PCName, $PSpec, $PDes, $PGSM, $PSize, $Punit, $found, $text); ?>
   <?php if ($found == 0) {  ?>
   <?php dbaddproductrecord($db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PSize, $Punit, $PRate, $text); ?>
   <?php  }  ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Added.<br>"; ?>
-  <?php header("Location: product1.php"); ?>
+  <?php header("Location: product.php"); ?>
   <?php exit; ?>
 <?php } ?>
 </body>

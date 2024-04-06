@@ -10,6 +10,7 @@
 //----------------------------------------DB - Setup----------------------------------------//
 function dbsetup(&$db, &$text) {
      $text = "Debug Mode:<br>";
+     $err = "Db Error:";
      class MyDB extends SQLite3 {
       function __construct() {
          $this->open('w3s-dynamic-storage\database.db');
@@ -48,7 +49,7 @@ function dbclose (&$db, &$text) {
 function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
   $CompanyID = $_SESSION["companyID"];
   //echo "<script>alert('" . "Hello!" . "');</script>";
-  $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = '$CompanyID' ORDER BY ID DESC");
+  $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = ' $CompanyID' ORDER BY ID DESC");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
   }
@@ -57,7 +58,6 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
       $err = $db->lastErrorMsg();
       $text .= $err;
       $text .= "<br>";
-      echo "<script>alert('" . $err . "');</script>";
    } else {
       $text .= "Table Read Successfully<br>";
     }
@@ -66,7 +66,7 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 
 function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, &$CompanyID, $SIGST, &$text) { 
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
     INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
     VALUES ('$Sname', '$SuGST', '$SAddr', '$SCity', '$SState', '$SPcode', '$SPh', '$SEmail', '$CompanyID','$SIGST');
@@ -76,7 +76,6 @@ function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -84,7 +83,7 @@ function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $
 //----------------------------------------DB - Add record (Customer Table)----------------------------------------//
 
 function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$CompanyID, &$text) { 
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
     INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
     VALUES ('$Sname', '$SuGST', '$SAddr', '$SCity', '$SState', '$SPcode', '$SPh', '$SEmail', '$CompanyID','$SIGST');
@@ -94,7 +93,6 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -103,7 +101,7 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
 //----------------------------------------DB - Add record (Stock Table)----------------------------------------//
 
 function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, &$text) { 
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
     INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
     VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
@@ -113,7 +111,6 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -138,7 +135,6 @@ function dbeditsupplierrecord(&$db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SS
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records updated successfully<br>";
       }
@@ -185,7 +181,6 @@ function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) {
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records deleted successfully<br>";
       }
@@ -194,9 +189,9 @@ function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) {
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 
 function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$text) {
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
-    INSERT INTO $tablename (NAME,SUPPLIERNAME,GSM,BF,COMPANYID, REELSIZEinCM)
+    INSERT INTO $tablename (NAME,SUPPLIERNAME,GSM,BF,COMPANYID,REELSIZEinCM)
     VALUES ('$Cname', '$CSname', '$CGSM', '$CBF', '$CompanyID', '$ReelSize');
  EOF;
  $ret = $db->exec($sql);
@@ -204,7 +199,6 @@ function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$
           $err = $db->lastErrorMsg();
           $text .= $err;
           $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records created succssfully<br>";
       }
@@ -213,7 +207,7 @@ function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$
 //----------------------------------------DB - check record (Commodity Table)----------------------------------------//
 
 function dbcheckcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$found, &$text) {
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $dbtabdata = array(array());
   $i = 0;
   $res = $db->query("SELECT * FROM $tablename WHERE NAME='$Cname' and SUPPLIERNAME='$CSname' and GSM='$CGSM' and BF='$CBF' and COMPANYID ='$CompanyID' and REELSIZEinCM = '$ReelSize'");
@@ -230,6 +224,7 @@ function dbcheckcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, 
       $err = $db->lastErrorMsg();
       $text .= $err;
       $text .= "<br>";
+      echo "<script>alert('" . $err . "');</script>";
    } else {
       $text .= "DB check completed<br>";
     }
@@ -355,7 +350,8 @@ EOF;
 //----------------------------------------DB - Get Column Values----------------------------------------//
 
 function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
-  $res = $db->query("SELECT $columnname FROM $tablename ORDER BY ID DESC");
+  $CompanyID = $_SESSION["companyID"];
+  $res = $db->query("SELECT $columnname FROM $tablename WHERE CompanyID = '$CompanyID' ORDER BY ID DESC");
   $dbcolvalues = array();
   while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
       array_push($dbcolvalues,$value);
@@ -373,7 +369,8 @@ function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
 //----------------------------------------DB - Read db record----------------------------------------//
 
 function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, &$text) {
-  $res = $db->query("SELECT * FROM $tablename WHERE ID = '6100'");
+  $CompanyID = $_SESSION["companyID"];
+  $res = $db->query("SELECT * FROM $tablename WHERE ID = '$CompanyID'");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
           foreach($row as $key  => $value) {
              array_push($dbrowvalues,$value);
@@ -391,7 +388,8 @@ function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, 
 
 //----------------------------------------DB - Get Single Value----------------------------------------//
 function dbgetvalue(&$db, $tablename, $columnname, $paramname, $paramvalue, &$outputvalue, &$text) {
-  $res = $db->query("SELECT $columnname FROM $tablename WHERE $paramname = '$paramvalue'");
+  $CompanyID = $_SESSION["companyID"];
+  $res = $db->query("SELECT $columnname FROM $tablename WHERE $paramname = '$paramvalue' and WHERE ID = '$CompanyID'");
   //$res = $db->query("SELECT IGST FROM TEST_SUPPLIER_4");
   $outputvalue = array();
   while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
@@ -459,7 +457,7 @@ function dbdeletecustomerrecord(&$db, $tablename, $ID, &$text) {
 //----------------------------------------DB - Add record (Customer Table)----------------------------------------//
 
 function dbaddcustomersrecord(&$db, $tablename, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) {
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
     INSERT INTO $tablename (NAME,CLIENTNAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,SECADDRESS,AREACODE,ADMINPHONE,COMPANYID)
     VALUES ('$Cname', '$Clname', '$CGST', '$CAddr', '$CCity', '$CState', '$CPcode', '$CPh', '$CEmail', '$CSAddr', '$CACode', '$CACPh', '$CompanyID');
@@ -532,7 +530,7 @@ EOF;
 //----------------------------------------DB - Add record (Product Table)----------------------------------------//
 
 function dbaddproductrecord(&$db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PSize, $Punit, $PRate, &$text) {
-  $CompanyID = "6100";
+  $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
     INSERT INTO $tablename (CUSTOMERNAME,DESCRIPTION,SPEC,GSM,SIZE,UNIT,RATE,COMPANYID)
     VALUES ('$PCName', '$PDes', '$PSpec', '$PGSM', '$PSize', '$Punit', '$PRate', '$CompanyID');
@@ -546,14 +544,13 @@ function dbaddproductrecord(&$db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PS
           $text .= "Records created succssfully<br>";
       }
 }
-
 //----------------------------------------DB - check record (Product Table)----------------------------------------//
 
-function dbcheckproductrecord(&$db, $tablename, $PCName, $PSpec, $PSize, $Punit, $CompanyID, $found, &$text) {
-  $CompanyID = "6100";
+function dbcheckprrecord (&$db, $tablename, $PCName, $PSpec, $PDes, $PGSM, $PSize, $Punit, &$found, &$text) {
+  $CompanyID = $_SESSION["companyID"];
   $dbtabdata = array(array());
   $i = 0;
-  $res = $db->query("SELECT * FROM $tablename WHERE NAME='$PCName' and SPEC='$PSpec' and SIZE='$PSize' and UNIT='$Punit' and COMPANYID ='$CompanyID'");
+  $res = $db->query("SELECT * FROM $tablename WHERE CUSTOMERNAME='$PCName' and SPEC='$PSpec'and DESCRIPTION = '$PDes' and GSM = '$PGSM' and SIZE='$PSize' and UNIT='$Punit' and COMPANYID ='$CompanyID'");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
   $i = $i+1;

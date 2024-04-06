@@ -2,7 +2,7 @@
   $root = $_SERVER['DOCUMENT_ROOT'];
   require $root."/DB/call-db.php";
   dbsetup($db, $text);
-  $tablename = "TEST_COMPANY_LIST_2";
+  $tablename = $_SESSION["CoListTabName"];
   $paramname = "ID";
   $paramvalue = "6100";
   $dbrowvalues = array();

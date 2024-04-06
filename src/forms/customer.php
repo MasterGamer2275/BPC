@@ -7,8 +7,8 @@
   //---add the DB API file
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
-  $tablename = "TEST_CUSTOMER_3";
   dbsetup($db, $text);
+  $tablename = $_SESSION["ClListTabName"];
   dbcreatecustomertable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);

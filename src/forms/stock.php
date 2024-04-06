@@ -4,14 +4,14 @@
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
-  $tablename = "TEST_SUPPLIER_4";
+  $tablename = $_SESSION["SListTabName"];
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $igstlist = array();
   $columnname = "IGST";
   dbgetcolumnname($db, $tablename, $columnname, $igstlist, $text);
-  $tablename = "TEST_COMMODITY_3";
+  $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
