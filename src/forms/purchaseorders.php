@@ -4,19 +4,32 @@
   require $root."/DB/call-db.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
-  $tablename = "TEST_SUPPLIER_4";
+  $tablename = $_SESSION["SListTabName"];
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
+  $dbsuptabdata = array(array());
+  dbreadtable2($db, $tablename, $dbsuptabdata, $text);
+  $jsonArray_3 = json_encode($dbsuptabdata);
   $igstlist = array();
   $columnname = "IGST";
   dbgetcolumnname($db, $tablename, $columnname, $igstlist, $text);
-  $tablename = "TEST_COMMODITY_3";
+  $jsonArray_1 = json_encode($igstlist);
+  $tablename = $_SESSION["CoListTabName"];
+  $paramname = "ID";
+  $paramvalue = "6100";
+  $dbrowvalues= array();
+  dbreadrecord($db, $tablename, $paramname, $paramvalue, $dbrowvalues, $text);
+  $jsonArray_4 = json_encode($dbrowvalues);
+  $val = str_replace("]", "", $jsonArray_4);
+  $val = str_replace("[", "", $val);
+  $val = str_replace("\",", "", $val);
+  $datarray = explode("\"", $val);
+  $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
-  $jsonArray_1 = json_encode($igstlist);
   $jsonArray_2 = json_encode($dbtabdata);
   // Echo the JSON array
   echo '<script>';
@@ -24,9 +37,12 @@
   echo 'console.log(jsArray_1);'; // Output the array in the browser console
   echo 'var jsArray_2 = ' . $jsonArray_2 . ';';
   echo 'console.log(jsArray_2);'; // Output the array in the browser console
+  echo 'var jsArray_3 = ' . $jsonArray_3. ';';
+  echo 'console.log(jsArray_3);'; // Output the array in the browser 
+  echo 'var jsArray_4 = ' . $jsonArray_4. ';';
+  echo 'console.log(jsArray_4);'; // Output the array in the browser console
   echo '</script>';
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,6 +122,7 @@ width: 100px;
   border: 3px solid #f1f1f1;
   z-index: 9;
   color: black;
+  height: auto;
 }
 /* Add styles to the form container */
 .form-container {
@@ -114,8 +131,8 @@ width: 100px;
   padding: 10px;
   background-color: white;
   font: inherit;
- 
-}
+  height: auto;
+ }
 
 /* Full-width input fields */
 .form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date], .form-container input[type=number]{
@@ -180,6 +197,77 @@ width: 12%;
 height: 20px;
 }
 
+ .form-container2 {
+            display: flex;
+            justify-content: center; /* Horizontal center alignment */
+            align-items: center; /* Vertical center alignment */
+            height: auto; /* Height of the container */
+            width: 100%;
+            border: none; /* Border for visualization */
+            flex-direction: row;
+            margin-bottom: 0;
+        }
+
+.textbox {
+            border: 1px solid #000; /* Border of the text box */
+            padding: 10px; /* Padding inside the text box */
+            height: auto;
+            margin-right: 0px; /* Spacing between rectangles */
+            width: 100%; /* Width of the text box */
+            font-size: 12px;
+            margin-bottom: 0;
+            text-align: center; /* Align text to the center */
+        }
+.form-group3 {
+            display: flex;
+            align-items: center;
+        }
+.input-box {
+            margin-bottom: 0; /* Remove margin bottom */
+            width: calc(100% - 20px); /* Full width minus padding */
+            height: auto;
+            box-sizing: border-box; /* Include padding and border in the width */
+            border: none;
+            margin-left: -28px;
+        }
+ .title-box {
+            margin-bottom: 0; /* Remove margin bottom */
+            width: calc(100% - 20px); /* Full width minus padding */
+            height: auto;
+            box-sizing: border-box; /* Include padding and border in the width */
+            border: none;
+            text-align: center; /* Align text to the center */
+            font-weight: bold; /* Make the text bold */
+        }
+.form-group3 label {
+            /* Your general styles for labels */
+            margin-right: 40px; /* Adjust spacing between label and input */
+            font-size: 12px;
+            color: #333;
+            text-align: left;
+            vertical-align: left;
+            font-weight: bold; 
+            width:25%;
+}
+
+.form-group4{
+            display: flex;
+            align-items: center;
+        }
+
+.form-group4 label {
+            /* Your general styles for labels */
+            color: white;
+            margin-right: 40px; /* Adjust spacing between label and input */
+            font-size: 12px;
+            text-align: left;
+            vertical-align: left;
+            font-weight: bold; 
+            width:25%;
+
+}
+
+
 </style>
 </head>
  
@@ -231,10 +319,11 @@ height: 20px;
   </form>
 </div>
 <div id="id02">
-  <form action="forms_action_page.php" method="post" id = "form2">
+  <form id = "form2" onsubmit = "handleSubmit(event)">
     <input type="hidden" id="tableData" name="tableData">
+    <input type="text" id="sName" name="sName" hidden>
     <label for="PSubmit"><b>Verify the below table and click on Generate PO :</label>
-    <input type = "submit" id = "POSubmit" name = "POSubmit" value = "Generate PO" disabled><br><br>
+    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" disabled onclick="submitFirstForm(event)"><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -245,7 +334,7 @@ height: 20px;
         <th>Qnty</th>     
         <th>Rate</th>
         <th>Dis%</th>
-        <th>Amount</th>
+        <th>Amount(Rs.)</th>
         <th>Delivery Date From</th>
         <th>Delivery Date To</th>      
     </tr>
@@ -286,12 +375,150 @@ height: 20px;
     <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel2" name = "Scancel2" value = "X" onclick= "closeForm()">
   </form>
 </div>
+<div id="id04">
+  <form action="forms_action_page.php" method="post" id = "form4">
+    <img class="image1" src="/Images/Letterhead1.png">
+        <div class="form-container2">
+            <div class="textbox">
+                <input type="text" style="font-size:18px" class="title-box" value = "PURCHASE ORDER" disabled >
+            </div>
+        </div>
+        <div class="form-container2">
+            <div class="textbox">
+                <input type="text" class="input-box" placeholder="Company Name" value="<?php echo $datarray[1]; ?>">
+                <input type="text" class="input-box" placeholder="GST" value="<?php echo $datarray[2]; ?>">
+                <input type="text" class="input-box" placeholder="Address Line 1, City" value="<?php echo ($datarray[3]; . "," .$datarray[4]); ?>">
+                <input type="text" class="input-box" placeholder="State, Pincode">
+                <input type="text" class="input-box" placeholder="Phone, Email">
+                <input type="text" class="input-box" placeholder="Phone">
+            </div>
+            <div class="textbox">
+                <input type="text" class="input-box" placeholder="Supplier Name">
+                <input type="text" class="input-box" placeholder="Address line 1">
+                <input type="text" class="input-box" placeholder="City, State, Pincode">
+                <input type="text" class="input-box" placeholder="Mobile, Email">
+                <input type="text" class="input-box" placeholder="GST">
+                <input type="text" class="input-box" placeholder="PAN">
+            </div>
+        </div>
+        <div class="form-container2">
+            <div class="textbox">
+                <div class="form-group3">
+                  <label for="PONumber" class="label">PO No:</label>
+                  <input type="text" id ="PONumber" class="input-box"  placeholder="Enter text 1">
+                  <label for="PODate" class="label">PO Date:</label>
+                  <input type="date" id ="PODate" class="input-box"  placeholder="Enter text 1">
+                </div>
+            <div class="form-group3">
+                  <label for="CtPerson" class="label">Contact Person:</label>
+                  <input type="text" id ="CtPerson" class="input-box"  placeholder="Enter text 1">
+                  <label for="PONumber" class="label"></label>
+                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
+            </div>
+            <div class="form-group3">
+                  <label for="CtMethod" class="label">Contact Method:</label>
+                  <input type="text" id ="CtMethod" class="input-box"  placeholder="Enter text 1">
+                  <label for="PONumber" class="label"></label>
+                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
+             </div>
+             <div class="form-group3">
+                  <label for="Dto" class="label">Dispatch to:</label>
+                  <input type="text" id ="Dto" class="input-box"  placeholder="Enter text 1">
+                  <label for="SContact" class="label">Site Contact:</label>
+                  <input type="text" id ="SContact" class="input-box"  placeholder="Enter text 1">
+             </div>
+             <div class="form-group3">
+                  <label for="M" class="label">Mode of Pay:</label>
+                  <input type="text" id ="Dto" class="input-box"  value="Cheque">
+                  <label for="SContact" class="label">Mobile/Ph:</label>
+                  <input type="text" id ="SContact" class="input-box"  placeholder="Enter text 1">
+             </div>
+         </div>
+            <div class="textbox">
+                <div class="form-group3">
+                  <label for="Scont" class="label">Supplier Contact:</label>
+                  <input type="text" id ="Scont" class="input-box"  placeholder="Enter text 1">
+                  <label for="PONumber" class="label"></label>
+                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
+                </div>
+            <div class="form-group3">
+                  <label for="SPh" class="label">Mobile/Tel.No:</label>
+                  <input type="text" id ="SPh" class="input-box"  placeholder="xxxxxxxxxx">
+                  <label for="PONumber" class="label"></label>
+                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
+            </div>
+                  <div class="form-group4">
+                  <label for="CtMethod" class="label">Contact Method:</label>
+                  <input type="text" id ="CtMethod" class="input-box"  placeholder="">
+                  <label for="PONumber" class="label"></label>
+                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
+             </div>
+             <div class="form-group4">
+                  <label for="Dto" class="label">Dispatch to:</label>
+                  <input type="text" id ="Dto" class="input-box"  placeholder="">
+                  <label for="SContact" class="label">Site Contact:</label>
+                  <input type="text" id ="SContact" class="input-box"  placeholder="">
+             </div>
+             <div class="form-group4">
+                  <label for="M" class="label">Mode of Pay:</label>
+                  <input type="text" id ="Dto" class="input-box"  placeholder="">
+                  <label for="SContact" class="label">Site Contact:</label>
+                  <input type="text" id ="SContact" class="input-box"  placeholder="">
+             </div>
+     </div>
+    </div>
+    <table id= "myTable">
+      <tr>
+        <th>S No:</th>
+        <th>!</th>
+        <th>Particulars</th>
+        <th>No. Of Reels</th>
+        <th>Rate Per</th> 
+        <th>Qnty</th>     
+        <th>Rate</th>
+        <th>Dis%</th>
+        <th>Amount(Rs.)</th>
+        <th>Delivery Date From</th>
+        <th>Delivery Date To</th>      
+    </tr>
+                <?php
+            // Loop through the array to generate table rows
+            foreach ($tableData as $row) {
+                echo "<tr>";
+                foreach ($row as $cell) {
+                    echo "<td>$cell</td>";
+                  }      
+                echo "</tr>";
+            }
+            ?>
+    </table>
+  </form>
+</div>
 </body>
 
 <script>
+
 document.getElementById("myForm").style.display = "none";
 // Get the table element
 var table = document.getElementById("myTable");
+document.getElementById("form3").style.display = "none";
+document.getElementById("form4").style.display = "none";
+document.getElementById("id04").style.display = "none";
+
+
+function submitFirstForm(event) {
+  //event.preventDefault(); // Prevent default form submission
+  // You can perform any form validation here before proceeding
+  // Assuming validation passes, hide the first form and display the second form
+  document.getElementById("id01").style.display = "none";
+  document.getElementById("id02").style.display = "none";
+  document.getElementById("id03").style.display = "none";
+  document.getElementById("myForm").style.display = "none";
+  document.getElementById("form4").style.display = "block";
+  document.getElementById("id04").style.display = "block";
+  }
+
+
   
 function closeForm() {
     document.getElementById("myForm").style.display = "none";

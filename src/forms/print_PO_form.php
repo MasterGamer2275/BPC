@@ -1,3 +1,20 @@
+<?php
+  //---define all variables and constants used
+  //---read a table
+  //find the root path to calling the php filles by path
+  $root = $_SERVER['DOCUMENT_ROOT'];
+  //---add the DB API file
+  require $root."/DB/call-db.php";
+  //---open SQL lite 3 .db file
+  dbsetup($db, $text);
+  $tablename = $_SESSION["SListTabName"];
+  $paramname = "NAME"
+  $paramvalue = $Sname = $_POST["sName"];
+  dbreadrecord($db, $tablename, $paramname, $paramvalue, $dbrowvalues, $text);
+  $tableDataJSON = $_POST['tableData'];
+  $tableData = json_decode($tableDataJSON, true);
+  dbclose($db, $text);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -232,10 +249,20 @@ input::-webkit-inner-spin-button {
         <th>Qnty</th>     
         <th>Rate</th>
         <th>Dis%</th>
-        <th>Amount</th>
+        <th>Amount(Rs.)</th>
         <th>Delivery Date From</th>
         <th>Delivery Date To</th>      
     </tr>
+                <?php
+            // Loop through the array to generate table rows
+            foreach ($tableData as $row) {
+                echo "<tr>";
+                foreach ($row as $cell) {
+                    echo "<td>$cell</td>";
+                  }      
+                echo "</tr>";
+            }
+            ?>
     </table>
   </form>
 </div>

@@ -63,6 +63,7 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
     }
 }  
 
+
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 
 function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, &$CompanyID, $SIGST, &$text) { 
@@ -370,7 +371,7 @@ function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
 
 function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $res = $db->query("SELECT * FROM $tablename WHERE ID = '$CompanyID'");
+  $res = $db->query("SELECT * FROM $tablename WHERE $paramname = '$paramvalue'");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
           foreach($row as $key  => $value) {
              array_push($dbrowvalues,$value);
