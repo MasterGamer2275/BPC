@@ -55,7 +55,7 @@
 .flex-container input[type=text], .flex-container select, .flex-container input[type=password], .flex-container input[type=email], .flex-container input[type=date], .flex-container input[type=number], .flex-container input[type=button], .flex-container input[type=submit]{
     /* Styling for each item */
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 5px;
     margin: 5px;
     width: 96%;
     -moz-appearance: textfield;
@@ -154,8 +154,8 @@
          <label for="pRC-P-Actual"><b>Actual Production:</label>
          <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" required min = "1" step = "1">
 
-        <input type = "submit" id = "WOSave" name = "WOSave" value = "Save">
-        <input type = "button" id = "WOCancel" name = "WOCancel" value = "Cancel">
+         <input type = "submit" id = "WOSave" name = "WOSave" value = "Save">
+         <input type = "button" id = "WOCancel" name = "WOCancel" value = "Cancel">
 
 
 

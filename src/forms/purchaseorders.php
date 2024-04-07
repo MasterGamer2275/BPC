@@ -1,4 +1,4 @@
-<?php
+ <?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
@@ -9,12 +9,10 @@
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $dbsuptabdata = array(array());
-  dbreadtable2($db, $tablename, $dbsuptabdata, $text);
-  $jsonArray_3 = json_encode($dbsuptabdata);
+  dbreadtable($db, $tablename, $dbsuptabdata, $text);
   $igstlist = array();
   $columnname = "IGST";
   dbgetcolumnname($db, $tablename, $columnname, $igstlist, $text);
-  $jsonArray_1 = json_encode($igstlist);
   $tablename = $_SESSION["CoListTabName"];
   $paramname = "ID";
   $paramvalue = "6100";
@@ -30,7 +28,12 @@
   dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
+  $jsonArray_1 = json_encode($igstlist);
+  //commodity table data
   $jsonArray_2 = json_encode($dbtabdata);
+  //supplier table data
+  $jsonArray_3 = json_encode($dbsuptabdata);
+  $jsonArray_4 = json_encode($datarray);
   // Echo the JSON array
   echo '<script>';
   echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
@@ -43,10 +46,12 @@
   echo 'console.log(jsArray_4);'; // Output the array in the browser console
   echo '</script>';
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 .image1 {
   position: relative;
@@ -266,18 +271,15 @@ height: 20px;
             width:25%;
 
 }
-
-
 </style>
 </head>
- 
 <body>
 <div id="id01">
   <form id = "form1" onsubmit="reorderid();addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
     <!--addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();-->
     <h3>Generate Purchase Order:</h3>
-    <label for="Pdate"><b>Purchase Date:</label>
-    <input type = "date" id = "Pdate" name = "Pdate" size="0" value="" required onchange="disable('Pdate')">
+    <label for="pDate"><b>Purchase Date:</label>
+    <input type = "date" id = "pDate" name = "pDate" size="0" value="" required onchange="disable('pDate')">
     <label for="PSname"><b>Supplier: *</label>
     <select name= = "PSname" id = "PSname" onchange="getcommoditylist();updateval();setformstate();">
     <option value="">Select</option>
@@ -319,11 +321,11 @@ height: 20px;
   </form>
 </div>
 <div id="id02">
-  <form id = "form2" onsubmit = "handleSubmit(event)">
+  <form action="#" method="post" id = "form2">
     <input type="hidden" id="tableData" name="tableData">
     <input type="text" id="sName" name="sName" hidden>
     <label for="PSubmit"><b>Verify the below table and click on Generate PO :</label>
-    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" disabled onclick="submitFirstForm(event)"><br><br>
+    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updatePOformval();"><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -342,13 +344,14 @@ height: 20px;
   </form>
 </div>
 <div id="id03">
-    <form action="#">
+    <form action="#" id="form3">
       <button id = "PExpEx" name = "PExpEx" onclick = "exporttoexcel();handleSubmit(event);">
         <span>Export to</span>
         <img src="/icons/icons8-excel-48.png" alt="excelpng" />
       </button>
     </form>
 </div>
+
 <div class="form-popup" id="myForm">
   <form class="form-container" id="form3">
     <input type = "number" id = "id2" name = "id2" hidden>
@@ -385,29 +388,29 @@ height: 20px;
         </div>
         <div class="form-container2">
             <div class="textbox">
-                <input type="text" class="input-box" placeholder="Company Name" value="<?php echo $datarray[1]; ?>">
-                <input type="text" class="input-box" placeholder="GST" value="<?php echo $datarray[2]; ?>">
-                <input type="text" class="input-box" placeholder="Address Line 1, City" value="<?php echo ($datarray[3]; . "," .$datarray[4]); ?>">
-                <input type="text" class="input-box" placeholder="State, Pincode">
-                <input type="text" class="input-box" placeholder="Phone, Email">
-                <input type="text" class="input-box" placeholder="Phone">
+                <input type="text" class="input-box" placeholder="Company Name" value = "<?php echo $datarray[1]; ?>" disabled>
+                <input type="text" class="input-box" placeholder="GST" value = "<?php echo $datarray[2]; ?>" disabled>
+                <input type="text" class="input-box" placeholder="Address Line 1, City" value = "<?php echo ($datarray[3] .",". $datarray[4]); ?>"" disabled>
+                <input type="text" class="input-box" placeholder="State, Pincode" value = "<?php echo ($datarray[5] .",". $datarray[6]); ?>"" disabled>
+                <input type="text" class="input-box" placeholder="Phone, Email" value = "<?php echo ($datarray[7] .",". $datarray[8]); ?>"" disabled>
+                <input type="text" class="input-box" placeholder="Phone" value = "<?php echo ($datarray[9] . $datarray[10]); ?>"" disabled>
             </div>
             <div class="textbox">
-                <input type="text" class="input-box" placeholder="Supplier Name">
-                <input type="text" class="input-box" placeholder="Address line 1">
-                <input type="text" class="input-box" placeholder="City, State, Pincode">
-                <input type="text" class="input-box" placeholder="Mobile, Email">
-                <input type="text" class="input-box" placeholder="GST">
-                <input type="text" class="input-box" placeholder="PAN">
+                <input type="text" class="input-box" id = "sName" placeholder="Supplier Name" disabled>
+                <input type="text" class="input-box" id = "sAddr" placeholder="Address line 1"disabled>
+                <input type="text" class="input-box" id = "sAddr2" placeholder="City, State, Pincode"disabled>
+                <input type="text" class="input-box" id = "sCont" placeholder="Mobile, Email"disabled>
+                <input type="text" class="input-box" id = "sGST" placeholder="GST"disabled>
+                <input type="text" class="input-box" id = "sPAN" placeholder="PAN">
             </div>
         </div>
         <div class="form-container2">
             <div class="textbox">
                 <div class="form-group3">
-                  <label for="PONumber" class="label">PO No:</label>
-                  <input type="text" id ="PONumber" class="input-box"  placeholder="Enter text 1">
-                  <label for="PODate" class="label">PO Date:</label>
-                  <input type="date" id ="PODate" class="input-box"  placeholder="Enter text 1">
+                  <label for="pONumber" class="label">PO No:</label>
+                  <input type="text" id ="pONumber" class="input-box"  placeholder="Enter text 1" disabled>
+                  <label for="pODate" class="label">PO Date:</label>
+                  <input type="text" id ="pODate" class="input-box"  placeholder="Enter text 1" disabled>
                 </div>
             <div class="form-group3">
                   <label for="CtPerson" class="label">Contact Person:</label>
@@ -467,7 +470,7 @@ height: 20px;
              </div>
      </div>
     </div>
-    <table id= "myTable">
+    <table id= "myTable2">
       <tr>
         <th>S No:</th>
         <th>!</th>
@@ -481,31 +484,17 @@ height: 20px;
         <th>Delivery Date From</th>
         <th>Delivery Date To</th>      
     </tr>
-                <?php
-            // Loop through the array to generate table rows
-            foreach ($tableData as $row) {
-                echo "<tr>";
-                foreach ($row as $cell) {
-                    echo "<td>$cell</td>";
-                  }      
-                echo "</tr>";
-            }
-            ?>
     </table>
   </form>
 </div>
-</body>
-
 <script>
-
-document.getElementById("myForm").style.display = "none";
+//document.getElementById("myForm").style.display = "none";
 // Get the table element
 var table = document.getElementById("myTable");
-document.getElementById("form3").style.display = "none";
-document.getElementById("form4").style.display = "none";
-document.getElementById("id04").style.display = "none";
+//document.getElementById("form4").style.display = "none";
+//document.getElementById("id04").style.display = "none";
 
-
+/*
 function submitFirstForm(event) {
   //event.preventDefault(); // Prevent default form submission
   // You can perform any form validation here before proceeding
@@ -517,9 +506,16 @@ function submitFirstForm(event) {
   document.getElementById("form4").style.display = "block";
   document.getElementById("id04").style.display = "block";
   }
+*/
+function updatePOformval() {
+    document.getElementById("pODate").value = document.getElementById("pDate").value;
+    document.getElementById("sName").value = $datarray1[1];
+    document.getElementById("sAddr").value = $datarray1[3];
+    document.getElementById("sAddr2").value = $datarray1[4] + "," + $datarray1[5] + "," + $datarray1[6];
+    document.getElementById("sCont").value = $datarray1[7] + "," + $datarray1[8];
+    document.getElementById("sGST").value = $datarray1[2];
 
-
-  
+}
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
@@ -803,3 +799,4 @@ function numberToWords(number) {
 
 </body>
 </html>
+
