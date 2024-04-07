@@ -33,6 +33,7 @@ $_SESSION["POListTabName"] = "TEST_PO_LIST_1";
 $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
+$_SESSION["PRTabName"] = "TEST_PURCHASE_1";
 }
 
 //----------------------------------------DB - Close----------------------------------------//
@@ -569,5 +570,107 @@ function dbcheckprrecord (&$db, $tablename, $PCName, $PSpec, $PDes, $PGSM, $PSiz
       $text .= "DB check completed<br>";
     }
 } 
+
+//----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
+
+function dbcreatePRtable(&$db, $tablename, &$text) {
+$text .= "welcome to create purchase req table if not exists";
+$sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+      ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+      PORELEASEDATE  TEXT		  NOT NULL,
+      PORELEASETIME  TEXT		  NOT NULL,
+      SUPPLIERNAME   TEXT       NOT NULL,
+      SERIALNUMBER   TEXT       NOT NULL,
+      PARTICULARS    TEXT       NOT NULL,
+      NUMBEROFREELS  TEXT		  NOT NULL,
+      RATEPER        TEXT		  NOT NULL,
+      QNTY           TEXT		  NOT NULL,
+      RATE           TEXT		  NOT NULL,
+      DISCOUNT       TEXT		  NOT NULL,
+      AMOUNT         TEXT		  NOT NULL,
+      DDFROM         TEXT		  NOT NULL,
+      DDTO           TEXT		  NOT NULL,
+      COMPANYID      INTEGER	  NOT NULL
+);
+EOF;
+$ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
+}
+
+//----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
+
+function dbaddpurchaserecord(&$db, $tablename, $pODate, $pOTime, $pOSname, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    INSERT INTO $tablename (PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
+    VALUES ('$pODate', '$pOTime', '$pOSname', '$pOSnum', '$pODes', '$pONR', '$pORPer', '$pOQnty', '$pORate', '$pODiscount', '$pOAmount', '$pODdfrom', '$pODdto', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+
+//----------------------------------------DB - Update record (Purchase Table)----------------------------------------//
+function dbeditpurchase(&$db, $tablename, $ID, $pODate, $pOTime, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) { 
+   $sql =<<<EOF
+   UPDATE $tablename SET
+   PORELEASEDATE = '$pODate',
+   PORELEASETIME = '$pOTime',
+   SERIALNUMBER = '$pOSnum',
+   PARTICULARS = '$pODes',
+   NUMBEROFREELS = '$pONR',
+   RATEPER = '$pORPer',
+   QNTY = '$pOQnty',
+   RATE = '$pORate',
+   DISCOUNT = '$pODiscount',
+   AMOUNT = '$pOAmount',
+   DDFROM = '$pODdfrom',
+   DDTO = '$pODdto' WHERE ID = '$ID';
+ EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records updated successfully<br>";
+      }
+}
+
+//----------------------------------------DB - Read ID (Purchase Table)----------------------------------------//
+function dbreadPRID(&$db, $tablename, &$PONum, &$text) {
+   $dbtabdata = array();
+   $res = $db->query("SELECT MAX(ID) FROM $tablename");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  array_push($dbtabdata,$row);
+  }
+        foreach ($dbtabdata as $row) {
+          foreach ($row as $value) {
+              $PONum = $value;
+          }
+      }
+  $sql =<<<EOF
+  EOF;
+   $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "PONum read successfully<br>";
+      }
+}
 
 ?>
