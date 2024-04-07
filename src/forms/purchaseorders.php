@@ -325,7 +325,7 @@ height: 20px;
     <input type="hidden" id="tableData" name="tableData">
     <input type="text" id="sName" name="sName" hidden>
     <label for="PSubmit"><b>Verify the below table and click on Generate PO :</label>
-    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updatePOformval();"><br><br>
+    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();"><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -396,7 +396,7 @@ height: 20px;
                 <input type="text" class="input-box" placeholder="Phone" value = "<?php echo ($datarray[9] . $datarray[10]); ?>"" disabled>
             </div>
             <div class="textbox">
-                <input type="text" class="input-box" id = "sName" placeholder="Supplier Name" disabled>
+                <input type="text" class="input-box" id = "supName" placeholder="Supplier Name" disabled>
                 <input type="text" class="input-box" id = "sAddr" placeholder="Address line 1"disabled>
                 <input type="text" class="input-box" id = "sAddr2" placeholder="City, State, Pincode"disabled>
                 <input type="text" class="input-box" id = "sCont" placeholder="Mobile, Email"disabled>
@@ -507,15 +507,29 @@ function submitFirstForm(event) {
   document.getElementById("id04").style.display = "block";
   }
 */
-function updatePOformval() {
+function updateformval() {
+    var suppliername = document.getElementById("PSname").value;
+    $.ajax({
+        type: 'POST', // Request type (POST in this case)
+        url: 'getsupdata.php', // URL of the PHP file to which the request is sent
+        data: { suppliername: suppliername }, // Data to be sent along with the request (here, a variable named 'suppliername')
+        success: function(response) { // Function to handle successful response from the PHP file
+        alert(response);
+        const str = response.replace("[", "");
+        const str1 = str.replace("]", "");
+        const str2 = str1.replace(/"/g, "");
+        alert(str2);
+        const datarray1 = str2.split(",");
+        document.getElementById("supName").value = datarray1[2];
+        document.getElementById("sAddr").value = datarray1[4];
+        document.getElementById("sAddr2").value = datarray1[5] + "," + datarray1[6];
+        document.getElementById("sCont").value = datarray1[7] + "," + datarray1[8];
+        document.getElementById("sGST").value = datarray1[3];
+      }
+    });
     document.getElementById("pODate").value = document.getElementById("pDate").value;
-    document.getElementById("sName").value = $datarray1[1];
-    document.getElementById("sAddr").value = $datarray1[3];
-    document.getElementById("sAddr2").value = $datarray1[4] + "," + $datarray1[5] + "," + $datarray1[6];
-    document.getElementById("sCont").value = $datarray1[7] + "," + $datarray1[8];
-    document.getElementById("sGST").value = $datarray1[2];
-
 }
+
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
