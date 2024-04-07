@@ -520,11 +520,11 @@ function updateformval() {
         const str2 = str1.replace(/"/g, "");
         alert(str2);
         const datarray1 = str2.split(",");
-        document.getElementById("supName").value = datarray1[2];
-        document.getElementById("sAddr").value = datarray1[4];
-        document.getElementById("sAddr2").value = datarray1[5] + "," + datarray1[6];
+        document.getElementById("supName").value = datarray1[1];
+        document.getElementById("sAddr").value = datarray1[3];
+        document.getElementById("sAddr2").value = datarray1[4] + "," + datarray1[5] + "," + datarray1[6];
         document.getElementById("sCont").value = datarray1[7] + "," + datarray1[8];
-        document.getElementById("sGST").value = datarray1[3];
+        document.getElementById("sGST").value = datarray1[2];
       }
     });
     document.getElementById("pODate").value = document.getElementById("pDate").value;
