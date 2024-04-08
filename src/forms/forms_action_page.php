@@ -135,6 +135,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $CoEmail= $_POST["CoEmail"]; ?>
   <?php $CoAcode= $_POST["CoAcode"]; ?>
   <?php $CoAPh= $_POST["CoAPh"]; ?>
+  <?php $machinelist= $_POST["mList"]; ?>
+  <?php $godownlist= $_POST["gList"]; ?>
   <?php $upload1 = $_POST["file1-name-hidden"]; ?>
   <?php echo $upload1; ?>
   <?php $upload2 = $_POST["file2-name-hidden"]; ?>
@@ -169,7 +171,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbsetup($db, $text); ?>
   <?php $tablename = $_SESSION["CoListTabName"]; ?>
   <?php //dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $text); ?>
-  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $text); ?>
+  <?php dbeditcompanylistrecord($db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, 'Company Logo.png', 'DigitalSignature.png', 'Letterhead1.png', $machinelist, $godownlist, $text); ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Updated.<br>"; ?>
   <?php //header("Location: company1.php"); ?>

@@ -49,9 +49,17 @@
 .input-box {
             flex: 1;
             margin-left: 10px;
-            width: 200%;
+            width: 100%;
             font-size: 16px;
         }
+textarea {
+            flex: 1;
+            margin-left: 10px;
+            font-size: 16px;
+            width: 100%;
+            height: 100px;
+            resize: none;
+}
 .form-group label {
             /* Your general styles for labels */
             flex: 1;
@@ -166,6 +174,10 @@ input[type="file"] {
         <!-- Display selected file name -->
         <label for="file3" id="file3-label"></label><br><br>
         <input type="text" name="file3_name" id="file3-name-hidden" hidden>
+        <label for="mList">Machine Name List: *</label>(Add comma seperated by a line for each machine name)
+        <textarea name="mList" id="mList" required></textarea><br><br>
+        <label for="gList">Godown Name List: *</label>(Add comma seperated by a line for each machine name)
+        <textarea name="gList" id="gList" required></textarea><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>
@@ -208,6 +220,8 @@ window.onload = function() {
   document.getElementById("file3-name-hidden").value = filename3;
   var input = document.getElementById("Costate");
   input.value = jsArray_1[5];
+  document.getElementById("mList").value = jsArray_1[14];
+  document.getElementById("gList").value = jsArray_1[15];
 }
 
 </script>

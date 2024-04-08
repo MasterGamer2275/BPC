@@ -36,3 +36,14 @@ UPDATE $tablename SET REELSIZEinCM = '31.2' WHERE ID BETWEEN '1' AND '6';
    } else {
       echo "Done!";
    }
+
+     $sql =<<<EOF
+   ALTER TABLE TEST_COMPANY_LIST_2 ADD MACHINELIST TEXT NOT NULL DEFAULT 'your_default_value';
+   ALTER TABLE TEST_COMPANY_LIST_2 ADD GODOWNLIST TEXT NOT NULL DEFAULT 'your_default_value';
+  EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Done!";
+   }

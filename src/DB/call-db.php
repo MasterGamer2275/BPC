@@ -144,7 +144,7 @@ function dbeditsupplierrecord(&$db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SS
 
 //----------------------------------------DB - Update record (CompanyList Table)----------------------------------------//
 
-function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, &$text) { 
+function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $machinelist, $godownlist, &$text) { 
     $sql =<<<EOF
     UPDATE $tablename SET 
     NAME = '$Coname',
@@ -159,7 +159,9 @@ function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCit
     ADMINPHONE = '$CoAPh',
     COMPANYLOGO = '$fileToUpload1',
     DIGISIG = '$fileToUpload2',
-    LETTERHEAD = '$fileToUpload3'  WHERE ID = '$ID';
+    LETTERHEAD = '$fileToUpload3', 
+    MACHINELIST = '$machinelist',
+    GODOWNLIST= '$godownlist' WHERE ID = '$ID';
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -336,7 +338,9 @@ $sql =<<<EOF
    ADMINPHONE              TEXT,
    COMPANYLOGO             TEXT              NOT NULL,
    DIGISIG                 TEXT              NOT NULL,
-   LETTERHEAD              TEXT              NOT NULL
+   LETTERHEAD              TEXT              NOT NULL,
+   MACHINELIST             TEXT              NOT NULL,
+   GODOWNLIST              TEXT              NOT NULL
 );
 EOF;
    $ret = $db->exec($sql);
@@ -670,6 +674,40 @@ function dbreadPRID(&$db, $tablename, &$PONum, &$text) {
           $text .= "<br>";
         } else { 
           $text .= "PONum read successfully<br>";
+      }
+}
+
+//----------------------------------------DB - Add place holder record (Purchase Table)----------------------------------------//
+
+function dbaddprplhrecord(&$db, $tablename, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    INSERT INTO $tablename (PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
+    VALUES ('', '', 'Placeholder', '', '', '', '', '', '', '', '', '', '', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+
+//----------------------------------------DB - Delete record (PR Table Record)----------------------------------------//
+
+function dbdeletePRrecord(&$db, $tablename, $ID, &$text) { 
+  $sql =<<<EOF
+  DELETE FROM $tablename WHERE ID = '$ID';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records deleted successfully<br>";
       }
 }
 

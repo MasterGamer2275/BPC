@@ -26,6 +26,13 @@
   $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
+  $tablename = $_SESSION["PRTabName"];
+  dbcreatePRtable($db, $tablename, $text);
+  dbaddprplhrecord($db, $tablename, $text);
+  //$ID = "60101";
+  //dbdeletePRrecord($db, $tablename, $ID, $text);
+  dbreadPRID($db, $tablename, $PONum, $text);
+  //echo $PONum;
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
@@ -278,6 +285,8 @@ height: 20px;
   <form id = "form1" onsubmit="reorderid();addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
     <!--addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();-->
     <h3>Generate Purchase Order:</h3>
+    <label for="pONum"><b>PO No:</label>
+    <input type = "text" id = "pONum" name = "pONum" size = "7" value="<?php echo $PONum; ?>" required disabled><br><br>
     <label for="pDate"><b>Purchase Date:</label>
     <input type = "date" id = "pDate" name = "pDate" size="0" value="" required onchange="disable('pDate')">
     <label for="PSname"><b>Supplier: *</label>
@@ -528,6 +537,7 @@ function updateformval() {
       }
     });
     document.getElementById("pODate").value = document.getElementById("pDate").value;
+    document.getElementById("pONumber").value = document.getElementById("pONum").value;
 }
 
 function closeForm() {
