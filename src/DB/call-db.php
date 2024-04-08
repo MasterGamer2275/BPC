@@ -102,11 +102,11 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
 
 //----------------------------------------DB - Add record (Stock Table)----------------------------------------//
 
-function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, &$text) { 
+function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) { 
   $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
-    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID)
-    VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID');
+    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID,GODOWNNAME)
+    VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID', '$godownname');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -306,7 +306,8 @@ $sql =<<<EOF
    CGST                 INTEGER,
    IGST                 INTEGER,
    TOTAL                INTEGER,
-   COMPANYID            INTEGER     NOT NULL
+   COMPANYID            INTEGER     NOT NULL,
+   GODOWNNAME           TEXT        NOT NULL
 );
 EOF;
    $ret = $db->exec($sql);

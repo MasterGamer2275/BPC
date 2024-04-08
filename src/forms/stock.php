@@ -14,6 +14,17 @@
   $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
+  $tablename = $_SESSION["CoListTabName"];
+  $paramname = "ID";
+  $paramvalue = "6100";
+  $mycompanyvalues = array();
+  dbreadrecord($db, $tablename, $paramname, $paramvalue, $mycompanyvalues, $text);
+  $tempArray = explode(",\r\n", $mycompanyvalues[15]);
+  $templist = json_encode($tempArray );
+  $val = str_replace("]", "", $templist);
+  $val = str_replace("[", "", $val);
+  $val = str_replace("\"", "", $val);
+  $locationlist = explode(",", $val);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
@@ -83,9 +94,13 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+.numeric-input1 {
   -moz-appearance: textfield;
-  width: 147px; 
+  width: 90px; 
+}
+.numeric-input2 {
+  -moz-appearance: textfield;
+  width: 35px; 
 }
 /* The popup form - hidden by default */
 .form-popup {
@@ -168,7 +183,7 @@ input[type=number] {
   opacity: 1;
 }
 select {
-width: 18%;
+width: 10%;
 /* width: 120px;*/
 height: 20px;
 }
@@ -200,26 +215,37 @@ height: 20px;
     <option value="">Select</option>
     </select>
     <label for="PGSM"><b>GSM: *</label>
-    <input type = "text" id = "PGSM" name = "PGSM" required size="5" disabled>
+    <input type = "text" id = "PGSM" name = "PGSM" required size="3" disabled>
     <label for="PBF"><b>BF: *</label>
-    <input type = "text" id = "PBF" name = "PBF" required size="5" disabled><br><br>
+    <input type = "text" id = "PBF" name = "PBF" required size="3" disabled>
     <label for="PRS"><b>Reel Size (Cm): *</label>
-    <input type = "number" id = "PRS" name = "PRS" required size="7" min = "1" step="0.01" disabled>
+    <input type = "number" class = "numeric-input1" id = "PRS" name = "PRS" required size="3" min = "1" step="0.01" disabled><br><br>
     <label for="PRN"><b>Reel Number :*</label>
-    <input type = "number" id = "PRN" name = "PRN" required size="7" min = "5" step="1">
+    <input type = "number" class = "numeric-input1" id = "PRN" name = "PRN" required size="7" min = "5" step="1">
     <label for="PRW"><b>Reel Weight (Kg) : *</label>
-    <input type = "number" id = "PRW" name = "PRW" required size="7" min = "1" step=".01" onchange = "calculatetotal()">
+    <input type = "number" class = "numeric-input1" id = "PRW" name = "PRW" required size="7" min = "1" step=".01" onchange = "calculatetotal()">
     <label for="PRate"><b>Rate(Rs.):</label>
-    <input type = "number" id = "PRate" name = "PRate" size="7" min = "0.01" step=".01" onchange = "calculatetotal()">
-    <br><br>
+    <input type = "number" class = "numeric-input1" id = "PRate" name = "PRate" size="7" min = "0.01" step=".01" onchange = "calculatetotal()">
+
     <label for="PSGST"><b>SGST(%):</label>
-    <input type = "number" id = "PSGST" name = "PSGST" size="3" min = "0" value = "0" step=".01" onchange = "calculatetotal()">
+    <input type = "number" class = "numeric-input2" id = "PSGST" name = "PSGST" size="3" min = "0" value = "0" step=".01" onchange = "calculatetotal()">
     <label for="PCGST"><b>CGST(%):</label>
-    <input type = "number" id = "PCGST" name = "PCGST" size="3" min = "0" value = "0" step=".01" onchange= "calculatetotal()">
+    <input type = "number" class = "numeric-input2" id = "PCGST" name = "PCGST" size="3" min = "0" value = "0" step=".01" onchange= "calculatetotal()">
     <label for="PIGST"><b>IGST(%):</label>
-    <input type = "number" id = "PIGST" name = "PIGST" size="3" min = "0" value = "0" step=".01" disabled onchange = "calculatetotal()">
+    <input type = "number" class = "numeric-input2" id = "PIGST" name = "PIGST" size="3" min = "0" value = "0" step=".01" disabled onchange = "calculatetotal()">
+        <br><br>
     <label for="PTotal"><b>Total(Rs.):</label>
     <input type = "number" id = "PTotal" name = "PTotal" size="15" min = "1" max= "100000" disabled step=".01">
+    <label for="PSLoc"><b>Location: *</label>
+    <select name= = "PSLoc" id = "PSLoc">
+    <option value="">Select</option>
+      <?php
+        // Loop through the array to generate list items
+      foreach ($locationlist as $value) {
+            echo "<option value='$value'>$value</option>";
+          }
+      ?>
+    </select>
     <input type = "submit" id = "PAdd" name = "PAdd" value = "Add to Table" disabled>
     <br><br>
   </form>
@@ -246,7 +272,8 @@ height: 20px;
         <th>CGST(%)</th>
         <th>IGST(%)</th> 
         <th>Total(Rs.)</th>
-        <th>IGSTDISABLED</th> 
+        <th>IGSTDISABLED</th>
+        <th>Location</th>
     </tr>
     </table>
   </form>
@@ -284,7 +311,17 @@ height: 20px;
     <label for="PIGST2"><b>IGST(%):</label>
     <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange="calculatetotal2()" ><br>
     <label for="PTotal2"><b>Total(Rs.):</label>
-    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br><br>
+    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01">
+    <label for="PSLoc2"><b>Location: *</label>
+    <select name= = "PSLoc2" id = "PSLoc2">
+    <option value="">Select</option>
+      <?php
+        // Loop through the array to generate list items
+      foreach ($locationlist as $value) {
+            echo "<option value='$value'>$value</option>";
+          }
+      ?>
+    </select><br><br>
     <input type = "button" style="font-size:18px" class = "updatebtn" id = "S2Save2" name = "S2Save2" value = "V" onclick = "edittable('V')">
     <input type = "button" style="font-size:18px" class = "delete" id = "Sdelete2" name = "Sdelete2" value = "Del" onclick = "edittable('Del')">
     <input type = "button" style="font-size:18px" class = "cancel" id = "Scancel2" name = "Scancel2" value = "X" onclick= "closeForm()">
@@ -329,6 +366,7 @@ height: 20px;
       var igst = cells[11].innerText;
       var total = cells[12].innerText;
       var igstdisabled = cells[13].innerText.trim();
+      var location = cells[14].innerText;
       // Set the values of the form fields
       document.getElementById("id2").value = id;
       document.getElementById("Pdate2").value = date;
@@ -343,6 +381,7 @@ height: 20px;
       document.getElementById("PCGST2").value = cgst;
       document.getElementById("PIGST2").value = igst;
       document.getElementById("PTotal2").value = total;
+      document.getElementById("PSLoc2").value = location;
       if (igstdisabled) {
       document.getElementById("PIGST2").disabled = true;
       document.getElementById("PCGST2").disabled = false;
@@ -484,7 +523,7 @@ function addtotable() {
   var newRow = table.insertRow(table.rows.length);
   const selectElement = document.getElementById("PCname");
   const selectValue= selectElement.options[selectElement.selectedIndex].text;
-  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled];
+  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled, document.getElementById("PSLoc").value];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
@@ -509,7 +548,7 @@ var cells = row.getElementsByTagName("td");
 var edit = (buttonText == "V");
 var ddel = (buttonText == "Del");
 if (edit) {
-  const myArray = [id2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value, document.getElementById("PIGST2").disabled];
+  const myArray = [id2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value, document.getElementById("PIGST2").disabled, document.getElementById("PSLoc2").value];
         for (let i = 0; i < myArray.length; i++) {
         cells[i].innerHTML = myArray[i];
          }

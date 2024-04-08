@@ -9,7 +9,7 @@ $dbtabdata = array(array());
 dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];
 dbcreatestocktable($db, $tablename, $text);
-$dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(Rs.)", "SGST(%)", "CGST(%)", "IGST(%)","Total(Rs.)", "CompanyID", "Avg.Price(Rs.)"];
+$dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(Rs.)", "SGST(%)", "CGST(%)", "IGST(%)","Total(Rs.)", "CompanyID", "Location", "Avg.Price(Rs.)"];
 $fromDate = $_POST['fromDate'];
 $toDate = $_POST['toDate'];
 
