@@ -494,6 +494,34 @@ height: 20px;
         <th>Delivery Date To</th>      
     </tr>
     </table>
+            <div class="form-container2">
+            <div class="textbox">
+                <div class="form-group3">
+                  <label for="pOAmtWords" class="label">Amount in words:</label>
+                  <input type="text" id ="pOAmtWords" class="input-box"  placeholder="Enter text 1" disabled><br><br>
+                  <label for="pOAmtWords" class="label" style="font-size:14px;" hidden>Amount in words:</label>
+                  <input type="text" id ="pOAmtWords" class="input-box" style="font-size:14px;" hidden placeholder="Enter text 1" disabled>
+                </div>
+              </div>
+            <div class="textbox">
+                <div class="form-group3">
+                  <label for="pOTotal" class="label">Total:</label>
+                  <input type="text" id ="pOTotal" class="input-box"  placeholder="Enter text 1" disabled>
+                  <label for="pOGTotal" class="label" style="font-size:14px;">Grand Total:</label>
+                  <input type="text" id ="pOGTotal" class="input-box" style="font-size:14px;" placeholder="Enter text 1" disabled>
+                </div>
+              </div>
+            </div>
+                      <div class="form-container2">
+            <div class="textbox">
+                <div class="form-group3">
+                  <h3>Terms and Conditions:</h3>
+                  <label for="pOAmtWords" class="label">Invoice to be raised in the name of :</label>
+                  <input type="text" id ="pOAmtWords" class="input-box"  placeholder="Enter text 1" disabled><br><br>
+                </div>
+              </div>
+              </div>
+            </div>
   </form>
 </div>
 <script>
