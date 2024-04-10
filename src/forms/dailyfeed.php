@@ -162,7 +162,7 @@
 <h3>Manufacturing Process Control Portal:</h3>
 
 <div id="id01">
-  <form id="myForm" action = "#" method = "post" autocomplete="off">
+  <form onsubmit="handleSubmit(event);">
         <div class="tab">
           <button class="tablinks" onclick="openTab(event, 'Select')">Select a Work Order</button> 
           <button class="tablinks" onclick="openTab(event, 'Job1')">Create New Work Order</button>
@@ -293,12 +293,6 @@
     document.getElementById("id02").style.display = "none";
     document.getElementById("myForm2").style.display = "none";
 
-    document.querySelector('myForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-    // Add your form processing logic here
-});
-
-
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -425,10 +419,17 @@ var pcloss = totalestw/1000;
 document.getElementById("pRC-PerCLoss").value = parseFloat(pcloss).toFixed(2);
 var exwaste = (pcloss * actprod);
 document.getElementById("pRC-ExtraWaste").value = parseFloat(exwaste).toFixed(2);
-var totalwaste = (-exwaste + waste);
+var totalwaste = waste - exwaste;
 document.getElementById("pRC-TotalWaste").value = parseFloat(totalwaste).toFixed(2);
 
 }
+
+function handleSubmit(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+  const inputField = document.getElementById('inputField');
+  console.log("Input value:", inputField.value);
+  // Further processing or form submission logic can go here
+    }
 </script>
 
 </body>
