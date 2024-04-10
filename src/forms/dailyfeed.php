@@ -170,7 +170,7 @@
             <div class="tab2">
                 <button class="tablinks">Select a Work Order</button>
             </div>
-
+<!-- space to add a table with fixed width and height -->
 <div id="id01">
   <form id="myForm">
         <div class="tab">
@@ -219,7 +219,7 @@
      <div id="Load" class="tabcontent">
         <h3>Material Info:</h3>
         <label for="pRCRN"><b>Reel Number: *</label>
-        <select name="pRCRN" id="pRCRN" onchange = "updatereelinfo();">
+        <select name="pRCRN" id="pRCRN" onchange = "updatereelinfo();calculateval();">
            <option value="0">Select</option>
                  <?php
       foreach ($dbrnvalues as $value) {
@@ -236,9 +236,9 @@
         <label for="pRC-RM-RS"><b>Reel Size: *</label>
         <input type = "text" id = "pRC-RM-RS" name = "pRC-RM-RS" required size="10" disabled>
         <label for="pRC-ReelWidth"><b>Reel Width(cm): *</label>
-        <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01">
+        <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01" onchange = "calculateval();">
         <label for="pRC-ReelLength"><b>Reel Length(cm): *</label>
-        <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01">
+        <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01" onchange = "calculateval();">
         <label for="pRC-Est.WeightPK"><b>Estimated Weight(Kg/1000): *</label>
         <input type = "number" id = "pRC-TotalWeight" name = "pRC-TotalWeight" required min = "1" step = "0.01" disabled>
         <label for="rStatus"><b>Reel Status: *</label>
@@ -254,10 +254,10 @@
      <div id="Output" class="tabcontent">
         <h3>Material Info:</h3>
         <label for="pRc-Wastage"><b>Wastage:</label>
-        <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" required step = "0.01">
+        <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" required step = "0.01" onchange = "calculateval();">
         <label for="pRC-UsedW"><b>Used Reel Weight:</label>
-        <input type = "number" id = "pRC-EstW" name = "pRC-EstW" step = "0.01" disabled>
-        <label for="pRC-Est-Prod"><b>Estimated Production:</label>
+        <input type = "number" id = "pRC-UsedW" name = "pRC-UsedW" step = "0.01" disabled>
+        <label for="pRC-Est-ProdW"><b>Estimated Production:</label>
         <input type = "number" id = "pRC-Est-ProdW" name = "pRC-Est-ProdW" step = "0.01" disabled>
         <label for="pRC-Act-Prod"><b>Actual Production: </label>
         <input type = "number" id = "pRC-Act-Prod" name = "pRC-Act-Prod" required step = "0.01" disabled>
@@ -437,6 +437,29 @@ var tr = "REELNUMBER:" +  reelsizestr;
 
 }
 
+function calculateval() {
+var reelw = document.getElementById("pRC-ReelWidth").value;
+var reell = document.getElementById("pRC-ReelLength").value;
+var waste = document.getElementById("pRc-Wastage").value;
+var gsm = document.getElementById("pRC-RM-GSM").value;
+var rw = document.getElementById("pRC-RM-RW").value;
+var act = document.getElementById("pRC-P-Actual").value;
+var totalestw = ((reelw * reell * gsm)/10000);
+document.getElementById("pRC-TotalWeight").value = totalestw;
+var usedweight = rw-watse;
+document.getElementById("pRC-UsedW").value = usedweight;
+var estprod = (usedweight/totalestw) * 1000;
+document.getElementById("pRC-Est-ProdW").value = estprod;
+var actprod = act - estprod;
+document.getElementById("pRC-Act-Prod").value = actprod;
+document.getElementById("pRC-Loss").value = loss;
+var pcloss = totalestw/1000;
+document.getElementById("pRC-PerCLoss").value = pcloss;
+var exwaste = (pcloss * actprod);
+document.getElementById("pRC-ExtraWaste").value = exwaste;
+document.getElementById("pRC-TotalWaste").value = exwaste + waste;
+
+}
 </script>
 
 </body>
