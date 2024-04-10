@@ -47,11 +47,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
     .table-container {
-        width: 18%; /* Adjust this value as needed */
+        width: 40%; /* Adjust this value as needed */
         overflow-x: auto; /* Add horizontal scrollbar if content overflows */
         posiiton: absolute;
         left: -10px;
-        top: 50%;
+        top: 0%;
     }
 
     /* Optional: Add vertical scrollbar if content overflows */
@@ -62,7 +62,7 @@
     /* Optional: Style for table */
     table {
         border-collapse: collapse;
-        width: 18%; /* Ensure table takes full width of its container */
+        width: 40%; /* Ensure table takes full width of its container */
     }
 
     th, td {
@@ -74,26 +74,18 @@
     th {
         background-color: #f2f2f2;
     }
-.tab2 {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: rgb(173, 103, 79);
-  display: flex; /* Use flexbox layout */
-  flex-direction: row; /* Arrange tabs vertically */
-  width: 20%;
-  position: absolute;
-  left:0px;
-}
     /* Style the tab buttons */
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: rgb(173, 103, 79);
   display: flex; /* Use flexbox layout */
-  flex-direction: row; /* Arrange tabs vertically */
-  width: 80%;
+  flex-direction: column; /* Arrange tabs vertically */
+  width: 18%;
   position: absolute;
-  left:20%;
+  left:0%;
+  top:8%;
+  height: 91%;
   }
     /* Style the buttons inside the tab */
 .tab button {
@@ -106,31 +98,19 @@
   font-size: 16px;
   color: white;
   flex-grow: 1; /* Distribute space evenly among tab buttons */
-  text-align: center;
+  text-align: left;
   }
 
-  /* Style the buttons inside the tab */
-.tab2 button {
-  background-color: inherit;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 16px;
-  color: white;
-  flex-grow: 1; /* Distribute space evenly among tab buttons */
-  text-align: center;
-  }
+
 /* Change background color of buttons on hover */
   .tab button:hover {
-  background-color: #ddd;
+  background-color: rgb(222, 191, 175);;
   color: black;
   }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ddd;
+  background-color: rgb(222, 191, 175);;
   color: black;
   }
 
@@ -145,42 +125,61 @@
   display: flex; /* Use flexbox layout */
   border: 1px solid #ccc;
   flex-direction: row;
-  width: 80%;
-  height: 112%;
+  width: 40%;
+  height: 91%;
   position: absolute;
-  left: 20%;
-  top: 27%;
+  left: 18%;
+  top: 8%;
  }
 
 .flex-container input[type=text], .flex-container select, .flex-container input[type=password], .flex-container input[type=email], .flex-container input[type=date], .flex-container input[type=number], .flex-container input[type=button], .flex-container input[type=submit]{
 /* Styling for each item */
   border: 1px solid #ccc;
-  padding: 5px;
+  padding: 2px;
   margin: 5px;
   width: 100%;
   -moz-appearance: textfield;
 }
+.flex-container h3{
+  padding: 2px;
+  margin: 5px;
+}
+.numbertype2 {
+  display: flex; /* Use flexbox for easy horizontal alignment */
+}
+
+.numbertype2 input[type="number"], .numbertype2 input[type="text"] {
+  width: 20%; /* Adjust the width of each input element */
+  -moz-appearance: textfield; /* Optional: Firefox appearance */
+  margin-right: 5px; /* Optional: Add some spacing between input elements */
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
 </style>
 </head>
 <body>
 <h3>Manufacturing Process Control Portal:</h3>
 
-<div id="id03">
-  <form id="myForm3">
-            <div class="tab2">
-                <button class="tablinks">Select a Work Order</button>
-            </div>
-<!-- space to add a table with fixed width and height -->
 <div id="id01">
-  <form id="myForm">
+  <form id="myForm" action = "#" method = "post" autocomplete="off">
         <div class="tab">
+          <button class="tablinks" onclick="openTab(event, 'Select')">Select a Work Order</button> 
           <button class="tablinks" onclick="openTab(event, 'Job1')">Create New Work Order</button>
           <button class="tablinks" onclick="openTab(event, 'Load')">Enter Material(Raw) Info</button>
           <button class="tablinks" onclick="openTab(event, 'Output')">Review Work Order</button>
           <button class="tablinks" onclick="openTab(event, 'Complete')">Update Work Order Status</button>
       </div>
    <div class="flex-container">
-
+      <div id="Select" class="tabcontent">
+      <table id="myTable">
+          <tr>
+            <th>WO No:</th>
+            <th>Customer Name</th>
+            <th>Target</th>
+          </tr>
+        </table>
+      </div>
       <div id="Job1" class="tabcontent">
             <h3>WorkOrder:</h3>
             <label for="Machine"><b>Machine: *</label>
@@ -227,14 +226,17 @@
           }
       ?>
         </select>
-        <label for="pRCMT"><b>Material: *</label>
-        <input type = "text" id = "pRCMT" name = "pRCMT" required size="15" disabled>
-        <label for="pRC-RM-GSM"><b>GSM: *</label>
-        <input type = "text" id = "pRC-RM-GSM" name = "pRC-RM-GSM" required size="5" disabled>
-        <label for="pRC-RM-RW"><b>Reel Weight (Kg): *</label>
-        <input type = "text" id = "pRC-RM-RW" name = "pRC-RM-RW" required size="5" disabled>
-        <label for="pRC-RM-RS"><b>Reel Size: *</label>
-        <input type = "text" id = "pRC-RM-RS" name = "pRC-RM-RS" required size="10" disabled>
+        <div id = "RMInfo" class = "numbertype2">
+          <label for="pRCMT"><b>Material: *</label>
+          <input type = "text" id = "pRCMT" name = "pRCMT" required size="15" disabled>
+          <label for="pRC-RM-GSM"><b>GSM: *</label>
+          <input type = "number" id = "pRC-RM-GSM" name = "pRC-RM-GSM" required disabled>
+          <label for="pRC-RM-RW"><b>ReelWeight(Kg): *</label>
+          <input type = "number" id = "pRC-RM-RW" name = "pRC-RM-RW" required disabled>
+          <label for="pRC-RM-RS"><b>ReelSize: *</label>
+          <input type = "number" id = "pRC-RM-RS" name = "pRC-RM-RS" required disabled>
+        </div>
+
         <label for="pRC-ReelWidth"><b>Reel Width(cm): *</label>
         <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01" onchange = "calculateval();">
         <label for="pRC-ReelLength"><b>Reel Length(cm): *</label>
@@ -252,7 +254,7 @@
          </select>  
      </div>
      <div id="Output" class="tabcontent">
-        <h3>Material Info:</h3>
+        <h3>Review :</h3>
         <label for="pRc-Wastage"><b>Wastage:</label>
         <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" required step = "0.01" onchange = "calculateval();">
         <label for="pRC-UsedW"><b>Used Reel Weight:</label>
@@ -260,9 +262,7 @@
         <label for="pRC-Est-ProdW"><b>Estimated Production:</label>
         <input type = "number" id = "pRC-Est-ProdW" name = "pRC-Est-ProdW" step = "0.01" disabled>
         <label for="pRC-Act-Prod"><b>Actual Production: </label>
-        <input type = "number" id = "pRC-Act-Prod" name = "pRC-Act-Prod" required step = "0.01" disabled>
-        <label for="pRC-Loss"><b>Loss: </label>
-        <input type = "number" id = "pRC-Loss" name = "pRC-Loss" step = "0.01" disabled>
+        <input type = "number" id = "pRC-Act-Prod" name = "pRC-Act-Prod" step = "0.01" disabled>
         <label for="pRC-PerCLoss"><b>PerCoverLoss:</label>
         <input type = "number" id = "pRC-PerCLoss" name = "pRC-PerCLoss" step = "0.01" disabled>
         <label for="pRC-ExtraWaste"><b>Extra Watse:</label>
@@ -280,51 +280,25 @@
               <option value="4">Finished/Close</option>
          </select>
          <label for="pRC-P-Actual"><b>Actual Production:</label>
-         <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" required min = "1" step = "1">
-
+         <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" required min = "1" step = "1" onchange = "calculateval();">
          <input type = "submit" id = "WOSave" name = "WOSave" value = "Save">
          <input type = "button" id = "WOCancel" name = "WOCancel" value = "Cancel">
       </div>
   </form>
-<div id="id02">
-  <form id="myForm2">
-      <label for="Machine"><b>Machine: *</label>
-      <select name="Machine" id="Machine" required min = "1">
-      <option value="0">Select</option>
-        <?php
-          // Loop through the array to generate list items
-        foreach ($machinelist as $value) {
-              echo "<option value='$value'>$value</option>";
-            }
-        ?>
-      </select>
-      <label for="pRC-P-CName"><b>Client Name: *</label>
-      <select name="pRC-P-CName" id="pRC-P-CName" onchange="getsizelist();">
-      <option value="0">Select</option>
-        <?php
-        // Loop through the array to generate list items
-      foreach ($dbcolvalues as $row) {
-          foreach ($row as $value) {
-            echo "<option value='$value'>$value</option>";
-          }
-        }
-        ?>
-      </select>
-      <label for="pRC-P-Target"><b>Target</label>
-      <input type = "number" id = "pRC-P-Target" name = "pRC-P-Target" required min = "1" step = "1">
-      <label for="pRC-P-Size"><b>Cover Size: *</label>
-      <select name="pRC-P-Size" id="pRC-P-Size" onchange="updateval();">
-       <option value="0">Select</option>
-      </select>
-    </form>  
 </div>
 
 <script>
     // Function to switch between tabs
-    tabcontent = document.getElementsByClassName("tabcontent");
     tabcontent[0].style.display = "block";
     document.getElementById("id02").style.display = "none";
     document.getElementById("myForm2").style.display = "none";
+
+    document.querySelector('myForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    // Add your form processing logic here
+});
+
+
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -338,11 +312,6 @@
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.className += " active";
     }
-
-    // Open the first tab by default
-    document.getElementsByClassName("tablinks")[0].click
-
-
 
 function getsizelist() {
   var select = document.getElementById("pRC-P-Size");
@@ -445,19 +414,19 @@ var gsm = document.getElementById("pRC-RM-GSM").value;
 var rw = document.getElementById("pRC-RM-RW").value;
 var act = document.getElementById("pRC-P-Actual").value;
 var totalestw = ((reelw * reell * gsm)/10000);
-document.getElementById("pRC-TotalWeight").value = totalestw;
-var usedweight = rw-watse;
-document.getElementById("pRC-UsedW").value = usedweight;
+document.getElementById("pRC-TotalWeight").value = parseFloat(totalestw).toFixed(2);
+var usedweight = rw-waste;
+document.getElementById("pRC-UsedW").value = parseFloat(usedweight).toFixed(2);
 var estprod = (usedweight/totalestw) * 1000;
-document.getElementById("pRC-Est-ProdW").value = estprod;
+document.getElementById("pRC-Est-ProdW").value = parseFloat(estprod).toFixed(2);
 var actprod = act - estprod;
-document.getElementById("pRC-Act-Prod").value = actprod;
-document.getElementById("pRC-Loss").value = loss;
+document.getElementById("pRC-Act-Prod").value = parseFloat(actprod).toFixed(2);
 var pcloss = totalestw/1000;
-document.getElementById("pRC-PerCLoss").value = pcloss;
+document.getElementById("pRC-PerCLoss").value = parseFloat(pcloss).toFixed(2);
 var exwaste = (pcloss * actprod);
-document.getElementById("pRC-ExtraWaste").value = exwaste;
-document.getElementById("pRC-TotalWaste").value = exwaste + waste;
+document.getElementById("pRC-ExtraWaste").value = parseFloat(exwaste).toFixed(2);
+var totalwaste = (-exwaste + waste);
+document.getElementById("pRC-TotalWaste").value = parseFloat(totalwaste).toFixed(2);
 
 }
 </script>
