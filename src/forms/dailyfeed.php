@@ -24,13 +24,11 @@
   $machinelist = explode(",", $val);
   //add filter by unfinished stock.
   $tablename = $_SESSION["StListTabName"];
-  $dbrnvalues1 = array();
   $dbrnvalues = array();
   $columnname = "REELNUMBER";
-  dbgetcolumnname($db, $tablename, $columnname, $dbrnvalues1, $text);
-  $dbrnvalues = array_unique($dbrnvalues1);
+  dblistuniquecolvalues($db, $tablename, $columnname, $dbrnvalues, $text);
   $dbtabdata2 = array(array());
-  dbreadtable($db, $tablename, $dbtabdata2, $text);
+  dbreadstocktable($db, $tablename, $dbtabdata2, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($dbtabdata2);
@@ -48,71 +46,135 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    /* Style the tab buttons */
-    .tab {
-        overflow: hidden;
-        border: 1px solid #ccc;
-        background-color: rgb(89, 220, 238);
-        display: flex; /* Use flexbox layout */
-        flex-direction: column; /* Arrange tabs vertically */
-        width: 100%;
-        height: 100%;
+    .table-container {
+        width: 18%; /* Adjust this value as needed */
+        overflow-x: auto; /* Add horizontal scrollbar if content overflows */
+        posiiton: absolute;
+        left: -10px;
+        top: 50%;
     }
 
-    /* Style the buttons inside the tab */
-    .tab button {
-        background-color: inherit;
-        //float: left;
-        width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        font-size: 17px;
+    /* Optional: Add vertical scrollbar if content overflows */
+    .table-container table {
+        overflow-y: auto;
     }
 
-    /* Change background color of buttons on hover */
-    .tab button:hover {
-        background-color: rgb(126, 208, 162);
+    /* Optional: Style for table */
+    table {
+        border-collapse: collapse;
+        width: 18%; /* Ensure table takes full width of its container */
     }
 
-    /* Create an active/current tablink class */
-    .tab button.active {
-        background-color: rgb(146, 208, 162);
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
 
-    /* Style the tab content */
-    .tabcontent {
-        display: none;
-        padding: 6px 12px;
-        border: none;
-        border-top: none;
+    th {
+        background-color: #f2f2f2;
     }
-    .flex-container {
-    display: flex; /* Use flexbox layout */
-    border: 1px solid #ccc;
-    flex-direction: row;
-    height: 60%;
+.tab2 {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: rgb(173, 103, 79);
+  display: flex; /* Use flexbox layout */
+  flex-direction: row; /* Arrange tabs vertically */
+  width: 20%;
+  position: absolute;
+  left:0px;
 }
+    /* Style the tab buttons */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: rgb(173, 103, 79);
+  display: flex; /* Use flexbox layout */
+  flex-direction: row; /* Arrange tabs vertically */
+  width: 80%;
+  position: absolute;
+  left:20%;
+  }
+    /* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 16px;
+  color: white;
+  flex-grow: 1; /* Distribute space evenly among tab buttons */
+  text-align: center;
+  }
+
+  /* Style the buttons inside the tab */
+.tab2 button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 16px;
+  color: white;
+  flex-grow: 1; /* Distribute space evenly among tab buttons */
+  text-align: center;
+  }
+/* Change background color of buttons on hover */
+  .tab button:hover {
+  background-color: #ddd;
+  color: black;
+  }
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ddd;
+  color: black;
+  }
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: none;
+  border-top: none;
+  }
+.flex-container {
+  display: flex; /* Use flexbox layout */
+  border: 1px solid #ccc;
+  flex-direction: row;
+  width: 80%;
+  height: 112%;
+  position: absolute;
+  left: 20%;
+  top: 27%;
+ }
 
 .flex-container input[type=text], .flex-container select, .flex-container input[type=password], .flex-container input[type=email], .flex-container input[type=date], .flex-container input[type=number], .flex-container input[type=button], .flex-container input[type=submit]{
-    /* Styling for each item */
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin: 5px;
-    width: 96%;
-    -moz-appearance: textfield;
+/* Styling for each item */
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+  width: 100%;
+  -moz-appearance: textfield;
 }
 </style>
 </head>
 <body>
 <h3>Manufacturing Process Control Portal:</h3>
+
+<div id="id03">
+  <form id="myForm3">
+            <div class="tab2">
+                <button class="tablinks">Select a Work Order</button>
+            </div>
+
+<div id="id01">
   <form id="myForm">
         <div class="tab">
           <button class="tablinks" onclick="openTab(event, 'Job1')">Create New Work Order</button>
-          <button class="tablinks" onclick="openTab(event, 'SWO')">Select Work Order</button>
           <button class="tablinks" onclick="openTab(event, 'Load')">Enter Material(Raw) Info</button>
           <button class="tablinks" onclick="openTab(event, 'Output')">Review Work Order</button>
           <button class="tablinks" onclick="openTab(event, 'Complete')">Update Work Order Status</button>
@@ -121,8 +183,6 @@
 
       <div id="Job1" class="tabcontent">
             <h3>WorkOrder:</h3>
-            <label for="pRDate"><b>Date</label>
-            <input type ="date"  name="pRDate" id="pRDate">
             <label for="Machine"><b>Machine: *</label>
             <select name="Machine" id="Machine" required min = "1">
               <option value="0">Select</option>
@@ -162,11 +222,9 @@
         <select name="pRCRN" id="pRCRN" onchange = "updatereelinfo();">
            <option value="0">Select</option>
                  <?php
-      foreach ($dbrnvalues as $row) {
-          foreach ($row as $value) {
+      foreach ($dbrnvalues as $value) {
             echo "<option value='$value'>$value</option>";
           }
-      }
       ?>
         </select>
         <label for="pRCMT"><b>Material: *</label>
@@ -183,6 +241,15 @@
         <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01">
         <label for="pRC-Est.WeightPK"><b>Estimated Weight(Kg/1000): *</label>
         <input type = "number" id = "pRC-TotalWeight" name = "pRC-TotalWeight" required min = "1" step = "0.01" disabled>
+        <label for="rStatus"><b>Reel Status: *</label>
+        <select name="rStatus" id="rStatus" required min = "1">
+          <option value="0">Select</option>
+          <option value="1">In-Stock</option>
+          <option value="2">In-Factory</option>
+          <option value="4">Loaded</option>
+          <option value="5">LeftOver</option>
+          <option value="6">Finished</option>
+         </select>  
      </div>
      <div id="Output" class="tabcontent">
         <h3>Material Info:</h3>
@@ -207,9 +274,9 @@
         <h3>Work Order Status:</h3>
         <select name="wOStatus" id="wOStatus" required min = "1">
               <option value="0">Select</option>
-              <option value="1">In Milling</option>
-              <option value="2">Hold</option>
-              <option value="3">Material Loaded</option>
+              <option value="1">Not Started</option>
+              <option value="2">In Milling</option>
+              <option value="3">Hold</option>
               <option value="4">Finished/Close</option>
          </select>
          <label for="pRC-P-Actual"><b>Actual Production:</label>
@@ -217,13 +284,47 @@
 
          <input type = "submit" id = "WOSave" name = "WOSave" value = "Save">
          <input type = "button" id = "WOCancel" name = "WOCancel" value = "Cancel">
+      </div>
+  </form>
+<div id="id02">
+  <form id="myForm2">
+      <label for="Machine"><b>Machine: *</label>
+      <select name="Machine" id="Machine" required min = "1">
+      <option value="0">Select</option>
+        <?php
+          // Loop through the array to generate list items
+        foreach ($machinelist as $value) {
+              echo "<option value='$value'>$value</option>";
+            }
+        ?>
+      </select>
+      <label for="pRC-P-CName"><b>Client Name: *</label>
+      <select name="pRC-P-CName" id="pRC-P-CName" onchange="getsizelist();">
+      <option value="0">Select</option>
+        <?php
+        // Loop through the array to generate list items
+      foreach ($dbcolvalues as $row) {
+          foreach ($row as $value) {
+            echo "<option value='$value'>$value</option>";
+          }
+        }
+        ?>
+      </select>
+      <label for="pRC-P-Target"><b>Target</label>
+      <input type = "number" id = "pRC-P-Target" name = "pRC-P-Target" required min = "1" step = "1">
+      <label for="pRC-P-Size"><b>Cover Size: *</label>
+      <select name="pRC-P-Size" id="pRC-P-Size" onchange="updateval();">
+       <option value="0">Select</option>
+      </select>
+    </form>  
+</div>
 
-
-
-  </div>
-</form>  
 <script>
     // Function to switch between tabs
+    tabcontent = document.getElementsByClassName("tabcontent");
+    tabcontent[0].style.display = "block";
+    document.getElementById("id02").style.display = "none";
+    document.getElementById("myForm2").style.display = "none";
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -240,6 +341,9 @@
 
     // Open the first tab by default
     document.getElementsByClassName("tablinks")[0].click
+
+
+
 function getsizelist() {
   var select = document.getElementById("pRC-P-Size");
   var numberOfOptions = select.options.length;
@@ -301,7 +405,6 @@ document.getElementById("pRC-RM-GSM").value = "Not Found";
 document.getElementById("pRC-RM-RW").value = "Not Found";
 document.getElementById("pRC-RM-RS").value = "Not Found";
 var tr = "REELNUMBER:" +  reelsizestr;
-alert(tr);
   for (let i = 1; i < jsArray_1.length; i++) {
     let c = JSON.stringify(jsArray_1[i]);
     let cstr = c.replaceAll("\"", "");
@@ -309,7 +412,6 @@ alert(tr);
     let found = (position>0);
     if (found) {
           const myArray = c.split(",");
-          alert(myArray);
           let sd1 = myArray[4];
           let srw1 = myArray[6];
           let sd3 = sd1.replaceAll("\"", "");

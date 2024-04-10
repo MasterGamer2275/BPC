@@ -63,7 +63,53 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
       $text .= "Table Read Successfully<br>";
     }
 }  
+//----------------------------------------DB - Get unique column values----------------------------------------//
 
+function dblistuniquecolvalues(&$db, $tablename, $columnname, &$dbcolvalues, &$text) { 
+$dbtabdata = array(array());
+$res = $db->query("SELECT DISTINCT $columnname FROM $tablename"); 
+     while (($val = $res->fetchArray(SQLITE3_ASSOC))) {
+      array_push($dbtabdata,$val);
+  }
+$sql =<<<EOF
+EOF;
+$dbcolvalues = array();
+   foreach ($dbtabdata as $row) {
+      foreach ($row as $cell) {
+                array_push($dbcolvalues,$cell);
+              }
+  }
+$ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Column Read Successfully<br>";
+    }
+}
+
+//----------------------------------------DB - Read Stock Table values----------------------------------------//
+
+function dbreadstocktable(&$db, $tablename, &$dbtabdata, &$text) { 
+$dbtabdata = array(array());
+$companyId = $_SESSION["companyID"];
+$tablename = $_SESSION["StListTabName"];
+  $res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUMBER, SUM(REELWEIGHT) as Reelweights, GROUP_CONCAT(RATE, ';') as Rates, GROUP_CONCAT(SGST, ';') as Sgsts, GROUP_CONCAT(CGST, ';') as Cgsts, GROUP_CONCAT(IGST, ';') as Igsts, SUM(TOTAL), GROUP_CONCAT(GODOWNNAME, ';') as Godownnames, ROUND((SUM(TOTAL)/SUM(REELWEIGHT)), 2) as AverageRate FROM $tablename WHERE COMPANYID = '$companyId' GROUP BY REELNUMBER");
+     while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+      array_push($dbtabdata,$row);
+  }
+$sql =<<<EOF
+EOF;
+  $ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Stock Table Read Successfully<br>";
+    }
+}
 
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 

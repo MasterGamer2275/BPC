@@ -206,7 +206,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php if ($_POST["C2Save"] != "") {  ?>
   <?php $ID= $_POST["CID2"]; ?>
   <?php $Cname = $_POST["CN2"]; ?>
-  <?php $Clname = $_POST["ClN2"]; ?>
+  <?php $Clname = $_POST["ClName2"]; ?>
   <?php $CGST = $_POST["CGST2"]; ?>
   <?php $CAddr = $_POST["CAddr2"]; ?>
   <?php $CCity = $_POST["CCity2"]; ?>
