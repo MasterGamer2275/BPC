@@ -33,7 +33,8 @@ $_SESSION["POListTabName"] = "TEST_PO_LIST_1";
 $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
-$_SESSION["PRTabName"] = "TEST_PURCHASE_1";
+$_SESSION["PRTabName"] = "TEST_PURCHASE_2";
+$_SESSION["InitPONum"] = "610000";
 }
 
 //----------------------------------------DB - Close----------------------------------------//
@@ -622,13 +623,14 @@ function dbcheckprrecord (&$db, $tablename, $PCName, $PSpec, $PDes, $PGSM, $PSiz
     }
 } 
 
-//----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
+//----------------------------------------DB - Create table (Purchase Table)----------------------------------------//
 
 function dbcreatePRtable(&$db, $tablename, &$text) {
 $text .= "welcome to create purchase req table if not exists";
 $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
       ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+      PONUM          INTEGER    NOT NULL,
       PORELEASEDATE  TEXT		  NOT NULL,
       PORELEASETIME  TEXT		  NOT NULL,
       SUPPLIERNAME   TEXT       NOT NULL,
@@ -657,11 +659,11 @@ $ret = $db->exec($sql);
 
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
-function dbaddpurchaserecord(&$db, $tablename, $pODate, $pOTime, $pOSname, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) {
+function dbaddpurchaserecord(&$db, $tablename, $pONum, $pODate, $pOTime, $pOSname, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) {
   $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
-    INSERT INTO $tablename (PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
-    VALUES ('$pODate', '$pOTime', '$pOSname', '$pOSnum', '$pODes', '$pONR', '$pORPer', '$pOQnty', '$pORate', '$pODiscount', '$pOAmount', '$pODdfrom', '$pODdto', '$CompanyID');
+    INSERT INTO $tablename (PONUM,PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
+    VALUES ('$pONum', '$pODate', '$pOTime', '$pOSname', '$pOSnum', '$pODes', '$pONR', '$pORPer', '$pOQnty', '$pORate', '$pODiscount', '$pOAmount', '$pODdfrom', '$pODdto', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -674,9 +676,10 @@ function dbaddpurchaserecord(&$db, $tablename, $pODate, $pOTime, $pOSname, $pOSn
 }
 
 //----------------------------------------DB - Update record (Purchase Table)----------------------------------------//
-function dbeditpurchase(&$db, $tablename, $ID, $pODate, $pOTime, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) { 
+function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) { 
    $sql =<<<EOF
    UPDATE $tablename SET
+   PONUM = '$pONum',
    PORELEASEDATE = '$pODate',
    PORELEASETIME = '$pOTime',
    SERIALNUMBER = '$pOSnum',
@@ -700,62 +703,5 @@ function dbeditpurchase(&$db, $tablename, $ID, $pODate, $pOTime, $pOSnum, $pODes
       }
 }
 
-//----------------------------------------DB - Read ID (Purchase Table)----------------------------------------//
-function dbreadPRID(&$db, $tablename, &$PONum, &$text) {
-   $dbtabdata = array();
-   $res = $db->query("SELECT MAX(ID) FROM $tablename");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
-  array_push($dbtabdata,$row);
-  }
-        foreach ($dbtabdata as $row) {
-          foreach ($row as $value) {
-              $PONum = $value;
-          }
-      }
-  $sql =<<<EOF
-  EOF;
-   $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "PONum read successfully<br>";
-      }
-}
-
-//----------------------------------------DB - Add place holder record (Purchase Table)----------------------------------------//
-
-function dbaddprplhrecord(&$db, $tablename, &$text) {
-  $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
-    VALUES ('', '', 'Placeholder', '', '', '', '', '', '', '', '', '', '', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records created succssfully<br>";
-      }
-}
-
-//----------------------------------------DB - Delete record (PR Table Record)----------------------------------------//
-
-function dbdeletePRrecord(&$db, $tablename, $ID, &$text) { 
-  $sql =<<<EOF
-  DELETE FROM $tablename WHERE ID = '$ID';
-  EOF;
-  $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records deleted successfully<br>";
-      }
-}
 
 ?>

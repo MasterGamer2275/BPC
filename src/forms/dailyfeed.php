@@ -110,7 +110,7 @@
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: rgb(222, 191, 175);;
+  background-color: rgb(222, 191, 175);
   color: black;
   }
 
@@ -132,17 +132,46 @@
   top: 8%;
  }
 
-.flex-container input[type=text], .flex-container select, .flex-container input[type=password], .flex-container input[type=email], .flex-container input[type=date], .flex-container input[type=number], .flex-container input[type=button], .flex-container input[type=submit]{
+ .flex-container input[type="number"]:disabled, .flex-container input[type=text]:disabled {
+  background-color: #f2f2f2; /* Change background color */
+  color: #999; /* Change text color */
+  border: 1px solid #ccc; /* Change border color */
+  cursor: not-allowed; /* Change cursor style */
+}
+
+.flex-container input[type=text], .flex-container select, .flex-container input[type=password], .flex-container input[type=email], .flex-container input[type=date], .flex-container input[type=number] {
 /* Styling for each item */
   border: 1px solid #ccc;
   padding: 2px;
   margin: 5px;
   width: 100%;
   -moz-appearance: textfield;
+  background-color: yellow;
+  color: red;
+
 }
+
+.flex-container input[type=button], .flex-container input[type=submit]{
+  border: 1px solid #ccc;
+  padding: 2px;
+  margin: 5px;
+  width: 100%;
+}
+
+/* Hide increment/decrement buttons */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0; /* Optional - to remove the gap */
+}
+
+
 .flex-container h3{
   padding: 2px;
   margin: 5px;
+  margin-left: -10px;
+
 }
 .numbertype2 {
   display: flex; /* Use flexbox for easy horizontal alignment */
@@ -165,10 +194,10 @@
   <form onsubmit="handleSubmit(event);">
         <div class="tab">
           <button class="tablinks" onclick="openTab(event, 'Select')">Select a Work Order</button> 
-          <button class="tablinks" onclick="openTab(event, 'Job1')">Create New Work Order</button>
+          <button class="tablinks" onclick="openTab(event, 'Job1')">Enter Work Order Info</button>
           <button class="tablinks" onclick="openTab(event, 'Load')">Enter Material(Raw) Info</button>
           <button class="tablinks" onclick="openTab(event, 'Output')">Review Work Order</button>
-          <button class="tablinks" onclick="openTab(event, 'Complete')">Update Work Order Status</button>
+          <button class="tablinks" onclick="openTab(event, 'Complete')">Save Work Order</button>
       </div>
    <div class="flex-container">
       <div id="Select" class="tabcontent">
@@ -227,13 +256,14 @@
       ?>
         </select>
         <div id = "RMInfo" class = "numbertype2">
-          <label for="pRCMT"><b>Material: *</label>
-          <input type = "text" id = "pRCMT" name = "pRCMT" required size="15" disabled>
-          <label for="pRC-RM-GSM"><b>GSM: *</label>
+          <label for="pRCMT"><b>   </label>
+          <label for="pRCMT">Material: *</label>
+          <input type = "text" id = "pRCMT" name = "pRCMT" required disabled>
+          <label for="pRC-RM-GSM">GSM: *</label>
           <input type = "number" id = "pRC-RM-GSM" name = "pRC-RM-GSM" required disabled>
-          <label for="pRC-RM-RW"><b>ReelWeight(Kg): *</label>
+          <label for="pRC-RM-RW">ReelWeight(Kg): *</label>
           <input type = "number" id = "pRC-RM-RW" name = "pRC-RM-RW" required disabled>
-          <label for="pRC-RM-RS"><b>ReelSize: *</label>
+          <label for="pRC-RM-RS">ReelSize: *</label>
           <input type = "number" id = "pRC-RM-RS" name = "pRC-RM-RS" required disabled>
         </div>
 

@@ -26,13 +26,6 @@
   $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
-  $tablename = $_SESSION["PRTabName"];
-  dbcreatePRtable($db, $tablename, $text);
-  dbaddprplhrecord($db, $tablename, $text);
-  //$ID = "60101";
-  //dbdeletePRrecord($db, $tablename, $ID, $text);
-  dbreadPRID($db, $tablename, $PONum, $text);
-  //echo $PONum;
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
@@ -53,7 +46,6 @@
   echo 'console.log(jsArray_4);'; // Output the array in the browser console
   echo '</script>';
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,7 +219,8 @@ height: 20px;
             margin-right: 0px; /* Spacing between rectangles */
             width: 100%; /* Width of the text box */
             font-size: 12px;
-            margin-bottom: 0;
+            margin-bottom: 0px;
+            margin-top: 0px;
             text-align: center; /* Align text to the center */
         }
 .form-group3 {
@@ -235,7 +228,8 @@ height: 20px;
             align-items: center;
         }
 .input-box {
-            margin-bottom: 0; /* Remove margin bottom */
+            margin-bottom: 0px;
+            margin-top: 0px; /* Remove margin bottom */
             width: calc(100% - 20px); /* Full width minus padding */
             height: auto;
             box-sizing: border-box; /* Include padding and border in the width */
@@ -265,6 +259,7 @@ height: 20px;
 .form-group4{
             display: flex;
             align-items: center;
+            margin-bottom: 0;
         }
 
 .form-group4 label {
@@ -278,6 +273,50 @@ height: 20px;
             width:25%;
 
 }
+.form-group4 h3 {
+            font-size: 14px;
+            text-align: left;
+            vertical-align: left;
+            font-weight: bold;
+            padding: 1px;
+            margin-bottom: 0;
+            margin-top: 0;
+}
+.form-group4 p {
+            font-size: 12px;
+            text-align: left;
+            vertical-align: left;
+            font-weight: normal;
+            padding: 1px;
+            margin-bottom: 0;
+            margin-top: 0;
+}
+
+.form-group5 {
+            align-items: left;
+            text-align: left;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+.form-group6 {
+            align-items: right;
+            text-align: right;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+.image-container {
+        width: 100px; /* Adjust the width as needed */
+        height: auto; /* This maintains the aspect ratio */
+        float: right;
+    }
+
+.image-container img {
+        width: 100%;
+        height: auto;
+        align-items: right;
+    }
 </style>
 </head>
 <body>
@@ -318,7 +357,7 @@ height: 20px;
     <label for="PRate"><b>RatePerKg(Rs.):</label>
     <input type = "number" id = "PRate" name = "PRate" min = "0.01" step=".01" onchange = "calculatetotal()">
     <label for="PDis"><b>Discount%:</label>
-    <input type = "number" id = "PDis" name = "PDis" step=".01" onchange = "calculatetotal()">
+    <input type = "number" id = "PDis" name = "PDis" step=".01" value = "0" onchange = "calculatetotal()">
     <label for="PTotal"><b>Amount(Rs.):</label>
     <input type = "number" id = "PTotal" name = "PTotal" min = "0.01" step=".01" disabled><br><br>
     <label for="PDdate1"><b>Delivery Date from:</label>
@@ -334,7 +373,7 @@ height: 20px;
     <input type="hidden" id="tableData" name="tableData">
     <input type="text" id="sName" name="sName" hidden>
     <label for="PSubmit"><b>Verify the below table and click on Generate PO :</label>
-    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();"><br><br>
+    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();calculateSum();"><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -498,9 +537,10 @@ height: 20px;
             <div class="textbox">
                 <div class="form-group3">
                   <label for="pOAmtWords" class="label">Amount in words:</label>
-                  <input type="text" id ="pOAmtWords" class="input-box"  placeholder="Enter text 1" disabled><br><br>
-                  <label for="pOAmtWords" class="label" style="font-size:14px;" hidden>Amount in words:</label>
-                  <input type="text" id ="pOAmtWords" class="input-box" style="font-size:14px;" hidden placeholder="Enter text 1" disabled>
+                  <input type="text" id ="pOAmtWords" class="input-box"  placeholder="Enter text 1" disabled>
+                    <br>
+                    <br>
+                    <br>
                 </div>
               </div>
             <div class="textbox">
@@ -509,19 +549,50 @@ height: 20px;
                   <input type="text" id ="pOTotal" class="input-box"  placeholder="Enter text 1" disabled>
                   <label for="pOGTotal" class="label" style="font-size:14px;">Grand Total:</label>
                   <input type="text" id ="pOGTotal" class="input-box" style="font-size:14px;" placeholder="Enter text 1" disabled>
+                  <br>
+                  <br>
+                                    <br>
                 </div>
               </div>
             </div>
-                      <div class="form-container2">
-            <div class="textbox">
-                <div class="form-group3">
+    <div class="form-container2">
+        <div class="textbox">
+            <div class="form-group4">
+                <div>
                   <h3>Terms and Conditions:</h3>
-                  <label for="pOAmtWords" class="label">Invoice to be raised in the name of :</label>
-                  <input type="text" id ="pOAmtWords" class="input-box"  placeholder="Enter text 1" disabled><br><br>
+                  <p><b>Invoice to be raised in the name of:</b> <?php echo $datarray[1]; ?></p>
+                  <p><b>Terms of Payment :</b> After delivery</p>
+                  <p><b>Forwarding charges:</b> Extra</p>
+                  <p><b>Declaration:</b> If exceeding the due date, penalty class will be applicable. Applicable GST, If any will be payable by the company in addition to the price quoted above</p>
+                  <p><b>Terms of Delivery:</b> CUSTOMER USE</p>
                 </div>
-              </div>
-              </div>
             </div>
+        </div>
+    </div>
+    <div class="form-container2">
+        <div class="textbox">
+            <div class="form-group5">
+                  <p>Party Signature</p>
+                  <br>
+                  <br>
+                  <p>Accepted By</p>
+            </div>
+        </div>
+        <div class="textbox">
+            <div class="form-group6">
+                <p>For <?php echo $datarray[1]; ?></p>
+                <div class="image-container">
+                    <img class="image2" src="/Images/DigitalSignature.png">
+                </div>
+                <div>
+                                  <br>
+                  <br>
+                <p>Authorized Signature</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
   </form>
 </div>
 <script>
@@ -551,11 +622,9 @@ function updateformval() {
         url: 'getsupdata.php', // URL of the PHP file to which the request is sent
         data: { suppliername: suppliername }, // Data to be sent along with the request (here, a variable named 'suppliername')
         success: function(response) { // Function to handle successful response from the PHP file
-        alert(response);
         const str = response.replace("[", "");
         const str1 = str.replace("]", "");
         const str2 = str1.replace(/"/g, "");
-        alert(str2);
         const datarray1 = str2.split(",");
         document.getElementById("supName").value = datarray1[1];
         document.getElementById("sAddr").value = datarray1[3];
@@ -821,32 +890,71 @@ document.getElementById('form2').addEventListener('submit', function(event) {
     // Submit the form
     this.submit();
 });
+function calculateSum() {
+            var table = document.getElementById('myTable2');
+            var sum = 0;
 
-function numberToWords(number) {
-    // Arrays for units, teens, and tens
-    const units = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            // Loop through each row in the table
+            for (var i = 1; i < table.rows.length; i++) {
+                // Parse the numeric value from the cell and add it to the sum
+                sum += parseFloat(table.rows[i].cells[8].innerHTML);
+            }
 
-    if (number < 0 || number > 99) {
-        return "Number out of range";
-    }
-
-    if (number < 10) {
-        return units[number];
-    } else if (number < 20) {
-        return teens[number - 10];
-    } else {
-        const tensDigit = Math.floor(number / 10);
-        const unitsDigit = number % 10;
-        if (unitsDigit === 0) {
-            return tens[tensDigit];
-        } else {
-            return tens[tensDigit] + '-' + units[unitsDigit];
+            // Display the sum in the input box
+            document.getElementById('pOTotal').value = sum;
+            document.getElementById('pOGTotal').value = sum;
+            var sumInWords = toWords(sum);
+            document.getElementById('pOAmtWords').value = sumInWords;
+        }
+var th = ['','thousand','million', 'billion','trillion'];
+var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
+ var tn = ['ten','eleven','twelve','thirteen', 'fourteen','fifteen','sixteen', 'seventeen','eighteen','nineteen'];
+ var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+ 
+function toWords(s) {
+alert(s);
+    s = s.toString();
+    s = s.replace(/[\, ]/g,'');
+    if (s != parseFloat(s)) return 'not a number';
+    var x = s.indexOf('.');
+    if (x == -1)
+        x = s.length;
+    if (x > 15)
+        return 'too big';
+    var n = s.split(''); 
+    var str = '';
+    var sk = 0;
+    for (var i=0;   i < x;  i++) {
+        if ((x-i)%3==2) { 
+            if (n[i] == '1') {
+                str += tn[Number(n[i+1])] + ' ';
+                i++;
+                sk=1;
+            } else if (n[i]!=0) {
+                str += tw[n[i]-2] + ' ';
+                sk=1;
+            }
+        } else if (n[i]!=0) { // 0235
+            str += dg[n[i]] +' ';
+            if ((x-i)%3==0) str += 'hundred ';
+            sk=1;
+        }
+        if ((x-i)%3==1) {
+            if (sk)
+                str += th[(x-i-1)/3] + ' ';
+            sk=0;
         }
     }
+    
+    if (x != s.length) {
+        var y = s.length;
+        str += 'point ';
+        for (var i=x+1; i<y; i++)
+            str += dg[n[i]] +' ';
+    }
+    return str.replace(/\s+/g,' ');
+    alert(str);
 }
-
 </script>
 
 </body>

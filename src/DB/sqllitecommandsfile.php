@@ -47,3 +47,14 @@ UPDATE $tablename SET REELSIZEinCM = '31.2' WHERE ID BETWEEN '1' AND '6';
    } else {
       echo "Done!";
    }
+
+     $sql =<<<EOF
+     DROP TABLE TEST_PURCHASE_1;
+  EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Done!";
+   }
+  

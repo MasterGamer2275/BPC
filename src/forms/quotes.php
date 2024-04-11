@@ -10,9 +10,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $root = $_SERVER['DOCUMENT_ROOT'];
   require $root."/DB/call-db.php";
   dbsetup($db, $text);
-  $tablename = $_SESSION["PListTabName"];
   $sql =<<<EOF
-   
+
   EOF;
    $ret = $db->exec($sql);
    if(!$ret){
