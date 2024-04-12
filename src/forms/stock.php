@@ -278,14 +278,7 @@ height: 20px;
     </table>
   </form>
 </div>
-<div id="id03">
-    <form action="#">
-      <button id = "PExpEx" name = "PExpEx" onclick = "exporttoexcel();handleSubmit(event);">
-        <span>Export to</span>
-        <img src="/icons/icons8-excel-48.png" alt="excelpng" />
-      </button>
-    </form>
-</div>
+
 <div class="form-popup" id="myForm">
   <form class="form-container" id="form3">
     <label for="Pdate2"><b>Purchase Date: *</label>
@@ -567,12 +560,6 @@ function handleSubmit(event) {
   console.log("Input value:", inputField.value);
   // Further processing or form submission logic can go here
     }
-
-
-function exporttoexcel() {
-javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
-}
-
 
 function checkDuplicates() {
   var table = document.getElementById("myTable");

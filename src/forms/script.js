@@ -7,7 +7,7 @@ $(document).ready(function(){
       url: 'filter.php',
       data: { fromDate: fromDate, toDate: toDate },
       success: function(response) {
-        $('#dataTable').html(response);
+        $('#myTable').html(response);
       }
     });
   });

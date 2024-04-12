@@ -45,7 +45,7 @@ input[type=number] {
   <input type="date" id="toDate" name="toDate">
   <button id="filterBtn">Filter</button>
 
-  <table id="dataTable">
+  <table id="myTable">
     <!-- Table body will be populated dynamically -->
 
   </table>

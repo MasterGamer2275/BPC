@@ -64,9 +64,12 @@ footer {
   position: absolute;
   left: 0%;
   bottom: 0%;
-  width: 83%;
+  width: 84%;
   text-align: center;
-  padding: 3px;
+  padding: 1px;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: auto;
   background-color: rgb(173, 103, 79);
   color: white;
   }
@@ -123,8 +126,9 @@ footer {
 .rectangle1 {
   position: absolute;
   top: 101px;
-  left: 132px;
-  width: 75.0%;
+  //left: 132px;
+  left: 156px;
+  width: 73%;
   height: 75%;
   border-color: white;
   font-size: 20px;
@@ -162,10 +166,12 @@ footer {
   float: left;
   border: 1px solid #ccc;
   background-color: rgb(173, 103, 79);
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Arrange tabs vertically */
   position: absolute; 
   top: 101px;
-  width: auto;
-  height: auto;
+  width: 155px;
+  height: 200px;
   left: -1px;
 }
 
@@ -188,12 +194,13 @@ footer {
   color: white;
   padding: 22px 16px;
   width: 100%;
-  height: 1%;
-  line-height: 1%;
+  height: 1.5%;
+  line-height: 1.5%;
   border: none;
   outline: none;
   text-align: left;
   vertical-align: middle;
+  flex-grow: 1; /* Distribute space evenly among tab buttons */
   cursor: pointer;
   transition: 0.3s;
   font-size: 17px;
@@ -205,8 +212,8 @@ footer {
   color: white;
   padding: 22px 16px;
   width: auto;
-  height: 1%;
-  line-height: 1%;
+  height: 0.5%;
+  line-height: 0.5%;
   border: none;
   outline: none;
   text-align: left;

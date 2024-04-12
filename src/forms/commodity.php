@@ -107,7 +107,7 @@ height: 20px;
 <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
 <br><br>
 
-<table>
+<table id = "myTable">
   <tr>
     <th>Commodity ID</th>
     <th>Material Type</th>

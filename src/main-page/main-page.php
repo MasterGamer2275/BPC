@@ -19,6 +19,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <meta name="google-adsense-account" content="ca-pub-1687735452309402">
     <!--<title>InfiPackaging</title> -->
     <link rel="stylesheet" type="text/css" href="/main-page/main-page.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>MES Portal</title>
     <!--<link rel="icon" type="image/x-icon" href="/Images/usericon.ico">-->
     <div class="parent" >
@@ -57,19 +58,19 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
      <iframe class="rectangle4" src="i.php" id = "rect4" name = "rect4"></iframe>-->
     </div>
     <div class="tab">
-      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen">HOME</button>
-      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
-      <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')">My Company</button>
+      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen"><i class="fas fa-home"></i> HOME</button>
+      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')"><i class="fas fa-dolly"></i> Inventory ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')"><i class="fas fa-bullhorn"></i> Sales ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')"><i class="fa fa-industry"></i> Production ></button>
+      <!--<buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>-->
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <button class="tablinks">My Account</button>
-      <buttonDisabled class="tablinks"></buttonDisabled>
+      <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export to</button>
+      <button class="tablinks" onclick="printpage();"><i class="fas fa-print"></i> Print Page</button>
+      <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
+      <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
     </div>
 
     <div class="sub-tab" id = "Inventory >">
@@ -169,7 +170,51 @@ function opensubtab(evt, tabname, tabindex) {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
+function exporttoexcel() {
+//javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
+// Access the iframe content
+            var iframe = document.getElementById('rect1');
+            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Access the table within the iframe
+            var table = iframeDocument.getElementById('myTable');
+
+            // Check if table exists
+            if (table) {
+                // Create a new Excel file
+                var excelContent = '<html><head><meta charset="UTF-8"></head><body>' + table.outerHTML + '</body></html>';
+
+                // Create a Blob with the Excel content
+                var blob = new Blob([excelContent], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+                });
+
+                // Create a temporary link element
+                var a = document.createElement('a');
+                a.href = window.URL.createObjectURL(blob);
+                a.download = 'table.xls';
+                
+                // Append the link to the body and click it programmatically
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                alert('Table not found within the iframe.');
+            }
+}
+
+function printpage() {
+            var iframe = document.getElementById('rect1');
+            var iframeWindow = iframe.contentWindow;
+
+            if (iframeWindow) {
+                iframeWindow.print();
+            } else {
+                alert('Iframe content could not be accessed.');
+            }
+}
 </script>
+
 
 
 </body>

@@ -373,7 +373,7 @@ height: 20px;
     <input type="hidden" id="tableData" name="tableData">
     <input type="text" id="sName" name="sName" hidden>
     <label for="PSubmit"><b>Verify the below table and click on Generate PO :</label>
-    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();calculateSum();"><br><br>
+    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();calculateSum();submitFirstForm(event);"><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -453,8 +453,8 @@ height: 20px;
             </div>
         </div>
         <div class="form-container2">
-            <div class="textbox">
-                <div class="form-group3">
+          <div class="textbox">
+            <div class="form-group3">
                   <label for="pONumber" class="label">PO No:</label>
                   <input type="text" id ="pONumber" class="input-box"  placeholder="Enter text 1" disabled>
                   <label for="pODate" class="label">PO Date:</label>
@@ -485,39 +485,35 @@ height: 20px;
                   <input type="text" id ="SContact" class="input-box"  placeholder="Enter text 1">
              </div>
          </div>
-            <div class="textbox">
-                <div class="form-group3">
+          <div class="textbox">
+              <div class="form-group3">
                   <label for="Scont" class="label">Supplier Contact:</label>
                   <input type="text" id ="Scont" class="input-box"  placeholder="Enter text 1">
-                  <label for="PONumber" class="label"></label>
-                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
-                </div>
-            <div class="form-group3">
-                  <label for="SPh" class="label">Mobile/Tel.No:</label>
-                  <input type="text" id ="SPh" class="input-box"  placeholder="xxxxxxxxxx">
-                  <label for="PONumber" class="label"></label>
-                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
-            </div>
-                  <div class="form-group4">
-                  <label for="CtMethod" class="label">Contact Method:</label>
-                  <input type="text" id ="CtMethod" class="input-box"  placeholder="">
-                  <label for="PONumber" class="label"></label>
-                  <input type="text" id ="PONumber" class="input-box"  placeholder="">
-             </div>
-             <div class="form-group4">
-                  <label for="Dto" class="label">Dispatch to:</label>
-                  <input type="text" id ="Dto" class="input-box"  placeholder="">
-                  <label for="SContact" class="label">Site Contact:</label>
-                  <input type="text" id ="SContact" class="input-box"  placeholder="">
-             </div>
-             <div class="form-group4">
-                  <label for="M" class="label">Mode of Pay:</label>
-                  <input type="text" id ="Dto" class="input-box"  placeholder="">
-                  <label for="SContact" class="label">Site Contact:</label>
-                  <input type="text" id ="SContact" class="input-box"  placeholder="">
-             </div>
-     </div>
-    </div>
+                  <input type="text" id ="sp11" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <label for="SPh" class="label">Mobile/Tel.No:</label>
+                      <input type="text" id ="SPh" class="input-box"  placeholder="xxxxxxxxxx">
+                      <input type="text" id ="sp11" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" disabled>
+                      <input type="text" id ="sp2" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" disabled>
+                      <input type="text" id ="sp2" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
+                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
+                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
+              </div>
+          </div>
+        </div>
     <table id= "myTable2">
       <tr>
         <th>S No:</th>
@@ -551,7 +547,7 @@ height: 20px;
                   <input type="text" id ="pOGTotal" class="input-box" style="font-size:14px;" placeholder="Enter text 1" disabled>
                   <br>
                   <br>
-                                    <br>
+                  <br>
                 </div>
               </div>
             </div>
@@ -592,17 +588,25 @@ height: 20px;
             </div>
         </div>
     </div>
-
+    <input type = "button" id = "PrintPO" name = "PrintPO" value = "Print PO" onclick = "printPO();emailPO();">
+    <input type = "button" id = "Back" name = "Back" value = "Back">
   </form>
 </div>
 <script>
 //document.getElementById("myForm").style.display = "none";
 // Get the table element
 var table = document.getElementById("myTable");
-//document.getElementById("form4").style.display = "none";
-//document.getElementById("id04").style.display = "none";
+document.getElementById("form4").style.display = "none";
+document.getElementById("id04").style.display = "none";
 
-/*
+function printPO() {
+
+}
+
+function emailPO() {
+
+}
+
 function submitFirstForm(event) {
   //event.preventDefault(); // Prevent default form submission
   // You can perform any form validation here before proceeding
@@ -614,7 +618,7 @@ function submitFirstForm(event) {
   document.getElementById("form4").style.display = "block";
   document.getElementById("id04").style.display = "block";
   }
-*/
+
 function updateformval() {
     var suppliername = document.getElementById("PSname").value;
     $.ajax({
@@ -912,7 +916,6 @@ var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'
  var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
  
 function toWords(s) {
-alert(s);
     s = s.toString();
     s = s.replace(/[\, ]/g,'');
     if (s != parseFloat(s)) return 'not a number';
