@@ -253,7 +253,7 @@ height: 20px;
             text-align: left;
             vertical-align: left;
             font-weight: bold; 
-            width:25%;
+            width:30%;
 }
 
 .form-group4{
@@ -453,7 +453,7 @@ height: 20px;
             </div>
         </div>
         <div class="form-container2">
-          <div class="textbox">
+          <div class="textbox" id = "t03">
             <div class="form-group3">
                   <label for="pONumber" class="label">PO No:</label>
                   <input type="text" id ="pONumber" class="input-box"  placeholder="Enter text 1" disabled>
@@ -485,35 +485,17 @@ height: 20px;
                   <input type="text" id ="SContact" class="input-box"  placeholder="Enter text 1">
              </div>
          </div>
-          <div class="textbox">
-              <div class="form-group3">
-                  <label for="Scont" class="label">Supplier Contact:</label>
-                  <input type="text" id ="Scont" class="input-box"  placeholder="Enter text 1">
-                  <input type="text" id ="sp11" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <label for="SPh" class="label">Mobile/Tel.No:</label>
-                      <input type="text" id ="SPh" class="input-box"  placeholder="xxxxxxxxxx">
-                      <input type="text" id ="sp11" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" disabled>
-                      <input type="text" id ="sp2" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" disabled>
-                      <input type="text" id ="sp2" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
-                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
-                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
-              </div>
+          <div class="textbox" id = "t04">
+            <div class="form-group3">
+                  <label for="spcont" class="label">Supplier Contact :</label>
+                  <input type="text" id ="spcont" class="input-box"  placeholder="Enter text 1" disabled>
+                </div>
+            <div class="form-group3">
+                  <label for="CtPh" class="label">Mobile/Tel No:</label>
+                  <input type="number" id ="CtPh" class="input-box"  placeholder="xxxxxxxxxx">
+            </div>
           </div>
-        </div>
+      </div>
     <table id= "myTable2">
       <tr>
         <th>S No:</th>
@@ -618,7 +600,11 @@ function submitFirstForm(event) {
   document.getElementById("form4").style.display = "block";
   document.getElementById("id04").style.display = "block";
   }
-
+    function autoAdjustTextBoxSize(input) {
+        const secondTextBox = document.getElementById("secondTextBox");
+        secondTextBox.style.width = input.offsetWidth + "px";
+        // You can adjust further properties like height or font size if needed
+    }
 function updateformval() {
     var suppliername = document.getElementById("PSname").value;
     $.ajax({
@@ -639,6 +625,14 @@ function updateformval() {
     });
     document.getElementById("pODate").value = document.getElementById("pDate").value;
     document.getElementById("pONumber").value = document.getElementById("pONum").value;
+    const secondTextBox = document.getElementById("t04");
+    const firstTextBox = document.getElementById("t03");
+    //alert(firstTextBox.offsetHeight);
+    //secondTextBox.style.height = (firstTextBox.offsetHeight-22) + "px";
+    //firstTextBox.style.height = (firstTextBox.offsetHeight-22) + "px";
+    secondTextBox.style.height = 151 + "px";
+    firstTextBox.style.height = 151 + "px";
+
 }
 
 function closeForm() {
