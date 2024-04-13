@@ -33,7 +33,7 @@ $_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
 $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
-$_SESSION["PRTabName"] = "TEST_PURCHASE_2";
+$_SESSION["PRTabName"] = "TEST_PURCHASE_3";
 $_SESSION["InitPONum"] = "610000";
 }
 
@@ -781,7 +781,7 @@ function dbdeleteprnumrecord(&$db, $tablename, $PRNum, &$text) {
 
 function dbreadprnumrecord(&$db, $tablename, $paramname, &$PRNum, &$text){ 
 $dbtabdata = array(array());
-$res = $db->query("SELECT MAX('$paramname') As PRNum FROM $tablename"); 
+$res = $db->query("SELECT MAX($paramname) As PRNum FROM $tablename"); 
      while (($val = $res->fetchArray(SQLITE3_ASSOC))) {
       array_push($dbtabdata,$val);
   }

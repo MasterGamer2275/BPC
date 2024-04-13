@@ -39,17 +39,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   }
   echo $newPRNum;
   */
-  $tablename = $_SESSION["PRTabName"];
-  dbreadtable($db, $tablename, $dbtabdata, $text);
-  // Loop through the array to generate table rows
-  foreach ($dbtabdata as $row) {
-      echo "<tr>";
-      foreach ($row as $cell) {
-                echo "<td>$cell</td>";
-              }
-      echo "</tr><br>";
-  }
-
+ 
   dbclose($db, $text);
   //echo $text;
 ?>

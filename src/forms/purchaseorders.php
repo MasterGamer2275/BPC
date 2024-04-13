@@ -391,7 +391,7 @@ height: 20px;
     <input type="hidden" id="tableData" name="tableData">
     <input type="text" id="sName" name="sName" hidden>
     <label for="PSubmit"><b>Verify the below table and click on Generate PO :</label>
-    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Generate PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();calculateSum();submitFirstForm(event);"><br><br>
+    <input type = "button" id = "POSubmit" name = "POSubmit" value = "Preview PO" onclick="$('#myTable2').html($('#myTable').html());updateformval();calculateSum();submitFirstForm(event);"><br><br>
     <table id= "myTable">
       <tr>
         <th>S No:</th>
@@ -408,14 +408,6 @@ height: 20px;
     </tr>
     </table>
   </form>
-</div>
-<div id="id03">
-    <form action="#" id="form3">
-      <button id = "PExpEx" name = "PExpEx" onclick = "exporttoexcel();handleSubmit(event);">
-        <span>Export to</span>
-        <img src="/icons/icons8-excel-48.png" alt="excelpng" />
-      </button>
-    </form>
 </div>
 
 <div class="form-popup" id="myForm">
@@ -589,7 +581,8 @@ height: 20px;
         </div>
     </div>
     <input type = "button" id = "PrintPO" name = "PrintPO" value = "Print PO" onclick = "printPO();">
-    <input type = "button" id = "Back" name = "Back" value = "Back">
+    <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" onclick = "addrecord();">
+    <input type = "button" id = "Back" name = "Back" value = "Back" onclick = "back();">
   </form>
 </div>
 <script>
@@ -599,25 +592,58 @@ var table = document.getElementById("myTable");
 document.getElementById("form4").style.display = "none";
 document.getElementById("id04").style.display = "none";
 
-function printPO() {
-
+function back() {
+document.getElementById("form4").style.display = "none";
+document.getElementById("id04").style.display = "none";
+document.getElementById("id01").style.display = "block";
+document.getElementById("id02").style.display = "block";
 }
-
-function emailPO() {
-
-}
-
 function submitFirstForm(event) {
   //event.preventDefault(); // Prevent default form submission
   // You can perform any form validation here before proceeding
   // Assuming validation passes, hide the first form and display the second form
   document.getElementById("id01").style.display = "none";
   document.getElementById("id02").style.display = "none";
-  document.getElementById("id03").style.display = "none";
   document.getElementById("myForm").style.display = "none";
   document.getElementById("form4").style.display = "block";
   document.getElementById("id04").style.display = "block";
   }
+
+  function addrecord() {
+  var suppliername = document.getElementById("PSname").value;
+  var ponum = document.getElementById("pONumber").value;
+  var table = document.getElementById("myTable");
+  var tabdata = [];
+      for (var i = 1; i < table.rows.length; i++) {
+          var row = table.rows[i];
+          var rowData = [];
+            for (var j = 0; j < row.cells.length; j++) {
+                var cell = row.cells[j];
+                rowData.push(cell.innerText);
+          }
+          tabdata.push(rowData);
+      }
+  var jsonData = JSON.stringify(tabdata);
+  alert(jsonData);
+  $.ajax({
+          url: 'save-pr-list.php',
+          type: 'POST',
+          data: { 
+              suppliername: suppliername, 
+              ponum: ponum, 
+              tabdata: jsonData 
+          },
+          success: function(response) {
+              // Request was successful, handle response here
+              alert(response);
+          },
+          error: function(xhr, status, error) {
+              // Request failed, handle error here
+              alert('Request failed with status:', error, status);
+          }
+  });
+
+}
 
 function updateformval() {
     var suppliername = document.getElementById("PSname").value;
@@ -746,9 +772,11 @@ function getcommoditylist() {
 function printPO() {
 document.getElementById("PrintPO").hidden = true;
 document.getElementById("Back").hidden = true;
+document.getElementById("SaveRecord").hidden = true;
 window.print();
 document.getElementById("PrintPO").hidden = false;
 document.getElementById("Back").hidden = false;
+document.getElementById("SaveRecord").hidden = false;
 }
 
 function updateval() {
@@ -849,9 +877,6 @@ function handleSubmit(event) {
 function disable(name) {
 document.getElementById(name).disabled = true;
     }
-function exporttoexcel() {
-javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
-}
 
 
 function checkDuplicates() {
