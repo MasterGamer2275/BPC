@@ -507,28 +507,10 @@ height: 20px;
               <div class="form-group3">
                   <label for="Scont" class="label">Supplier Contact:</label>
                   <input type="text" id ="Scont" class="input-box"  placeholder="Enter text 1">
-                  <input type="text" id ="sp11" class="input-box" disabled>
               </div>
               <div class="form-group3">
                       <label for="SPh" class="label">Mobile/Tel.No:</label>
                       <input type="text" id ="SPh" class="input-box"  placeholder="xxxxxxxxxx">
-                      <input type="text" id ="sp11" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" disabled>
-                      <input type="text" id ="sp2" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" disabled>
-                      <input type="text" id ="sp2" class="input-box" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
-                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
-              </div>
-              <div class="form-group3">
-                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
-                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
               </div>
           </div>
         </div>
@@ -606,7 +588,7 @@ height: 20px;
             </div>
         </div>
     </div>
-    <input type = "button" id = "PrintPO" name = "PrintPO" value = "Print PO" onclick = "printPO();emailPO();">
+    <input type = "button" id = "PrintPO" name = "PrintPO" value = "Print PO" onclick = "printPO();">
     <input type = "button" id = "Back" name = "Back" value = "Back">
   </form>
 </div>
@@ -664,6 +646,20 @@ function updateformval() {
     //firstTextBox.style.height = (firstTextBox.offsetHeight-22) + "px";
     secondTextBox.style.height = 151 + "px";
     firstTextBox.style.height = 151 + "px";
+    const table2 = document.getElementById("myTable2");
+    hideColumn(table2, 1);
+}
+
+function hideColumn(table, columnIndex) {
+  // Get all rows in the table
+  var rows = table.rows;
+
+  // Loop through each row and hide the cell at the specified column index
+  for (var i = 0; i < rows.length; i++) {
+    var cells = rows[i].cells;
+    // Hide the header cell
+    cells[columnIndex].style.display = 'none';
+  }
 }
 
 function closeForm() {
@@ -747,6 +743,13 @@ function getcommoditylist() {
   }
 }
 
+function printPO() {
+document.getElementById("PrintPO").hidden = true;
+document.getElementById("Back").hidden = true;
+window.print();
+document.getElementById("PrintPO").hidden = false;
+document.getElementById("Back").hidden = false;
+}
 
 function updateval() {
   var button = document.getElementById("POAdd");
