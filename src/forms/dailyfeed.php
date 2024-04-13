@@ -41,221 +41,189 @@
   echo 'console.log(jsArray_2);'; // Output the array in the browser console
   echo '</script>';
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    .table-container {
-        width: 40%; /* Adjust this value as needed */
-        overflow-x: auto; /* Add horizontal scrollbar if content overflows */
-        posiiton: absolute;
-        left: -10px;
-        top: 0%;
-    }
-
-    /* Optional: Add vertical scrollbar if content overflows */
-    .table-container table {
-        overflow-y: auto;
-    }
-
-    /* Optional: Style for table */
-    table {
-        border-collapse: collapse;
-        width: 40%; /* Ensure table takes full width of its container */
-    }
-
-    th, td {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-    /* Style the tab buttons */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: rgb(173, 103, 79);
-  display: flex; /* Use flexbox layout */
-  flex-direction: column; /* Arrange tabs vertically */
-  width: 18%;
+button {
+  padding: 1px 6px 1px 6px;
   position: absolute;
-  left:0%;
-  top:8%;
-  height: 91%;
-  }
-    /* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 16px;
-  color: white;
-  flex-grow: 1; /* Distribute space evenly among tab buttons */
+  left: 90%;
+  bottom: 94%;
+}
+button img {
+  width: 22px;
+  height: 22px;
+}
+
+button > img,
+button > span {
+  vertical-align: middle;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+th, td {
   text-align: left;
-  }
-
-
-/* Change background color of buttons on hover */
-  .tab button:hover {
-  background-color: rgb(222, 191, 175);;
-  color: black;
-  }
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: rgb(222, 191, 175);
-  color: black;
-  }
-
-/* Style the tab content */
-.tabcontent {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+/* Hide the fifth column by default */
+  th:nth-child(14),
+  td:nth-child(14) {
   display: none;
-  padding: 6px 12px;
-  border: none;
-  border-top: none;
-  }
-.flex-container {
-  display: flex; /* Use flexbox layout */
-  border: 1px solid #ccc;
-  flex-direction: row;
-  width: 40%;
-  height: 91%;
-  position: absolute;
-  left: 18%;
-  top: 8%;
- }
-
- .flex-container input[type="number"]:disabled, .flex-container input[type=text]:disabled {
-  background-color: #f2f2f2; /* Change background color */
-  color: #999; /* Change text color */
-  border: 1px solid #ccc; /* Change border color */
-  cursor: not-allowed; /* Change cursor style */
 }
 
-.flex-container input[type=text], .flex-container select, .flex-container input[type=password], .flex-container input[type=email], .flex-container input[type=date], .flex-container input[type=number] {
-/* Styling for each item */
-  border: 1px solid #ccc;
-  padding: 2px;
-  margin: 5px;
-  width: 100%;
-  -moz-appearance: textfield;
-  background-color: yellow;
-  color: red;
-
+tr > img {
+        width: 20px; /* Adjust the width as needed */
+        height: 20px; /* Maintain aspect ratio */
 }
-
-.flex-container input[type=button], .flex-container input[type=submit]{
-  border: 1px solid #ccc;
-  padding: 2px;
-  margin: 5px;
-  width: 100%;
-}
-
-/* Hide increment/decrement buttons */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  appearance: none;
-  margin: 0; /* Optional - to remove the gap */
+  margin: 0;
 }
 
-
-.flex-container h3{
-  padding: 2px;
-  margin: 5px;
-  margin-left: -10px;
-
+/* Firefox */
+.numeric-input1 {
+  -moz-appearance: textfield;
+  width: 90px; 
 }
-.numbertype2 {
-  display: flex; /* Use flexbox for easy horizontal alignment */
+.numeric-input2 {
+  -moz-appearance: textfield;
+  width: 35px; 
+}
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  max-width: 500px;
+  width: 320px;
+  top: 10px;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  color: black;
+}
+/* Add styles to the form container */
+.form-container {
+  max-width: 500px;
+  width: 320px;
+  padding: 10px;
+  background-color: white;
+  font: inherit;
+ 
 }
 
-.numbertype2 input[type="number"], .numbertype2 input[type="text"] {
-  width: 20%; /* Adjust the width of each input element */
-  -moz-appearance: textfield; /* Optional: Firefox appearance */
-  margin-right: 5px; /* Optional: Add some spacing between input elements */
-  margin-top: 0px;
-  margin-left: 0px;
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date], .form-container input[type=number]{
+  width: 55%;
+  height: 0px;
+  padding: 15px;
+  margin: 5px 0 2px 0;
+  border: none;
+  font-family: "Source Sans Pro", "sans-serif";
+  font-size: 15px;
+  background: #f2f2f2;
+  text-align: right;
+}
+.form-container label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+.form-container select{
+  width: 90%;
+  padding: auto;
+  border: none;
+  background: #f2f2f2;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #f2f2f2;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #f2f2f2;
+  color: #f2f2f2;
+  border: none;
+  cursor: pointer;
+  margin-bottom:10px;
+  opacity: 0.2;
+}
+/* Add a red background color to the cancel button */
+.form-container .updatebtn {
+  background-color: #f2f2f2;
+  color: Green;
+  opacity: 0.7;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: #f2f2f2;
+  opacity: 0.5;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+select {
+width: 10%;
+/* width: 120px;*/
+height: 20px;
 }
 
 </style>
 </head>
+ 
 <body>
-<h3>Manufacturing Process Control Portal:</h3>
-
 <div id="id01">
-  <form onsubmit="handleSubmit(event);">
-        <div class="tab">
-          <button class="tablinks" onclick="openTab(event, 'Select')">Select a Work Order</button> 
-          <button class="tablinks" onclick="openTab(event, 'Job1')">Enter Work Order Info</button>
-          <button class="tablinks" onclick="openTab(event, 'Load')">Enter Material(Raw) Info</button>
-          <button class="tablinks" onclick="openTab(event, 'Output')">Review Work Order</button>
-          <button class="tablinks" onclick="openTab(event, 'Complete')">Save Work Order</button>
-      </div>
-   <div class="flex-container">
-      <div id="Select" class="tabcontent">
-      <table id="myTable">
-          <tr>
-            <th>WO No:</th>
-            <th>Customer Name</th>
-            <th>Target</th>
-          </tr>
-        </table>
-      </div>
-      <div id="Job1" class="tabcontent">
-            <h3>WorkOrder:</h3>
-            <label for="Machine"><b>Machine: *</label>
-            <select name="Machine" id="Machine" required min = "1">
-              <option value="0">Select</option>
+  <form onsubmit="reorderid();addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
+  <h3>Manufacturing Process Control Portal:</h3>
+  <label for="Machine"><b>Machine: *</label>
+  <select name="Machine" id="Machine" required min = "1">
+    <option value="0">Select</option>
       <?php
         // Loop through the array to generate list items
       foreach ($machinelist as $value) {
             echo "<option value='$value'>$value</option>";
           }
       ?>
-            </select>
-            <label for="pRC-P-CName"><b>Client Name: *</label>
-            <select name="pRC-P-CName" id="pRC-P-CName" onchange="getsizelist();">
-              <option value="0">Select</option>
-                    <?php
-        // Loop through the array to generate list items
+  </select>
+  <label for="pRC-P-CName"><b>Client Name: *</label>
+  <select name="pRC-P-CName" id="pRC-P-CName" onchange="getsizelist();">
+    <option value="0">Select</option>
+     <?php
+     // Loop through the array to generate list items
       foreach ($dbcolvalues as $row) {
           foreach ($row as $value) {
             echo "<option value='$value'>$value</option>";
           }
       }
       ?>
-            </select>
-            <label for="pRC-P-Target"><b>Target</label>
-            <input type = "number" id = "pRC-P-Target" name = "pRC-P-Target" required min = "1" step = "1">
-            <label for="pRC-P-Size"><b>Cover Size: *</label>
-            <select name="pRC-P-Size" id="pRC-P-Size" onchange="updateval();">
-              <option value="0">Select</option>
-            </select>
-            <label for="pR-P-CUnit"><b>Unit: *</label>
-            <input type = "text" id = "pR-P-CUnit" name = "pR-P-CUnit" required size="5" disabled>
-            <label for="pR-P-CGSM"><b>GSM: *</label>
-            <input type = "text" id = "pR-P-CGSM" name = "pR-P-CGSM" required size="5" disabled>
-     </div>
-     <div id="Load" class="tabcontent">
-        <h3>Material Info:</h3>
-        <label for="pRCRN"><b>Reel Number: *</label>
-        <select name="pRCRN" id="pRCRN" onchange = "updatereelinfo();calculateval();">
-           <option value="0">Select</option>
-                 <?php
-      foreach ($dbrnvalues as $value) {
-            echo "<option value='$value'>$value</option>";
-          }
-      ?>
-        </select>
-        <div id = "RMInfo" class = "numbertype2">
+  <label for="pRC-P-Size"><b>Size: *</label>
+  <select name="pRC-P-Size" id="pRC-P-Size" onchange="updateval();">
+    <option value="0">Select</option>
+  </select>
           <label for="pRCMT"><b>   </label>
           <label for="pRCMT">Material: *</label>
           <input type = "text" id = "pRCMT" name = "pRCMT" required disabled>
@@ -265,29 +233,15 @@ input[type="number"]::-webkit-outer-spin-button {
           <input type = "number" id = "pRC-RM-RW" name = "pRC-RM-RW" required disabled>
           <label for="pRC-RM-RS">ReelSize: *</label>
           <input type = "number" id = "pRC-RM-RS" name = "pRC-RM-RS" required disabled>
-        </div>
-
         <label for="pRC-ReelWidth"><b>Reel Width(cm): *</label>
         <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01" onchange = "calculateval();">
         <label for="pRC-ReelLength"><b>Reel Length(cm): *</label>
         <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01" onchange = "calculateval();">
         <label for="pRC-Est.WeightPK"><b>Estimated Weight(Kg/1000): *</label>
         <input type = "number" id = "pRC-TotalWeight" name = "pRC-TotalWeight" required min = "1" step = "0.01" disabled>
-        <label for="rStatus"><b>Reel Status: *</label>
-        <select name="rStatus" id="rStatus" required min = "1">
-          <option value="0">Select</option>
-          <option value="1">In-Stock</option>
-          <option value="2">In-Factory</option>
-          <option value="4">Loaded</option>
-          <option value="5">LeftOver</option>
-          <option value="6">Finished</option>
-         </select>  
-     </div>
-     <div id="Output" class="tabcontent">
-        <h3>Review :</h3>
-        <label for="pRc-Wastage"><b>Wastage:</label>
+                <label for="pRc-Wastage"><b>Wastage:</label>
         <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" required step = "0.01" onchange = "calculateval();">
-        <label for="pRC-UsedW"><b>Used Reel Weight:</label>
+                <label for="pRC-UsedW"><b>Used Reel Weight:</label>
         <input type = "number" id = "pRC-UsedW" name = "pRC-UsedW" step = "0.01" disabled>
         <label for="pRC-Est-ProdW"><b>Estimated Production:</label>
         <input type = "number" id = "pRC-Est-ProdW" name = "pRC-Est-ProdW" step = "0.01" disabled>
@@ -299,9 +253,6 @@ input[type="number"]::-webkit-outer-spin-button {
         <input type = "number" id = "pRC-ExtraWaste" name = "pRC-ExtraWaste" step = "0.01" disabled>
         <label for="pRC-TotalWaste"><b>Total Waste:</label>
         <input type = "number" id = "pRC-TotalWaste" name = "pRC-TotalWaste" step = "0.01" disabled>
-     </div>
-     <div id="Complete" class="tabcontent">
-        <h3>Work Order Status:</h3>
         <select name="wOStatus" id="wOStatus" required min = "1">
               <option value="0">Select</option>
               <option value="1">Not Started</option>
@@ -311,33 +262,57 @@ input[type="number"]::-webkit-outer-spin-button {
          </select>
          <label for="pRC-P-Actual"><b>Actual Production:</label>
          <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" required min = "1" step = "1" onchange = "calculateval();">
-         <input type = "submit" id = "WOSave" name = "WOSave" value = "Save">
-         <input type = "button" id = "WOCancel" name = "WOCancel" value = "Cancel">
-      </div>
-  </form>
+         <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
+<br><br>
+<table id = "myTable">
+  <tr>
+    <th>Job ID</th>
+    <th>Machine<br>
+      <input type="text" id="machineFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('machineFilter')"></i>
+    </th>
+    <th>Customer Name<br>
+      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('nameFilter')"></i>
+    </th>
+    <th>Size<br>
+      <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('sizeFilter')"></i>
+    </th>
+    <th>BF</th>
+    <th>COMPANYID</th>
+    <th>REELSize(Cm)</th>
+  </tr>
+  <?php
+  // Loop through the array to generate table rows
+  foreach ($dbtabdata as $row) {
+      echo "<tr>";
+      foreach ($row as $cell) {
+                echo "<td>$cell</td>";
+              }
+      echo "</tr>";
+  }
+  ?>
+</table>
 </div>
 
+</body>
 <script>
-    // Function to switch between tabs
-    tabcontent[0].style.display = "block";
-    document.getElementById("id02").style.display = "none";
-    document.getElementById("myForm2").style.display = "none";
 
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
 
-function getsizelist() {
+ document.getElementById("myForm").style.display = "none";
+  /*
+  function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+  */
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+  // Get the table element
+  var table = document.getElementById("myTable");
+
+ function getsizelist() {
   var select = document.getElementById("pRC-P-Size");
   var numberOfOptions = select.options.length;
   for (let i = 1; i < numberOfOptions; i++) {
@@ -454,13 +429,185 @@ document.getElementById("pRC-TotalWaste").value = parseFloat(totalwaste).toFixed
 
 }
 
+    function toggleFilter(inputId) {
+        var input = document.getElementById(inputId);
+        input.classList.toggle("active");
+        if (input.classList.contains("active")) {
+            input.focus();
+        } else {
+            input.value = "";
+            filterTable();
+        }
+    }
+
+    function filterTable() {
+        var filterInputs = document.getElementsByClassName("filter-input");
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+
+        // Loop through all rows
+        for (var i = 0; i < tr.length; i++) {
+            var row = tr[i];
+            var display = true;
+
+            // Loop through all filter inputs
+            for (var j = 0; j < filterInputs.length; j++) {
+                var filterInput = filterInputs[j];
+                var columnIndex = filterInput.parentElement.cellIndex;
+                var filterValue = filterInput.value.toUpperCase();
+                var cell = row.getElementsByTagName("td")[columnIndex];
+                if (cell) {
+                    var cellValue = cell.textContent || cell.innerText;
+                    if (cellValue.toUpperCase().indexOf(filterValue) === -1) {
+                        display = false;
+                        break;
+                    }
+                }
+            }
+
+            // Set display style for row
+            if (display) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+
+    // Attach input event listeners to filter inputs
+    var filterInputs = document.getElementsByClassName("filter-input");
+    for (var i = 0; i < filterInputs.length; i++) {
+        filterInputs[i].addEventListener("input", filterTable);
+    }
+   
+   function reorderid() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      cells[0].innerText = i;
+    }
+}
+
+function addtotable() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var newRowId = table.rows.length;
+  var newRow = table.insertRow(table.rows.length);
+  const selectElement = document.getElementById("PCname");
+  const selectValue= selectElement.options[selectElement.selectedIndex].text;
+  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled, document.getElementById("PSLoc").value];
+        for (let i = 0; i < myArray.length; i++) {
+        var cell = newRow.insertCell(i);
+        cell.innerHTML = myArray[i];
+         }
+  document.getElementById("PSubmit").disabled = false;
+}
+
+function edittable(buttonText) {
+var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+var id2 = document.getElementById("id2").value;
+var columnValues = [];
+var rowIndex = -1;
+var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      if (cells[0].innerText == id2) {
+        rowIndex = i;
+      }
+    }
+var row = table.rows[rowIndex];
+var cells = row.getElementsByTagName("td");
+var edit = (buttonText == "V");
+var ddel = (buttonText == "Del");
+if (edit) {
+  const myArray = [id2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value, document.getElementById("PIGST2").disabled, document.getElementById("PSLoc2").value];
+        for (let i = 0; i < myArray.length; i++) {
+        cells[i].innerHTML = myArray[i];
+         }
+         }else { if (ddel) {
+                   table.deleteRow(rowIndex);
+                }
+}
+checkDuplicates();
+closeForm();
+}
+
+
 function handleSubmit(event) {
   event.preventDefault(); // Prevent default form submission behavior
   const inputField = document.getElementById('inputField');
   console.log("Input value:", inputField.value);
   // Further processing or form submission logic can go here
     }
-</script>
 
-</body>
-</html>
+function checkDuplicates() {
+  var table = document.getElementById("myTable");
+  var seen = {};
+  var duplicates = [];
+  var er = table.rows.length;
+   if (er <= 4) { 
+     var sr = 0;
+       } else {
+         sr = er-4;
+               }
+  // Iterate over each row of the table (starting from index 1 to skip header row)
+    for (let i =sr; i < er; i++) {
+      var currentRow = table.rows[i];
+      var key = currentRow.cells[6].innerText; // Assuming the first cell contains the value to check for duplicates
+      // Check if the value is already seen
+        if (seen[key]) {
+                duplicates.push(key);
+                currentRow.cells[1].innerText = "!!Duplicate Entry!!";
+        } else {
+                seen[key] = true;
+        }
+      }
+
+    // Display the duplicate values, if any
+    if (duplicates.length > 0 && duplicates.length < 3) {
+          alert("Duplicate entries found: " + duplicates.join(", "));
+        } else { if (duplicates.length <= 0) {
+            //alert("No duplicate entries found.");
+        } else {
+        var currentRow = table.rows[table.rows.length-1];
+        currentRow.parentNode.removeChild(currentRow);
+        alert("Number of repeated records exceeded.");
+        }
+            
+    }
+}
+
+window.addEventListener('beforeunload', function(event) {
+  // Cancel the event
+  event.preventDefault();
+  // Chrome requires returnValue to be set
+  event.returnValue = '';
+  // Alert the user
+  alert("Are you sure you want to leave this page?");
+});
+
+document.getElementById('form2').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    var table = document.getElementById('myTable');
+    var tableData = [];
+    // Loop through table rows
+    for (var i = 0; i < table.rows.length; i++) {
+        var rowData = [];
+        var row = table.rows[i];
+        // Loop through table cells
+        for (var j = 0; j < row.cells.length; j++) {
+            var cell = row.cells[j];
+            rowData.push(cell.innerText);
+        }
+
+        tableData.push(rowData);
+    }
+
+    // Set the table data as a JSON string in the hidden input field
+    document.getElementById('tableData').value = JSON.stringify(tableData);
+    // Submit the form
+    this.submit();
+});
+
+</script>
+</html> 
