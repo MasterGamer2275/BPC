@@ -26,7 +26,25 @@
   $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
+    $tablename = $_SESSION["PRTabName"];
+  dbcreatePRtable($db, $tablename, $text);
+  $paramname = "PRNUMBER";
+  $tablename = $_SESSION["PRNumTabName"];
+  dbcreateprnumtable($db, $tablename, $text);
+  dbreadprnumrecord($db, $tablename, $paramname, $newPRNum, $text);
+    if ($newPRNum == 1) {
+        $paramname = "PONUM";
+        $tablename = $_SESSION["PRTabName"];
+        dbreadprnumrecord($db, $tablename, $paramname, $newPRNum, $text);
+          if ($newPRNum == 1) {
+              $newPRNum = $_SESSION["InitPONum"] + 1;
+          }
+      }
+  $tablename = $_SESSION["PRNumTabName"];
+  $PRDes = "Allocated";
+  dbaddprnumrecord($db, $tablename, $newPRNum, $PRDes, $text);
   dbclose($db, $text);
+  $PONum = $newPRNum;
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
   //commodity table data
@@ -253,7 +271,7 @@ height: 20px;
             text-align: left;
             vertical-align: left;
             font-weight: bold; 
-            width:30%;
+            width:25%;
 }
 
 .form-group4{
@@ -391,6 +409,14 @@ height: 20px;
     </table>
   </form>
 </div>
+<div id="id03">
+    <form action="#" id="form3">
+      <button id = "PExpEx" name = "PExpEx" onclick = "exporttoexcel();handleSubmit(event);">
+        <span>Export to</span>
+        <img src="/icons/icons8-excel-48.png" alt="excelpng" />
+      </button>
+    </form>
+</div>
 
 <div class="form-popup" id="myForm">
   <form class="form-container" id="form3">
@@ -478,16 +504,34 @@ height: 20px;
              </div>
          </div>
           <div class="textbox" id = "t04">
-            <div class="form-group3">
-                  <label for="spcont" class="label">Supplier Contact :</label>
-                  <input type="text" id ="spcont" class="input-box"  placeholder="Enter text 1" disabled>
-                </div>
-            <div class="form-group3">
-                  <label for="CtPh" class="label">Mobile/Tel No:</label>
-                  <input type="number" id ="CtPh" class="input-box"  placeholder="xxxxxxxxxx">
-            </div>
+              <div class="form-group3">
+                  <label for="Scont" class="label">Supplier Contact:</label>
+                  <input type="text" id ="Scont" class="input-box"  placeholder="Enter text 1">
+                  <input type="text" id ="sp11" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <label for="SPh" class="label">Mobile/Tel.No:</label>
+                      <input type="text" id ="SPh" class="input-box"  placeholder="xxxxxxxxxx">
+                      <input type="text" id ="sp11" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" disabled>
+                      <input type="text" id ="sp2" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" disabled>
+                      <input type="text" id ="sp2" class="input-box" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
+                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
+              </div>
+              <div class="form-group3">
+                      <input type="text" id ="sp11" class="input-box" style="font-size:18px" disabled>
+                      <input type="text" id ="sp2" class="input-box" style="font-size:18px" disabled>
+              </div>
           </div>
-      </div>
+        </div>
     <table id= "myTable2">
       <tr>
         <th>S No:</th>
@@ -592,11 +636,7 @@ function submitFirstForm(event) {
   document.getElementById("form4").style.display = "block";
   document.getElementById("id04").style.display = "block";
   }
-    function autoAdjustTextBoxSize(input) {
-        const secondTextBox = document.getElementById("secondTextBox");
-        secondTextBox.style.width = input.offsetWidth + "px";
-        // You can adjust further properties like height or font size if needed
-    }
+
 function updateformval() {
     var suppliername = document.getElementById("PSname").value;
     $.ajax({
@@ -624,7 +664,6 @@ function updateformval() {
     //firstTextBox.style.height = (firstTextBox.offsetHeight-22) + "px";
     secondTextBox.style.height = 151 + "px";
     firstTextBox.style.height = 151 + "px";
-
 }
 
 function closeForm() {

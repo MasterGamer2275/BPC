@@ -29,7 +29,7 @@ $_SESSION["companyID"] = "6100";
 $_SESSION["SListTabName"] = "TEST_SUPPLIER_4";
 $_SESSION["ComListTabName"] = "TEST_COMMODITY_3";
 $_SESSION["StListTabName"] = "TEST_STOCK_4";
-$_SESSION["POListTabName"] = "TEST_PO_LIST_1";
+$_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
 $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
@@ -703,18 +703,17 @@ function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum
       }
 }
 
-//----------------------------------------DB - Create Table (PRNo)----------------------------------------//
+//----------------------------------------DB - Create Table (PRNumber)----------------------------------------//
 
 function dbcreateprnumtable(&$db, $tablename, &$text) {
-   $text .= "welcome to create pr num table if not exists";
-
+$text .= "welcome to create pr num table if not exists";
 $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
-   ID INTEGER  PRIMARY KEY    AUTOINCREMENT  UNIQUE,
-   PRNUMBER			TEXT        NOT NULL,
-   DESCRIPTION    	TEXT        NOT NULL,
-   COMPANYID      	INTEGER		NOT NULL
-);
+   ID             INTEGER     PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+   PRNUMBER			TEXT        NOT NULL UNIQUE,
+   DESCRIPTION    TEXT        NOT NULL,
+   COMPANYID      INTEGER		NOT NULL
+   );
 EOF;
    $ret = $db->exec($sql);
    if(!$ret){
@@ -726,7 +725,7 @@ EOF;
    }
 }
 
-//----------------------------------------DB - Add record (PRNo Table)----------------------------------------//
+//----------------------------------------DB - Add record (PRNumber Table)----------------------------------------//
 
 function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
   $CompanyID = $_SESSION["companyID"];
@@ -744,13 +743,12 @@ function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
       }
 }
 
-//----------------------------------------DB - Update record (PRNo Table)----------------------------------------//
+//----------------------------------------DB - Update record (PRNumber Table)----------------------------------------//
 function dbeditprnumrecord(&$db, $tablename, $ID, $PRNum, $PRDes, &$text) { 
    $CompanyID = $_SESSION["companyID"];
    $sql =<<<EOF
    UPDATE $tablename SET
-   PRNUMBER = '$PRNum',
-   DESCRIPTION = '$PRDes' WHERE ID = '$ID' AND COMPANYID = '$CompanyID';
+   DESCRIPTION = '$PRDes' WHERE PRNUMBER = '$PRNum';
  EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -762,9 +760,9 @@ function dbeditprnumrecord(&$db, $tablename, $ID, $PRNum, $PRDes, &$text) {
       }
 }
 
-//----------------------------------------DB - Delete record (PRNo Table)----------------------------------------//
+//----------------------------------------DB - Delete record (PRNumber Table)----------------------------------------//
 
-function dbdeletePRrecord(&$db, $tablename, $PRNum, &$text) {
+function dbdeleteprnumrecord(&$db, $tablename, $PRNum, &$text) {
    $CompanyID = $_SESSION["companyID"];
    $sql =<<<EOF
      DELETE FROM $tablename WHERE PRNUMBER = '$PRNum';
@@ -775,8 +773,34 @@ function dbdeletePRrecord(&$db, $tablename, $PRNum, &$text) {
 			  $text .= $err;
 			  $text .= "<br>";
 			} else { 
-			  $text .= "Records updated successfully<br>";
+			  $text .= "Record Deleted Successfully<br>";
 		  }
+}
+
+//----------------------------------------DB - Get PRNum(PRNumber Table)----------------------------------------//
+
+function dbreadprnumrecord(&$db, $tablename, $paramname, &$PRNum, &$text){ 
+$dbtabdata = array(array());
+$res = $db->query("SELECT MAX('$paramname') As PRNum FROM $tablename"); 
+     while (($val = $res->fetchArray(SQLITE3_ASSOC))) {
+      array_push($dbtabdata,$val);
+  }
+$sql =<<<EOF
+EOF;
+$PRNum = 0;
+   foreach ($dbtabdata as $row) {
+      foreach ($row as $cell) {
+                $PRNum = intval($cell) + 1;
+              }
+  }
+$ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Column Read Successfully<br>";
+    }
 }
 
 ?>
