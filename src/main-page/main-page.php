@@ -59,16 +59,16 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     </div>
     <div class="tab">
       <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen"><i class="fas fa-home"></i> HOME</button>
-      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')"><i class="fas fa-dolly"></i> Inventory ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')"><i class="fas fa-bullhorn"></i> Sales ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')"><i class="fa fa-industry"></i> Production ></button>
-      <!--<buttonDisabled class="tablinks"></buttonDisabled>
+      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>-->
+      <buttonDisabled class="tablinks"></buttonDisabled>
+      <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export to</button>
-      <button class="tablinks" onclick="printpage();"><i class="fas fa-print"></i> Print Page</button>
+      <button class="tablinks" onclick="printpage();"><i class="fas fa-print"></i>Print Page</button>
       <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
       <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
     </div>

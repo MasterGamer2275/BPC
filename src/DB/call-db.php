@@ -703,5 +703,80 @@ function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum
       }
 }
 
+//----------------------------------------DB - Create Table (PRNo)----------------------------------------//
+
+function dbcreateprnumtable(&$db, $tablename, &$text) {
+   $text .= "welcome to create pr num table if not exists";
+
+$sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID INTEGER  PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+   PRNUMBER			TEXT        NOT NULL,
+   DESCRIPTION    	TEXT        NOT NULL,
+   COMPANYID      	INTEGER		NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
+}
+
+//----------------------------------------DB - Add record (PRNo Table)----------------------------------------//
+
+function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    INSERT INTO $tablename (PRNUMBER,DESCRIPTION,COMPANYID)
+    VALUES ('$PRNum', '$PRDes', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+
+//----------------------------------------DB - Update record (PRNo Table)----------------------------------------//
+function dbeditprnumrecord(&$db, $tablename, $ID, $PRNum, $PRDes, &$text) { 
+   $CompanyID = $_SESSION["companyID"];
+   $sql =<<<EOF
+   UPDATE $tablename SET
+   PRNUMBER = '$PRNum',
+   DESCRIPTION = '$PRDes' WHERE ID = '$ID' AND COMPANYID = '$CompanyID';
+ EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records updated successfully<br>";
+      }
+}
+
+//----------------------------------------DB - Delete record (PRNo Table)----------------------------------------//
+
+function dbdeletePRrecord(&$db, $tablename, $PRNum, &$text) {
+   $CompanyID = $_SESSION["companyID"];
+   $sql =<<<EOF
+     DELETE FROM $tablename WHERE PRNUMBER = '$PRNum';
+   EOF;
+	  $ret = $db->exec($sql);
+		 if(!$ret) {
+			  $err = $db->lastErrorMsg();
+			  $text .= $err;
+			  $text .= "<br>";
+			} else { 
+			  $text .= "Records updated successfully<br>";
+		  }
+}
 
 ?>

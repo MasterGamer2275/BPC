@@ -21,6 +21,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <style>
 
 table {
@@ -39,8 +40,16 @@ th {
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   font-weight: bold; 
+  position: relative;
 }
 
+th .filter-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
 td {
   text-align: left;
   padding: 16px;
@@ -113,11 +122,19 @@ height: 20px;
     </div><br><br>
     <table id = "myTable">
       <tr>    
-            <th>Product ID</th>
-            <th>Customer Name</th> 
+            <th>Product ID<br>
+      <input type="text" id="idFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('idFilter')"></i></th>
+            <th>Customer Name<br>
+      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('nameFilter')"></i></th> 
             <th>Description</th>
-            <th>Spec</th>    
-            <th>GSM</th>    
+            <th>Spec<br>
+      <input type="text" id="specFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('specFilter')"></i></th>    
+            <th>GSM<br>
+      <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('gsmFilter')"></i></th>    
             <th>Size</th>   
             <th>Unit</th> 
             <th>Rate(Rs.)</th>  
@@ -137,7 +154,56 @@ height: 20px;
     </form>
 </body>
 <script>
+    function toggleFilter(inputId) {
+        var input = document.getElementById(inputId);
+        input.classList.toggle("active");
+        if (input.classList.contains("active")) {
+            input.focus();
+        } else {
+            input.value = "";
+            filterTable();
+        }
+    }
 
+    function filterTable() {
+        var filterInputs = document.getElementsByClassName("filter-input");
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+
+        // Loop through all rows
+        for (var i = 0; i < tr.length; i++) {
+            var row = tr[i];
+            var display = true;
+
+            // Loop through all filter inputs
+            for (var j = 0; j < filterInputs.length; j++) {
+                var filterInput = filterInputs[j];
+                var columnIndex = filterInput.parentElement.cellIndex;
+                var filterValue = filterInput.value.toUpperCase();
+                var cell = row.getElementsByTagName("td")[columnIndex];
+                if (cell) {
+                    var cellValue = cell.textContent || cell.innerText;
+                    if (cellValue.toUpperCase().indexOf(filterValue) === -1) {
+                        display = false;
+                        break;
+                    }
+                }
+            }
+
+            // Set display style for row
+            if (display) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+
+    // Attach input event listeners to filter inputs
+    var filterInputs = document.getElementsByClassName("filter-input");
+    for (var i = 0; i < filterInputs.length; i++) {
+        filterInputs[i].addEventListener("input", filterTable);
+    }
 
 
 </script>

@@ -23,6 +23,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <style>
 body {
   font-family: "Source Sans Pro", "sans-serif";
@@ -33,6 +34,7 @@ label {
   font-size: 16px;
   color: #333;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -43,6 +45,24 @@ table {
 }
 
 th, td {
+  text-align: left;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  position: relative;
+}
+
+th .filter-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+tr, td {
   text-align: left;
   padding: 16px;
   font-size: 15px;
@@ -85,7 +105,7 @@ height: 20px;
 <label for="Cname"><b>Material Type: *</label>
 <input type = "text" id = "Cname" name = "Cname" required>
 <label for="CSname"><b>Supplier Name: *</label>
-<select name="CSname" id="CSname">
+<select name="CSname" id="CSname" required>
 <option value="Default">Default</option>
   <?php
   
@@ -110,9 +130,18 @@ height: 20px;
 <table id = "myTable">
   <tr>
     <th>Commodity ID</th>
-    <th>Material Type</th>
-    <th>Supplier Name</th>
-    <th>GSM</th>
+    <th>Material Type<br>
+      <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('typeFilter')"></i>
+    </th>
+    <th>Supplier Name<br>
+      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('nameFilter')"></i>
+    </th>
+    <th>GSM<br>
+      <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('gsmFilter')"></i>
+    </th>
     <th>BF</th>
     <th>COMPANYID</th>
     <th>REELSize(Cm)</th>
@@ -130,4 +159,56 @@ height: 20px;
 </table>
 
 </body>
+<script>
+    function toggleFilter(inputId) {
+        var input = document.getElementById(inputId);
+        input.classList.toggle("active");
+        if (input.classList.contains("active")) {
+            input.focus();
+        } else {
+            input.value = "";
+            filterTable();
+        }
+    }
+
+    function filterTable() {
+        var filterInputs = document.getElementsByClassName("filter-input");
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+
+        // Loop through all rows
+        for (var i = 0; i < tr.length; i++) {
+            var row = tr[i];
+            var display = true;
+
+            // Loop through all filter inputs
+            for (var j = 0; j < filterInputs.length; j++) {
+                var filterInput = filterInputs[j];
+                var columnIndex = filterInput.parentElement.cellIndex;
+                var filterValue = filterInput.value.toUpperCase();
+                var cell = row.getElementsByTagName("td")[columnIndex];
+                if (cell) {
+                    var cellValue = cell.textContent || cell.innerText;
+                    if (cellValue.toUpperCase().indexOf(filterValue) === -1) {
+                        display = false;
+                        break;
+                    }
+                }
+            }
+
+            // Set display style for row
+            if (display) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+
+    // Attach input event listeners to filter inputs
+    var filterInputs = document.getElementsByClassName("filter-input");
+    for (var i = 0; i < filterInputs.length; i++) {
+        filterInputs[i].addEventListener("input", filterTable);
+    }
+</script>
 </html> 
