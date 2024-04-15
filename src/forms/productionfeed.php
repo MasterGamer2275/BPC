@@ -97,15 +97,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* Firefox */
-.numeric-input1 {
-  -moz-appearance: textfield;
-  width: 90px; 
-}
-.numeric-input2 {
-  -moz-appearance: textfield;
-  width: 35px; 
-}
 /* The popup form - hidden by default */
 .form-popup {
   display: none;
@@ -119,75 +110,15 @@ input::-webkit-inner-spin-button {
   z-index: 9;
   color: black;
 }
-/* Add styles to the form container */
-.form-container {
-  max-width: 500px;
-  width: 320px;
-  padding: 10px;
-  background-color: white;
-  font: inherit;
- 
-}
+
 
 /* Full-width input fields */
-.form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date], .form-container input[type=number]{
-  width: 55%;
-  height: 0px;
-  padding: 15px;
-  margin: 5px 0 2px 0;
-  border: none;
-  font-family: "Source Sans Pro", "sans-serif";
-  font-size: 15px;
-  background: #f2f2f2;
-  text-align: right;
-}
-.form-container label {
-  /* Your general styles for labels */
-  font-size: 16px;
-  color: #333;
-  text-align: left;
-}
-.form-container select{
-  width: 90%;
-  padding: auto;
-  border: none;
-  background: #f2f2f2;
+input[type=text], input[type=date], input[type=number]{
+  width: 75px;
 }
 
-/* When the inputs get focus, do something */
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-  background-color: #f2f2f2;
-  outline: none;
-}
-
-/* Set a style for the submit/login button */
-.form-container .btn {
-  background-color: #f2f2f2;
-  color: #f2f2f2;
-  border: none;
-  cursor: pointer;
-  margin-bottom:10px;
-  opacity: 0.2;
-}
-/* Add a red background color to the cancel button */
-.form-container .updatebtn {
-  background-color: #f2f2f2;
-  color: Green;
-  opacity: 0.7;
-}
-
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-  background-color: #f2f2f2;
-  opacity: 0.5;
-}
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
-}
 select {
-width: 10%;
+width: 12%;
 /* width: 120px;*/
 height: 20px;
 }
@@ -220,11 +151,20 @@ height: 20px;
           }
       }
       ?>
+      </select>
   <label for="pRC-P-Size"><b>Size: *</label>
-  <select name="pRC-P-Size" id="pRC-P-Size" onchange="updateval();">
+  <select name="pRC-P-Size" id="pRC-P-Size" onchange="updatereelinfo();">
     <option value="0">Select</option>
-  </select>
-          <label for="pRCMT"><b>   </label>
+  </select>          
+                 <label for="pRCRN"><b>Reel Number: *</label>
+        <select name="pRCRN" id="pRCRN" onchange = "updatereelinfo();calculateval();">
+           <option value="0">Select</option>
+                 <?php
+      foreach ($dbrnvalues as $value) {
+            echo "<option value='$value'>$value</option>";
+          }
+      ?>
+        </select><br><br>
           <label for="pRCMT">Material: *</label>
           <input type = "text" id = "pRCMT" name = "pRCMT" required disabled>
           <label for="pRC-RM-GSM">GSM: *</label>
@@ -236,56 +176,74 @@ height: 20px;
         <label for="pRC-ReelWidth"><b>Reel Width(cm): *</label>
         <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01" onchange = "calculateval();">
         <label for="pRC-ReelLength"><b>Reel Length(cm): *</label>
-        <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01" onchange = "calculateval();">
+        <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01" onchange = "calculateval();"><br><br>
         <label for="pRC-Est.WeightPK"><b>Estimated Weight(Kg/1000): *</label>
         <input type = "number" id = "pRC-TotalWeight" name = "pRC-TotalWeight" required min = "1" step = "0.01" disabled>
-                <label for="pRc-Wastage"><b>Wastage:</label>
-        <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" required step = "0.01" onchange = "calculateval();">
-                <label for="pRC-UsedW"><b>Used Reel Weight:</label>
-        <input type = "number" id = "pRC-UsedW" name = "pRC-UsedW" step = "0.01" disabled>
         <label for="pRC-Est-ProdW"><b>Estimated Production:</label>
         <input type = "number" id = "pRC-Est-ProdW" name = "pRC-Est-ProdW" step = "0.01" disabled>
-        <label for="pRC-Act-Prod"><b>Actual Production: </label>
-        <input type = "number" id = "pRC-Act-Prod" name = "pRC-Act-Prod" step = "0.01" disabled>
-        <label for="pRC-PerCLoss"><b>PerCoverLoss:</label>
-        <input type = "number" id = "pRC-PerCLoss" name = "pRC-PerCLoss" step = "0.01" disabled>
-        <label for="pRC-ExtraWaste"><b>Extra Watse:</label>
-        <input type = "number" id = "pRC-ExtraWaste" name = "pRC-ExtraWaste" step = "0.01" disabled>
-        <label for="pRC-TotalWaste"><b>Total Waste:</label>
-        <input type = "number" id = "pRC-TotalWaste" name = "pRC-TotalWaste" step = "0.01" disabled>
-        <select name="wOStatus" id="wOStatus" required min = "1">
-              <option value="0">Select</option>
-              <option value="1">Not Started</option>
-              <option value="2">In Milling</option>
-              <option value="3">Hold</option>
-              <option value="4">Finished/Close</option>
-         </select>
+        <label for="pRC-Act-Prod" hidden><b>Total Loss: </label>
+        <input type = "number" id = "pRC-Act-Prod" name = "pRC-Act-Prod" step = "0.01" disabled hidden>
+
          <label for="pRC-P-Actual"><b>Actual Production:</label>
-         <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" required min = "1" step = "1" onchange = "calculateval();">
+         <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" step = "1" value = "0" onchange = "calculateval();">
+        <label for="pRC-UsedW" hidden><b>Used Reel Weight:</label>
+        <input type = "number" id = "pRC-UsedW" name = "pRC-UsedW" step = "0.01" disabled hidden>
+        <label for="pRC-EstUsedW"><b>Estimated Used Weight:</label>
+        <input type = "number" id = "pRC-EstUsedW" name = "pRC-EstUsedW" step = "0.01" disabled><br><br>
+        <label for="pRC-PerCLoss" hidden><b>PerCoverLoss:</label>
+        <input type = "number" id = "pRC-PerCLoss" name = "pRC-PerCLoss" step = "0.01" disabled hidden>
+        <label for="pRC-ExtraWaste" hidden><b>Extra Watse:</label>
+        <input type = "number" id = "pRC-ExtraWaste" name = "pRC-ExtraWaste" step = "0.01" disabled hidden>
+        <label for="pRC-TotalWaste" hidden><b>Total Waste:</label>
+        <input type = "number" id = "pRC-TotalWaste" name = "pRC-TotalWaste" step = "0.01" disabled hidden>
+        <label for="pRC-CalcWaste"><b>Waste:</label>
+        <input type = "number" id = "pRC-CalcWaste" name = "pRC-CalcWaste" step = "0.01" disabled>
+        <label for="pRc-Wastage"><b>Manual Wastage:</label>
+        <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" required step = "0.01" value = "0" onchange = "calculateval();">
+        <label for="wOStatus"><b>Status:</label>
+        <select name="wOStatus" id="wOStatus" required min = "1">
+              <option value="0">Active</option>
+              <option value="1">Hold</option>
+              <option value="2">Finished</option>
+         </select>
+
          <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
 <br><br>
 <table id = "myTable">
   <tr>
-    <th>Job ID</th>
-    <th>Machine<br>
+    <th>Job ID
+      <input type="text" id="idFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('idFilter')"></i>
+      </th>
+    <th>Date
+      <input type="text" id="dateFilter" class="filter-input" placeholder="Filter by name">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('dateFilter')"></i>
+      </th>
+    <th>Time</th>
+    <th>Machine
       <input type="text" id="machineFilter" class="filter-input" placeholder="Filter by name">
       <i class="filter-icon fas fa-filter" onclick="toggleFilter('machineFilter')"></i>
     </th>
-    <th>Customer Name<br>
+    <th>Customer Name
       <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
       <i class="filter-icon fas fa-filter" onclick="toggleFilter('nameFilter')"></i>
     </th>
-    <th>Size<br>
+    <th>Size
       <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
       <i class="filter-icon fas fa-filter" onclick="toggleFilter('sizeFilter')"></i>
     </th>
-    <th>BF</th>
-    <th>COMPANYID</th>
-    <th>REELSize(Cm)</th>
+    <th>Target</th>
+    <th>Actual</th>
+    <th>Status<br>
+      <input type="text" id="statusFilter" class="filter-input" value = "A">
+      <i class="filter-icon fas fa-filter" onclick="toggleFilter('statusFilter')"></i>
+    </th>
+    <th>Wastage</th>
+    <th>CompanyID</th>
   </tr>
   <?php
   // Loop through the array to generate table rows
-  foreach ($dbtabdata as $row) {
+  foreach ($dbpdtabdata as $row) {
       echo "<tr>";
       foreach ($row as $cell) {
                 echo "<td>$cell</td>";
@@ -341,7 +299,7 @@ height: 20px;
       }
   }
 }
-
+/*
 function updateval() {
 var sizestr = document.getElementById("pRC-P-Size").value;
 document.getElementById("pR-P-CUnit").value = "Not Found";
@@ -366,6 +324,7 @@ var tr = "\"SIZE\":" + "\"" + sizestr + "\"";
       }
   }
 }
+*/
 function updatereelinfo(){
 var reelsizestr = document.getElementById("pRCRN").value;
 document.getElementById("pRCMT").value = "Not Found";
@@ -400,6 +359,7 @@ var tr = "REELNUMBER:" +  reelsizestr;
           document.getElementById("pRC-RM-GSM").value = pgsm3;
           document.getElementById("pRC-RM-RW").value = srw3;
           document.getElementById("pRC-RM-RS").value = srs3;
+          document.getElementById("pRC-ReelWidth").value = srs3;
       }
   }
 
@@ -414,7 +374,7 @@ var rw = document.getElementById("pRC-RM-RW").value;
 var act = document.getElementById("pRC-P-Actual").value;
 var totalestw = ((reelw * reell * gsm)/10000);
 document.getElementById("pRC-TotalWeight").value = parseFloat(totalestw).toFixed(2);
-var usedweight = rw-waste;
+//var usedweight = rw-waste;
 document.getElementById("pRC-UsedW").value = parseFloat(usedweight).toFixed(2);
 var estprod = (usedweight/totalestw) * 1000;
 document.getElementById("pRC-Est-ProdW").value = parseFloat(estprod).toFixed(2);
@@ -426,7 +386,9 @@ var exwaste = (pcloss * actprod);
 document.getElementById("pRC-ExtraWaste").value = parseFloat(exwaste).toFixed(2);
 var totalwaste = waste - exwaste;
 document.getElementById("pRC-TotalWaste").value = parseFloat(totalwaste).toFixed(2);
-
+var estusedw = (act/1000) * totalestw  ;
+document.getElementById("pRC-EstUsedW").value = parseFloat(estusedw).toFixed(2);
+document.getElementById("pRC-CalcWaste").value = rw - estusedw;
 }
 
     function toggleFilter(inputId) {
