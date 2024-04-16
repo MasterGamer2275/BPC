@@ -339,7 +339,7 @@ height: 20px;
 </head>
 <body>
 <div id="id01">
-  <form id = "form1" onsubmit="reorderid();addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();">
+  <form id = "form1" onsubmit="reorderid();addtotable();handleSubmit(event);saveTableDataToConsole();">
     <!--addtotable();checkDuplicates();handleSubmit(event);saveTableDataToConsole();-->
     <h3>Generate Purchase Order:</h3>
     <label for="pONum"><b>PO No:</label>
@@ -854,7 +854,6 @@ if (edit) {
                    table.deleteRow(rowIndex);
                 }
 }
-checkDuplicates();
 closeForm();
 }
 
@@ -878,43 +877,6 @@ function disable(name) {
 document.getElementById(name).disabled = true;
     }
 
-
-function checkDuplicates() {
-  var table = document.getElementById("myTable");
-  var seen = {};
-  var duplicates = [];
-  var er = table.rows.length;
-   if (er <= 4) { 
-     var sr = 0;
-       } else {
-         sr = er-4;
-               }
-  // Iterate over each row of the table (starting from index 1 to skip header row)
-    for (let i =sr; i < er; i++) {
-      var currentRow = table.rows[i];
-      var key = currentRow.cells[3].innerText; // Assuming the first cell contains the value to check for duplicates
-      // Check if the value is already seen
-        if (seen[key]) {
-                duplicates.push(key);
-                currentRow.cells[1].innerText = "!!Duplicate Entry!!";
-        } else {
-                seen[key] = true;
-        }
-      }
-
-    // Display the duplicate values, if any
-    if (duplicates.length > 0 && duplicates.length < 3) {
-          alert("Duplicate entries found: " + duplicates.join(", "));
-        } else { if (duplicates.length <= 0) {
-            //alert("No duplicate entries found.");
-        } else {
-        var currentRow = table.rows[table.rows.length-1];
-        currentRow.parentNode.removeChild(currentRow);
-        alert("Number of repeated records exceeded.");
-        }
-            
-    }
-}
 
 window.addEventListener('beforeunload', function(event) {
   // Cancel the event

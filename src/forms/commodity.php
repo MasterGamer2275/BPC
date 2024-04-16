@@ -23,7 +23,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
   font-family: "Source Sans Pro", "sans-serif";
@@ -54,13 +55,7 @@ th, td {
   position: relative;
 }
 
-th .filter-icon {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
+
 
 tr, td {
   text-align: left;
@@ -98,6 +93,19 @@ width: 25%;
 height: 20px;
 }
 
+  .delete-icon {
+    cursor: pointer;
+    color: grey;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .filter-icon {
+    color: #555555;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+
 </style>
 
 <form action="forms_action_page.php" method="post">
@@ -132,15 +140,15 @@ height: 20px;
     <th>Commodity ID</th>
     <th>Material Type<br>
       <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('typeFilter')"></i>
+      <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('typeFilter')"></i>
     </th>
     <th>Supplier Name<br>
       <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('nameFilter')"></i>
+      <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i>
     </th>
     <th>GSM<br>
       <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('gsmFilter')"></i>
+      <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i>
     </th>
     <th>BF</th>
     <th>COMPANYID</th>
@@ -148,17 +156,23 @@ height: 20px;
   </tr>
   <?php
   // Loop through the array to generate table rows
+  $i=0;
   foreach ($dbtabdata as $row) {
       echo "<tr>";
       foreach ($row as $cell) {
                 echo "<td>$cell</td>";
               }
+           if ($i) {
+              echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this)\"></span></td>";
+           }
+           $i = $i+1;
       echo "</tr>";
   }
   ?>
 </table>
 
 </body>
+
 <script>
     function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
@@ -170,6 +184,31 @@ height: 20px;
             filterTable();
         }
     }
+function deleteRow(rowId) {
+    var table = document.getElementById("myTable");
+    var rowIndex = rowId.parentNode.parentNode.rowIndex;
+    var row = table.rows[rowIndex];
+    var cell = row.cells[0]; // Assuming you want to access the second column (0-based index)
+    var id = cell.innerText;
+    var tablename = "commodity";
+      $.ajax({
+        type: 'POST', // Request type (POST in this case)
+        url: 'del-table-rowdata.php', // URL of the PHP file to which the request is sent
+        data: { 
+              id: id, 
+              tablename: tablename 
+          },
+          success: function(response) {
+              // Request was successful, handle response here
+              alert(response);
+          },
+          error: function(xhr, status, error) {
+              // Request failed, handle error here
+              alert('Request failed with status:', error, status);
+          }
+    });
+    location.reload();
+}
 
     function filterTable() {
         var filterInputs = document.getElementsByClassName("filter-input");

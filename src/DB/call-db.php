@@ -237,6 +237,22 @@ function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) {
       }
 }
 
+//----------------------------------------DB - Delete record----------------------------------------//
+
+function dbdelrecord(&$db, $tablename, $ID, &$text) { 
+  $sql =<<<EOF
+  DELETE FROM $tablename WHERE ID = '$ID';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records deleted successfully<br>";
+      }
+}
+
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 
 function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$text) {
