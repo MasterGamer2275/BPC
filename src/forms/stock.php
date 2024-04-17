@@ -117,12 +117,10 @@ input::-webkit-inner-spin-button {
 }
 /* Add styles to the form container */
 .form-container {
-  max-width: 500px;
   width: 320px;
   padding: 10px;
   background-color: white;
-  font: inherit;
- 
+  font: inherit; 
 }
 
 /* Full-width input fields */
@@ -132,22 +130,24 @@ input::-webkit-inner-spin-button {
   padding: 15px;
   margin: 5px 0 2px 0;
   border: none;
-  font-family: "Source Sans Pro", "sans-serif";
   font-size: 15px;
   background: #f2f2f2;
-  text-align: right;
+  text-align: left;
 }
 .form-container label {
   /* Your general styles for labels */
   font-size: 16px;
   color: #333;
-  text-align: left;
+  text-align: right;
 }
+
 .form-container select{
-  width: 90%;
+  width: 55%;
   padding: auto;
+  margin: 5px 0 2px 0;
   border: none;
   background: #f2f2f2;
+  font-size: 15px;
 }
 
 /* When the inputs get focus, do something */
@@ -264,6 +264,8 @@ height: 20px;
         <th>Date</th>
         <th>SupplierName</th>
         <th>Commodity(Desc)</th>
+        <th>GSM</th>
+        <th>BF</th>
         <th>ReelSize(Cm)</th>
         <th>ReelNumber</th> 
         <th>ReelWeight(Kg)</th>     
@@ -290,7 +292,10 @@ height: 20px;
     <input type = "text" name= "PSname2" id = "PSname2" disabled><br>
     <label for="PCname2"><b>Commodity/Desc</label>
     <input type = "text" name="PCname2" id="PCname2" disabled><br>
-    <input type = "number" id = "PRS2" name = "PRS2" hidden>
+    <input type = "text" id="PCname3" hidden>
+    <input type = "number" id = "PGSM2" hidden>
+    <input type = "number" id = "PBF2" hidden>
+    <input type = "number" id = "PRS2" hidden>
     <label for="PRN2"><b>Reel Number : *</label>
     <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
     <label for="PRW2"><b>Reel Weight (Kg) : *</label>
@@ -304,8 +309,8 @@ height: 20px;
     <label for="PIGST2"><b>IGST(%):</label>
     <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange="calculatetotal2()" ><br>
     <label for="PTotal2"><b>Total(Rs.):</label>
-    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01">
-    <label for="PSLoc2"><b>Location: *</label>
+    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br>
+    <label for="PSLoc2"><b>Location:</label>
     <select name= = "PSLoc2" id = "PSLoc2">
     <option value="">Select</option>
       <?php
@@ -350,22 +355,28 @@ height: 20px;
       var date = cells[2].innerText;
       var sname = cells[3].innerText;
       var cname = cells[4].innerText;
-      var rs= cells[5].innerText;
-      var rn= cells[6].innerText;
-      var rw = cells[7].innerText;
-      var rate= cells[8].innerText;
-      var sgst = cells[9].innerText;
-      var cgst = cells[10].innerText;
-      var igst = cells[11].innerText;
-      var total = cells[12].innerText;
-      var igstdisabled = cells[13].innerText.trim();
-      var location = cells[14].innerText;
+      const myArray = cname.split("-");
+      var gsm = cells[5].innerText;
+      var bf = cells[6].innerText;
+      var rs= cells[7].innerText;
+      var rn= cells[8].innerText;
+      var rw = cells[9].innerText;
+      var rate= cells[10].innerText;
+      var sgst = cells[11].innerText;
+      var cgst = cells[12].innerText;
+      var igst = cells[13].innerText;
+      var total = cells[14].innerText;
+      var igstdisabled = cells[15].innerText.trim();
+      var location = cells[16].innerText;
       // Set the values of the form fields
       document.getElementById("id2").value = id;
       document.getElementById("Pdate2").value = date;
       document.getElementById("!").value = warning;
       document.getElementById("PSname2").value = sname;
-      document.getElementById("PCname2").value = cname;
+		  document.getElementById("PCname2").value = myArray[0] +"-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
+      document.getElementById("PCname3").value = myArray[0];
+      document.getElementById("PGSM2").value = gsm;
+      document.getElementById("PBF2").value = bf;   
       document.getElementById("PRS2").value = rs;
       document.getElementById("PRN2").value = rn;
       document.getElementById("PRW2").value = rw;
@@ -471,7 +482,7 @@ function calculatetotal2() {
   rate = document.getElementById("PRate2").value;
   taxsum = 0;
   taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
-  total= (rweight * rate) + taxsum;
+  total= (rweight * rate) * taxsum + (rweight * rate);
   document.getElementById("PTotal2").value = parseFloat(total).toFixed(2);
 }
 
@@ -515,8 +526,9 @@ function addtotable() {
   var newRowId = table.rows.length;
   var newRow = table.insertRow(table.rows.length);
   const selectElement = document.getElementById("PCname");
-  const selectValue= selectElement.options[selectElement.selectedIndex].text;
-  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, selectValue, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled, document.getElementById("PSLoc").value];
+  var selectValue= selectElement.options[selectElement.selectedIndex].text;
+  const myArray1 = selectValue.split("-");
+  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, myArray1[0], document.getElementById("PGSM").value, document.getElementById("PBF").value, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled, document.getElementById("PSLoc").value];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
@@ -541,7 +553,7 @@ var cells = row.getElementsByTagName("td");
 var edit = (buttonText == "V");
 var ddel = (buttonText == "Del");
 if (edit) {
-  const myArray = [id2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value, document.getElementById("PIGST2").disabled, document.getElementById("PSLoc2").value];
+  const myArray = [id2, "", document.getElementById("Pdate2").value, document.getElementById("PSname2").value, document.getElementById("PCname3").value, document.getElementById("PGSM2").value, document.getElementById("PBF2").value, document.getElementById("PRS2").value, document.getElementById("PRN2").value, document.getElementById("PRW2").value, document.getElementById("PRate2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PTotal2").value, document.getElementById("PIGST2").disabled, document.getElementById("PSLoc2").value];
         for (let i = 0; i < myArray.length; i++) {
         cells[i].innerHTML = myArray[i];
          }
@@ -574,7 +586,7 @@ function checkDuplicates() {
   // Iterate over each row of the table (starting from index 1 to skip header row)
     for (let i =sr; i < er; i++) {
       var currentRow = table.rows[i];
-      var key = currentRow.cells[6].innerText; // Assuming the first cell contains the value to check for duplicates
+      var key = currentRow.cells[8].innerText; // Assuming the first cell contains the value to check for duplicates
       // Check if the value is already seen
         if (seen[key]) {
                 duplicates.push(key);

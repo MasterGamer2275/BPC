@@ -24,12 +24,12 @@ function dbsetup(&$db, &$text) {
    } else {
      $text .= "Opened database successfully<br>";
    }
-   //add delete stock 4, 5 & 6
+   //add delete stock 4, 5, 6, 7 & 8
 session_start();
 $_SESSION["companyID"] = "6100";
 $_SESSION["SListTabName"] = "TEST_SUPPLIER_4";
 $_SESSION["ComListTabName"] = "TEST_COMMODITY_3";
-$_SESSION["StListTabName"] = "TEST_STOCK_7";
+$_SESSION["StListTabName"] = "TEST_STOCK_8";
 $_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
 $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
@@ -129,12 +129,12 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
 
 //----------------------------------------DB - Add record (Stock Table)----------------------------------------//
 
-function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) { 
+function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) { 
   $CompanyID = $_SESSION["companyID"];
   $status = "active";
   $sql =<<<EOF
-    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,GODOWNNAME,USEDWEIGHT,STATUS,COMPANYID)
-    VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '$rw', '$status', '$CompanyID');
+    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,GSM,BF,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,GODOWNNAME,USEDWEIGHT,STATUS,COMPANYID)
+    VALUES ('$date', '$invnum', '$name', '$mattype', '$gsm', '$bf', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '$rw', '$status', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -343,6 +343,9 @@ $sql =<<<EOF
    INVNUM               TEXT        NOT NULL,
    SUPPLIERNAME         TEXT        NOT NULL,
    COMMODITYNAME        TEXT        NOT NULL,
+   GSM                  INTEGER     NOT NULL,
+   BF                   INTEGER     NOT NULL,
+   REELSIZE             INTEGER     NOT NULL,
    REELNUMBER           INTEGER     NOT NULL,
    REELWEIGHT           INTEGER     NOT NULL,
    RATE                 INTEGER,
