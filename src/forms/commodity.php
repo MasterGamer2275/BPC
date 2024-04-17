@@ -53,9 +53,9 @@ th, td {
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   position: relative;
+  overflow: hidden; /* Optional: hides content that overflows the cell */
+  white-space: nowrap;
 }
-
-
 
 tr, td {
   text-align: left;
@@ -206,6 +206,7 @@ function deleteRow(rowId) {
               // Request failed, handle error here
               alert('Request failed with status:', error, status);
           }
+    
     });
     location.reload();
 }

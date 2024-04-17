@@ -21,8 +21,18 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+body {
+  font-family: "Source Sans Pro", "sans-serif";
+  //font-family: "Trebuchet MS", sans-serif;
+}
+label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+}
 
 table {
   border-collapse: collapse;
@@ -32,41 +42,67 @@ table {
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
-th {
-  text-align: left;
-  padding: 16px;
-  font-size: 15px;
-  font-weight: normal;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  font-weight: bold; 
-  position: relative;
-}
 
-th .filter-icon {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
+th, td {
+  text-align: left;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  position: relative;
+  overflow: hidden; /* Optional: hides content that overflows the cell */
+  white-space: nowrap;
 }
-td {
+tr, td {
   text-align: left;
   padding: 16px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  width: auto;
 }
 tr:nth-child(even) {
   background-color: rgb(255, 208, 162);
 }
+
+/* Hide the fifth column by default */
+  th:nth-child(9),
+  td:nth-child(9) {
+  display: none;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+select {
+width: 25%;
+/* width: 120px;*/
+height: 20px;
+}
+
+  .delete-icon {
+    cursor: pointer;
+    color: grey;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .filter-icon {
+    color: #555555;
+    cursor: pointer;
+    margin-left: 4px;
+  }
 input[type=number] {
   -moz-appearance: textfield;
   width: 9%;
@@ -122,34 +158,46 @@ height: 20px;
     </div><br><br>
     <table id = "myTable">
       <tr>    
-            <th>Product ID<br>
-      <input type="text" id="idFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('idFilter')"></i></th>
-            <th>Customer Name<br>
-      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('nameFilter')"></i></th> 
+            <th>Product ID
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('idFilter')"></i><br>
+            <input type="text" id="idFilter" class="filter-input" placeholder="Filter by name">
+            </th>
+            <th>Customer Name
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i><br>
+            <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
+            </th> 
             <th>Description</th>
-            <th>Spec<br>
-      <input type="text" id="specFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('specFilter')"></i></th>    
-            <th>GSM<br>
-      <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
-      <i class="filter-icon fas fa-filter" onclick="toggleFilter('gsmFilter')"></i></th>    
-            <th>Size</th>   
+            <th>Spec
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('specFilter')"></i><br>
+            <input type="text" id="specFilter" class="filter-input" placeholder="Filter by name">
+            </th>    
+            <th>GSM
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i><br>
+            <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
+            </th>    
+            <th>Size
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('sizeFilter')"></i><br>
+            <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
+            </th>   
             <th>Unit</th> 
             <th>Rate(Rs.)</th>  
             <th>CompanyID</th>
       </tr>
-        <?php
-          // Loop through the array to generate table rows
-          foreach ($dbtabdata as $row) {
-              echo "<tr>";
-              foreach ($row as $cell) {
-                        echo "<td>$cell</td>";
-                      }
-              echo "</tr>";
-          }
-          ?>
+  <?php
+  // Loop through the array to generate table rows
+  $i=0;
+  foreach ($dbtabdata as $row) {
+      echo "<tr>";
+      foreach ($row as $cell) {
+                echo "<td>$cell</td>";
+              }
+           if ($i) {
+              echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this)\"></span></td>";
+           }
+           $i = $i+1;
+      echo "</tr>";
+  }
+  ?>
     </table>
     </form>
 </body>
@@ -205,6 +253,31 @@ height: 20px;
         filterInputs[i].addEventListener("input", filterTable);
     }
 
-
+function deleteRow(rowId) {
+    var table = document.getElementById("myTable");
+    var rowIndex = rowId.parentNode.parentNode.rowIndex;
+    var row = table.rows[rowIndex];
+    var cell = row.cells[0]; // Assuming you want to access the second column (0-based index)
+    var id = cell.innerText;
+    var tablename = "product";
+      $.ajax({
+        type: 'POST', // Request type (POST in this case)
+        url: 'del-table-rowdata.php', // URL of the PHP file to which the request is sent
+        data: { 
+              id: id, 
+              tablename: tablename 
+          },
+          success: function(response) {
+              // Request was successful, handle response here
+              alert(response);
+          },
+          error: function(xhr, status, error) {
+              // Request failed, handle error here
+              alert('Request failed with status:', error, status);
+          }
+    
+    });
+    location.reload();
+}
 </script>
 </html>

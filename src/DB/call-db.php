@@ -24,11 +24,12 @@ function dbsetup(&$db, &$text) {
    } else {
      $text .= "Opened database successfully<br>";
    }
+   //add delete stock 4, 5 & 6
 session_start();
 $_SESSION["companyID"] = "6100";
 $_SESSION["SListTabName"] = "TEST_SUPPLIER_4";
 $_SESSION["ComListTabName"] = "TEST_COMMODITY_3";
-$_SESSION["StListTabName"] = "TEST_STOCK_4";
+$_SESSION["StListTabName"] = "TEST_STOCK_7";
 $_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
 $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
@@ -90,27 +91,6 @@ $ret = $db->exec($sql);
     }
 }
 
-//----------------------------------------DB - Read Stock Table values----------------------------------------//
-
-function dbreadstocktable(&$db, $tablename, &$dbtabdata, &$text) { 
-$dbtabdata = array(array());
-$companyId = $_SESSION["companyID"];
-$tablename = $_SESSION["StListTabName"];
-  $res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUMBER, SUM(REELWEIGHT) as Reelweights, GROUP_CONCAT(RATE, ';') as Rates, GROUP_CONCAT(SGST, ';') as Sgsts, GROUP_CONCAT(CGST, ';') as Cgsts, GROUP_CONCAT(IGST, ';') as Igsts, SUM(TOTAL), GROUP_CONCAT(GODOWNNAME, ';') as Godownnames, ROUND((SUM(TOTAL)/SUM(REELWEIGHT)), 2) as AverageRate FROM $tablename WHERE COMPANYID = '$companyId' GROUP BY REELNUMBER");
-     while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
-      array_push($dbtabdata,$row);
-  }
-$sql =<<<EOF
-EOF;
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Stock Table Read Successfully<br>";
-    }
-}
 
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 
@@ -151,9 +131,10 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
 
 function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $desc, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) { 
   $CompanyID = $_SESSION["companyID"];
+  $status = "active";
   $sql =<<<EOF
-    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,COMPANYID,GODOWNNAME)
-    VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$CompanyID', '$godownname');
+    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,GODOWNNAME,USEDWEIGHT,STATUS,COMPANYID)
+    VALUES ('$date', '$invnum', '$name', '$desc', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '$rw', '$status', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -369,8 +350,10 @@ $sql =<<<EOF
    CGST                 INTEGER,
    IGST                 INTEGER,
    TOTAL                INTEGER,
-   COMPANYID            INTEGER     NOT NULL,
-   GODOWNNAME           TEXT        NOT NULL
+   GODOWNNAME           TEXT        NOT NULL,
+   USEDWEIGHT           TEXT        NOT NULL,
+   STATUS               TEXT        NOT NULL,
+   COMPANYID            INTEGER     NOT NULL
 );
 EOF;
    $ret = $db->exec($sql);

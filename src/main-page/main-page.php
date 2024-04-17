@@ -62,11 +62,12 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
       <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <button class="tablinks" onclick="openphp(event, '/forms/loadfile.php', '/main-page/frame1.php', 'ImportFile')"><i class="fas fa-file-excel"></i> Import</button>
+      <buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export</button>
       <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
       <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
@@ -89,8 +90,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
     <div class="sub-tab" id = "Production >">
       <button class="subtablinks3" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
-      <button class="subtablinks3" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Status</button>
       <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
+      <button class="subtablinks3" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Status</button>
+      
     </div>
 
 <footer>

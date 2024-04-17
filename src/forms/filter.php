@@ -25,19 +25,6 @@ $res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUM
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
 }
-$columnIndex = 15;
-$sum = 0;
-foreach ($dbtabdata as $row) {
-    // Check if the column index is within the row's range
-    if (isset($row[$columnIndex])) {
-        // Add the value from the specified column to the columnValues array
-        $sum = $sum + $row[$columnIndex];
-    } else {
-        // Handle the case where the column index is out of range for some rows
-        // You can choose to ignore or handle this as per your requirement
-    }
-}
-
 echo "<tr>";
 foreach ($dbtabheader as $cell) {
         echo "<th>$cell</th>";
