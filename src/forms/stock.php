@@ -242,7 +242,7 @@ height: 20px;
       <?php
         // Loop through the array to generate list items
       foreach ($locationlist as $value) {
-            echo "<option value='$value'>$value</option>";
+            echo "<option value=$value>$value</option>";
           }
       ?>
     </select>
@@ -316,7 +316,7 @@ height: 20px;
       <?php
         // Loop through the array to generate list items
       foreach ($locationlist as $value) {
-            echo "<option value='$value'>$value</option>";
+            echo "<option value=$value>$value</option>";
           }
       ?>
     </select><br><br>
