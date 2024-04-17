@@ -59,21 +59,22 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     </div>
     <div class="tab">
       <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen"><i class="fas fa-home"></i> HOME</button>
-      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '1')">Inventory ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Purchase >', '1')">Purchase ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Production >', '3')">Production ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '3')">Inventory ></button>
+      <button class="tablinks" onclick="opensubtab(event, 'Production >', '4')">Production ></button>
       <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export</button>
       <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
       <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
+      <buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>
     </div>
 
-    <div class="sub-tab" id = "Inventory >">
+    <div class="sub-tab" id = "Purchase >">
       <button class="subtablinks1" onclick="openphp(event, '/forms/supplier.php', '/main-page/frame1.php')">Add/Edit Suppliers</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/commodity.php', '/main-page/frame1.php')">Raw Material Master</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Stock Feed</button>
@@ -87,13 +88,16 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks2" onclick="openphp(event, '/forms/salesinvoice.php', '/main-page/frame1.php')">Sales Invoice</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/quotes.php', '/main-page/frame1.php')">Quotations</button>
     </div>
-
-    <div class="sub-tab" id = "Production >">
-      <button class="subtablinks3" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
-      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
-      <button class="subtablinks3" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Status</button>
-      
+    <div class="sub-tab" id = "Inventory >">
+      <button class="subtablinks3" onclick="openphp(event, '/forms/stockinventory.php', '/main-page/frame1.php')">Stock Master</button>
+      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoodsinventory.php', '/main-page/frame1.php')">Finished Goods Master</button> 
     </div>
+    <div class="sub-tab" id = "Production >">
+      <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Status</button>
+    </div>
+
 
 <footer>
     <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.</p>
@@ -109,11 +113,12 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <script>
 
 function openphp(evt, filename, framename, tabname) {
-  var i, subtablinks1, subtablinks2, subtablinks3, tablinks, framerect1;
+  var i, subtablinks1, subtablinks2, subtablinks3, subtablinks4, tablinks, framerect1;
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
   subtablinks2 = document.getElementsByClassName("subtablinks2");
   subtablinks3 = document.getElementsByClassName("subtablinks3");
+  subtablinks4 = document.getElementsByClassName("subtablinks4");
   framerect1 = document.getElementById("rect1");
   framerect1.src = filename;
   //clear all the sub tab displays
@@ -126,6 +131,9 @@ function openphp(evt, filename, framename, tabname) {
   for (i = 0; i < subtablinks3.length; i++) {
     subtablinks3[i].style.display = "none";
    }
+  for (i = 0; i < subtablinks4.length; i++) {
+    subtablinks4[i].style.display = "none";
+   }
 }
 
 function opensubtab(evt, tabname, tabindex) {
@@ -135,6 +143,7 @@ function opensubtab(evt, tabname, tabindex) {
   subtablinks1 = document.getElementsByClassName("subtablinks1");
   subtablinks2 = document.getElementsByClassName("subtablinks2");
   subtablinks3 = document.getElementsByClassName("subtablinks3");
+  subtablinks4 = document.getElementsByClassName("subtablinks4");
   //find the current cursor position
   let x = event.clientX;
   let y = event.clientY;
@@ -148,6 +157,9 @@ function opensubtab(evt, tabname, tabindex) {
   for (i = 0; i < subtablinks3.length; i++) {
     subtablinks3[i].style.display = "none";
    }
+  for (i = 0; i < subtablinks4.length; i++) {
+    subtablinks4[i].style.display = "none";
+   }
    //enable the sub tab for the selected tab
   for (i = 0; i < subtablinks1.length; i++) {
     if (tabindex==1) subtablinks1[i].style.display = "block";
@@ -158,6 +170,9 @@ function opensubtab(evt, tabname, tabindex) {
    }
   for (i = 0; i < subtablinks3.length; i++) {
     if (tabindex==3) subtablinks3[i].style.display = "block";
+   }
+  for (i = 0; i < subtablinks4.length; i++) {
+    if (tabindex==4) subtablinks4[i].style.display = "block";
    }
   //clear all the tab button displays
     for (i = 0; i < tablinks.length; i++) {

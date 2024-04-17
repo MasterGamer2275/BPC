@@ -35,6 +35,7 @@ $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
 $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
+$_SESSION["ProdTabName"] = "TEST_PRODUCTION_1";
 $_SESSION["InitPONum"] = "610000";
 }
 
@@ -458,6 +459,28 @@ function dbgetvalue(&$db, $tablename, $columnname, $paramname, $paramvalue, &$ou
         $text .= "<br>";
     } else {
         $text .= "Data Read Successfully<br>";
+    }
+}
+
+//----------------------------------------DB - Read Stock Table values----------------------------------------//
+
+function dbreadstocktable(&$db, $tablename, &$dbtabdata, &$text) { 
+$dbtabdata = array(array());
+$companyId = $_SESSION["companyID"];
+$tablename = $_SESSION["StListTabName"];
+  $res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER, REELWEIGHT FROM $tablename WHERE COMPANYID = '$companyId' GROUP BY REELNUMBER");
+     while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+             array_push($dbtabdata,$row);
+         }
+$sql =<<<EOF
+EOF;
+  $ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Stock Table Read Successfully<br>";
     }
 }
 

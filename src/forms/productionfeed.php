@@ -1,4 +1,12 @@
 <?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
+<?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
@@ -24,6 +32,7 @@
   $machinelist = explode(",", $val);
   //add filter by unfinished stock.
   $tablename = $_SESSION["StListTabName"];
+  dbcreatestocktable($db, $tablename, $text);
   $dbrnvalues = array();
   $columnname = "REELNUMBER";
   dblistuniquecolvalues($db, $tablename, $columnname, $dbrnvalues, $text);
@@ -164,7 +173,7 @@ height: 20px;
  
 <body>
 <div id="id01">
-  <form >
+  <form action="forms_action_page.php" method="post">
   <h3>Manufacturing Process Control Portal:</h3>
   <label for="Machine"><b>Machine: *</label>
   <select name="Machine" id="Machine" required min = "1">
@@ -172,7 +181,7 @@ height: 20px;
       <?php
         // Loop through the array to generate list items
       foreach ($machinelist as $value) {
-            echo "<option value='$value'>$value</option>";
+            echo "<option value=$value>$value</option>";
           }
       ?>
   </select>
@@ -183,7 +192,7 @@ height: 20px;
      // Loop through the array to generate list items
       foreach ($dbcolvalues as $row) {
           foreach ($row as $value) {
-            echo "<option value='$value'>$value</option>";
+            echo "<option value=$value>$value</option>";
           }
       }
       ?>
@@ -197,7 +206,7 @@ height: 20px;
            <option value="0">Select</option>
                  <?php
       foreach ($dbrnvalues as $value) {
-            echo "<option value='$value'>$value</option>";
+            echo "<option value=$value>$value</option>";
           }
       ?>
         </select>
@@ -225,15 +234,16 @@ height: 20px;
         <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
         <label for="pRc-Wastage"><b>Act. Wastage:</label>
         <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
+        <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" hidden>
         <label for="wOStatus"><b>Status:</label>
         <select name="wOStatus" id="wOStatus" required min = "1">
               <option value="0">active</option>
-              <option value="1">hold</option>
-              <option value="2">Cont.</option>
+              <option value="1">active(cont.)</option>
+              <option value="2">hold</option>
               <option value="3">finished</option>
          </select>
 
-         <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
+         <input type = "submit" id = "pRC-Add" name = "pRC-Add" value = "Add Record">
 <br><br>
 <table id = "myTable">
   <tr>
@@ -259,14 +269,21 @@ height: 20px;
       <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('sizeFilter')"></i>
     </th>
+    <th>Reel Number<br>
+      <input type="text" id="rnFilter" class="filter-input" placeholder="Filter by name">
+      <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('rnFilter')"></i>
+    </th>
+    <th>Reel Width(cm)</th>
+    <th>Reel Length(cm)</th>
     <th>Est.Target</th>
     <th>Actual</th>
+    <th>UsedWeight(Kg)</th>
+    <th>Wastage</th>
+    <th>Cut/Excess Reel</th>
     <th style="width: 50%;">Status<br>
       <input type="text" id="statusFilter" class="filter-input" value = "A">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statusFilter')"></i>
     </th>
-    <th>Cut Reel</th>
-    <th>Wastage</th>
     <th>CompanyID</th>
   </tr>
   <?php
@@ -327,70 +344,45 @@ height: 20px;
       }
   }
 }
-/*
-function updateval() {
-var sizestr = document.getElementById("pRC-P-Size").value;
-document.getElementById("pR-P-CUnit").value = "Not Found";
-document.getElementById("pR-P-CGSM").value = "Not Found";
-var tr = "\"SIZE\":" + "\"" + sizestr + "\"";
-  for (let i = 1; i < jsArray_2.length; i++) {
-    let c = JSON.stringify(jsArray_2[i]);
-    let position = c.search(tr);
-    let found = (position>0);
-    if (found) {
-          const myArray = c.split(",");
-          let su1 = myArray[7];
-          let sgsm1 = myArray[5];
-          const myArray4 = su1.split(":");
-          let su2 = myArray4[1];
-          let su3 = su2.replaceAll("\"", "");
-          const myArray5 = sgsm1.split(":");
-          let sgsm2 = myArray5[1];
-          let sgsm3 = sgsm2.replaceAll("\"", "");
-          document.getElementById("pR-P-CUnit").value = su3;
-          document.getElementById("pR-P-CGSM").value = sgsm3;
-      }
-  }
-}
-*/
+
+
 function updatereelinfo(){
 var reelsizestr = document.getElementById("pRCRN").value;
 document.getElementById("pRCMT").value = "Not Found";
 document.getElementById("pRC-RM-GSM").value = "Not Found";
 document.getElementById("pRC-RM-RW").value = "Not Found";
 document.getElementById("pRC-RM-RS").value = "Not Found";
-var tr = "REELNUMBER:" +  reelsizestr;
+var tr = "REELNUMBER:" +  reelsizestr + ",";
   for (let i = 1; i < jsArray_1.length; i++) {
     let c = JSON.stringify(jsArray_1[i]);
     let cstr = c.replaceAll("\"", "");
     let position = cstr.search(tr);
     let found = (position>0);
     if (found) {
-          const myArray = c.split(",");
-          let sd1 = myArray[4];
-          let srw1 = myArray[6];
-          let sd3 = sd1.replaceAll("\"", "");
-          const myArray6 = sd3.split("-");
-          let mattype1 = myArray6[0];
-          let mattype2 = mattype1.split(":");
-          let mattype3 = mattype2[1];
-          let pgsm1 = myArray6[1];
-          let pgsm2 = pgsm1.split(":");
-          let pgsm3 = pgsm2[1];
-          let srs1 = myArray6[3];
-          let srs2 = srs1.split(":");
-          let srs3 = srs2[1];
-          const myArray5 = srw1.split(":");
-          let srw2 = myArray5[1];
-          let srw3 = srw2.replaceAll("\"", "");
-          document.getElementById("pRCMT").value = mattype3;
-          document.getElementById("pRC-RM-GSM").value = pgsm3;
-          document.getElementById("pRC-RM-RW").value = srw3;
-          document.getElementById("pRC-RM-RS").value = srs3;
-          document.getElementById("pRC-ReelWidth").value = srs3;
+    const myArray= cstr.split(",");
+          let smt1 = myArray[4];
+          let sgsm1 = myArray[5];
+          let srw1 = myArray[9];
+          let sbf1 = myArray[6];
+          let srs1 = myArray[7];
+          const myArray1= smt1.split(":");
+          let mattype1 = myArray1[1];
+          const myArray2= sgsm1.split(":");
+          let pgsm1 = myArray2[1];
+          const myArray3= srw1.split(":");
+          let srw2 = myArray3[1];
+          let srw3 = srw2.replaceAll("}", "");
+          const myArray4 = srs1.split(":");
+          let srs2 = myArray4[1];
+          const myArray5 = sbf1.split(":");
+          let sbf2 = myArray5[1];
+    document.getElementById("pRCMT").value = mattype1;
+    document.getElementById("pRC-RM-GSM").value = pgsm1;
+    document.getElementById("pRC-RM-RW").value = srw3;
+    document.getElementById("pRC-RM-RS").value = srs2;
+    document.getElementById("pRC-ReelWidth").value = srs2;
       }
   }
-
 }
 
 function calculateval() {
@@ -414,13 +406,11 @@ document.getElementById("pRC-Uw").value = parseFloat(uw).toFixed(2);
 var num1 = parseFloat(uw);
 var num2 = parseFloat(document.getElementById('pRc-Wastage').value);
 var sum = num1 + num2;
-/*
 if (rw != sum) {
 document.getElementById("pRC-CutReel").checked = true;
 } else {
 document.getElementById("pRC-CutReel").checked = false;
 }
-*/
 }
 
 function toggleFilter(inputId) {
