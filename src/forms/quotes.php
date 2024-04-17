@@ -7,9 +7,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   }
 ?>
 <?php
-  $root = $_SERVER['DOCUMENT_ROOT'];
-  require $root."/DB/call-db.php";
-  dbsetup($db, $text);
+ // $root = $_SERVER['DOCUMENT_ROOT'];
+ // require $root."/DB/call-db.php";
+  //dbsetup($db, $text);
   //$tablename = $_SESSION["PRNumTabName"];
   //dbcreateprnumtable($db, $tablename, $text);
   //$tablename = $_SESSION["PRTabName"];
@@ -40,6 +40,57 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   echo $newPRNum;
   */
  
-  dbclose($db, $text);
+ // dbclose($db, $text);
   //echo $text;
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Email</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Send an Email</h1>
+    <form id="emailForm">
+        <label for="to">To:</label>
+        <input type="email" id="to" name="to" required><br><br>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+        <input type="submit" value="Send Email">
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            // Handle form submission
+            $("#emailForm").submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Collect form data
+                const formData = {
+                    to: $("#to").val(),
+                    subject: $("#subject").val(),
+                    text: $("#message").val()
+                };
+
+                // Send AJAX request to server
+                $.ajax({
+                    url: "/send-email",
+                    type: "POST",
+                    data: formData,
+                    success: function (response) {
+                        alert(response); // Show success message
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error); // Log any errors
+                        alert("An error occurred. Please try again."); // Show error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

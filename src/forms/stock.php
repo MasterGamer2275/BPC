@@ -458,7 +458,7 @@ function calculatetotal() {
   rate = document.getElementById("PRate").value;
   taxsum = 0;
   taxsum = (parseInt(t1) + parseInt(t2)+ parseInt(t3)) /100;
-  total= (rweight * rate) + taxsum;
+  total= (rweight * rate) * taxsum + (rweight * rate);
   document.getElementById("PTotal").value = parseFloat(total).toFixed(2);
 }
 

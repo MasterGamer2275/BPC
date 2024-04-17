@@ -66,8 +66,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <buttonDisabled class="tablinks"></buttonDisabled>
       <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
       <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export to File</button>
+      <button class="tablinks" onclick="openphp(event, '/forms/loadfile.php', '/main-page/frame1.php', 'ImportFile')"><i class="fas fa-file-excel"></i> Import</button>
+      <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export</button>
       <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
       <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
     </div>
@@ -102,6 +102,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Help</a></p>
 </footer>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
 <script>
 
@@ -201,6 +202,7 @@ function exporttoexcel() {
                 alert('Table not found within the iframe.');
             }
 }
+
 
 function printpage() {
             var iframe = document.getElementById('rect1');

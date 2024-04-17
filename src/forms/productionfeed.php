@@ -225,13 +225,12 @@ height: 20px;
         <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
         <label for="pRc-Wastage"><b>Act. Wastage:</label>
         <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
-        <label for="pRC-CutReel"><b>Cut Reel:</label>
-        <input type = "checkbox" id = "pRC-CutReel" class="checkbox-custom" name = "pRC-CutReel" checked readonly>
         <label for="wOStatus"><b>Status:</label>
         <select name="wOStatus" id="wOStatus" required min = "1">
               <option value="0">active</option>
               <option value="1">hold</option>
-              <option value="2">finished</option>
+              <option value="2">Cont.</option>
+              <option value="3">finished</option>
          </select>
 
          <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
@@ -415,11 +414,13 @@ document.getElementById("pRC-Uw").value = parseFloat(uw).toFixed(2);
 var num1 = parseFloat(uw);
 var num2 = parseFloat(document.getElementById('pRc-Wastage').value);
 var sum = num1 + num2;
+/*
 if (rw != sum) {
 document.getElementById("pRC-CutReel").checked = true;
 } else {
 document.getElementById("pRC-CutReel").checked = false;
 }
+*/
 }
 
 function toggleFilter(inputId) {

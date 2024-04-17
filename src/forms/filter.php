@@ -10,7 +10,7 @@ dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];
 $companyId = $_SESSION["companyID"];
 dbcreatestocktable($db, $tablename, $text);
-$dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(₹)", "SGST(%)", "CGST(%)", "IGST(%)","Total(₹)", "Location", "Avg.Price(₹/Kg)"];
+$dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(₹) breakup", "SGST(%) breakup", "CGST(%) breakup", "IGST(%) breakup","Total(₹)", "Location", "Actual Price(₹/Kg)", "Purchase Price(₹/Kg)", "Tax Savings(₹/Kg)", "Total Tax Savings(₹)"];
 $fromDate = $_POST['fromDate'];
 $toDate = $_POST['toDate'];
 
@@ -19,7 +19,7 @@ $toDate = $_POST['toDate'];
 //$toDate = mysqli_real_escape_string($dbConnection, $toDate);
 
 // Perform SQL query
-$res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUMBER, SUM(REELWEIGHT) as Reelweights, GROUP_CONCAT(RATE, ';') as Rates, GROUP_CONCAT(SGST, ';') as Sgsts, GROUP_CONCAT(CGST, ';') as Cgsts, GROUP_CONCAT(IGST, ';') as Igsts, SUM(TOTAL), GROUP_CONCAT(GODOWNNAME, ';') as Godownnames, ROUND((SUM(TOTAL)/SUM(REELWEIGHT)), 2) as AverageRate FROM $tablename WHERE $colname BETWEEN '$fromDate' AND '$toDate' AND COMPANYID = '$companyId' GROUP BY REELNUMBER");
+$res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUMBER, REELWEIGHT, GROUP_CONCAT(RATE, ';') as Rates, GROUP_CONCAT(SGST, ';') as Sgsts, GROUP_CONCAT(CGST, ';') as Cgsts, GROUP_CONCAT(IGST, ';') as Igsts, SUM(TOTAL) as Total, GODOWNNAME, CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT AS ACTUALPRICE, (SUM(TOTAL)/REELWEIGHT) as BUYINGPRICE, ((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) AS TaxSavings, ((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) * REELWEIGHT AS TotalSavings FROM $tablename WHERE $colname BETWEEN '$fromDate' AND '$toDate' AND COMPANYID = '$companyId' GROUP BY REELNUMBER");
 // Output data
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
