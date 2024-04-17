@@ -827,5 +827,87 @@ $ret = $db->exec($sql);
       $text .= "Column Read Successfully<br>";
     }
 }
+//----------------------------------------DB - Create table (Purchase Table)----------------------------------------//
+
+function dbcreateProdfeedtable(&$db, $tablename, &$text) {
+$text .= "welcome to create production feed req table if not exists";
+$sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+      ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+      DATE           TEXT		  NOT NULL,
+      TIME           TEXT		  NOT NULL,
+      MACHINENUM     TEXT       NOT NULL,
+      CUSTOMERNAME   TEXT       NOT NULL,
+      SIZE           TEXT       NOT NULL,
+      REELNUMBER     INTEGER	  NOT NULL,
+      REELWIDTH      INTEGER	  NOT NULL,
+      REELLENGTH     INTEGER	  NOT NULL,
+      TARGET         INTEGER    NOT NULL,
+      ACTUAL         INTEGER,
+      STATUS         TEXT		  NOT NULL,
+      CUTREEL        TEXT,
+      USEDWEIGHT     INTEGER,
+      ESTWASTAGE     INTEGER,
+      ACTWASTAGE     INTEGER,
+      COMPANYID      INTEGER	  NOT NULL
+);
+EOF;
+$ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
+}
+
+//----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
+
+function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pTarget, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    INSERT INTO $tablename (DATE,TIME,MACHINENUM,CUSTOMERNAME,SIZE,REELNUMBER,REELWIDTH,REELLENGTH,TARGET,ACTUAL,STATUS,CUTREEL,USEDWEIGHT,ESTWASTAGE,ACTWASTAGE,COMPANYID)
+    VALUES ('$pDate', 'pTime', '$pMname', '$pCnum', '$pSize', '$pReelNumber', '$ReelWidth', '$pReelLength', '$pTarget', '$pActual', '$pStatus', '$pCutReel', '$pUsedweight', '$pEstWastage', '$pActWastage', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created succssfully<br>";
+      }
+}
+
+//----------------------------------------DB - Update record (Purchase Table)----------------------------------------//
+function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pTarget, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) { 
+   $sql =<<<EOF
+   UPDATE $tablename SET
+      DATE = '$pDate',
+      TIME = 'pTime',
+      MACHINENUM = '$pMname',
+      CUSTOMERNAME = '$pCnum',
+      SIZE = '$pSize',
+      REELNUMBER = '$pReelNumber',
+      REELWIDTH = '$pReelWidth',
+      REELLENGTH = '$pReelLength',
+      TARGET = '$pTarget',
+      ACTUAL = '$pActual',
+      STATUS = '$pStatus',
+      CUTREEL = '$pCutReel',
+      USEDWEIGHT = '$pUsedweight',
+      ESTWASTAGE = '$pEstWastage',
+      ACTWASTAG = '$pEstWastage' WHERE ID = '$ID';
+ EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records updated successfully<br>";
+      }
+}
 
 ?>

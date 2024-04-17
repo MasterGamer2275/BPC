@@ -17,6 +17,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $tablename = $_SESSION["PListTabName"];
+  dbcreateProdfeedtable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   $tablename = $_SESSION["CoListTabName"];
@@ -175,8 +176,10 @@ height: 20px;
 <div id="id01">
   <form action="forms_action_page.php" method="post">
   <h3>Manufacturing Process Control Portal:</h3>
-  <label for="Machine"><b>Machine: *</label>
-  <select name="Machine" id="Machine" required min = "1">
+  <label for="pRC-Date">ReelSize: *</label>
+  <input type = "date" id = "pRC-Date" name = "pRC-Date" required value="<?php echo date('Y-m-d'); ?>">
+  <label for="pRC-Machine"><b>Machine: *</label>
+  <select name="pRC-Machine" id="pRC-Machine" required min = "1">
     <option value="0">Select</option>
       <?php
         // Loop through the array to generate list items
@@ -281,7 +284,7 @@ height: 20px;
     <th>Wastage</th>
     <th>Cut/Excess Reel</th>
     <th style="width: 50%;">Status<br>
-      <input type="text" id="statusFilter" class="filter-input" value = "A">
+      <input type="text" id="statusFilter" class="filter-input" value = "a">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statusFilter')"></i>
     </th>
     <th>CompanyID</th>

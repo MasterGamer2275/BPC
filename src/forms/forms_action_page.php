@@ -270,5 +270,9 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php header("Location: product.php"); ?>
   <?php exit; ?>
 <?php } ?>
+<?php /*form - production feed-------------------------------------------------- */ ?>
+<?php if ($_POST["pRC-Add"] != "") {  ?>
+   <?php $ID= $_POST["CID2"]; ?>
+<?php } ?>
 </body>
 </html>
