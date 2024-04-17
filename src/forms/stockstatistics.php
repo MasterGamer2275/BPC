@@ -51,5 +51,7 @@ input[type=number] {
   </table>
 
   <script src="script.js"></script>
+<script>
+</script>
 </body>
 </html>

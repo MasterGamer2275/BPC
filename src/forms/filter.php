@@ -6,6 +6,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require $root."/DB/call-db.php";
 $colname = "DATE";
 $dbtabdata = array(array());
+$sum = array(array());
 dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];
 $companyId = $_SESSION["companyID"];
@@ -19,24 +20,36 @@ $toDate = $_POST['toDate'];
 //$toDate = mysqli_real_escape_string($dbConnection, $toDate);
 
 // Perform SQL query
-$res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUMBER, REELWEIGHT, GROUP_CONCAT(RATE, ';') as Rates, GROUP_CONCAT(SGST, ';') as Sgsts, GROUP_CONCAT(CGST, ';') as Cgsts, GROUP_CONCAT(IGST, ';') as Igsts, SUM(TOTAL) as Total, GODOWNNAME, CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT AS ACTUALPRICE, (SUM(TOTAL)/REELWEIGHT) as BUYINGPRICE, ((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) AS TaxSavings, ((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) * REELWEIGHT AS TotalSavings FROM $tablename WHERE $colname BETWEEN '$fromDate' AND '$toDate' AND COMPANYID = '$companyId' GROUP BY REELNUMBER");
+$res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, REELNUMBER, REELWEIGHT, GROUP_CONCAT(RATE, ';') as Rates, GROUP_CONCAT(SGST, ';') as Sgsts, GROUP_CONCAT(CGST, ';') as Cgsts, GROUP_CONCAT(IGST, ';') as Igsts, SUM(TOTAL) as Total, GODOWNNAME, CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT AS ACTUALPRICE, (SUM(TOTAL)/REELWEIGHT) as BUYINGPRICE, ((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) AS TaxSavings, ((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) * REELWEIGHT AS TOTALSAV FROM $tablename WHERE $colname BETWEEN '$fromDate' AND '$toDate' AND COMPANYID = '$companyId' GROUP BY REELNUMBER");
 // Output data
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
 }
+$columnIndex = 15;
+$sum = 0;
+foreach ($dbtabdata as $row) {
+    // Check if the column index is within the row's range
+    if (isset($row[$columnIndex])) {
+        // Add the value from the specified column to the columnValues array
+        $sum = $sum + $row[$columnIndex];
+    } else {
+        // Handle the case where the column index is out of range for some rows
+        // You can choose to ignore or handle this as per your requirement
+    }
+}
 
 echo "<tr>";
 foreach ($dbtabheader as $cell) {
-            echo "<th>$cell</th>";
-                }      
-        echo "</tr>";
+        echo "<th>$cell</th>";
+        }      
+    echo "</tr>";
 foreach ($dbtabdata as $row) {
         echo "<tr>";
             foreach ($row as $cell) {
                 echo "<td>$cell</td>";
-                }      
-        echo "</tr>";
-        }
+            }      
+    echo "</tr>";
+    }
 $sql =<<<EOF
 EOF;
 $ret = $db->exec($sql);
