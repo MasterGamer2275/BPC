@@ -495,10 +495,10 @@ var num2 = parseFloat(document.getElementById('pRc-Wastage').value);
 var sum = num1 + num2;
 let sum = sum.toFixed(2);
 let rw = rw.toFixed(2);
-if (rw != sum) {
-document.getElementById("pRC-CutReel").checked = true;
-} else {
+if (sum >=== rw) {
 document.getElementById("pRC-CutReel").checked = false;
+} else {
+document.getElementById("pRC-CutReel").checked = true;
 }
 }
 
