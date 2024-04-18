@@ -35,7 +35,7 @@ $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
 $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
-$_SESSION["ProdTabName"] = "TEST_PRODUCTION_2";
+$_SESSION["ProdTabName"] = "TEST_PRODUCTION_3";
 $_SESSION["InitPONum"] = "610000";
 }
 
@@ -830,38 +830,48 @@ $ret = $db->exec($sql);
 //----------------------------------------DB - Create table (Purchase Table)----------------------------------------//
 
 function dbcreateProdfeedtable(&$db, $tablename, &$text) {
-$text .= "welcome to create production feed req table if not exists";
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-      ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
-      DATE           TEXT		  NOT NULL,
-      TIME           TEXT		  NOT NULL,
-      MACHINENUM     TEXT       NOT NULL,
-      CUSTOMERNAME   TEXT       NOT NULL,
-      SIZE           TEXT       NOT NULL,
-      REELNUMBER     INTEGER	  NOT NULL,
-      REELWIDTH      INTEGER	  NOT NULL,
-      REELLENGTH     INTEGER	  NOT NULL,
-      ESTPRODUCTION  INTEGER    NOT NULL,
-      ACTUAL         INTEGER,
-      STATUS         TEXT		  NOT NULL,
-      CUTREEL        TEXT,
-      USEDWEIGHT     INTEGER,
-      ESTWASTAGE     INTEGER,
-      ACTWASTAGE     INTEGER,
-      COMPANYID      INTEGER	  NOT NULL
-);
+    $text .= "Welcome to create production feed req table if not exists";
+    $sql =<<<EOF
+    CREATE TABLE IF NOT EXISTS $tablename(
+        ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
+        DATE           TEXT       NOT NULL,
+        TIME           TEXT       NOT NULL,
+        MACHINENUM     TEXT       NOT NULL,
+        CUSTOMERNAME   TEXT       NOT NULL,
+        SIZE           TEXT       NOT NULL,
+        REELNUMBER     INTEGER    NOT NULL,
+        REELWIDTH      INTEGER    NOT NULL,
+        REELLENGTH     INTEGER    NOT NULL,
+        ESTPRODUCTION  INTEGER    NOT NULL,
+        ACTUAL         INTEGER,
+        STATUS         TEXT       NOT NULL,
+        CUTREEL        TEXT,
+        USEDWEIGHT     INTEGER,
+        ESTWASTAGE     INTEGER,
+        ACTWASTAGE     INTEGER,
+        COMPANYID      INTEGER    NOT NULL
+    );
 EOF;
-$ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
+    $ret = $db->exec($sql);
+    if(!$ret) {
+        $err = $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
+    } else {
+        // Insert a row with the desired starting ID value
+        $startingID = 61000; // Change this to your desired starting value
+        $insertSQL = "INSERT INTO $tablename (ID) VALUES ($startingID)";
+        $ret = $db->exec($insertSQL);
+        
+        if (!$ret) {
+            $err = $db->lastErrorMsg();
+            $text .= "Error setting starting ID value: $err<br>";
+        } else {
+            $text .= "Table created successfully<br>";
+            $text .= "Starting ID set to: $startingID<br>";
+        }
+    }
 }
-
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
 function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) {
@@ -885,20 +895,20 @@ function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, 
    $sql =<<<EOF
    UPDATE $tablename SET
       DATE = '$pDate',
-      TIME = 'pTime',
+      TIME = '$pTime',
       MACHINENUM = '$pMname',
       CUSTOMERNAME = '$pCnum',
       SIZE = '$pSize',
       REELNUMBER = '$pReelNumber',
       REELWIDTH = '$pReelWidth',
       REELLENGTH = '$pReelLength',
-      ESTPRODUCTION = '$pTarget',
+      ESTPRODUCTION = '$pEstProd',
       ACTUAL = '$pActual',
       STATUS = '$pStatus',
       CUTREEL = '$pCutReel',
       USEDWEIGHT = '$pUsedweight',
       ESTWASTAGE = '$pEstWastage',
-      ACTWASTAG = '$pEstWastage' WHERE ID = '$ID';
+      ACTWASTAGE = '$pActWastage' WHERE ID = '$ID';
  EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -931,4 +941,28 @@ function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) {
       }
 }
 
+//----------------------------------------DB - check record (Production feed Table)----------------------------------------//
+
+function dbcheckprodfeedrecord (&$db, $tablename, $ID, &$found, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  $dbtabdata = array(array());
+  $i = 0;
+  $res = $db->query("SELECT * FROM $tablename WHERE ID = '$ID' and COMPANYID ='$CompanyID'");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  array_push($dbtabdata,$row);
+  $i = $i+1;
+  }
+  $found = ($i>0);
+  if ($found) {
+   $text .= "Record Already Exists <br>";
+  }
+  $ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "DB check completed<br>";
+    }
+} 
 ?>

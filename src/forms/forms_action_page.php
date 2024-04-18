@@ -307,6 +307,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 	  <?php $pUsedweight = $_POST["pRC-Uw"]; ?>
 	  <?php $pEstWastage = $_POST["pRc-Est-Wastage"]; ?>
 	  -->
+    <?php $ID = $myArray[6]; ?>
     <?php $pReelWidth = $myArray[1]; ?>
 	  <?php $pReelLength = $myArray[2]; ?>
 	  <?php $pEstProd = $myArray[3]; ?>
@@ -315,13 +316,25 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 	  <?php $pEstWastage = $myArray[5]; ?>
     <?php dbsetup($db, $text); ?>
     <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbcheckprodfeedrecord ($db, $tablename, $ID, $found, $text); ?>
+    <?php if ($found) {  ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbeditprodfeed($db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
+    <?php $tablename = $_SESSION["StListTabName"]; ?>
+    <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php echo $text; ?><br>
+    <?php echo "Record Edited.<br>"; ?>
+    <?php } else { ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
     <?php dbaddprodfeedrecord($db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
-    <?php dbclose($db, $text); ?>
     <?php echo "Record Added.<br>"; ?>
-    <?php header("Location: productionfeed.php"); ?>
-    <?php exit; ?>
+    <?php } ?>
+    <?php dbclose($db, $text); ?>
+    
+    <?php //header("Location: productionfeed.php"); ?>
+    <?php //exit; ?>
 <?php } ?>
 </body>
 </html>
