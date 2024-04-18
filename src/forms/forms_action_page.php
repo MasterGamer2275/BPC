@@ -329,12 +329,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php dbaddprodfeedrecord($db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php echo $text; ?><br>
     <?php echo "Record Added.<br>"; ?>
     <?php } ?>
     <?php dbclose($db, $text); ?>
-    
-    <?php header("Location: productionfeed.php"); ?>
-    <?php exit; ?>
+    <?php //header("Location: productionfeed.php"); ?>
+    <?php //exit; ?>
 <?php } ?>
 </body>
 </html>

@@ -917,9 +917,8 @@ function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) {
   $status = "active";
   $sql =<<<EOF
     UPDATE $tablename SET
-    USEDWEIGHT= '$uw';
-    STATUS = '$stat';
-    WHERE COMPANYID = '$CompanyID' AND REELNUMBER = '$rn';
+    USEDWEIGHT = '$uw',
+    STATUS = '$stat' WHERE COMPANYID = '$CompanyID' AND REELNUMBER = '$rn';
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {

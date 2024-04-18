@@ -8,7 +8,7 @@ $dbtabdata = array(array());
 dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];
 dbcreatestocktable($db, $tablename, $text);
-dbreadstocktable($db, $tablename, $dbtabdata, $text);
+dbreadtable($db, $tablename, $dbtabdata, $text);
 dbclose($db, $text);
 
 foreach ($dbtabdata as $row) {
