@@ -1010,6 +1010,7 @@ GROUP BY
                 '' AS GSM,
                 '' AS BF,
                 '' AS REELSIZE,
+                '' AS RS,
                 REELNUMBER,
                 CAST(ROUND(REELWEIGHT - USEDWEIGHT, 2) AS REAL),
                 GODOWNNAME,

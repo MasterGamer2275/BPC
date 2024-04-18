@@ -26,7 +26,7 @@ dbclose($db, $text);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stock Statistics:</title>
+<title>Stock Inventory:</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -80,11 +80,15 @@ input[type=number] {
     cursor: pointer;
     margin-left: 4px;
   }
+    .hide {
+    display: none;
+  }
 </style>
 <body>
   <h2>Stock Inventory</h2>
   <table id="myTable">
     <tr>
+    <th></th>
       <th>Commodity/Desc<br>      
         <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
         <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('typeFilter')"></i>
@@ -119,19 +123,51 @@ input[type=number] {
       </th>
     </tr>
     <!-- Table body will be populated dynamically -->
-  <?php
-  // Loop through the array to generate table rows
-  foreach ($dbtabdata as $row) {
-      echo "<tr>";
-      foreach ($row as $cell) {
-                echo "<td>$cell</td>";
-              }
-      echo "</tr>";
-  }
-  ?>
-  </table>
+<?php
+// Loop through the array to generate table rows
+foreach ($dbtabdata as $row) {
+    $i = 0;
+    $parent = false; // Initialize parent flag
+    
+    foreach ($row as $cell) {      
+        if(!$i) {
+            $parent = ($cell != ""); // Check if the cell is a parent
+            if ($parent) {
+                echo "<tr class=\"parent\"><td class=\"toggle\"><i class=\"fa fa-plus-square\" style=\"font-size:14px;color:grey\" onclick=\"hideunhiderows(this);\"></i></td>";
+            } else {
+                echo "<tr class=\"child hide\">";
+            }               
+        }
+        if ($parent) {
+            echo "<td>$cell</td>";
+        } else {
+            echo "<td>$cell</td>"; // Hide child rows by default
+        }
+        $i++; // Increment the cell counter
+    }
+    echo "</tr>";
+}
+?>
+</table>
 
 <script>
+
+function hideunhiderows(element) {
+    var iconClass = element.classList;
+
+    // Find the next sibling row, which should be the child row
+    var childRow = element.parentElement.parentElement.nextElementSibling;
+    while (childRow && childRow.classList.contains('child')) {
+        if (childRow.classList.contains('hide')) {
+            childRow.classList.remove('hide');
+            element.innerHTML = "<i class=\"fa fa-minus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
+        } else {
+            childRow.classList.add('hide');
+            element.innerHTML = "<i class=\"fa fa-plus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
+        }
+        childRow = childRow.nextElementSibling;
+    }
+}
 function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");
