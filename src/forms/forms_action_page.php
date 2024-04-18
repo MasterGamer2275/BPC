@@ -333,8 +333,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php } ?>
     <?php dbclose($db, $text); ?>
     
-    <?php //header("Location: productionfeed.php"); ?>
-    <?php //exit; ?>
+    <?php header("Location: productionfeed.php"); ?>
+    <?php exit; ?>
 <?php } ?>
 </body>
 </html>

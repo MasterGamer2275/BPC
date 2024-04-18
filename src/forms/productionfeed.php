@@ -1,12 +1,4 @@
 <?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-  }
-?>
-<?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
@@ -173,9 +165,9 @@ height: 20px;
     <label for="pRC-ID">Job ID:</label>
     <input type = "number" id = "pRC-ID" name = "pRC-ID" disabled value = "">
     <label for="pRC-Date">Date:</label>
-    <input type = "date" id = "pRC-Date" name = "pRC-Date" required value="<?php echo date('Y-m-d'); ?>">
+    <input type = "date" id = "pRC-Date" name = "pRC-Date" required value="<?php echo date('Y-m-d'); ?>" onchange="enablebutton();">
     <label for="pRC-Machine"><b>Machine: *</label>
-    <select name="pRC-Machine" id="pRC-Machine" onchange="enablebutton();">
+    <select name="pRC-Machine" id="pRC-Machine" required min = "1">
       <option value="0">Select</option>
         <?php
           // Loop through the array to generate list items
@@ -233,7 +225,7 @@ height: 20px;
           <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
           <label for="pRc-Wastage"><b>Act. Wastage:</label>
           <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
-          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" hidden>
+          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel">
           <label for="wOStatus"><b>Status:</label>
           <select name="wOStatus" id="wOStatus" required min = "1">
                 <option value="active">active</option>
@@ -242,7 +234,7 @@ height: 20px;
                 <option value="finished">finished</option>
           </select>
           <input type="hidden" id="tableData" name="tableData">
-          <input type = "button" id = "pRC-Add" name = "pRC-Add" value = "Add/Save Record" disabled onclick = "createSubmitevent();">
+          <input type = "button" id = "pRC-Add" name = "pRC-Add" value = "Add/Save Record" onclick = "createSubmitevent();">
           <input type = "submit" id = "submit" value = "submit" style="display: none;">
    </form>
 <br><br>
@@ -303,14 +295,6 @@ height: 20px;
 
 </body>
 <script>
-
-function createSubmitevent() {
-  const tableData = [document.getElementById("pRC-CutReel").checked, document.getElementById("pRC-ReelWidth").value, document.getElementById("pRC-ReelLength").value, document.getElementById("pRC-Est-Prod").value, document.getElementById("pRC-Uw").value, document.getElementById("pRc-Est-Wastage").value, document.getElementById("pRC-ID").value];
-    // Set the table data as a JSON string in the hidden input field
-  document.getElementById('tableData').value = JSON.stringify(tableData);
-  document.getElementById("submit").click();
-}
-
 document.addEventListener("DOMContentLoaded", function() {
   var table = document.getElementById("myTable");
   var rows = table.getElementsByTagName("tr");
@@ -341,6 +325,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
+
+function createSubmitevent() {
+  const tableData = [document.getElementById("pRC-CutReel").checked, document.getElementById("pRC-ReelWidth").value, document.getElementById("pRC-ReelLength").value, document.getElementById("pRC-Est-Prod").value, document.getElementById("pRC-Uw").value, document.getElementById("pRc-Est-Wastage").value, document.getElementById("pRC-ID").value];
+    // Set the table data as a JSON string in the hidden input field
+  document.getElementById('tableData').value = JSON.stringify(tableData);
+  document.getElementById("submit").click();
+}
 
 function enablebutton() {
 let check = (document.getElementById("pRC-Machine").value !== "0" && document.getElementById("pRC-P-CName").value !== "0" && document.getElementById("pRC-P-Size").value !== "0" && document.getElementById("pRCRN").value !== "0");
@@ -493,12 +484,12 @@ document.getElementById("pRC-Uw").value = parseFloat(uw).toFixed(2);
 var num1 = parseFloat(uw);
 var num2 = parseFloat(document.getElementById('pRc-Wastage').value);
 var sum = num1 + num2;
-let sum = sum.toFixed(2);
-let rw = rw.toFixed(2);
-if (sum >=== rw) {
-document.getElementById("pRC-CutReel").checked = false;
-} else {
+sum = sum.toFixed(2);
+rw = rw.toFixed(2);
+if (rw > sum) {
 document.getElementById("pRC-CutReel").checked = true;
+} else {
+document.getElementById("pRC-CutReel").checked = false;
 }
 }
 

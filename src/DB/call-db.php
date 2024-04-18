@@ -858,20 +858,10 @@ EOF;
         $text .= $err;
         $text .= "<br>";
     } else {
-        // Insert a row with the desired starting ID value
-        $startingID = 61000; // Change this to your desired starting value
-        $insertSQL = "INSERT INTO $tablename (ID) VALUES ($startingID)";
-        $ret = $db->exec($insertSQL);
-        
-        if (!$ret) {
-            $err = $db->lastErrorMsg();
-            $text .= "Error setting starting ID value: $err<br>";
-        } else {
             $text .= "Table created successfully<br>";
-            $text .= "Starting ID set to: $startingID<br>";
         }
     }
-}
+
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
 function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) {
