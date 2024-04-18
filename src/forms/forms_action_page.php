@@ -1,9 +1,19 @@
+<?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
 <html>
 <body>
 <!-- define variables and set to empty values*-->
 <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
 <?php require $root.'/DB/call-db.php'; ?>
-<?php /* Debug strings------------------------------------------------- */ ?><!--
+<?php date_default_timezone_set('Asia/Kolkata'); ?>
+<?php /* Debug strings------------------------------------------------- */ ?>
+<!--
 Welcome  <?php echo $_POST["Sname"]; ?><br>
 Welcome  <?php echo $_POST["CSname"]; ?><br>
 -->
@@ -270,9 +280,48 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php header("Location: product.php"); ?>
   <?php exit; ?>
 <?php } ?>
-<?php /*form - production feed-------------------------------------------------- */ ?>
-<?php if ($_POST["pRC-Add"] != "") {  ?>
-   <?php $ID= $_POST["CID2"]; ?>
+<?php /*form - production feed- ($_POST["pRC-Add"] not working)------------------------------------------------- */ ?>
+<?php if ($_POST["tableData"] != "") {  ?>
+    <?php $pDate = $_POST["pRC-Date"]; ?>
+   	<?php $pTime = date("h:i:s a"); ?>
+	  <?php $pMname = $_POST["pRC-Machine"]; ?>
+	  <?php $pCnum = $_POST["pRC-P-CName"]; ?>
+	  <?php $pSize = $_POST["pRC-P-Size"]; ?>
+	  <?php $pReelNumber = $_POST["pRCRN"]; ?>
+    <?php $pActual = $_POST["pRC-P-Actual"]; ?>
+    <?php $pActWastage = $_POST["pRc-Wastage"]; ?>
+    <?php $pStatus = $_POST["wOStatus"]; ?>
+    <?php $tableDataJSON = $_POST['tableData']; ?>
+    <?php $tableData = json_decode($tableDataJSON, true); ?>
+    <?php $myArray = array(); ?>
+    <?php $str = json_encode($tableData); ?>
+    <?php $word1 = str_replace("]","",$str); ?>
+    <?php $word2 = str_replace("[","", $word1); ?>
+    <?php $word3 = str_replace('"', '',$word2); ?>
+    <?php $myArray = explode(",", $word3); ?>
+    <!--
+	  <?php $pReelWidth = $_POST["pRC-ReelWidth"]; ?>
+	  <?php $pReelLength = $_POST["pRC-ReelLength"]; ?>
+	  <?php $pEstProd = $_POST["pRC-Est-Prod"]; ?>
+	  <?php $pCutReel = $_POST["pRC-CutReel"]; ?>
+	  <?php $pUsedweight = $_POST["pRC-Uw"]; ?>
+	  <?php $pEstWastage = $_POST["pRc-Est-Wastage"]; ?>
+	  -->
+    <?php $pReelWidth = $myArray[1]; ?>
+	  <?php $pReelLength = $myArray[2]; ?>
+	  <?php $pEstProd = $myArray[3]; ?>
+	  <?php $pCutReel = $myArray[0]; ?>
+	  <?php $pUsedweight = $myArray[4]; ?>
+	  <?php $pEstWastage = $myArray[5]; ?>
+    <?php dbsetup($db, $text); ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbaddprodfeedrecord($db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
+    <?php $tablename = $_SESSION["StListTabName"]; ?>
+    <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php dbclose($db, $text); ?>
+    <?php echo "Record Added.<br>"; ?>
+    <?php header("Location: productionfeed.php"); ?>
+    <?php exit; ?>
 <?php } ?>
 </body>
 </html>

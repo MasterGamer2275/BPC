@@ -35,7 +35,7 @@ $_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
 $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
-$_SESSION["ProdTabName"] = "TEST_PRODUCTION_1";
+$_SESSION["ProdTabName"] = "TEST_PRODUCTION_2";
 $_SESSION["InitPONum"] = "610000";
 }
 
@@ -135,7 +135,7 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gs
   $status = "active";
   $sql =<<<EOF
     INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,GSM,BF,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,GODOWNNAME,USEDWEIGHT,STATUS,COMPANYID)
-    VALUES ('$date', '$invnum', '$name', '$mattype', '$gsm', '$bf', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '$rw', '$status', '$CompanyID');
+    VALUES ('$date', '$invnum', '$name', '$mattype', '$gsm', '$bf', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '0', '$status', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -842,7 +842,7 @@ $sql =<<<EOF
       REELNUMBER     INTEGER	  NOT NULL,
       REELWIDTH      INTEGER	  NOT NULL,
       REELLENGTH     INTEGER	  NOT NULL,
-      TARGET         INTEGER    NOT NULL,
+      ESTPRODUCTION  INTEGER    NOT NULL,
       ACTUAL         INTEGER,
       STATUS         TEXT		  NOT NULL,
       CUTREEL        TEXT,
@@ -864,11 +864,11 @@ $ret = $db->exec($sql);
 
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
-function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pTarget, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) {
+function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) {
   $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
-    INSERT INTO $tablename (DATE,TIME,MACHINENUM,CUSTOMERNAME,SIZE,REELNUMBER,REELWIDTH,REELLENGTH,TARGET,ACTUAL,STATUS,CUTREEL,USEDWEIGHT,ESTWASTAGE,ACTWASTAGE,COMPANYID)
-    VALUES ('$pDate', 'pTime', '$pMname', '$pCnum', '$pSize', '$pReelNumber', '$ReelWidth', '$pReelLength', '$pTarget', '$pActual', '$pStatus', '$pCutReel', '$pUsedweight', '$pEstWastage', '$pActWastage', '$CompanyID');
+    INSERT INTO $tablename (DATE,TIME,MACHINENUM,CUSTOMERNAME,SIZE,REELNUMBER,REELWIDTH,REELLENGTH,ESTPRODUCTION,ACTUAL,STATUS,CUTREEL,USEDWEIGHT,ESTWASTAGE,ACTWASTAGE,COMPANYID)
+    VALUES ('$pDate', '$pTime', '$pMname', '$pCnum', '$pSize', '$pReelNumber', '$pReelWidth', '$pReelLength', '$pEstProd', '$pActual', '$pStatus', '$pCutReel', '$pUsedweight', '$pEstWastage', '$pActWastage', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
@@ -881,7 +881,7 @@ function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, 
 }
 
 //----------------------------------------DB - Update record (Purchase Table)----------------------------------------//
-function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pTarget, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) { 
+function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) { 
    $sql =<<<EOF
    UPDATE $tablename SET
       DATE = '$pDate',
@@ -892,7 +892,7 @@ function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, 
       REELNUMBER = '$pReelNumber',
       REELWIDTH = '$pReelWidth',
       REELLENGTH = '$pReelLength',
-      TARGET = '$pTarget',
+      ESTPRODUCTION = '$pTarget',
       ACTUAL = '$pActual',
       STATUS = '$pStatus',
       CUTREEL = '$pCutReel',
@@ -907,6 +907,27 @@ function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, 
           $text .= "<br>";
         } else { 
           $text .= "Records updated successfully<br>";
+      }
+}
+
+//----------------------------------------DB - Edit record (Stock Table)----------------------------------------//
+
+function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) { 
+  $CompanyID = $_SESSION["companyID"];
+  $status = "active";
+  $sql =<<<EOF
+    UPDATE $tablename SET
+    USEDWEIGHT= '$uw';
+    STATUS = '$stat';
+    WHERE COMPANYID = '$CompanyID' AND REELNUMBER = '$rn';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records edited succssfully<br>";
       }
 }
 

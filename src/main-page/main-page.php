@@ -89,8 +89,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks2" onclick="openphp(event, '/forms/quotes.php', '/main-page/frame1.php')">Quotations</button>
     </div>
     <div class="sub-tab" id = "Inventory >">
-      <button class="subtablinks3" onclick="openphp(event, '/forms/stockinventory.php', '/main-page/frame1.php')">Stock Master</button>
-      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoodsinventory.php', '/main-page/frame1.php')">Finished Goods Master</button> 
+      <button class="subtablinks3" onclick="openphp(event, '/forms/stockinventory.php', '/main-page/frame1.php')">Stock Inventory</button>
+      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoodsinventory.php', '/main-page/frame1.php')">Finished Goods Inventory</button> 
     </div>
     <div class="sub-tab" id = "Production >">
       <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
