@@ -1,35 +1,42 @@
-  <?php
+<?php
 // Assuming you have a database connection established
 // Connect to database
 $root = $_SERVER['DOCUMENT_ROOT'];
 //---add the DB API file
 require $root."/DB/call-db.php";
-$dbtabdataparent = array(array());
+$dbtabdata = array(array());
 dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];
 $companyId = $_SESSION["companyID"];
-$dbtabheader = ["Commodity/Desc", "GSM", "BF","ReelSize", "Num of Reels/ReelNo.", "TotalWeight(kg)/Weight", "Location", "Status"];
-echo "<tr>";
-foreach ($dbtabheader as $cell) {
-        echo "<th>$cell</th>";
-        }      
-    echo "</tr>";
 $res_query1 = $db->query("
+SELECT 
+    COMMODITYNAME,
+    GSM,
+    BF,
+    REELSIZE,
+    SUM(NumOfReels) AS TotalNumOfReels,
+    CAST(ROUND(SUM(NetReelWeight), 2) AS REAL) AS TotalNetReelWeight,
+    GODOWNNAME,
+    STATUS 
+FROM (
     SELECT 
         COMMODITYNAME,
         GSM,
         BF,
         REELSIZE,
-        SUM(REELNUMBER) AS NumOfReels,
-        CAST(ROUND(SUM(REELWEIGHT) - SUM(USEDWEIGHT), 2) AS REAL),
+        REELNUMBER AS NumOfReels,
+        REELWEIGHT - USEDWEIGHT AS NetReelWeight,
         GODOWNNAME,
         STATUS 
     FROM 
         $tablename 
     WHERE 
-        COMPANYID = '$companyId' 
+        COMPANYID = '$companyId'
     GROUP BY 
-        COMMODITYNAME, GSM, BF, REELSIZE
+        COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER
+) AS subquery
+GROUP BY 
+    COMMODITYNAME, GSM, BF, REELSIZE;
 ");
 
     // Loop through each row
@@ -43,12 +50,7 @@ $res_query1 = $db->query("
         $totalWeight = $row['TotalWeight'];
         $godownName = $row['GODOWNNAME'];
         $status = $row['STATUS'];
-        array_push($dbtabdataparent,$row);
-                echo "<tr>";
-                    foreach ($row as $cell) {
-                        echo "<td>$cell</td>";
-                    }      
-              echo "</tr>";
+        array_push($dbtabdata,$row);
         $res_query2 = $db->query("
             SELECT 
                 '' AS COMMODITYNAME,
@@ -68,21 +70,11 @@ $res_query1 = $db->query("
                 AND BF = '$bf'
                 AND REELSIZE = '$reelSize'
             GROUP BY
-                REELNUMBER
+                REELNUMBER;
 ");
-$dbtabdatachild = array(array());
-    while (($row = $res_query2->fetchArray(SQLITE3_ASSOC))) {
-       array_push($dbtabdatachild,$row);
+array_push($dbtabdata,$row);
     }
-    foreach ($dbtabdatachild as $row) {
-        echo "<tr>";
-            foreach ($row as $cell) {
-                echo "<td>$cell</td>";
-            }      
-    echo "</tr>";
-    }
-}
-
 dbclose($db, $text);
-
+$strout = JSON.stringify($dbtabdata);
+echo $strout
 ?>

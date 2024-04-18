@@ -339,7 +339,7 @@ function dbcreatestocktable(&$db, &$tablename, &$text) {
    $text .= "welcome to create stock table if not exists<br>";
 $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
-   ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+   ID INTEGER PRIMARY KEY AUTOINCREMENT         UNIQUE,
    DATE                 TEXT        NOT NULL,
    INVNUM               TEXT        NOT NULL,
    SUPPLIERNAME         TEXT        NOT NULL,
@@ -954,4 +954,80 @@ function dbcheckprodfeedrecord (&$db, $tablename, $ID, &$found, &$text) {
       $text .= "DB check completed<br>";
     }
 } 
+
+//----------------------------------------DB - Setup----------------------------------------//
+function dbgeninvrep(&$db, $tablename, &$dbtabdata, &$text) {
+$CompanyID = $_SESSION["companyID"];
+$dbtabdata = array(array());
+$res_query1 = $db->query("
+SELECT 
+    COMMODITYNAME,
+    GSM,
+    BF,
+    REELSIZE,
+    SUM(NumOfReels) AS TotalNumOfReels,
+    CAST(ROUND(SUM(NetReelWeight), 2) AS REAL) AS TotalNetReelWeight,
+    GODOWNNAME,
+    STATUS 
+FROM (
+    SELECT 
+        COMMODITYNAME,
+        GSM,
+        BF,
+        REELSIZE,
+        REELNUMBER AS NumOfReels,
+        REELWEIGHT - USEDWEIGHT AS NetReelWeight,
+        GODOWNNAME,
+        STATUS 
+    FROM 
+        $tablename 
+    WHERE 
+        COMPANYID = '$CompanyID'
+    GROUP BY 
+        COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER
+) AS subquery
+GROUP BY 
+    COMMODITYNAME, GSM, BF, REELSIZE;
+");
+
+    // Loop through each row
+    while (($row = $res_query1->fetchArray(SQLITE3_ASSOC))) {
+        // Access individual values from the current row
+        $commodityName = $row['COMMODITYNAME'];
+        $gsm = $row['GSM'];
+        $bf = $row['BF'];
+        $reelSize = $row['REELSIZE'];
+        /*
+        $numOfReels = $row['NumOfReels'];
+        $totalWeight = $row['NetReelWeight'];
+        $godownName = $row['GODOWNNAME'];
+        $status = $row['STATUS'];
+        */
+        array_push($dbtabdata,$row);
+        $res_query2 = $db->query("
+            SELECT 
+                '' AS COMMODITYNAME,
+                '' AS GSM,
+                '' AS BF,
+                '' AS REELSIZE,
+                REELNUMBER,
+                CAST(ROUND(REELWEIGHT - USEDWEIGHT, 2) AS REAL),
+                GODOWNNAME,
+                STATUS 
+            FROM 
+                $tablename
+            WHERE 
+                COMPANYID = '$CompanyID' 
+                AND COMMODITYNAME = '$commodityName'
+                AND GSM = '$gsm'
+                AND BF = '$bf'
+                AND REELSIZE = '$reelSize'
+            GROUP BY
+                REELNUMBER;
+");
+    while (($row = $res_query2->fetchArray(SQLITE3_ASSOC))) {
+       array_push($dbtabdata,$row);
+    }
+    }
+}
 ?>
