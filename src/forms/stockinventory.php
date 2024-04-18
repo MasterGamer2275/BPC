@@ -19,10 +19,25 @@ table {
 
 th, td {
   text-align: left;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  position: relative;
+  overflow: hidden; /* Optional: hides content that overflows the cell */
+  white-space: nowrap;
+}
+
+tr, td {
+  text-align: left;
   padding: 16px;
+  font-size: 15px;
+  font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
+
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
