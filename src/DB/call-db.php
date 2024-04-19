@@ -132,7 +132,7 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
 
 function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $status = "active";
+  $status = "in-stock";
   $sql =<<<EOF
     INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,GSM,BF,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,GODOWNNAME,USEDWEIGHT,STATUS,COMPANYID)
     VALUES ('$date', '$invnum', '$name', '$mattype', '$gsm', '$bf', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '0', '$status', '$CompanyID');
@@ -965,7 +965,7 @@ SELECT
     GSM,
     BF,
     REELSIZE,
-    SUM(NumOfReels) AS TotalNumOfReels,
+    NumOfReels AS NumOfReels,
     CAST(ROUND(SUM(NetReelWeight), 2) AS REAL) AS TotalNetReelWeight,
     GODOWNNAME,
     STATUS 
@@ -975,7 +975,7 @@ FROM (
         GSM,
         BF,
         REELSIZE,
-        REELNUMBER AS NumOfReels,
+        COUNT(REELNUMBER) AS NumOfReels,
         REELWEIGHT - USEDWEIGHT AS NetReelWeight,
         GODOWNNAME,
         STATUS 

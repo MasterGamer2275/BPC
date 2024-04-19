@@ -228,6 +228,7 @@ height: 20px;
           <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel">
           <label for="wOStatus"><b>Status:</label>
           <select name="wOStatus" id="wOStatus" required min = "1">
+                <option value="in-stock">in-stock</option>
                 <option value="active">active</option>
                 <option value="active(cont.)">active(cont.)</option>
                 <option value="hold">hold</option>

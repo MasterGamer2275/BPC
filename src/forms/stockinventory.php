@@ -83,6 +83,30 @@ input[type=number] {
     .hide {
     display: none;
   }
+      .highlighted-text1 {
+        color: red;
+        font-weight: bold;
+    }
+        .highlighted-text1::before {
+        content: "\2193"; /* Unicode character for a red down arrow */
+        display: inline-block;
+        margin-right: 5px; /* Adjust spacing between icon and text */
+        color: red; /* Color of the arrow */
+    }
+        .highlighted-text2 {
+        color: blue;
+        font-weight: bold;
+    }
+          .highlighted-text3 {
+        color: green;
+        font-weight: bold;
+    }
+        .highlighted-text3::before {
+        content: "\2191"; /* Unicode character for a red down arrow */
+        display: inline-block;
+        margin-right: 5px; /* Adjust spacing between icon and text */
+        color: green; /* Color of the arrow */
+    }
 </style>
 <body>
   <h2>Stock Inventory</h2>
@@ -218,6 +242,33 @@ function filterTable() {
     for (var i = 0; i < filterInputs.length; i++) {
         filterInputs[i].addEventListener("input", filterTable);
     }
+  
+function hightlightcolumn() {
+    var table = document.getElementById("myTable");
+    var columnNumber1 = 6; // Index of column 3 (zero-based)
+    var columnNumber2 = 8; 
+    // Loop through each row in the table
+    for (var i = 1; i < table.rows.length; i++) { // Start from 1 to skip header row
+        var cell1 = table.rows[i].cells[columnNumber1]; // Get the cell in the specified column
+        var cell2 = table.rows[i].cells[columnNumber2];
+        // Perform your test on the cell content
+        if (cell1.textContent.trim() < 20) {
+            // If the cell content matches your condition, change the background color to green
+            cell1.innerHTML = "<span class='highlighted-text1'>" + cell1.textContent + "</span>";
+        }
+        if (cell1.textContent.trim() > 100) {
+            // If the cell content matches your condition, change the background color to green
+            cell1.innerHTML = "<span class='highlighted-text3'>" + cell1.textContent + "</span>";
+        }
+        if (cell2.textContent.toLowerCase().includes("active")){
+            // If the cell content matches your condition, change the background color to green
+            cell2.innerHTML = "<span class='highlighted-text2'>" + cell2.textContent + "</span>";
+        }
+    }
+}
+
+// Call the function to change background color of cells in column 3 containing "Cell 3" to green
+hightlightcolumn();
 </script>
 </body>
 </html>
