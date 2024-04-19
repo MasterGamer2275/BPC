@@ -53,6 +53,7 @@ input[type=number] {
   <button id="filterBtn">Filter</button>
 
   <table id="myTable">
+
     <!-- Table body will be populated dynamically -->
 
   </table>

@@ -26,6 +26,7 @@ function dbsetup(&$db, &$text) {
    }
    //add delete stock 4, 5, 6, 7 & 8
 session_start();
+/*
 $_SESSION["companyID"] = "6100";
 $_SESSION["SListTabName"] = "TEST_SUPPLIER_4";
 $_SESSION["ComListTabName"] = "TEST_COMMODITY_3";
@@ -36,7 +37,23 @@ $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
 $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
 $_SESSION["ProdTabName"] = "TEST_PRODUCTION_3";
-$_SESSION["InitPONum"] = "610000";
+$_SESSION["InitPONum"] = "6100000";
+$_SESSION["InitWONum"] = "6100000";
+$_SESSION["FGTabName"] = "TEST_FG_1";
+*/
+$_SESSION["companyID"] = "6100";
+$_SESSION["SListTabName"] = "SUPPLIER_TABLE";
+$_SESSION["ComListTabName"] = "COMMODITY_TABLE";
+$_SESSION["StListTabName"] = "RMSTOCK_TABLE";
+$_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
+$_SESSION["CoListTabName"] = "COMPANY_LIST_TABLE";
+$_SESSION["ClListTabName"] = "CUSTOMER_TABLE";
+$_SESSION["PListTabName"] = "PRODUCT_TABLE";
+$_SESSION["PRTabName"] = "TEST_PURCHASE_3";
+$_SESSION["ProdTabName"] = "TEST_PRODUCTION_3";
+$_SESSION["InitPONum"] = "6100000";
+$_SESSION["InitWONum"] = "6100000";
+$_SESSION["FGTabName"] = "TEST_FG_1";
 }
 
 //----------------------------------------DB - Close----------------------------------------//
