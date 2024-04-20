@@ -88,7 +88,7 @@ input[type=number] {
 }
 
 select {
-width: 25%;
+width: 29%;
 /* width: 120px;*/
 height: 20px;
 }

@@ -96,7 +96,7 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 .numeric-input1 {
   -moz-appearance: textfield;
-  width: 90px; 
+  width: 105px; 
 }
 .numeric-input2 {
   -moz-appearance: textfield;
@@ -182,8 +182,13 @@ input::-webkit-inner-spin-button {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
+.customselect {
+width: 12%;
+/* width: 120px;*/
+height: 20px;
+}
 select {
-width: 10%;
+width: 36%;
 /* width: 120px;*/
 height: 20px;
 }
@@ -199,7 +204,7 @@ height: 20px;
     <label for="Pdate"><b>Purchase Date:</label>
     <input type = "date" id = "Pdate" name = "Pdate" size="0" value="<?php echo date('Y-m-d'); ?>" required>
     <label for="PSname"><b>Supplier: *</label>
-    <select name= = "PSname" id = "PSname" onchange="getcommoditylist();updateval();setformstate();">
+    <select name= = "PSname" id = "PSname" class = "customselect" onchange="getcommoditylist();updateval();setformstate();">
     <option value="">Select</option>
       <?php
         // Loop through the array to generate list items
@@ -213,19 +218,19 @@ height: 20px;
     <label for="PCname"><b>Commodity</label>
     <select name="PCname" id="PCname" onchange = "updateval();">
     <option value="">Select</option>
-    </select>
+    </select> <br><br>
     <label for="PGSM"><b>GSM: *</label>
     <input type = "text" id = "PGSM" name = "PGSM" required size="3" disabled>
     <label for="PBF"><b>BF: *</label>
     <input type = "text" id = "PBF" name = "PBF" required size="3" disabled>
     <label for="PRS"><b>Reel Size (Cm): *</label>
-    <input type = "number" class = "numeric-input1" id = "PRS" name = "PRS" required size="3" min = "1" step="0.01" disabled><br><br>
+    <input type = "number" class = "numeric-input1" id = "PRS" name = "PRS" required size="3" min = "1" step="0.01" disabled>
     <label for="PRN"><b>Reel Number :*</label>
     <input type = "number" class = "numeric-input1" id = "PRN" name = "PRN" required size="7" min = "5" step="1">
     <label for="PRW"><b>Reel Weight (Kg) : *</label>
-    <input type = "number" class = "numeric-input1" id = "PRW" name = "PRW" required size="7" min = "1" step=".01" onchange = "calculatetotal()">
+    <input type = "number" class = "numeric-input1" id = "PRW" name = "PRW" required size="7" min = "1" step=".01" onchange = "calculatetotal()"><br><br>
     <label for="PRate"><b>Rate(Rs.):</label>
-    <input type = "number" class = "numeric-input1" id = "PRate" name = "PRate" size="7" min = "0.01" step=".01" onchange = "calculatetotal()">
+    <input type = "number" class = "numeric-input1" id = "PRate" name = "PRate" size="7" min = "0" step=".01" onchange = "calculatetotal()">
 
     <label for="PSGST"><b>SGST(%):</label>
     <input type = "number" class = "numeric-input2" id = "PSGST" name = "PSGST" size="3" min = "0" value = "0" step=".01" onchange = "calculatetotal()">
@@ -233,11 +238,11 @@ height: 20px;
     <input type = "number" class = "numeric-input2" id = "PCGST" name = "PCGST" size="3" min = "0" value = "0" step=".01" onchange= "calculatetotal()">
     <label for="PIGST"><b>IGST(%):</label>
     <input type = "number" class = "numeric-input2" id = "PIGST" name = "PIGST" size="3" min = "0" value = "0" step=".01" disabled onchange = "calculatetotal()">
-        <br><br>
+        
     <label for="PTotal"><b>Total(Rs.):</label>
     <input type = "number" id = "PTotal" name = "PTotal" size="15" min = "1" max= "100000" disabled step=".01">
     <label for="PSLoc"><b>Location: *</label>
-    <select name= = "PSLoc" id = "PSLoc">
+    <select name= = "PSLoc" id = "PSLoc" class = "customselect">
     <option value="">Select</option>
       <?php
         // Loop through the array to generate list items
