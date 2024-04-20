@@ -50,6 +50,7 @@ input[type=number] {
   <input type="date" id="fromDate" name="fromDate">
   <label for="toDate">To:</label>
   <input type="date" id="toDate" name="toDate">
+  <input type="number" id="repnum" name="repnum" value = "1" style = "display: none">
   <button id="filterBtn">Filter</button>
 
   <table id="myTable">

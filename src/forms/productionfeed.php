@@ -1,4 +1,12 @@
 <?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
+<?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
@@ -101,12 +109,6 @@ tr, td {
 
 tr:nth-child(even) {
   background-color: #80ffff;
-}
-
-/* Hide the fifth column by default */
-  th:nth-child(11),
-  td:nth-child(11) {
-  display: none;
 }
 
 /* Hide the fifth column by default 
@@ -231,7 +233,7 @@ height: 20px;
           <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
           <label for="pRc-Wastage"><b>Act. Wastage:</label>
           <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
-          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" hidden>
+          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel">
           <label for="wOStatus"><b>Status:</label>
           <select name="wOStatus" id="wOStatus" required min = "1">
                 <option value="in-stock">in-stock</option>

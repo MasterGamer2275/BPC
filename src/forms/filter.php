@@ -14,7 +14,7 @@ dbcreatestocktable($db, $tablename, $text);
 $dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "GSM", "BF","ReelSize", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(₹) breakup", "SGST(%) breakup", "CGST(%) breakup", "IGST(%) breakup","Total(₹)", "Actual Price(₹/Kg)", "Purchase Price(₹/Kg)", "Tax Savings(₹/Kg)", "Total Tax Savings(₹)"];
 $fromDate = $_POST['fromDate'];
 $toDate = $_POST['toDate'];
-
+$repnum = $_POST['repnum'];
 // Sanitize and validate input (this is important to prevent SQL injection)
 //$fromDate = mysqli_real_escape_string($dbConnection, $fromDate);
 //$toDate = mysqli_real_escape_string($dbConnection, $toDate);
@@ -38,7 +38,7 @@ $res = $db->query("
       GROUP_CONCAT(IGST, ';') as Igsts,
       SUM(TOTAL) as Total,
       CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT AS ACTUALPRICE, (SUM(TOTAL)/REELWEIGHT) as BUYINGPRICE, ROUND(((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)), 2) as TaxSavings,
-      ROUND(((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) * REELWEIGHT, 2) as Totalsav
+      ROUND(((CAST(((SUM(RATE) * REELWEIGHT) + (SUM(RATE) * REELWEIGHT * (CAST(SUM(CGST) + SUM(SGST) + SUM(IGST) AS REAL) / 100.0))) AS REAL) / REELWEIGHT) - (SUM(TOTAL)/REELWEIGHT)) * REELWEIGHT, 2) as Totalsavings
     FROM 
       $tablename 
     WHERE 
@@ -48,9 +48,12 @@ $res = $db->query("
       REELNUMBER;
 ");
 // Output data
+$sum = 0;
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
+  $sum = $row[18] + $sum;
 }
+
 echo "<tr>";
 foreach ($dbtabheader as $cell) {
         echo "<th>$cell</th>";
@@ -63,6 +66,9 @@ foreach ($dbtabdata as $row) {
             }      
     echo "</tr>";
     }
+echo "<br><br>";
+echo "Total Savings (₹)";
+echo $sum;
 $sql =<<<EOF
 EOF;
 $ret = $db->exec($sql);

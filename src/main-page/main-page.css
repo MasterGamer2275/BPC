@@ -143,11 +143,12 @@ header h1 {
 /* Style the sub-tab */
 .sub-tab {
   display: none;
-  position: absolute;
+  position: relative;
   background-color: rgb(173, 103, 79);
-  width: auto;
+  height: 20px;
+  width: 200px;
   left: 120px;
-  top: inherit;
+  top: 0px;
   z-index: 1;
 }
 

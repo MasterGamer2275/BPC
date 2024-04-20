@@ -67,7 +67,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
 <div class="tabs">
     <div class="tab">
-      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" id="defaultOpen"><i class="fas fa-home"></i> Home</button>
+      <button class="tablinks" onclick="openphp(event, '/forms/home.php', '/main-page/frame1.php', 'Home')" id="defaultOpen"><i class="fas fa-home"></i> Home</button>
       <button class="tablinks" onclick="opensubtab(this, 'Purchase >', '1')">Purchase ></button>
       <button class="tablinks" onclick="opensubtab(this, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(this, 'Inventory >', '3')">Inventory ></button>
@@ -94,14 +94,14 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks2" onclick="openphp(event, '/forms/customer.php', '/main-page/frame1.php')">Add/Edit Clients</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/product.php', '/main-page/frame1.php')">Client Master</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Sales Invoice</button>
-      <button class="subtablinks2" onclick="openphp(event, '/forms/testform.php', '/main-page/frame1.php')">Quotations</button>
+      <button class="subtablinks2" onclick="openphp(event, '/forms/quotes.php', '/main-page/frame1.php')">Quotations</button>
     </div>
     <div class="sub-tab" id = "Inventory >">
       <button class="subtablinks3" onclick="openphp(event, '/forms/stockinventory.php', '/main-page/frame1.php')">Raw Material</button>
       <button class="subtablinks3" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button> 
     </div>
     <div class="sub-tab" id = "Production >">
-      <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/testform.php', '/main-page/frame1.php')">Production Feed</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Status</button>
     </div>

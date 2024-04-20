@@ -129,6 +129,7 @@ height: 20px;
     <h3>Create/Add Client Master:</h3>
     <label for="pCus"><b>Customer Name: *</label>
     <select name="pCus" id="pCus">
+       <option value='0'>Select</option>
       <?php
       
       // Loop through the array to generate list items
@@ -153,7 +154,7 @@ height: 20px;
       <label for="pUnit"><b>Unit: *</label>
       <input type = "text" id = "pUnit" name = "pUnit" required size="5" placeholder = "cm">
       <label for="pRate"><b>Rate(Rs.):*</label>
-      <input type = "number" id = "pRate" name = "pRate" required min = "1" step = "0.01" class = "number">
+      <input type = "number" id = "pRate" name = "pRate" required min = "0.01" step = "0.01" class = "number">
       <input type = "submit" id = "PAdd" name = "PAdd" value = "Add Record"></div>
     </div><br><br>
     <table id = "myTable">

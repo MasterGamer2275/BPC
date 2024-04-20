@@ -156,17 +156,17 @@ height: 20px;
 
 <form action="forms_action_page.php" method="post">
 <h3>Client Portal : Add/Edit Client</h3>
-<label for="Clname"><b>Client Name: *</label>
-<input type = "text" id = "Clname" name = "Clname" required size="141"><br><br>
 <label for="Cname"><b>Customer Name: *</label>
-<input type = "text" id = "Cname" name = "Cname" required size="100">
-<label for="CGST"><b>GSTIN/UIN: *</label>
-<input type = "text" id = "CGST" name = "CGST" maxlength = "15" size = "15" inputmode="numeric" required>
+<input type = "text" id = "Cname" name = "Cname" required size="100"><br><br>
+<label for="Clname"><b>Client Name(Alias): *</label>
+<input type = "text" id = "Clname" name = "Clname" required size="141">
+<label for="CGST"><b>GSTIN/UIN:</label>
+<input type = "text" id = "CGST" name = "CGST" maxlength = "15" size = "15">
 <br><br>
-<label for="CAddr"><b>Address: *</label>
-<input type = "text" id = "CAddr" name = "CAddr" size="99.5" required>
-<label for="CCity"><b>City: *</label>
-<input type = "text" id = "CCity" name = "CCity" size="32" required><br><br>
+<label for="CAddr"><b>Address:</label>
+<input type = "text" id = "CAddr" name = "CAddr" size="99.5">
+<label for="CCity"><b>City:</label>
+<input type = "text" id = "CCity" name = "CCity" size="32"><br><br>
 <label for="CState"><b>State:</label>
 <select name="Cstate" id="Cstate">
 <option value="">Select</option>
@@ -207,12 +207,12 @@ height: 20px;
 <option value="Uttarakhand">Uttarakhand</option>
 <option value="West Bengal">West Bengal</option>
 </select>
-<label for="CPcode"><b>Pincode: *</label>
-<input type = "text" id = "CPcode" name = "CPcode" maxlength = "6" size = "6" inputmode="numeric" required>
-<label for="CPh"><b>Mobile No: * +91</label>
-<input type = "text" inputmode="numeric" id = "CPh" name = "CPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required>
-<label for="CEmail"><b>Email: *</label>
-<input type = "email" id = "CEmail" name = "CEmail" size="60" required>
+<label for="CPcode"><b>Pincode:</label>
+<input type = "text" id = "CPcode" name = "CPcode" maxlength = "6" size = "6" inputmode="numeric">
+<label for="CPh"><b>Mobile No: +91</label>
+<input type = "text" inputmode="numeric" id = "CPh" name = "CPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
+<label for="CEmail"><b>Email:</label>
+<input type = "email" id = "CEmail" name = "CEmail" size="60">
 <br><br>
 <label for="CSAddr"><b>Secondary Address:</label>
 <input type = "text" id = "CSAddr" name = "CSAddr" size="82">
@@ -267,10 +267,10 @@ height: 20px;
    <input type= "text" id = "CName2" name = "CName2" required size="75" disabled hidden>
    <label for="CGST2"><b>GSTIN/UIN: *</label>
    <input type = "text" id = "CGST2" name = "CGST2" maxlength = "15" size = "15" required>
-   <label for="CAddr2"><b>Address: *</label>
-   <input type = "text" id = "CAddr2" name = "CAddr2" size="75" required>
-   <label for="CCity2"><b>City: *</label>
-   <input type = "text" id = "CCity2" name = "CCity2" size="32" required>
+   <label for="CAddr2"><b>Address:</label>
+   <input type = "text" id = "CAddr2" name = "CAddr2" size="75">
+   <label for="CCity2"><b>City:</label>
+   <input type = "text" id = "CCity2" name = "CCity2" size="32">
    <label for="CState2"><b>State:</label>
 <select name="Cstate2" id="Cstate2">
     <option value="">Select</option>
@@ -311,12 +311,12 @@ height: 20px;
     <option value="Uttarakhand">Uttarakhand</option>
     <option value="West Bengal">West Bengal</option>
 </select>
-   <label for="CPcode2"><b>Pincode: *</label>
-   <input type = "text" id = "CPcode2" name = "CPcode2" maxlength = "6" size = "6" required>
-   <label for="CPh2"><b>Mobile: *+91</label>
-   <input type = "text" inputmode="numeric" id = "CPh2" name = "CPh2" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx" required>
-   <label for="CEmail2"><b>Email: *</label>
-   <input type = "email" id = "CEmail2" name = "CEmail2" size="43 required>
+   <label for="CPcode2"><b>Pincode:</label>
+   <input type = "text" id = "CPcode2" name = "CPcode2" maxlength = "6" size = "6">
+   <label for="CPh2"><b>Mobile: +91</label>
+   <input type = "text" inputmode="numeric" id = "CPh2" name = "CPh2" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
+   <label for="CEmail2"><b>Email:</label>
+   <input type = "email" id = "CEmail2" name = "CEmail2" size="43>
    <label for="CSAddr2"><b>Secondary Address:</label>
    <input type = "text" id = "CSAddr2" name = "CSAddr2">
    <label for="CAPhAc2"><b>Admin Office Phone Area Code:</label>
