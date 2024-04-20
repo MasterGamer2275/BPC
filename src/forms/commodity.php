@@ -163,7 +163,7 @@ height: 20px;
                 echo "<td>$cell</td>";
               }
            if ($i) {
-              echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this)\"></span></td>";
+              echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this);\"></span></td>";
            }
            $i = $i+1;
       echo "</tr>";
@@ -205,10 +205,9 @@ function deleteRow(rowId) {
           error: function(xhr, status, error) {
               // Request failed, handle error here
               alert('Request failed with status:', error, status);
-          }
-    
+          }  
     });
-    location.reload();
+    location.reload();   
 }
 
     function filterTable() {

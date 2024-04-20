@@ -50,18 +50,19 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
      <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
     </div>
 <header>
+<!-- Running quotes -->
+<div class="runningquotes">
+<?php include 'runningquotes.php'; ?>
+</div>
   <h1>Welcome to Online Manufacturing Execution System</h1>
   <img class="image2" src="Images/Website_Logo.png" />
   <img class="image3" src="Images/Company_Logo.png" />
-  <!-- Running quotes -->
-  <div class="runningquotes">
-    <?php include 'runningquotes.php'; ?>
-  </div>
-  <!-- Hamburger menu -->
+   <!-- Hamburger menu -->
   <div class="hamburger-menu">
       <i class="fa fa-bars" style="font-size:24px;color:white"></i>
       <p>Menu</p>
   </div>
+
 </header>
 
 <div class="tabs">
