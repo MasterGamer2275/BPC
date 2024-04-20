@@ -78,7 +78,7 @@ header h1 {
   top: 160px;
   //left: 132px;
   left: 0px;
-  width: 100%;
+  width: 80%;
   height: 68.5%;
   border: none;
   border-color: white;
@@ -90,7 +90,7 @@ header h1 {
   top: 90px; /* Adjust the vertical position */
   left: 0px; /* Adjust the horizontal position */
   height: 60px;
-  width: calc(100% - 200px); /* Adjust the width to leave space on both sides */
+  width: 80%; /* Adjust the width to leave space on both sides */
   border: none;
   color: rgb(173, 103, 79);
   text-align: center;
@@ -118,7 +118,7 @@ header h1 {
   background-color: rgb(173, 103, 79);
   display: flex; /* Use flexbox layout */
   flex-direction: column; /* Arrange tabs vertically */
-  position: fixed; 
+  position: relative; 
   top: 160px;
   //width: 155px;
   width: 155px;
@@ -129,14 +129,13 @@ header h1 {
 
 /* Style the sub-tab */
 .sub-tab {
-  position: relative;
-  float: left;
-  border: 1px solid #ccc;
+  display: none;
+  position: absolute;
   background-color: rgb(173, 103, 79);
-  //top:0px;
-  width: auto;;
-  height: auto;
-  //left: 0%;
+  width: auto;
+  left: 120px;
+  top: inherit;
+  z-index: 1;
 }
 
 /* Style the buttons inside the tab */

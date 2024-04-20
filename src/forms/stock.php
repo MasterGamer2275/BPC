@@ -108,7 +108,7 @@ input::-webkit-inner-spin-button {
   position: fixed;
   max-width: 500px;
   width: 320px;
-  top: 10px;
+  top: 0px;
   bottom: 0;
   right: 15px;
   border: 3px solid #f1f1f1;
@@ -127,10 +127,10 @@ input::-webkit-inner-spin-button {
 .form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date], .form-container input[type=number]{
   width: 55%;
   height: 0px;
-  padding: 15px;
-  margin: 5px 0 2px 0;
+  padding: 12px;
+  margin: 3px 0 2px 0;
   border: none;
-  font-size: 15px;
+  font-size: 12px;
   background: #f2f2f2;
   text-align: left;
 }
@@ -567,6 +567,7 @@ if (edit) {
                 }
 }
 checkDuplicates();
+reorderid();
 closeForm();
 }
 
@@ -586,7 +587,7 @@ function checkDuplicates() {
    if (er <= 4) { 
      var sr = 0;
        } else {
-         sr = er-4;
+         sr = er-3;
                }
   // Iterate over each row of the table (starting from index 1 to skip header row)
     for (let i =sr; i < er; i++) {

@@ -103,6 +103,12 @@ tr:nth-child(even) {
   background-color: #80ffff;
 }
 
+/* Hide the fifth column by default */
+  th:nth-child(11),
+  td:nth-child(11) {
+  display: none;
+}
+
 /* Hide the fifth column by default 
   th:nth-child(14),
   td:nth-child(14) {
@@ -225,7 +231,7 @@ height: 20px;
           <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
           <label for="pRc-Wastage"><b>Act. Wastage:</label>
           <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
-          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel">
+          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" hidden>
           <label for="wOStatus"><b>Status:</label>
           <select name="wOStatus" id="wOStatus" required min = "1">
                 <option value="in-stock">in-stock</option>

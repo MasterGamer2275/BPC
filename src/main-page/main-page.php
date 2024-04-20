@@ -45,7 +45,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 
-    <div class="iframe">
+<!--<div class="rectangle1" id="rect1"></div> -->
+   <div class="iframe">
      <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
     </div>
 <header>
@@ -56,7 +57,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   <div class="runningquotes">
     <?php include 'runningquotes.php'; ?>
   </div>
-          <!-- Hamburger menu -->
+  <!-- Hamburger menu -->
   <div class="hamburger-menu">
       <i class="fa fa-bars" style="font-size:24px;color:white"></i>
       <p>Menu</p>
@@ -66,10 +67,10 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <div class="tabs">
     <div class="tab">
       <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" id="defaultOpen"><i class="fas fa-home"></i> Home</button>
-      <button class="tablinks" onclick="opensubtab(event, 'Purchase >', '1')">Purchase ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '3')">Inventory ></button>
-      <button class="tablinks" onclick="opensubtab(event, 'Production >', '4')">Production ></button>
+      <button class="tablinks" onclick="opensubtab(this, 'Purchase >', '1')">Purchase ></button>
+      <button class="tablinks" onclick="opensubtab(this, 'Sales >', '2')">Sales ></button>
+      <button class="tablinks" onclick="opensubtab(this, 'Inventory >', '3')">Inventory ></button>
+      <button class="tablinks" onclick="opensubtab(this, 'Production >', '4')">Production ></button>
       <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
@@ -83,6 +84,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks1" onclick="openphp(event, '/forms/supplier.php', '/main-page/frame1.php')">Add/Edit Suppliers</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/commodity.php', '/main-page/frame1.php')">Raw Material Master</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Stock Feed</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/EditStock.php', '/main-page/frame1.php')">Edit/Review Stock</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stockstatistics.php', '/main-page/frame1.php')">Stock Statistics</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Purchase Orders</button>
    </div>
@@ -98,7 +100,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks3" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button> 
     </div>
     <div class="sub-tab" id = "Production >">
-      <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Production Feed</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Status</button>
     </div>
@@ -119,7 +121,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <script>
 
 
-function openphp(evt, filename, framename, tabname) {
+function openphp(event, filename, framename, tabname) {
   var i, subtablinks1, subtablinks2, subtablinks3, subtablinks4, tablinks, framerect1;
   var tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
@@ -151,15 +153,14 @@ function openphp(evt, filename, framename, tabname) {
 
 function opensubtab(evt, tabname, tabindex) {
   //define all the variables used
-  var i, subtablinks1, subtablinks2, subtablinks3, tablinks;
+  var i, subtablinks1, subtablinks2, subtablinks3, tablinks, tabs;
+  tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
   subtablinks2 = document.getElementsByClassName("subtablinks2");
   subtablinks3 = document.getElementsByClassName("subtablinks3");
   subtablinks4 = document.getElementsByClassName("subtablinks4");
-  //find the current cursor position
-  let x = event.clientX;
-  let y = event.clientY;
+
   //clear all the sub tab displays
   for (i = 0; i < subtablinks1.length; i++) {
     subtablinks1[i].style.display = "none";
@@ -175,8 +176,10 @@ function opensubtab(evt, tabname, tabindex) {
    }
    //enable the sub tab for the selected tab
   for (i = 0; i < subtablinks1.length; i++) {
-    if (tabindex==1) subtablinks1[i].style.display = "block";
-    subtablinks1[i].style.left = document.getElementById(tabname).style.top;
+    if (tabindex==1) {
+    subtablinks1[i].style.display = "block";
+    //subtablinks1[i].style.top = tabs[1].style.top;
+    }
    }
   for (i = 0; i < subtablinks2.length; i++) {
     if (tabindex==2) subtablinks2[i].style.display = "block";
