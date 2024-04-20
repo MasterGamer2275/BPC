@@ -46,7 +46,7 @@ $_SESSION["SListTabName"] = "SUPPLIER_TABLE";
 $_SESSION["ComListTabName"] = "COMMODITY_TABLE";
 $_SESSION["StListTabName"] = "RMSTOCK_TABLE";
 $_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
-$_SESSION["CoListTabName"] = "COMPANY_LIST_TABLE";
+$_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
 $_SESSION["ClListTabName"] = "CUSTOMER_TABLE";
 $_SESSION["PListTabName"] = "PRODUCT_TABLE";
 $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
@@ -982,7 +982,7 @@ SELECT
     GSM,
     BF,
     REELSIZE,
-    NumOfReels AS NumOfReels,
+    COUNT(Reelnumber) AS NumOfReels,
     CAST(ROUND(SUM(NetReelWeight), 2) AS REAL) AS TotalNetReelWeight,
     GODOWNNAME,
     STATUS 
@@ -992,7 +992,7 @@ FROM (
         GSM,
         BF,
         REELSIZE,
-        COUNT(REELNUMBER) AS NumOfReels,
+        REELNUMBER As Reelnumber,
         REELWEIGHT - USEDWEIGHT AS NetReelWeight,
         GODOWNNAME,
         STATUS 
@@ -1003,8 +1003,11 @@ FROM (
     GROUP BY 
         COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER
 ) AS subquery
+
 GROUP BY 
-    COMMODITYNAME, GSM, BF, REELSIZE;
+    COMMODITYNAME, GSM, BF, REELSIZE
+ORDER BY
+    COMMODITYNAME, REELSIZE;
 ");
 
     // Loop through each row
