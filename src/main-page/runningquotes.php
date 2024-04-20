@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+<header>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<body>
 <style>
 * {box-sizing: border-box;}
 //body {font-family: Verdana, sans-serif;}
@@ -7,19 +12,6 @@ body {font-family: "Trebuchet MS", sans-serif;}
 .mySlides {display: none;}
 img {vertical-align: middle;}
 
-/* Quotes display container */
-.quotes-container {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  width: 80%;
-  height: auto;
-  border: none;
-  background-color: rgb(173, 103, 79);
-  color: yellow;
-  display:active;
-  font-size: 13px;
-}
 
 .quotes-textarea {
   rows:2;
@@ -29,7 +21,8 @@ img {vertical-align: middle;}
   color: yellow;
   border: none;
   //font-size: 130%;
-  font-size: 15px;
+  //font-size: 15px;
+  font-size: 65%;
 }
 
 .active {
@@ -52,7 +45,7 @@ img {vertical-align: middle;}
   .text {font-size: 11px}
 }
 </style>
-</head>
+</header>
 <body>
 
 <div class="quotes-textarea">
@@ -84,7 +77,6 @@ img {vertical-align: middle;}
   <p class="quotelinks">"Imagination is more important than knowledge. For knowledge is limited to all we know and understand, while imagination embraces the entire world, and all there ever will be to know and understand." – Albert Einstein</p>
   <p class="quotelinks">“You must be the change you want to see in the world.” – Mahatma Gandhi.</p>
 </div>
-
 
 <script>
 let QuoteIndex = 0;

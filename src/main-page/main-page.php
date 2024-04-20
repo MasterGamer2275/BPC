@@ -12,7 +12,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
 <!DOCTYPE html>
 <html lang="en">
-<header>
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,19 +20,11 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <!--<title>InfiPackaging</title> -->
     <link rel="stylesheet" type="text/css" href="/main-page/main-page.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MES Portal</title>
     <!--<link rel="icon" type="image/x-icon" href="/Images/usericon.ico">-->
-    <div class="parent" >
-    <img class="image1" src="Images/Title_Block.PNG" />
-    <img class="image2" src="Images/Website_Logo.png" />
-    <img class="image3" src="Images/Company_Logo.png" />
-    <h1 class="header1_title" >Welcome to the Manufacturing Execution System Portal</h1><br>
-    <iframe class="runningquotes" src="/main-page/runningquotest.php"></iframe>\\HOME.html.docx
-    </div>
-  </header>
-  <body>
-    <div class="iframe">
-     <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
+</head>
+<body>
      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687735452309402"
         crossorigin="anonymous"></script>
     <!-- Ad1 -->
@@ -52,13 +44,28 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    <!--
-     <iframe class="rectangle2" src="i.php" id = "rect2" name = "rect2"></iframe>
-     <iframe class="rectangle3" src="i.php" id = "rect3" name = "rect3"></iframe>
-     <iframe class="rectangle4" src="i.php" id = "rect4" name = "rect4"></iframe>-->
+
+    <div class="iframe">
+     <iframe class="rectangle1" src="/main-page/home.php" id = "rect1" name = "rect1"></iframe>
     </div>
+<header>
+  <h1>Welcome to Online Manufacturing Execution System</h1>
+  <img class="image2" src="Images/Website_Logo.png" />
+  <img class="image3" src="Images/Company_Logo.png" />
+  <!-- Running quotes -->
+  <div class="runningquotes">
+    <?php include 'runningquotes.php'; ?>
+  </div>
+          <!-- Hamburger menu -->
+  <div class="hamburger-menu">
+      <i class="fa fa-bars" style="font-size:24px;color:white"></i>
+      <p>Menu</p>
+  </div>
+</header>
+
+<div class="tabs">
     <div class="tab">
-      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" Style="font-size:15px;color:white;" id="defaultOpen"><i class="fas fa-home"></i> HOME</button>
+      <button class="tablinks" onclick="openphp(event, '/main-page/home.php', '/main-page/frame1.php', 'Home')" id="defaultOpen"><i class="fas fa-home"></i> Home</button>
       <button class="tablinks" onclick="opensubtab(event, 'Purchase >', '1')">Purchase ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(event, 'Inventory >', '3')">Inventory ></button>
@@ -70,8 +77,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export</button>
       <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
       <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
-      <buttonDisabled class="tablinks"></buttonDisabled>
-      <buttonDisabled class="tablinks"></buttonDisabled>
     </div>
 
     <div class="sub-tab" id = "Purchase >">
@@ -97,23 +102,26 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Status</button>
     </div>
-
+</div>
 
 <footer>
-    <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.</p>
-    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">About</a></p>
-    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Disclaimer</a></p>
-    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Privacy Policy</a></p>
-    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Terms of Service</a></p>
-    <p style="color: white;font-size: 14px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Help</a></p>
+      <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.</p>
+      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">About</a></p>
+      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Disclaimer</a></p>
+      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Privacy Policy</a></p>
+      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Terms of Service</a></p>
+      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Help</a></p>
 </footer>
+
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
 <script>
 
+
 function openphp(evt, filename, framename, tabname) {
   var i, subtablinks1, subtablinks2, subtablinks3, subtablinks4, tablinks, framerect1;
+  var tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
   subtablinks2 = document.getElementsByClassName("subtablinks2");
@@ -134,6 +142,11 @@ function openphp(evt, filename, framename, tabname) {
   for (i = 0; i < subtablinks4.length; i++) {
     subtablinks4[i].style.display = "none";
    }
+// Clear all tabs display
+  for (var i = 0; i < tabs.length; i++) {
+    // Set the display property of the current tab to "block"
+    tabs[i].style.display = "none";
+  }
 }
 
 function opensubtab(evt, tabname, tabindex) {
@@ -186,7 +199,17 @@ function opensubtab(evt, tabname, tabindex) {
 
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
+// Function to show tabs when hamburger menu is clicked
+var hamburgerMenu = document.getElementsByClassName("hamburger-menu")[0];
+hamburgerMenu.addEventListener("click", function()  {
+var tabs = document.getElementsByClassName("tab");
 
+// Loop through each tab element
+for (var i = 0; i < tabs.length; i++) {
+    // Set the display property of the current tab to "block"
+    tabs[i].style.display = "block";
+}
+});
 function exporttoexcel() {
 //javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
 // Access the iframe content
@@ -231,9 +254,8 @@ function printpage() {
                 alert('Iframe content could not be accessed.');
             }
 }
+
+
 </script>
-
-
-
 </body>
 </html>

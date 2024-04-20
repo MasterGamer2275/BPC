@@ -28,139 +28,89 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-
-/* If the screen size is 601px or more, set the font-size of <div> to 80px
-@media only screen and (min-width: 601px) {
-  h1 {
-    font-size: 80px;
-  }
-  .header1_title { 
-    font-size: 20px;
-}
-
-/* If the screen size is 600px or less, set the font-size of <div> to 30px
-@media only screen and (max-width: 600px) {
-  h1 {
-    font-size: 30px;
-  }
-  .header1_title { 
-    font-size: 10px;
-}
-
-}
-
-*/
-.header1_title {
-  position: absolute;
-  top: 10px;
-  left: 35%;
-  transform: translate(-50%, -50%);
-  border: none;
-  color: rgb(236, 234, 245);
-  font-size: 20px;
-  text-align: center;
-}
-footer {
-  position: absolute;
-  left: 0%;
-  bottom: 0%;
-  width: 84%;
-  text-align: center;
-  padding: 1px;
-  margin-top: 0;
-  margin-bottom: 0;
-  height: auto;
+/* Updated header styling */
+header {
   background-color: rgb(173, 103, 79);
   color: white;
-  }
-.parent {
-  position: relative;
+  padding: 0; /* Adjust padding */
+  margin: 0; /* Remove margin */
+  text-align: center;
+  position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 160px;
+  border: none;
+  font-size: 10px;
 }
-/* base headerimage */
-.image1 {
-  position: relative;
+
+
+/* Style for h1 within the header */
+header h1 {
+  position: absolute;
   top: 0;
-  left: 0;
-  width: 83%;
-  height: 101px;
-  //border: 1px solid #000000;
-  border: none
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  font-size: 20px; /* Adjust font size */
 }
+
 /* web site logo */
 .image2 {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 8.3%;
-  height: 101px;
-  //border: 1px solid #000000;
-  border: none
+  width: 90px;
+  height: 90px;
+  border: none;
 }
 /* company logo */
 .image3 {
   position: absolute;
   top: 0px;
-  left: 75.7%;
-  width: 8.3%;
-  height: 101px;
-  //border: 1px solid #000000;
-  border: none
-}
-
-.runningquotes {
-  position: absolute;
-  top: 30px;
-  //left: 580px;
-  left: 150px;
-  width: 600px;
-  //width: 1060px;
-  height: auto;
+  left: 84%;
+  width: 90px;
+  height: 90px;
   border: none;
-  color: rgb(173, 103, 79);
-  font-size: 20px;
-  text-align: left;
 }
-
 .rectangle1 {
   position: absolute;
-  top: 101px;
+  top: 160px;
   //left: 132px;
-  left: 156px;
-  width: 73%;
-  height: 75%;
+  left: 0px;
+  width: 100%;
+  height: 68.5%;
+  border: none;
   border-color: white;
   font-size: 20px;
   text-align: left;
 }
-.rectangle2 {
+.runningquotes {
   position: absolute;
-  top: 10px;
-  left: 84%;
-  width: 235px;
-  height: 220px;
-  border: 1px solid #ddd;
+  top: 90px; /* Adjust the vertical position */
+  left: 0px; /* Adjust the horizontal position */
+  height: 60px;
+  width: calc(100% - 200px); /* Adjust the width to leave space on both sides */
+  border: none;
+  color: rgb(173, 103, 79);
+  text-align: center;
+  /* Corrected misspelling: it should be vertical-align, not vertical-aligh */
+  vertical-align: middle;
 }
-
-.rectangle3 {
+.hamburger-menu {
   position: absolute;
-  top: 240px;
-  left: 84%;
-  width: 235px;
-  height: 220px;
-  border: 1px solid #ddd;
+  top: 120px; /* Adjust the vertical position */
+  left: 0px; /* Adjust the horizontal position */
+  width: 30px;
+  height: 3px;  
 }
-
-.rectangle4 {
-  position: absolute;
-  top: 470px;
-  left: 84%;
-  width: 235px;
-  height: 220px;
-  border: 1px solid #ddd;
+.hamburger-menu p {
+  position: relative;
+  top: -35px;
+  left: 30px; /* Adjust the horizontal position */
+  font-size: 16px;
+  color: #ddd;
 }
-
 /* Style the tab */
 .tab {
   float: left;
@@ -168,23 +118,25 @@ footer {
   background-color: rgb(173, 103, 79);
   display: flex; /* Use flexbox layout */
   flex-direction: column; /* Arrange tabs vertically */
-  position: absolute; 
-  top: 101px;
+  position: fixed; 
+  top: 160px;
+  //width: 155px;
   width: 155px;
   height: 200px;
   left: -1px;
+  display: none;
 }
 
 /* Style the sub-tab */
 .sub-tab {
+  position: relative;
   float: left;
   border: 1px solid #ccc;
   background-color: rgb(173, 103, 79);
-  position: relative;
-  top:0px;
+  //top:0px;
   width: auto;;
   height: auto;
-  left: 13%;
+  //left: 0%;
 }
 
 /* Style the buttons inside the tab */
@@ -203,7 +155,8 @@ footer {
   flex-grow: 1; /* Distribute space evenly among tab buttons */
   cursor: pointer;
   transition: 0.3s;
-  font-size: 17px;
+  //font-size: 17px;
+  font-size: 100%;
 }
 .tab buttonDisabled
  {
@@ -220,7 +173,6 @@ footer {
   vertical-align: middle;
   cursor: pointer;
   transition: 0s;
-  font-size: 17px;
  } 
 
 /* Style the buttons inside the sub-tab */
@@ -238,7 +190,7 @@ footer {
   vertical-align: middle;
   cursor: pointer;
   transition: 0.3s;
-  font-size: 17px;
+  font-size: 100%;
 }
 
 /* Change background color of buttons on hover */
@@ -271,3 +223,15 @@ footer {
   color: black;
 }
 
+footer {
+    background-color: rgb(173, 103, 79);
+    color: white;
+    padding: 0; /* Adjust padding */
+    margin: 0; /* Remove margin */
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 8.2%; /* Set a fixed height */
+    font-size: 12px;
+}
