@@ -36,6 +36,8 @@ while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Sample Dashboard Boxes</title>
 </head>
 <style>
@@ -89,7 +91,7 @@ body {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 20%;
   border: none;
   border-bottom: 1px solid none;
   border-right: 1px solid none;
@@ -104,7 +106,7 @@ th, td {
   border-right: none;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: nowrap;
+  white-space: wrap;
 }
 
 tr, td {
@@ -124,7 +126,7 @@ tr, td {
             <h2>Items Low in Stock:</h2>
             <p>SDLX GSM 60 30%</p>
             <p>KY GSM 80 20%</p>
-            <img src = "/Images/inventory.png" alt = "stock">
+            <i class='fa fa-stock' style='font-size:48px;color:red'></i>
         </div>
         <div class="box">
             <h2 style="left:0%;">Dispatch Status:</h2>
@@ -140,19 +142,21 @@ tr, td {
             <div class="box">
             </div>
             <div class="box">
-                <table id = "myTable">
+               <i class='fa fa-cart-plus' style='font-size:48px;color:red'></i>
+               <h2 style="left:0%;">Purchase Summary:</h2>
+               <table id = "myTable">
                     <tr>
                         <th>Invoice No:</th>
                         <th>Supplier Name:</th>
-                        <th>No. of Reels:</th>
-                        <th>Total Weight(Kg):</th>
-                        <th>Total Cost(₹):</th>
+                        <th>Reels:</th>
+                        <th>Weight(Kg):</th>
+                        <th>Price(₹):</th>
                     </tr>
                 <?php
                     foreach ($dbtabdata as $row) {
                         echo "<tr>";
                             foreach ($row as $cell) {
-                                echo "<td><a href=\"/fomrs/stockstatistics.php\">$cell</a></td>";
+                                echo "<td><a href=\"/forms/stockstatistics.php\">$cell</a></td>";
                             }      
                     echo "</tr>";
                     }

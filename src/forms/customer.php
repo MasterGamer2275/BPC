@@ -76,8 +76,8 @@ input(type=number) {
   max-width: 300px;
   top:0px;
   width: auto;
-  bottom: 0;
-  right: 15px;
+  right: 5px;
+  height: auto;
   border: 3px solid #f1f1f1;
   z-index: 9;
   color: black;
@@ -159,7 +159,7 @@ height: 20px;
 <label for="Cname"><b>Customer Name: *</label>
 <input type = "text" id = "Cname" name = "Cname" required size="100"><br><br>
 <label for="Clname"><b>Client Name(Alias): *</label>
-<input type = "text" id = "Clname" name = "Clname" required size="141">
+<input type = "text" id = "Clname" name = "Clname" required size="81">
 <label for="CGST"><b>GSTIN/UIN:</label>
 <input type = "text" id = "CGST" name = "CGST" maxlength = "15" size = "15">
 <br><br>

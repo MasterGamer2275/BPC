@@ -51,9 +51,11 @@ $res = $db->query("
 $sum = 0;
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
-  $sum = $row[18] + $sum;
+  $sum = $row['Totalsavings'] + $sum;
 }
-
+echo "<caption>Total Savings: ₹";
+echo $sum;
+echo "</caption>";
 echo "<tr>";
 foreach ($dbtabheader as $cell) {
         echo "<th>$cell</th>";
@@ -66,17 +68,14 @@ foreach ($dbtabdata as $row) {
             }      
     echo "</tr>";
     }
-echo "<br><br>";
-echo "Total Savings (₹)";
-echo $sum;
 $sql =<<<EOF
 EOF;
 $ret = $db->exec($sql);
 if(!$ret) {
-    echo $db->lastErrorMsg();
-    echo "<br>";
+    //echo $db->lastErrorMsg();
+   // echo "<br>";
 } else {
-    echo "Tabe Read Successfully<br>";
+    //echo "Tabe Read Successfully<br>";
 }
 
 // Close connection

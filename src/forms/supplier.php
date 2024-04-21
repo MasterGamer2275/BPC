@@ -66,8 +66,9 @@ input(type=number) {
   position: fixed;
   max-width: 300px;
   width: auto;
-  bottom: 0;
-  right: 15px;
+  top:0;
+  right: 5px;
+  height: auto;
   border: 3px solid #f1f1f1;
   z-index: 9;
   color: black;
@@ -85,7 +86,7 @@ input(type=number) {
 .form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date]{
   width: 90%;
   height: 0px;
-  padding: 15px;
+  padding: 12px;
   margin: 5px 0 2px 0;
   border: none;
   font-family: "Source Sans Pro", "sans-serif";

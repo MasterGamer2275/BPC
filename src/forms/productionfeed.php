@@ -80,7 +80,8 @@ button > span {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 83%;
+  padding: 5px;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -95,7 +96,10 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: nowrap;
+  white-space: wrap;
+}
+th input[type=text]{
+width: 80%;
 }
 
 tr, td {
@@ -111,12 +115,35 @@ tr:nth-child(even) {
   background-color: #80ffff;
 }
 
-/* Hide the fifth column by default 
+  th:nth-child(2),
+  td:nth-child(2) {
+  display: none;
+}
+  th:nth-child(3),
+  td:nth-child(3) {
+  display: none;
+}
+  th:nth-child(8),
+  td:nth-child(8) {
+  display: none;
+}
+  th:nth-child(9),
+  td:nth-child(9) {
+  display: none;
+}
+  th:nth-child(13),
+  td:nth-child(13) {
+  display: none;
+}
   th:nth-child(14),
   td:nth-child(14) {
   display: none;
 }
-*/
+  th:nth-child(17),
+  td:nth-child(17) {
+  display: none;
+}
+
 tr > img {
         width: 20px; /* Adjust the width as needed */
         height: 20px; /* Maintain aspect ratio */
@@ -201,7 +228,7 @@ height: 20px;
       <option value="0">Select</option>
     </select>          
                   <label for="pRCRN"><b>Reel Number: *</label>
-          <select name="pRCRN" id="pRCRN" onchange = "updatereelinfo();calculateval();enablebutton();">
+          <select name="pRCRN" id="pRCRN" onchange = "enablebutton();updatereelinfo();calculateval();">
             <option value="0">Select</option>
                   <?php
         foreach ($dbrnvalues as $value) {
@@ -233,12 +260,13 @@ height: 20px;
           <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
           <label for="pRc-Wastage"><b>Act. Wastage:</label>
           <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
-          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel">
+          <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" style = "display:none">
           <label for="wOStatus"><b>Status:</label>
           <select name="wOStatus" id="wOStatus" required min = "1">
                 <option value="in-stock">in-stock</option>
                 <option value="active">active</option>
                 <option value="active(cont.)">active(cont.)</option>
+                <option value="cutreel">cutreel</option>
                 <option value="hold">hold</option>
                 <option value="finished">finished</option>
           </select>
@@ -249,10 +277,7 @@ height: 20px;
 <br><br>
 <table id = "myTable">
   <tr>
-    <th>Job ID<br>
-      <input type="text" id="idFilter" class="filter-input" placeholder="Filter by name">
-      <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('idFilter')"></i>
-      </th>
+    <th>Job ID</th>
     <th>Date<br>
       <input type="text" id="dateFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('dateFilter')"></i>
@@ -260,28 +285,33 @@ height: 20px;
       </th>
     <th>Time</th>
     <th style="width: 50%;">Machine<br>
-      <input type="text" id="machineFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('machineFilter')"></i>
+      <input type="text" id="machineFilter" class="filter-input" placeholder="Filter by name">
+      
     </th>
     <th style="width: 50%;">Customer Name<br>
-      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i>
+      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
+      
     </th>
-    <th style="width: 50%;">Size<br>
-      <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
+    <th style="width: 50%;">Size&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('sizeFilter')"></i>
+      <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
+      
     </th>
-    <th>Reel Number<br>
-      <input type="text" id="rnFilter" class="filter-input" placeholder="Filter by name">
+    <th>ReelNumber&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('rnFilter')"></i>
+      <input type="text" id="rnFilter" class="filter-input" placeholder="Filter by name">
+      
     </th>
     <th>Reel Width(cm)</th>
     <th>Reel Length(cm)</th>
     <th>Est.Target</th>
     <th>Actual</th>
-    <th>Status<br>
-      <input type="text" id="statusFilter" class="filter-input">
+    <th>Status&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statusFilter')"></i>
+      <input type="text" id="statusFilter" class="filter-input">
+      
     </th>
     <th>ExcessReel</th>
     <th>UsedWeight(Kg)</th>
@@ -314,7 +344,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // Get the clicked row
       var cells = this.getElementsByTagName("td");
       // Update form values with values from the clicked row
-      
       document.getElementById("pRC-ID").value = cells[0].innerText;
       document.getElementById("pRC-Date").value = "<?php echo date('Y-m-d'); ?>";
       document.getElementById("pRC-Machine").value = cells[3].innerText;
@@ -329,6 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("pRc-Wastage").value = cells[15].innerText;
       document.getElementById("wOStatus").value = cells[11].innerText;
       document.getElementById("pRC-CutReel").checked = cells[12].innerText;
+      document.getElementById("pRC-CutReel").display = "none";
       calculateval();
       enablebutton();
     });
@@ -418,7 +448,7 @@ function getsizelist() {
     let found = (position>0);
     if (found) {
           const myArray = c.split(",");
-          let s1= myArray[6];
+          let s1= myArray[5];
           const myArray3 = s1.split(":");
           let s2 = myArray3[1];
           let s3 = s2.replaceAll("\"", "");

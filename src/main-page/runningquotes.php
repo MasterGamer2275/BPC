@@ -24,7 +24,7 @@ img {vertical-align: middle;}
 .quotes-textarea {
   rows:2;
   cols:50;
-  background-color:rgb(173, 103, 79);
+  background-color: rgb(173, 103, 79);
   resize:none;
   color: yellow;
   border: none;

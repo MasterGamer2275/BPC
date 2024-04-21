@@ -321,6 +321,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php $tablename = $_SESSION["ProdTabName"]; ?>
     <?php dbeditprodfeed($db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
+    <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
+    <?php echo $pUsedweight; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Edited.<br>"; ?>
@@ -328,13 +330,15 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php $tablename = $_SESSION["ProdTabName"]; ?>
     <?php dbaddprodfeedrecord($db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
+    <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
+    <?php echo $pUsedweight; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Added.<br>"; ?>
     <?php } ?>
     <?php dbclose($db, $text); ?>
-    <?php //header("Location: productionfeed.php"); ?>
-    <?php //exit; ?>
+    <?php header("Location: productionfeed.php"); ?>
+    <?php exit; ?>
 <?php } ?>
 </body>
 </html>

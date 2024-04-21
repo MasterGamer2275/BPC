@@ -19,6 +19,14 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <meta name="google-adsense-account" content="ca-pub-1687735452309402">
     <!--<title>InfiPackaging</title> -->
     <link rel="stylesheet" type="text/css" href="/main-page/main-page.css" />
+    <!-- Link the default CSS file -->
+    <link rel="stylesheet" href="default.css">
+
+    <!-- Use media queries to link specific CSS file based on screen size -->
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href="small-screen.css">
+    <link rel="stylesheet" media="screen and (min-width: 601px) and (max-width: 1200px)" href="medium-screen.css">
+    <link rel="stylesheet" media="screen and (min-width: 1201px)" href="large-screen.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MES Portal</title>
@@ -51,20 +59,21 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     </div>
 <header>
 <!-- Running quotes -->
-<div class="runningquotes">
-<?php include 'runningquotes.php'; ?>
-</div>
   <h1>Welcome to Online Manufacturing Execution System</h1>
   <img class="image2" src="Images/Website_Logo.png" />
   <img class="image3" src="Images/Company_Logo.png" />
+</header>
+<header2>
+<!-- Running quotes -->
+<div class="runningquotes">
+<?php include 'runningquotes.php'; ?>
+</div>
    <!-- Hamburger menu -->
   <div class="hamburger-menu">
       <i class="fa fa-bars" style="font-size:24px;color:white"></i>
       <p>Menu</p>
   </div>
-
-</header>
-
+</heade2>
 <div class="tabs">
     <div class="tab">
       <button class="tablinks" onclick="openphp(event, '/forms/home.php', '/main-page/frame1.php', 'Home')" id="defaultOpen"><i class="fas fa-home"></i> Home</button>
@@ -73,6 +82,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="tablinks" onclick="opensubtab(this, 'Inventory >', '3')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(this, 'Production >', '4')">Production ></button>
       <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
+      <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
@@ -101,21 +111,21 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks3" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button> 
     </div>
     <div class="sub-tab" id = "Production >">
-      <button class="subtablinks4" onclick="openphp(event, '/forms/testform.php', '/main-page/frame1.php')">Production Feed</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button>
       <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Status</button>
     </div>
 </div>
-
 <footer>
-      <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.</p>
+      <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.&emsp;<a href="#" style="color: white;">About</a>&emsp;<a href="#" style="color: white;">Disclaimer</a>&emsp;<a href="#" style="color: white;">Privacy Policy</a>&emsp;<a href="#" style="color: white;">Terms of Service</a>&emsp;<a href="#" style="color: white;">Help</a></p>
+      <!--
       <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">About</a></p>
       <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Disclaimer</a></p>
       <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Privacy Policy</a></p>
       <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Terms of Service</a></p>
       <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Help</a></p>
+-->
 </footer>
-
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
@@ -154,7 +164,9 @@ function openphp(event, filename, framename, tabname) {
 
 function opensubtab(evt, tabname, tabindex) {
   //define all the variables used
-  var i, subtablinks1, subtablinks2, subtablinks3, tablinks, tabs;
+  var i, subtablinks1, subtablinks2, subtablinks3, tablinks;
+  var leftpos = [];
+  var toppos = [];
   tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
@@ -176,20 +188,37 @@ function opensubtab(evt, tabname, tabindex) {
     subtablinks4[i].style.display = "none";
    }
    //enable the sub tab for the selected tab
+  for (var i = 0; i < tablinks.length; i++) {
+    leftpos[i] = tablinks[i].style.left;
+    toppos[i] = tablinks[i].style.top;
+  }
   for (i = 0; i < subtablinks1.length; i++) {
     if (tabindex==1) {
     subtablinks1[i].style.display = "block";
-    //subtablinks1[i].style.top = tabs[1].style.top;
+    subtablinks1[i].style.left = leftpos[1];
+    subtablinks1[i].style.top = toppos[1];
     }
    }
   for (i = 0; i < subtablinks2.length; i++) {
-    if (tabindex==2) subtablinks2[i].style.display = "block";
+    if (tabindex==2) {
+    subtablinks2[i].style.display = "block";
+    //subtablinks2[i].style.left = tabs[2].style.left;
+    //subtablinks2[i].style.top = tabs[2].style.top;
+    }
    }
   for (i = 0; i < subtablinks3.length; i++) {
-    if (tabindex==3) subtablinks3[i].style.display = "block";
+    if (tabindex==3) {
+    subtablinks3[i].style.display = "block";
+    //subtablinks3[i].style.left = tabs[3].style.left;
+    //subtablinks3[i].style.top = tabs[3].style.top;
+    }
    }
   for (i = 0; i < subtablinks4.length; i++) {
-    if (tabindex==4) subtablinks4[i].style.display = "block";
+    if (tabindex==4) {
+    subtablinks4[i].style.display = "block";
+    //subtablinks4[i].style.left = tabs[4].style.left;
+    //subtablinks4[i].style.top = tabs[4].style.top;
+    }
    }
   //clear all the tab button displays
     for (i = 0; i < tablinks.length; i++) {

@@ -175,9 +175,9 @@ input[type="file"] {
         <label for="file3" id="file3-label"></label><br><br>
         <input type="text" name="file3_name" id="file3-name-hidden" hidden>
         <label for="mList">Machine Name List: *</label>(Add comma seperated by a line for each machine name)
-        <textarea name="mList" id="mList" required></textarea><br><br>
+        <textarea name="mList" id="mList" required disabled></textarea><br><br>
         <label for="gList">Godown Name List: *</label>(Add comma seperated by a line for each machine name)
-        <textarea name="gList" id="gList" required></textarea><br><br>
+        <textarea name="gList" id="gList" required disabled></textarea><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>
         </form>

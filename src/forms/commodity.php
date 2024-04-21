@@ -39,7 +39,7 @@ label {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 57%;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -54,7 +54,11 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: nowrap;
+  white-space: wrap;
+}
+
+th input[type=text] {
+width: 70%;
 }
 
 tr, td {
@@ -139,16 +143,16 @@ height: 20px;
   <tr>
     <th>Commodity ID</th>
     <th>Material Type<br>
-      <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('typeFilter')"></i>
+      <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
     </th>
     <th>Supplier Name<br>
-      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i>
+      <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
     </th>
     <th>GSM<br>
-      <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i>
+      <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
     </th>
     <th>BF</th>
     <th>COMPANYID</th>
@@ -163,7 +167,7 @@ height: 20px;
                 echo "<td>$cell</td>";
               }
            if ($i) {
-              echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this);\"></span></td>";
+              //echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this);\"></span></td>";
            }
            $i = $i+1;
       echo "</tr>";

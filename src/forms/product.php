@@ -37,7 +37,7 @@ label {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 56%;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -52,7 +52,11 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: nowrap;
+  white-space: wrap;
+}
+th input[type=text] {
+width: 70%;
+
 }
 tr, td {
   text-align: left;
@@ -67,7 +71,10 @@ tr:nth-child(even) {
   background-color: rgb(255, 208, 162);
 }
 
-/* Hide the fifth column by default */
+  th:nth-child(7),
+  td:nth-child(7) {
+  display: none;
+}
   th:nth-child(9),
   td:nth-child(9) {
   display: none;
@@ -103,9 +110,9 @@ height: 20px;
     cursor: pointer;
     margin-left: 4px;
   }
-input[type=number] {
+input[type=number], input[type=text] {
   -moz-appearance: textfield;
-  width: 9%;
+  width: 5%;
 }
 .sizeclass {
 
@@ -143,41 +150,38 @@ height: 20px;
     <label for="pDes"><b>Description: *</label>
     <input type = "text" id = "pDes" name = "pDes" required size="15" placeholder = "Brown Cover GY">
     <label for="pSpec"><b>Spec: *</label>
-    <input type = "text" id = "pSpec" name = "pSpec" required size="15">
-    <label for="pGSM"><b>GSM: *</label>
-    <input type = "number" id = "pGSM" name = "pGSM" required min = "10" step = "0.01"><br><br>
+    <input type = "text" id = "pSpec" name = "pSpec" required size="15"><br><br>
     <div class = "sizeclass">
+      <label for="pGSM"><b>GSM: *</label>
+      <input type = "number" id = "pGSM" name = "pGSM" required min = "10" step = "0.01">
       <label for="pSize1"><b>Size: *</label>
       <input type = "text" id = "pSize1" name = "pSize1" required size="5" maxlength = "5" min = "1" step = "1">x
       <input type = "text" id = "pSize2" name = "pSize2" required size="5" maxlength = "5" min = "1" step = "1">x
       <input type = "text" id = "pSize3" name = "pSize3" size="5" maxlength = "5" min = "1" step = "1">
-      <label for="pUnit"><b>Unit: *</label>
-      <input type = "text" id = "pUnit" name = "pUnit" required size="5" placeholder = "cm">
+      <label for="pUnit" style = "display:none"><b>Unit: *</label>
+      <input type = "text" id = "pUnit" name = "pUnit" required size="5" placeholder = "cm" value = "cm" style = "display:none">
       <label for="pRate"><b>Rate(Rs.):*</label>
       <input type = "number" id = "pRate" name = "pRate" required min = "0.01" step = "0.01" class = "number">
       <input type = "submit" id = "PAdd" name = "PAdd" value = "Add Record"></div>
     </div><br><br>
     <table id = "myTable">
       <tr>    
-            <th>Product ID
-            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('idFilter')"></i><br>
-            <input type="text" id="idFilter" class="filter-input" placeholder="Filter by name">
-            </th>
-            <th>Customer Name
-            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i><br>
+            <th>Product ID</th>
+            <th>Customer Name<br>
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i>
             <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
             </th> 
             <th>Description</th>
-            <th>Spec
-            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('specFilter')"></i><br>
+            <th>Spec<br>
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('specFilter')"></i>
             <input type="text" id="specFilter" class="filter-input" placeholder="Filter by name">
             </th>    
-            <th>GSM
-            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i><br>
+            <th>GSM<br>
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i>
             <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
             </th>    
-            <th>Size
-            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('sizeFilter')"></i><br>
+            <th>Size<br>
+            <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('sizeFilter')"></i>
             <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
             </th>   
             <th>Unit</th> 
@@ -193,7 +197,7 @@ height: 20px;
                 echo "<td>$cell</td>";
               }
            if ($i) {
-              echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this)\"></span></td>";
+              //echo "<td><span class=\"fa fa-minus-circle\" style=\"font-size:14px;color:grey\" onclick=\"deleteRow(this)\"></span></td>";
            }
            $i = $i+1;
       echo "</tr>";
