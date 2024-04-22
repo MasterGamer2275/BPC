@@ -185,9 +185,11 @@ function hideunhiderows(element) {
         if (childRow.classList.contains('hide')) {
             childRow.classList.remove('hide');
             element.innerHTML = "<i class=\"fa fa-minus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
+            //element.innerHTML = "-"
         } else {
             childRow.classList.add('hide');
-            element.innerHTML = "<i class=\"fa fa-plus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
+            //element.innerHTML = "<i class=\"fa fa-plus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
+            element.innerHTML = ""
         }
         childRow = childRow.nextElementSibling;
     }
@@ -227,15 +229,31 @@ function filterTable() {
                     }
                 }
             }
-
             // Set display style for row
             if (display) {
                 row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        }
-    }
+                var j = 1;
+                ischildrow =  true;
+                      while (ischildrow) {
+                        var newId = i+j;
+                        var childrow = tr[newId];
+                        var columnIndex = 2;
+                        var childcell = childrow.getElementsByTagName("td")[columnIndex];
+                        var content = childcell.innerText;
+                        if (content) {
+                            ischildrow = false;
+                            childrow.style.display = "none";
+                            } else {
+                            ischildrow = true;
+                            childrow.style.display = "";
+                            }
+                            j++;
+                        }
+              } else {
+                  row.style.display = "none";
+                 }
+         }
+}
 
     // Attach input event listeners to filter inputs
     var filterInputs = document.getElementsByClassName("filter-input");

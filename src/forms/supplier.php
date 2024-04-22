@@ -148,15 +148,15 @@ height: 20px;
   <form action="forms_action_page.php" method="post">
     <h3>Supplier Portal: Add/Edit Suppliers<h3p><br><br>
     <label for="Sname"><b>Supplier Name: *</label>
-    <input type= "text" id = "Sname" name = "Sname" required size="75">
+    <input type= "text" id = "Sname" name = "Sname" required size="84">
     <label for="SuGST"><b>GSTIN/UIN: *</label>
     <input type = "text" id = "SuGST" name = "SuGST" maxlength = "15" size = "15" required>
     <label for="SIGST"><b>(IGST):</label>
     <input type = "checkbox" id = "SIGST" name = "SIGST"><br><br>
     <label for="SAddr"><b>Address:</label>
-    <input type = "text" id = "SAddr" name = "SAddr" size="75" maxlength = "75">
+    <input type = "text" id = "SAddr" name = "SAddr" size="85">
     <label for="SCity"><b>City:</label>
-    <input type = "text" id = "SCity" name = "SCity" size="32" maxlength = "32"><br><br>
+    <input type = "text" id = "SCity" name = "SCity" size="33"><br><br>
     <label for="SState"><b>State:</label>
       <select name="Sstate" id="Sstate">
         <option value="">Select</option>
@@ -198,11 +198,11 @@ height: 20px;
         <option value="West Bengal">West Bengal</option>
       </select>
     <label for="Pcode"><b>Pincode:</label>
-    <input type = "text" id = "Pcode" name = "Pcode" maxlength = "6" size = "6" pattern="\d{6}">
+    <input type = "text" id = "Pcode" name = "Pcode" maxlength = "6" size = "6">
     <label for="SPh"><b>Mobile: +91</label>
     <input type = "text" inputmode="numeric" id = "SPh" name = "SPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
     <label for="SEmail"><b>Email:</label>
-    <input type = "email" id = "SEmail" name = "SEmail" size="43" maxlength = "43">
+    <input type = "email" id = "SEmail" name = "SEmail" size="45">
     <input type = "submit" id = "SAdd" name = "SAdd" value = "Add Record"><br><br>
 
     <table id="myTable">

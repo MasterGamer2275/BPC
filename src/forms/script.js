@@ -5,11 +5,10 @@ $(document).ready(function(){
     var repnum = $('#repnum').val();
     $.ajax({
       type: 'POST',
-      url: 'forms/filter.php',
+      url: 'filter.php',
       data: { fromDate: fromDate, toDate: toDate, repnum: repnum },
       success: function(response) {
         $('#myTable').html(response);
-        alert(response);
       }
     });
   });

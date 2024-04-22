@@ -62,7 +62,7 @@ button > span {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 60%;
   border: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
@@ -72,6 +72,8 @@ th, td {
   padding: 16px;
   border: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  overflow: hidden; /* Optional: hides content that overflows the cell */
+  white-space: wrap;
 }
 tr:nth-child(even) {
   background-color: #f2f2f2
@@ -96,7 +98,7 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 .numeric-input1 {
   -moz-appearance: textfield;
-  width: 105px; 
+  width: 95px; 
 }
 .numeric-input2 {
   -moz-appearance: textfield;
@@ -109,7 +111,7 @@ input::-webkit-inner-spin-button {
   max-width: 500px;
   width: 320px;
   top: 0px;
-  bottom: 0;
+  height: auto;
   right: 15px;
   border: 3px solid #f1f1f1;
   z-index: 9;
@@ -183,12 +185,12 @@ input::-webkit-inner-spin-button {
   opacity: 1;
 }
 .customselect {
-width: 12%;
+width: 7.5%;
 /* width: 120px;*/
 height: 20px;
 }
 select {
-width: 36%;
+width: 25%;
 /* width: 120px;*/
 height: 20px;
 }
@@ -279,7 +281,7 @@ height: 20px;
         <th>CGST(%)</th>
         <th>IGST(%)</th> 
         <th>Total(Rs.)</th>
-        <th>IGSTDISABLED</th>
+        <th>IGST</th>
         <th>Location</th>
     </tr>
     </table>

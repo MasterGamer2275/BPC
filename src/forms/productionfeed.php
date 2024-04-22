@@ -202,7 +202,7 @@ height: 20px;
     <label for="pRC-Date">Date:</label>
     <input type = "date" id = "pRC-Date" name = "pRC-Date" required value="<?php echo date('Y-m-d'); ?>" onchange="enablebutton();">
     <label for="pRC-Machine"><b>Machine: *</label>
-    <select name="pRC-Machine" id="pRC-Machine" required min = "1">
+    <select name="pRC-Machine" id="pRC-Machine" onchange="enablebutton();">
       <option value="0">Select</option>
         <?php
           // Loop through the array to generate list items
@@ -212,7 +212,7 @@ height: 20px;
         ?>
     </select>
     <label for="pRC-P-CName"><b>Client Name: *</label>
-    <select name="pRC-P-CName" id="pRC-P-CName" class = "type1" onchange="getsizelist();enablebutton();">
+    <select name="pRC-P-CName" id="pRC-P-CName" class = "type1" onchange="enablebutton();getsizelist();">
       <option value="0">Select</option>
       <?php
       // Loop through the array to generate list items
@@ -224,7 +224,7 @@ height: 20px;
         ?>
         </select>
     <label for="pRC-P-Size"><b>Size: *</label>
-    <select name="pRC-P-Size" id="pRC-P-Size" onchange="updatereelinfo();enablebutton();">
+    <select name="pRC-P-Size" id="pRC-P-Size" onchange="enablebutton();updatereelinfo();">
       <option value="0">Select</option>
     </select>          
                   <label for="pRCRN"><b>Reel Number: *</label>
@@ -253,16 +253,16 @@ height: 20px;
           <label for="pRC-Est-Prod"><b>Est. Production:</label>
           <input type = "number" id = "pRC-Est-Prod" name = "pRC-Est-Prod" step = "0.01" disabled>
           <label for="pRC-P-Actual"><b>Act. Production:</label>
-          <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" step = "1" value = "0" onchange = "calculateval();">
+          <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" step = "1" value = "0" onchange = "calculateval();" disabled>
           <label for="pRC-Uw"><b>Used Weight:</label>
           <input type = "number" id = "pRC-Uw" name = "pRC-Uw" disabled><br><br>
           <label for="pRc-Est-Wastage"><b>Est Wastage:</label>
           <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
           <label for="pRc-Wastage"><b>Act. Wastage:</label>
-          <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();">
+          <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();" disabled>
           <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" style = "display:none">
           <label for="wOStatus"><b>Status:</label>
-          <select name="wOStatus" id="wOStatus" required min = "1">
+          <select name="wOStatus" id="wOStatus" onchange = "enablefield();">
                 <option value="in-stock">in-stock</option>
                 <option value="active">active</option>
                 <option value="active(cont.)">active(cont.)</option>
@@ -271,7 +271,7 @@ height: 20px;
                 <option value="finished">finished</option>
           </select>
           <input type="hidden" id="tableData" name="tableData">
-          <input type = "button" id = "pRC-Add" name = "pRC-Add" value = "Add/Save Record" onclick = "createSubmitevent();">
+          <input type = "button" id = "pRC-Add" name = "pRC-Add" value = "Add/Save Record" onclick = "createSubmitevent();" disabled>
           <input type = "submit" id = "submit" value = "submit" style="display: none;">
    </form>
 <br><br>
@@ -351,6 +351,7 @@ document.addEventListener("DOMContentLoaded", function() {
       getsizelist();
       document.getElementById("pRC-P-Size").value = cells[5].innerText;
       document.getElementById("pRCRN").value = cells[6].innerText;
+      enablebutton()
       updatereelinfo();
       document.getElementById("pRC-ReelWidth").value = cells[7].innerText;
       document.getElementById("pRC-ReelLength").value = cells[8].innerText;
@@ -358,13 +359,41 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("pRc-Wastage").value = cells[15].innerText;
       document.getElementById("wOStatus").value = cells[11].innerText;
       document.getElementById("pRC-CutReel").checked = cells[12].innerText;
-      document.getElementById("pRC-CutReel").display = "none";
+      enablefield();
       calculateval();
-      enablebutton();
     });
   }
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  var table = document.getElementById("myTable");
+  var head = table.getElementsByTagName("th");
+
+  // Attach click event listener to each table header cell
+  for (var i = 0; i < head.length; i++) {
+    head[i].addEventListener("click", function() {
+            // Get the clicked row
+      // Update form values with values from the clicked row
+      document.getElementById("pRC-ID").value = "";
+      document.getElementById("pRC-Date").value = "<?php echo date('Y-m-d'); ?>";
+      document.getElementById("pRC-Machine").value = "0";
+      document.getElementById("pRC-P-CName").value = "0";
+      getsizelist();
+      document.getElementById("pRC-P-Size").value = "0";
+      document.getElementById("pRCRN").value = "0";
+      enablebutton();
+      updatereelinfo();
+      document.getElementById("pRC-ReelWidth").value = "";
+      document.getElementById("pRC-ReelLength").value = "";
+      document.getElementById("pRC-P-Actual").value = "";
+      document.getElementById("pRc-Wastage").value = "";
+      document.getElementById("wOStatus").value = "in-stock";
+      document.getElementById("pRC-CutReel").checked = "";
+      enablefield();
+      calculateval();
+    });
+  }
+});
 function createSubmitevent() {
   const tableData = [document.getElementById("pRC-CutReel").checked, document.getElementById("pRC-ReelWidth").value, document.getElementById("pRC-ReelLength").value, document.getElementById("pRC-Est-Prod").value, document.getElementById("pRC-Uw").value, document.getElementById("pRc-Est-Wastage").value, document.getElementById("pRC-ID").value];
     // Set the table data as a JSON string in the hidden input field
@@ -373,14 +402,23 @@ function createSubmitevent() {
 }
 
 function enablebutton() {
-let check = (document.getElementById("pRC-Machine").value !== "0" && document.getElementById("pRC-P-CName").value !== "0" && document.getElementById("pRC-P-Size").value !== "0" && document.getElementById("pRCRN").value !== "0");
-  if (check) {
+let val = (document.getElementById("pRC-Machine").value !== "0" && document.getElementById("pRC-P-CName").value !== "0" && document.getElementById("pRC-P-Size").value !== "0" && document.getElementById("pRCRN").value !== "0");
+  if (val) {
     document.getElementById("pRC-Add").disabled = false;
   } else {
     document.getElementById("pRC-Add").disabled = true;
   }
 }
-
+function enablefield() {
+let newVal = (document.getElementById("wOStatus").value == "finished" || document.getElementById("wOStatus").value == "cutreel" || document.getElementById("wOStatus").value == "hold");
+if(newVal) {
+document.getElementById("pRc-Wastage").disabled = false;
+document.getElementById("pRC-P-Actual").disabled = false;
+    } else{
+document.getElementById("pRc-Wastage").disabled = true;
+document.getElementById("pRC-P-Actual").disabled = true;
+    }
+}
 function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");

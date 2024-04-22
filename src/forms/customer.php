@@ -157,14 +157,14 @@ height: 20px;
 <form action="forms_action_page.php" method="post">
 <h3>Client Portal : Add/Edit Client</h3>
 <label for="Cname"><b>Customer Name: *</label>
-<input type = "text" id = "Cname" name = "Cname" required size="100"><br><br>
+<input type = "text" id = "Cname" name = "Cname" required size="135"><br><br>
 <label for="Clname"><b>Client Name(Alias): *</label>
-<input type = "text" id = "Clname" name = "Clname" required size="81">
+<input type = "text" id = "Clname" name = "Clname" required size="97">
 <label for="CGST"><b>GSTIN/UIN:</label>
 <input type = "text" id = "CGST" name = "CGST" maxlength = "15" size = "15">
 <br><br>
 <label for="CAddr"><b>Address:</label>
-<input type = "text" id = "CAddr" name = "CAddr" size="99.5">
+<input type = "text" id = "CAddr" name = "CAddr" size="102">
 <label for="CCity"><b>City:</label>
 <input type = "text" id = "CCity" name = "CCity" size="32"><br><br>
 <label for="CState"><b>State:</label>
@@ -212,10 +212,10 @@ height: 20px;
 <label for="CPh"><b>Mobile No: +91</label>
 <input type = "text" inputmode="numeric" id = "CPh" name = "CPh" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
 <label for="CEmail"><b>Email:</label>
-<input type = "email" id = "CEmail" name = "CEmail" size="60">
+<input type = "email" id = "CEmail" name = "CEmail" size="58">
 <br><br>
 <label for="CSAddr"><b>Secondary Address:</label>
-<input type = "text" id = "CSAddr" name = "CSAddr" size="82">
+<input type = "text" id = "CSAddr" name = "CSAddr" size="83">
 <label for="CACode"><b>Admin Offcie Contact:</label>
 <input type = "text" inputmode="numeric" id = "CACode" name = "CACode" size="8" maxlength = "8" placeholder="+91422">
 <input type = "text" inputmode="numeric" id = "CAPh" name = "CAPh" size="8" maxlength = "8" placeholder="xxxxxxxxxxxx">

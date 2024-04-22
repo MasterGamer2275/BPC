@@ -1,11 +1,3 @@
-<?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-  }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +44,7 @@ input[type=number] {
     margin-left: 4px;
   }
 </style>
-<body>
+<body onload="enforceDateFormat()">
   <h2>Filter Stock by Date</h2>
   <label for="fromDate">From:</label>
   <input type="date" id="fromDate" name="fromDate">
@@ -68,56 +60,6 @@ input[type=number] {
   </table>
 
   <script src="script.js"></script>
-<script>
-    function toggleFilter(inputId) {
-        var input = document.getElementById(inputId);
-        input.classList.toggle("active");
-        if (input.classList.contains("active")) {
-            input.focus();
-        } else {
-            input.value = "";
-            filterTable();
-        }
-    }
-    function filterTable() {
-        var filterInputs = document.getElementsByClassName("filter-input");
-        var table = document.getElementById("myTable");
-        var tr = table.getElementsByTagName("tr");
 
-        // Loop through all rows
-        for (var i = 0; i < tr.length; i++) {
-            var row = tr[i];
-            var display = true;
-
-            // Loop through all filter inputs
-            for (var j = 0; j < filterInputs.length; j++) {
-                var filterInput = filterInputs[j];
-                var columnIndex = filterInput.parentElement.cellIndex;
-                var filterValue = filterInput.value.toUpperCase();
-                var cell = row.getElementsByTagName("td")[columnIndex];
-                if (cell) {
-                    var cellValue = cell.textContent || cell.innerText;
-                    if (cellValue.toUpperCase().indexOf(filterValue) === -1) {
-                        display = false;
-                        break;
-                    }
-                }
-            }
-
-            // Set display style for row
-            if (display) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        }
-    }
-
-    // Attach input event listeners to filter inputs
-    var filterInputs = document.getElementsByClassName("filter-input");
-    for (var i = 0; i < filterInputs.length; i++) {
-        filterInputs[i].addEventListener("input", filterTable);
-    }
-</script>
 </body>
 </html>

@@ -155,8 +155,14 @@ tr, td {
                 <?php
                     foreach ($dbtabdata as $row) {
                         echo "<tr>";
+                        $i = 0;
                             foreach ($row as $cell) {
-                                echo "<td><a href=\"/forms/stockstatistics.php\">$cell</a></td>";
+                                If ($i <2) {
+                                  echo "<td><a href=\"/forms/edit-stock-table.php?clickedValue=$cell\">$cell</a></td>";
+                                  } else {
+                                      echo "<td>$cell</td>";                   
+                                  }
+                                  $i++;
                             }      
                     echo "</tr>";
                     }
@@ -169,4 +175,6 @@ tr, td {
 
 <script>
 
+
+</script>
 </html>

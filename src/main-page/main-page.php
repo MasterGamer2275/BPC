@@ -81,21 +81,22 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="tablinks" onclick="opensubtab(this, 'Sales >', '2')">Sales ></button>
       <button class="tablinks" onclick="opensubtab(this, 'Inventory >', '3')">Inventory ></button>
       <button class="tablinks" onclick="opensubtab(this, 'Production >', '4')">Production ></button>
-      <!--<buttonDisabled class="tablinks"></buttonDisabled>-->
-      <buttonDisabled class="tablinks"></buttonDisabled>
+      <!--<buttonDisabled class="tablinks"></buttonDisabled>
+      <buttonDisabled class="tablinks"></buttonDisabled>-->
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export</button>
       <button class="tablinks" onclick="openphp(event, '/forms/company1.php', '/main-page/frame1.php', 'My Comapny')"><i class="fas fa-building"></i> My Company</button>
       <button class="tablinks"><i class="fas fa-user"></i> My Account</button>
+      <buttonDisabled class="tablinks"></buttonDisabled>
     </div>
 
     <div class="sub-tab" id = "Purchase >">
       <button class="subtablinks1" onclick="openphp(event, '/forms/supplier.php', '/main-page/frame1.php')">Add/Edit Suppliers</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/commodity.php', '/main-page/frame1.php')">Raw Material Master</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Stock Feed</button>
-      <button class="subtablinks1" onclick="openphp(event, '/forms/EditStock.php', '/main-page/frame1.php')">Edit/Review Stock</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/edit-stock-table.php', '/main-page/frame1.php')">Edit/Review Stock</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stockstatistics.php', '/main-page/frame1.php')">Stock Statistics</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Purchase Orders</button>
    </div>
@@ -141,6 +142,7 @@ function openphp(event, filename, framename, tabname) {
   subtablinks3 = document.getElementsByClassName("subtablinks3");
   subtablinks4 = document.getElementsByClassName("subtablinks4");
   framerect1 = document.getElementById("rect1");
+  document.getElementById('rect1').style.left = "0%";
   framerect1.src = filename;
   //clear all the sub tab displays
   for (i = 0; i < subtablinks1.length; i++) {
@@ -165,8 +167,6 @@ function openphp(event, filename, framename, tabname) {
 function opensubtab(evt, tabname, tabindex) {
   //define all the variables used
   var i, subtablinks1, subtablinks2, subtablinks3, tablinks;
-  var leftpos = [];
-  var toppos = [];
   tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
@@ -188,15 +188,9 @@ function opensubtab(evt, tabname, tabindex) {
     subtablinks4[i].style.display = "none";
    }
    //enable the sub tab for the selected tab
-  for (var i = 0; i < tablinks.length; i++) {
-    leftpos[i] = tablinks[i].style.left;
-    toppos[i] = tablinks[i].style.top;
-  }
   for (i = 0; i < subtablinks1.length; i++) {
     if (tabindex==1) {
     subtablinks1[i].style.display = "block";
-    subtablinks1[i].style.left = leftpos[1];
-    subtablinks1[i].style.top = toppos[1];
     }
    }
   for (i = 0; i < subtablinks2.length; i++) {
@@ -236,12 +230,13 @@ document.getElementById("defaultOpen").click();
 var hamburgerMenu = document.getElementsByClassName("hamburger-menu")[0];
 hamburgerMenu.addEventListener("click", function()  {
 var tabs = document.getElementsByClassName("tab");
-
+document.getElementById('rect1').style.left = "10%";
 // Loop through each tab element
 for (var i = 0; i < tabs.length; i++) {
     // Set the display property of the current tab to "block"
     tabs[i].style.display = "block";
 }
+
 });
 function exporttoexcel() {
 //javascript:void(window.open('data:application/vnd.ms-excel,' + encodeURIComponent(document.getElementById('myTable').outerHTML)));
