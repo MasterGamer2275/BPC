@@ -231,25 +231,8 @@ function filterTable() {
             }
             // Set display style for row
             if (display) {
-                row.style.display = "";
-                var j = 1;
-                ischildrow =  true;
-                      while (ischildrow) {
-                        var newId = i+j;
-                        var childrow = tr[newId];
-                        var columnIndex = 2;
-                        var childcell = childrow.getElementsByTagName("td")[columnIndex];
-                        var content = childcell.innerText;
-                        if (content) {
-                            ischildrow = false;
-                            childrow.style.display = "none";
-                            } else {
-                            ischildrow = true;
-                            childrow.style.display = "";
-                            }
-                            j++;
-                        }
-              } else {
+                    row.style.display = "";
+                  } else {
                   row.style.display = "none";
                  }
          }

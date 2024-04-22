@@ -340,5 +340,24 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php header("Location: productionfeed.php"); ?>
     <?php exit; ?>
 <?php } ?>
+<?php /*form - Edit Stock record------------------------------------------------- */ ?>
+<?php if ($_POST["SE2Save2"] != "") {  ?>
+<?php $ID= $_POST["id2"]; ?>
+<?php $date= $_POST["Pdate2"]; ?>
+<?php $InvNum= $_POST["PInv2"]; ?>
+<?php $rn= $_POST["PRN2"]; ?>
+<?php $rw= $_POST["PRW2"]; ?>
+<?php $rate= $_POST["PRate2"]; ?>
+<?php $sgst= $_POST["PSGST2"]; ?>
+<?php $cgst= $_POST["PCGST2"]; ?>
+<?php $igst= $_POST["PIGST2"]; ?>
+<?php $total= $_POST["PTotal2"]; ?>
+<?php $location= $_POST["PSLoc2"]; ?>
+<?php dbsetup($db, $text); ?>
+<?php $tablename = $_SESSION["ProdTabName"]; ?>
+
+<?php dbclose($db, $text); ?>
+<?php header("Location: productionfeed.php"); ?>
+<?php exit; ?>
 </body>
 </html>
