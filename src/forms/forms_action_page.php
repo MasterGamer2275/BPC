@@ -341,23 +341,44 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php exit; ?>
 <?php } ?>
 <?php /*form - Edit Stock record------------------------------------------------- */ ?>
-<?php if ($_POST["SE2Save2"] != "") {  ?>
+<?php if ($_POST["sttableData"] != "") {  ?>
+<?php //echo "welcome to edit stock record<br>"; ?>
 <?php $ID= $_POST["id2"]; ?>
 <?php $date= $_POST["Pdate2"]; ?>
 <?php $InvNum= $_POST["PInv2"]; ?>
 <?php $rn= $_POST["PRN2"]; ?>
 <?php $rw= $_POST["PRW2"]; ?>
 <?php $rate= $_POST["PRate2"]; ?>
-<?php $sgst= $_POST["PSGST2"]; ?>
-<?php $cgst= $_POST["PCGST2"]; ?>
-<?php $igst= $_POST["PIGST2"]; ?>
-<?php $total= $_POST["PTotal2"]; ?>
-<?php $location= $_POST["PSLoc2"]; ?>
+<?php $sttableData = $_POST["sttableData"]; ?>
+    <?php $myArr = array(); ?>
+    <?php $str1 = json_encode($sttableData); ?>
+    <?php $word1 = str_replace("]","",$str1); ?>
+    <?php $word2 = str_replace("[","", $word1); ?>
+    <?php $word3 = str_replace('\"', '',$word2); ?>
+    <?php $word4 = str_replace('"', '',$word3); ?>
+    <?php $myArr = explode(",", $word4); ?>
+<?php $total = $myArr[0]; ?>
+<?php $location = $myArr[1]; ?>
+<?php $sgst= $myArr[2]; ?>
+<?php $cgst= $myArr[3]; ?>
+<?php $igst= $myArr[4]; ?>
 <?php dbsetup($db, $text); ?>
-<?php $tablename = $_SESSION["ProdTabName"]; ?>
-
+<?php $tablename = $_SESSION["StListTabName"]; ?>
+<?php dbeditstockrecord2($db, $tablename,$ID, $date, $InvNum, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $location, $text); ?>
 <?php dbclose($db, $text); ?>
-<?php header("Location: productionfeed.php"); ?>
+<?php //echo $text; ?>
+<?php header("Location: edit-stock-table.php"); ?>
 <?php exit; ?>
+<?php }?>
+<?php /*form - Delete Stock record------------------------------------------------- */ ?>
+<?php if ($_POST["SEdelete2"] != "") {  ?>
+<?php $ID= $_POST["id2"]; ?>
+<?php dbsetup($db, $text); ?>
+<?php $tablename = $_SESSION["StListTabName"]; ?>
+<?php //add dbrecord delete?>
+<?php dbclose($db, $text); ?>
+<?php header("Location: edit-stock-table.php"); ?>
+<?php exit; ?>
+<?php } ?>
 </body>
 </html>

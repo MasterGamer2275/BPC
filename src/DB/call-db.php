@@ -844,7 +844,7 @@ $ret = $db->exec($sql);
       $text .= "Column Read Successfully<br>";
     }
 }
-//----------------------------------------DB - Create table (Purchase Table)----------------------------------------//
+//----------------------------------------DB - Create table (Production feed Table)----------------------------------------//
 
 function dbcreateProdfeedtable(&$db, $tablename, &$text) {
     $text .= "Welcome to create production feed req table if not exists";
@@ -931,7 +931,6 @@ function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, 
 
 function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $status = "active";
   $sql =<<<EOF
     UPDATE $tablename SET
     USEDWEIGHT = '$uw',
@@ -946,6 +945,33 @@ function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) {
           $text .= "Records edited succssfully<br>";
       }
 }
+//----------------------------------------DB - Edit record2 (Stock Table)----------------------------------------//
+
+function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, &$text) { 
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    UPDATE $tablename SET
+    DATE = '$date',
+    INVNUM  = '$invnum',
+    REELNUMBER = '$rn',
+    REELWEIGHT = '$rw',
+    RATE = '$rate',
+    SGST = '$sgst',
+    CGST = '$cgst',
+    IGST = '$igst',
+    TOTAL = '$total',
+    GODOWNNAME = '$loc' WHERE COMPANYID = '$CompanyID' AND ID = '$Id';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records edited succssfully<br>";
+      }
+}
+
 
 //----------------------------------------DB - check record (Production feed Table)----------------------------------------//
 

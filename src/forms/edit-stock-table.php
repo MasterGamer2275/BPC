@@ -38,7 +38,7 @@ $val = str_replace("]", "", $templist);
 $val = str_replace("[", "", $val);
 $val = str_replace("\"", "", $val);
 $locationlist = explode(",", $val);
-$dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "GSM", "BF","ReelSize", "ReelNo.", "Weight(kg)", "Price(₹)", "SGST(%)", "CGST(%)", "IGST(%)","Total(₹)", "Location", "UsedWeight(Kg)", "Status", "Company ID"];
+$dbtabheader = ["StockID", "Date", "InvoiceNo.", "SupplierName", "Commodity", "GSM", "BF","ReelSize", "ReelNo.", "Weight(kg)", "Price(₹)", "SGST(%)", "CGST(%)", "IGST(%)","Total(₹)", "Location", "UsedWeight(Kg)", "Status", "Company ID"];
 dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
@@ -64,7 +64,7 @@ dbclose($db, $text);
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 10%;
+  width: 30%;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -79,7 +79,11 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: wrap;
+  white-space: wrap; /* Corrected value to wrap text */
+}
+
+th input[type=text]{
+width: 100%;
 }
 
 tr, td {
@@ -89,6 +93,7 @@ tr, td {
   font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  white-space: wrap;
 }
 
 tr:nth-child(even) {
@@ -232,12 +237,12 @@ input[type=number] {
   ?>
 </table>
 <div class="form-popup" id="myForm">
-  <form action="forms_action_page.php" class="form-container" method="post">
+  <form action="forms_action_page.php" class="form-container" method="post" enctype="multipart/form-data">
+    <input type = "button" style="font-size:18px" class = "updatebtn" id = "SE2Save2" name = "SE2Save2" value = "V" onclick = "createSubmitevent();">
+    <input type = "button" style="font-size:18px" class = "delete" id = "SEdelete2" name = "SEdelete2" value = "Del" disabled>
+    <input type = "button" style="font-size:18px" class = "cancel" id = "SEcancel2" name = "SEcancel2" value = "X" onclick= "closeForm()"><br>
     <label for="Pdate2"><b>Purchase Date:</label>
     <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required>    
-    <input type = "submit" style="font-size:18px" class = "updatebtn" id = "SE2Save2" name = "SE2Save2" value = "V">
-    <input type = "submit" style="font-size:18px" class = "delete" id = "SEdelete2" name = "SEdelete2" value = "Del">
-    <input type = "button" style="font-size:18px" class = "cancel" id = "SEcancel2" name = "SEcancel2" value = "X" onclick= "closeForm()"><br>
     <input type = "number" id = "id2" name = "id2" hidden>
     <label for="PInv2"><b>InvNum: *</label>
     <input type = "text" id = "PInv2" name = "PInv2" required width="4px" min = "1"step="1"><br>
@@ -256,27 +261,29 @@ input[type=number] {
     <label for="PRN2"><b>ReelNumber: *</label>
     <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
     <label for="PRW2"><b>RWeight(Kg): *</label>
-    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange="calculatetotal2()" ><br>
+    <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange="calculatetotal2();" ><br>
     <label for="PRate2"><b>Rate(Rs.):</label>
-    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" onchange="calculatetotal2()" ><br>
+    <input type = "number" id = "PRate2" name = "PRate2" width="5px" min = "0" step=".01" onchange="calculatetotal2();" ><br>
     <label for="PSGST2"><b>SGST(%):</label>
-    <input type = "number" id = "PSGST2" name = "PSGST2" width="2px" min = "0" step=".01" onchange="calculatetotal2()" ><br>
+    <input type = "number" id = "PSGST2" name = "PSGST2" width="2px" min = "0" step=".01" onchange="calculatetotal2();" ><br>
     <label for="PCGST2"><b>CGST(%):</label>
-    <input type = "number" id = "PCGST2" name = "PCGST2" width="2px" min = "0" step=".01" onchange="calculatetotal2()" ><br>
+    <input type = "number" id = "PCGST2" name = "PCGST2" width="2px" min = "0" step=".01" onchange="calculatetotal2();" ><br>
     <label for="PIGST2"><b>IGST(%):</label>
-    <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange="calculatetotal2()" ><br>
+    <input type = "number" id = "PIGST2" name = "PIGST2" width="2px" min = "0" step=".01" disabled onchange="calculatetotal2();" ><br>
     <label for="PTotal2"><b>Total(Rs.):</label>
-    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" disabled step=".01"><br>
+    <input type = "number" id = "PTotal2" name = "PTotal2" width="15px" min = "0" step=".01" disabled><br>
+    <input type="hidden" id="sttableData" name="sttableData">
     <label for="PSLoc2"><b>Location:</label>
-    <select name= = "PSLoc2" id = "PSLoc2">
-    <option value="0">Select</option>
+    <select name= = "PSLoc2" id = "PSLoc2" name = "PSLoc2">
+    <option value="">Select</option>
       <?php
         // Loop through the array to generate list items
       foreach ($locationlist as $value) {
-            echo "<option value=$value>$value</option>";
+            echo "<option value='$value'>$value</option>";
           }
       ?>
     </select>
+    <input type = "submit" id = "SE2Save" value = "SE2Save" style="display: none;">
 
   </form>
 </div>
@@ -321,13 +328,15 @@ input[type=number] {
       document.getElementById("PInv2").value = invnum;
       document.getElementById("PSname2").value = sname;
       document.getElementById("PCname2").value = cname;
-      document.getElementById("PCname3").value = cname;
       document.getElementById("PGSM2").value = gsm;
       document.getElementById("PBF2").value = bf;   
       document.getElementById("PRS2").value = rs;
       document.getElementById("PRN2").value = rn;
       document.getElementById("PRW2").value = rw;
       document.getElementById("PRate2").value = rate;
+      if (sgst == "") var sgst = 0;
+      if (cgst == "") var cgst = 0;
+      if (igst == "") var igst = 0;
       document.getElementById("PSGST2").value = sgst;
       document.getElementById("PCGST2").value = cgst;
       document.getElementById("PIGST2").value = igst;
@@ -336,6 +345,14 @@ input[type=number] {
       setformstate2();
       }
   });
+
+function createSubmitevent() {
+  var data = [document.getElementById("PTotal2").value, document.getElementById("PSLoc2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value];
+    // Set the table data as a JSON string in the hidden input field
+  document.getElementById('sttableData').value = JSON.stringify(data);
+  document.getElementById("SE2Save").value = "SE2Save";
+  document.getElementById("SE2Save").click();
+}
 
 function calculatetotal2() {
   t1 = document.getElementById("PIGST2").value;
@@ -414,10 +431,22 @@ function toggleFilter(inputId) {
         // Display the clicked value on the page
         var clickedValueDisplay = document.getElementById('clickedValueDisplay');
         if(clickedValue !== null) {
-            clickedValueDisplay.textContent = "Clicked Value: " + clickedValue;
+            //clickedValueDisplay.textContent = "Clicked Value: " + clickedValue;
+            let arr = clickedValue.split('-');
+            if (arr[0] == 0) {
+            let inputField = document.getElementById("2");
+            inputField.value = arr[1];
+            inputField.dispatchEvent(new Event('input'));
+            }
+            if (arr[0] == 1) {
+            let inputField = document.getElementById("3");
+            inputField.value = arr[1];
+            inputField.dispatchEvent(new Event('input'));
+            }
         } else {
-            clickedValueDisplay.textContent = "No clicked value found in URL.";
+            //clickedValueDisplay.textContent = "No clicked value found in URL.";
     }
+
 function setformstate() {
   document.getElementById("PIGST2").value = 0;
   document.getElementById("PSGST2").value = 0;

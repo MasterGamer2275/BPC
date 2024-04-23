@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("pRc-Wastage").value = cells[15].innerText;
       document.getElementById("wOStatus").value = cells[11].innerText;
       document.getElementById("pRC-CutReel").checked = cells[12].innerText;
-      enablefield();
+      enableall();
       calculateval();
     });
   }
@@ -419,6 +419,12 @@ document.getElementById("pRc-Wastage").disabled = true;
 document.getElementById("pRC-P-Actual").disabled = true;
     }
 }
+
+function enableall() {
+document.getElementById("pRc-Wastage").disabled = false;
+document.getElementById("pRC-P-Actual").disabled = false;
+}
+
 function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");

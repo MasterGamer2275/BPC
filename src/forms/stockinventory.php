@@ -34,7 +34,7 @@ dbclose($db, $text);
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 75%;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -49,7 +49,11 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: nowrap;
+  white-space: wrap;
+}
+
+th input[type=text] {
+width: 50%;
 }
 
 tr, td {
@@ -193,7 +197,7 @@ function hideunhiderows(element) {
         }
         childRow = childRow.nextElementSibling;
     }
-}
+  }
 function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");
@@ -234,8 +238,21 @@ function filterTable() {
                     row.style.display = "";
                   } else {
                   row.style.display = "none";
-                 }
-         }
+        }
+                    // Check for child rows and unhide them if display is true
+            if (display) {
+                var nextRow = row.nextElementSibling;
+                var cellval = row.getElementsByTagName("td")[1];
+                while (nextRow && nextRow.classList.contains("child") && !cellval.trim()) {
+                    if (nextRow.classList.contains('hide')) {
+                        nextRow.classList.remove('hide');
+                        element.innerHTML = "<i class=\"fa fa-minus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
+                        //row.style.display = "";
+                    }
+                    nextRow = nextRow.nextElementSibling;
+               }
+          }
+    }
 }
 
     // Attach input event listeners to filter inputs
@@ -244,6 +261,7 @@ function filterTable() {
         filterInputs[i].addEventListener("input", filterTable);
     }
   
+
 function hightlightcolumn() {
     var table = document.getElementById("myTable");
     var columnNumber1 = 6; // Index of column 3 (zero-based)

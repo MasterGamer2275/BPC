@@ -158,7 +158,7 @@ tr, td {
                         $i = 0;
                             foreach ($row as $cell) {
                                 If ($i <2) {
-                                  echo "<td><a href=\"/forms/edit-stock-table.php?clickedValue=$cell\">$cell</a></td>";
+                                  echo "<td><a href=\"/forms/edit-stock-table.php?clickedValue=$i-$cell\">$cell</a></td>";
                                   } else {
                                       echo "<td>$cell</td>";                   
                                   }
