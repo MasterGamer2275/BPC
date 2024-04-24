@@ -185,15 +185,19 @@ function expandtable() {
   var tr = table.getElementsByTagName("tr");
   for (var i = 1; i < tr.length; i++) {
     if (tr[i] && tr[i].classList.contains('parent')){
+    var element = tr[i].getElementsByTagName("td")[0];
       var row = tr[i];
       row.style.display = "";
+      
     }
     else {
       var row = tr[i];
       if (row.classList.contains('hide')) {
           row.classList.remove('hide');
+          element.innerHTML = "[-]";
           } else {
           row.classList.add('hide');
+          element.innerHTML = "[+]";
       }
     }
   }
@@ -255,8 +259,20 @@ function filterTable() {
                     filteredrows.push(row);
                   } else {
                   row.style.display = "none";
+                }
         }
-    }
+    for (var k = 0; k < filteredrows.length; k++) {
+       var child = filteredrows[k].nextElementSibling;
+       var element = filteredrows[k].getElementsByTagName("td")[0];
+        while (child && child.classList.contains('child')) {
+            if (child.classList.contains('hide')) {
+                child.classList.remove('hide');
+                element.innerHTML = "[-]";
+            }
+            child.style.display = "";
+            child = child.nextElementSibling;
+        }
+  }
 }
 
     // Attach input event listeners to filter inputs
