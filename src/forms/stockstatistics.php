@@ -12,7 +12,7 @@
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
+  width: 40%;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -20,10 +20,24 @@ table {
 
 th, td {
   text-align: left;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  position: relative;
+  overflow: hidden; /* Optional: hides content that overflows the cell */
+  white-space: wrap;
+}
+tr, td {
+  text-align: left;
   padding: 16px;
+  font-size: 15px;
+  font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
+
 tr:nth-child(even) {
   background-color: #f2f2f2
 }

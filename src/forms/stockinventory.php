@@ -116,38 +116,38 @@ input[type=number] {
   <h2>Stock Inventory</h2>
   <table id="myTable">
     <tr>
-    <th></th>
-      <th>Commodity/Desc<br>      
+      <td onclick="expandtable()">[+/-]</td>
+      <th>Commodity/Desc<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('typeFilter')"></i>      
         <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('typeFilter')"></i>
+        
       </th>
-      <th>GSM<br>      
+      <th>GSM<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i>     
         <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('gsmFilter')"></i>
+        
       </th>
-      <th>BF<br>      
+      <th>BF<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('bfFilter')"></i>      
         <input type="text" id="bfFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('bfFilter')"></i>
+        
       </th>
-      <th>ReelSize(Cm)<br>      
+      <th>ReelSize(Cm)<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('szFilter')"></i>    
         <input type="text" id="szFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('szFilter')"></i>
+        
       </th>
-      <th>Num of Reels/ReelNo.<br>      
+      <th>NumReels/ReelNo.<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('numFilter')"></i>      
         <input type="text" id="numFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('numFilter')"></i>
+        
       </th>
-      <th>TotalWeight(kg)/Weight<br>      
+      <th>TotalWeight(kg)/Weight<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('kgFilter')"></i>      
         <input type="text" id="kgFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('kgFilter')"></i>
+        
       </th>
-      <th>Location<br>      
+      <th>Location<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('locFilter')"></i>   
         <input type="text" id="locFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('locFilter')"></i>
+        
       </th>
-      <th>Status<br>      
+      <th>Status<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statFilter')"></i> 
         <input type="text" id="statFilter" class="filter-input" placeholder="Filter by name">
-        <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statFilter')"></i>
+        
       </th>
     </tr>
     <!-- Table body will be populated dynamically -->
@@ -161,7 +161,7 @@ foreach ($dbtabdata as $row) {
         if(!$i) {
             $parent = ($cell != ""); // Check if the cell is a parent
             if ($parent) {
-                echo "<tr class=\"parent\"><td class=\"toggle\"><i class=\"fa fa-plus-square\" style=\"font-size:14px;color:grey\" onclick=\"hideunhiderows(this);\"></i></td>";
+                echo "<tr class=\"parent\"><td onclick=\"hideunhiderows(this);\">[+]</td>";
             } else {
                 echo "<tr class=\"child hide\">";
             }               
@@ -180,24 +180,40 @@ foreach ($dbtabdata as $row) {
 
 <script>
 
+function expandtable() {
+  var table = document.getElementById("myTable");
+  var tr = table.getElementsByTagName("tr");
+  for (var i = 1; i < tr.length; i++) {
+    if (tr[i] && tr[i].classList.contains('parent')){
+      var row = tr[i];
+      row.style.display = "";
+    }
+    else {
+      var row = tr[i];
+      if (row.classList.contains('hide')) {
+          row.classList.remove('hide');
+          } else {
+          row.classList.add('hide');
+      }
+    }
+  }
+}
+
+
 function hideunhiderows(element) {
     var iconClass = element.classList;
-
-    // Find the next sibling row, which should be the child row
-    var childRow = element.parentElement.parentElement.nextElementSibling;
+    var childRow = element.parentElement.nextElementSibling;
     while (childRow && childRow.classList.contains('child')) {
         if (childRow.classList.contains('hide')) {
             childRow.classList.remove('hide');
-            element.innerHTML = "<i class=\"fa fa-minus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
-            //element.innerHTML = "-"
+            element.innerHTML = "[-]";
         } else {
             childRow.classList.add('hide');
-            //element.innerHTML = "<i class=\"fa fa-plus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
-            element.innerHTML = ""
+            element.innerHTML = "[+]";
         }
         childRow = childRow.nextElementSibling;
     }
-  }
+}
 function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");
@@ -207,13 +223,13 @@ function toggleFilter(inputId) {
             input.value = "";
             filterTable();
         }
-    }
+}
 
 function filterTable() {
         var filterInputs = document.getElementsByClassName("filter-input");
         var table = document.getElementById("myTable");
         var tr = table.getElementsByTagName("tr");
-
+        var filteredrows = [];
         // Loop through all rows
         for (var i = 0; i < tr.length; i++) {
             var row = tr[i];
@@ -236,22 +252,10 @@ function filterTable() {
             // Set display style for row
             if (display) {
                     row.style.display = "";
+                    filteredrows.push(row);
                   } else {
                   row.style.display = "none";
         }
-                    // Check for child rows and unhide them if display is true
-            if (display) {
-                var nextRow = row.nextElementSibling;
-                var cellval = row.getElementsByTagName("td")[1];
-                while (nextRow && nextRow.classList.contains("child") && !cellval.trim()) {
-                    if (nextRow.classList.contains('hide')) {
-                        nextRow.classList.remove('hide');
-                        element.innerHTML = "<i class=\"fa fa-minus-square\" style=\"font-size:14px;color:blue\" onclick=\"hideunhiderows(this);\"></i>";
-                        //row.style.display = "";
-                    }
-                    nextRow = nextRow.nextElementSibling;
-               }
-          }
     }
 }
 
@@ -259,7 +263,7 @@ function filterTable() {
     var filterInputs = document.getElementsByClassName("filter-input");
     for (var i = 0; i < filterInputs.length; i++) {
         filterInputs[i].addEventListener("input", filterTable);
-    }
+}
   
 
 function hightlightcolumn() {
