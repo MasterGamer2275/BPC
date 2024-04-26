@@ -288,8 +288,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 	  <?php $pCnum = $_POST["pRC-P-CName"]; ?>
 	  <?php $pSize = $_POST["pRC-P-Size"]; ?>
 	  <?php $pReelNumber = $_POST["pRCRN"]; ?>
-    <?php $pActual = $_POST["pRC-P-Actual"]; ?>
-    <?php $pActWastage = $_POST["pRc-Wastage"]; ?>
+    <?php //$pActual = $_POST["pRC-P-Actual"]; ?>
+    <?php //$pActWastage = $_POST["pRc-Wastage"]; ?>
     <?php $pStatus = $_POST["wOStatus"]; ?>
     <?php $tableDataJSON = $_POST['tableData']; ?>
     <?php $tableData = json_decode($tableDataJSON, true); ?>
@@ -308,6 +308,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 	  <?php $pEstWastage = $_POST["pRc-Est-Wastage"]; ?>
 	  -->
     <?php $ID = $myArray[6]; ?>
+    <?php $pActual = $myArray[7]; ?>
+    <?php $pActWastage = $myArray[8]; ?>
     <?php $pReelWidth = $myArray[1]; ?>
 	  <?php $pReelLength = $myArray[2]; ?>
 	  <?php $pEstProd = $myArray[3]; ?>
@@ -322,7 +324,6 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php dbeditprodfeed($db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
     <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
-    <?php echo $pUsedweight; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Edited.<br>"; ?>
@@ -379,6 +380,33 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php dbclose($db, $text); ?>
 <?php header("Location: edit-stock-table.php"); ?>
 <?php exit; ?>
+<?php } ?>
+<?php /*form - finished goods----------------------------------------- */ ?>
+<?php /* ------------------- */ ?>
+<?php if ($_POST["fgtableData"] != "") {  ?>
+  <?php echo "welcome to edit product record<br>"; ?>
+  <?php $cName= $_POST["cName"]; ?>
+  <?php $tableDataJSON = $_POST['fgtableData']; ?>
+  <?php $tableData = json_decode($tableDataJSON, true); ?>
+  <?php dbsetup($db, $text); ?>
+  <?php $tablename = $_SESSION["PListTabName"]; ?>
+  <?php dbcreateproducttable($db, $tablename, $text); ?>
+  <?php $i = 0; ?>
+  <?php foreach ($tableData as $row) { ?>
+        <?php if ($i >= 0) { ?>
+        <?php $rowstr = json_encode($row); ?>
+        <?php $word1 = str_replace("]","",$rowstr); ?>
+        <?php $word2 = str_replace("[","", $word1); ?>
+        <?php $word3 = str_replace('"', '',$word2); ?>
+        <?php $myArray = explode(",", $word3); ?>
+        <?php dbeditproductrecord($db, $tablename, $cName, $myArray[0], $myArray[1], $myArray[2], $myArray[3], $myArray[5], $text); ?>
+        <?php  } ?>
+      <?php $i = $i+1; ?>
+  <?php } ?>
+  <?php echo "Records Edited.<br>"; ?>
+  <?php dbclose($db, $text); ?>
+  <?php //header("Location: finishedgoods.php"); ?>
+  <?php //exit; ?>
 <?php } ?>
 </body>
 </html>

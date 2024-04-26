@@ -58,3 +58,14 @@ UPDATE $tablename SET REELSIZEinCM = '31.2' WHERE ID BETWEEN '1' AND '6';
       echo "Done!";
    }
   
+
+    $sql =<<<EOF
+   ALTER TABLE PRODUCT_TABLE_1
+   RENAME COLUMN STOCK TO OPENINGSTOCK1;
+  EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Done!";
+   }

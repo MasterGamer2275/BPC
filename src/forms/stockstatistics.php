@@ -12,12 +12,11 @@
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 40%;
+  width: auto;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
-
 th, td {
   text-align: left;
   padding: 8px;
@@ -27,16 +26,36 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: wrap;
+  white-space: wrap; /* Corrected value to wrap text */
 }
+
+th input[type=text]{
+width: 100%;
+}
+
 tr, td {
   text-align: left;
-  padding: 16px;
+  padding: 1px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  white-space: wrap;
 }
+
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    width: 70px; /* Set your desired width */
+}
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
+    width: 385px; /* Set your desired width */
+}
+table tr td:nth-child(5),
+table tr th:nth-child(5) {
+    width: 110px; /* Set your desired width */
+}
+
 
 tr:nth-child(even) {
   background-color: #f2f2f2

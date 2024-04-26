@@ -610,6 +610,10 @@ $sql =<<<EOF
    SIZE           TEXT		   NOT NULL,
    UNIT           TEXT		   NOT NULL,
    RATE           TEXT		   NOT NULL,
+   OPENINGSTOCK   TEXT        NOT NULL,
+   PRODUCTION     TEXT        NOT NULL,
+   CLOSINGSTOCk   TEXT        NOT NULL,
+   TOTALVAL       TEXT        NOT NULL,
    COMPANYID      INTEGER		NOT NULL
 );
 EOF;
@@ -945,6 +949,29 @@ function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) {
           $text .= "Records edited succssfully<br>";
       }
 }
+
+//----------------------------------------DB - Edit record (Product Table)----------------------------------------//
+
+function dbeditproductrecord(&$db, $tablename, $cname, $size, $os, $prod, $cs, $val, &$text) { 
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    UPDATE $tablename SET
+    OPENINGSTOCK = '$os',
+    PRODUCTION = '$prod',
+    CLOSINGSTOCK = '$cs',
+    TOTALVAL = '$val'
+    WHERE COMPANYID = '$CompanyID' AND CUSTOMERNAME = '$cname' AND SIZE = '$size';
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records edited succssfully<br>";
+      }
+}
+
 //----------------------------------------DB - Edit record2 (Stock Table)----------------------------------------//
 
 function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, &$text) { 

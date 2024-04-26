@@ -80,11 +80,32 @@ button > span {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 83%;
+  width: auto;
   padding: 5px;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+}
+
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
+    width: 120px; /* Set your desired width */
+}
+table tr td:nth-child(5),
+table tr th:nth-child(5) {
+    width: 370px; /* Set your desired width */
+}
+table tr td:nth-child(6),
+table tr th:nth-child(6) {
+    width: 90px; /* Set your desired width */
+}
+table tr td:nth-child(7),
+table tr th:nth-child(7) {
+    width: 90px; /* Set your desired width */
+}
+table tr td:nth-child(12),
+table tr th:nth-child(12) {
+    width: 90px; /* Set your desired width */
 }
 
 th, td {
@@ -92,23 +113,26 @@ th, td {
   padding: 8px;
   font-size: 15px;
   font-weight: bold;
+  width: auto;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
   white-space: wrap;
 }
+
 th input[type=text]{
 width: 80%;
 }
 
 tr, td {
   text-align: left;
-  padding: 16px;
+  padding: 1px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+  white-space: wrap;
 }
 
 tr:nth-child(even) {
@@ -207,7 +231,7 @@ height: 20px;
         <?php
           // Loop through the array to generate list items
         foreach ($machinelist as $value) {
-              echo "<option value=$value>$value</option>";
+              echo "<option value='$value'>$value</option>";
             }
         ?>
     </select>
@@ -232,7 +256,7 @@ height: 20px;
             <option value="0">Select</option>
                   <?php
         foreach ($dbrnvalues as $value) {
-              echo "<option value=$value>$value</option>";
+              echo "<option value='$value'>$value</option>";
             }
         ?>
           </select><br><br>
@@ -245,21 +269,21 @@ height: 20px;
             <label for="pRC-RM-RS">ReelSize: *</label>
             <input type = "number" id = "pRC-RM-RS" name = "pRC-RM-RS" disabled>
           <label for="pRC-ReelWidth"><b>Reel Width(cm): *</label>
-          <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01" onchange = "calculateval();">
+          <input type = "number" id = "pRC-ReelWidth" name = "pRC-ReelWidth" required min = "1" step = "0.01" value = "0"  onchange = "calculateval();">
           <label for="pRC-ReelLength"><b>Reel Length(cm): *</label>
-          <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01" onchange = "calculateval();"><br><br>
+          <input type = "number" id = "pRC-ReelLength" name = "pRC-ReelLength" required min = "1" step = "0.01" value = "0"  onchange = "calculateval();"><br><br>
           <label for="pRC-Est.WeightPK"><b>Est. Weight(Kg/1000): *</label>
-          <input type = "number" id = "pRC-Est.WeightPK" name = "pRC-Est.WeightPK" required min = "1" step = "0.01" disabled>
+          <input type = "number" id = "pRC-Est.WeightPK" name = "pRC-Est.WeightPK" required min = "1" value = "0"  step = "0.01" disabled>
           <label for="pRC-Est-Prod"><b>Est. Production:</label>
-          <input type = "number" id = "pRC-Est-Prod" name = "pRC-Est-Prod" step = "0.01" disabled>
+          <input type = "number" id = "pRC-Est-Prod" name = "pRC-Est-Prod" value = "0"  step = "0.01" disabled>
           <label for="pRC-P-Actual"><b>Act. Production:</label>
-          <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" step = "1" value = "0" onchange = "calculateval();" disabled>
+          <input type = "number" id = "pRC-P-Actual" name = "pRC-P-Actual" step = "1" min = "0" value = "0" onchange = "calculateval();" disabled>
           <label for="pRC-Uw"><b>Used Weight:</label>
-          <input type = "number" id = "pRC-Uw" name = "pRC-Uw" disabled><br><br>
+          <input type = "number" id = "pRC-Uw" name = "pRC-Uw" value = "0" disabled><br><br>
           <label for="pRc-Est-Wastage"><b>Est Wastage:</label>
           <input type = "number" id = "pRc-Est-Wastage" name = "pRc-Est-Wastage" required step = "0.01" value = "0" disabled>
           <label for="pRc-Wastage"><b>Act. Wastage:</label>
-          <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" value = "0" onchange = "calculateval();" disabled>
+          <input type = "number" id = "pRc-Wastage" name = "pRc-Wastage" step = "0.01" min = "0" value = "0" onchange = "calculateval();" disabled>
           <input type = "checkbox" id = "pRC-CutReel" name = "pRC-CutReel" style = "display:none">
           <label for="wOStatus"><b>Status:</label>
           <select name="wOStatus" id="wOStatus" onchange = "enablefield();">
@@ -274,6 +298,7 @@ height: 20px;
           <input type = "button" id = "pRC-Add" name = "pRC-Add" value = "Add/Save Record" onclick = "createSubmitevent();" disabled>
           <input type = "submit" id = "submit" value = "submit" style="display: none;">
    </form>
+
 <br><br>
 <table id = "myTable">
   <tr>
@@ -284,22 +309,22 @@ height: 20px;
       
       </th>
     <th>Time</th>
-    <th style="width: 50%;">Machine<br>
+    <th>Machine<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('machineFilter')"></i>
       <input type="text" id="machineFilter" class="filter-input" placeholder="Filter by name">
       
     </th>
-    <th style="width: 50%;">Customer Name<br>
+    <th>CustomerName<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('nameFilter')"></i>
       <input type="text" id="nameFilter" class="filter-input" placeholder="Filter by name">
       
     </th>
-    <th style="width: 50%;">Size&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+    <th>Size<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('sizeFilter')"></i>
       <input type="text" id="sizeFilter" class="filter-input" placeholder="Filter by name">
       
     </th>
-    <th>ReelNumber&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+    <th>ReelNumber<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('rnFilter')"></i>
       <input type="text" id="rnFilter" class="filter-input" placeholder="Filter by name">
       
@@ -308,15 +333,15 @@ height: 20px;
     <th>Reel Length(cm)</th>
     <th>Est.Target</th>
     <th>Actual</th>
-    <th>Status&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+    <th>Status<br>
       <i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statusFilter')"></i>
       <input type="text" id="statusFilter" class="filter-input">
       
     </th>
     <th>ExcessReel</th>
     <th>UsedWeight(Kg)</th>
-    <th>Estimated Wastage</th>
-    <th>Actual Wastage</th>
+    <th>Est.Wastage</th>
+    <th>Act.Wastage</th>
     <th>CompanyID</th>
   </tr>
   <?php
@@ -383,10 +408,10 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("pRCRN").value = "0";
       enablebutton();
       updatereelinfo();
-      document.getElementById("pRC-ReelWidth").value = "";
-      document.getElementById("pRC-ReelLength").value = "";
-      document.getElementById("pRC-P-Actual").value = "";
-      document.getElementById("pRc-Wastage").value = "";
+      document.getElementById("pRC-ReelWidth").value = "0";
+      document.getElementById("pRC-ReelLength").value = "0";
+      document.getElementById("pRC-P-Actual").value = "0";
+      document.getElementById("pRc-Wastage").value = "0";
       document.getElementById("wOStatus").value = "in-stock";
       document.getElementById("pRC-CutReel").checked = "";
       enablefield();
@@ -395,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 function createSubmitevent() {
-  const tableData = [document.getElementById("pRC-CutReel").checked, document.getElementById("pRC-ReelWidth").value, document.getElementById("pRC-ReelLength").value, document.getElementById("pRC-Est-Prod").value, document.getElementById("pRC-Uw").value, document.getElementById("pRc-Est-Wastage").value, document.getElementById("pRC-ID").value];
+  const tableData = [document.getElementById("pRC-CutReel").checked, document.getElementById("pRC-ReelWidth").value, document.getElementById("pRC-ReelLength").value, document.getElementById("pRC-Est-Prod").value, document.getElementById("pRC-Uw").value, document.getElementById("pRc-Est-Wastage").value, document.getElementById("pRC-ID").value, document.getElementById("pRC-P-Actual").value, document.getElementById("pRc-Wastage").value];
     // Set the table data as a JSON string in the hidden input field
   document.getElementById('tableData').value = JSON.stringify(tableData);
   document.getElementById("submit").click();

@@ -37,30 +37,61 @@ label {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 56%;
+  width: auto; /* Let the browser calculate the width */
+  min-width: 100px; /* Set a minimum width to ensure readability */
+  max-width: none; /* Allow the width to expand beyond the content */
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
-
+table tr td:nth-child(1),
+table tr th:nth-child(1) {
+    width: 20px; /* Set your desired width */
+}
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    width: 300px; /* Set your desired width */
+}
+table tr td:nth-child(3),
+table tr th:nth-child(3) {
+    width: 105px; /* Set your desired width */
+}
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
+    width: 115px; /* Set your desired width */
+}
+table tr td:nth-child(5),
+table tr th:nth-child(5) {
+    width: 40px; /* Set your desired width */
+}
+table tr td:nth-child(6),
+table tr th:nth-child(6) {
+    width: 50px; /* Set your desired width */
+}
+table tr td:nth-child(8),
+table tr th:nth-child(8) {
+    width: 30px; /* Set your desired width */
+}
 th, td {
   text-align: left;
   padding: 8px;
   font-size: 15px;
   font-weight: bold;
+  width: calc(100% + 10px); /* Adjust the 10px value as needed */
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
   white-space: wrap;
 }
+
 th input[type=text] {
-width: 70%;
+width: 40%;
 
 }
 tr, td {
   text-align: left;
-  padding: 16px;
+  padding: 1px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
@@ -77,6 +108,22 @@ tr:nth-child(even) {
 }
   th:nth-child(9),
   td:nth-child(9) {
+  display: none;
+}
+  th:nth-child(10),
+  td:nth-child(10) {
+  display: none;
+}
+  th:nth-child(11),
+  td:nth-child(11) {
+  display: none;
+}
+  th:nth-child(12),
+  td:nth-child(12) {
+  display: none;
+}
+  th:nth-child(13),
+  td:nth-child(13) {
   display: none;
 }
 

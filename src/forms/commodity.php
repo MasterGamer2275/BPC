@@ -39,10 +39,34 @@ label {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 57%;
+  width: auto;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+}
+table tr td:nth-child(1),
+table tr th:nth-child(1) {
+    width: 20px; /* Set your desired width */
+}
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    width: 110px; /* Set your desired width */
+}
+table tr td:nth-child(3),
+table tr th:nth-child(3) {
+    width: 395px; /* Set your desired width */
+}
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
+    width: 40px; /* Set your desired width */
+}
+table tr td:nth-child(5),
+table tr th:nth-child(5) {
+    width: 40px; /* Set your desired width */
+}
+table tr td:nth-child(6),
+table tr th:nth-child(6) {
+    width: 50px; /* Set your desired width */
 }
 
 th, td {
@@ -58,12 +82,12 @@ th, td {
 }
 
 th input[type=text] {
-width: 70%;
+width: 40%;
 }
 
 tr, td {
   text-align: left;
-  padding: 16px;
+  padding: 1px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
@@ -156,7 +180,7 @@ height: 20px;
     </th>
     <th>BF</th>
     <th>COMPANYID</th>
-    <th>REELSize(Cm)</th>
+    <th>Reel Size(Cm)</th>
   </tr>
   <?php
   // Loop through the array to generate table rows

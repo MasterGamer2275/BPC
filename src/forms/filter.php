@@ -53,8 +53,9 @@ while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
   $sum = $row['Totalsavings'] + $sum;
 }
+
 echo "<caption>Total Savings: ₹";
-echo $sum;
+echo number_format($sum, 2);
 echo "</caption>";
 echo "<tr>";
 foreach ($dbtabheader as $cell) {

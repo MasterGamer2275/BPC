@@ -64,10 +64,22 @@ dbclose($db, $text);
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 30%;
+  width: auto;
   border: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
+}
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    width: 70px; /* Set your desired width */
+}
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
+    width: 385px; /* Set your desired width */
+}
+table tr td:nth-child(5),
+table tr th:nth-child(5) {
+    width: 110px; /* Set your desired width */
 }
 
 th, td {
@@ -88,7 +100,7 @@ width: 100%;
 
 tr, td {
   text-align: left;
-  padding: 16px;
+  padding: 1px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;

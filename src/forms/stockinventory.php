@@ -58,7 +58,7 @@ width: 50%;
 
 tr, td {
   text-align: left;
-  padding: 16px;
+  padding: 1px;
   font-size: 15px;
   font-weight: normal;
   border-bottom: 1px solid #ddd;
@@ -113,7 +113,7 @@ input[type=number] {
     }
 </style>
 <body>
-  <h2>Stock Inventory</h2>
+  <h3>Stock Inventory</h3>
   <table id="myTable">
     <tr>
       <td onclick="expandtable()">[+/-]</td>

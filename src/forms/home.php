@@ -14,7 +14,7 @@
       SUPPLIERNAME,
       COUNT(REELNUMBER) As NumofReels,
       SUM(REELWEIGHT) As TotalWeight,
-      SUM(TOTAL) as TotalPrice
+      SUM(TOTAL) AS TotalPrice
     FROM 
       $tablename 
     WHERE 
