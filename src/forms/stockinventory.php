@@ -113,7 +113,7 @@ input[type=number] {
     }
 </style>
 <body>
-  <h3>Stock Inventory</h3>
+  <h3>Raw Material Inventory</h3>
   <table id="myTable">
     <tr>
       <td onclick="expandtable()">[+/-]</td>

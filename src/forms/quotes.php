@@ -12,21 +12,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 $root = $_SERVER['DOCUMENT_ROOT'];
 //---add the DB API file
 require $root."/DB/call-db.php";
-
-$sum = array(array());
 dbsetup($db, $text);
-$tablename = $_SESSION["PListTabName"];
-dbcreateproducttable($db, $tablename, $text);
-    $sql =<<<EOF
-   ALTER TABLE PRODUCT_TABLE_1
-   RENAME COLUMN OPENINGSTOCK1 TO TOTALVAL;
-  EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      echo $db->lastErrorMsg();
-   } else {
-      echo "Done!";
-   }
+
 // Close connection
 dbclose($db, $text);
 ?>

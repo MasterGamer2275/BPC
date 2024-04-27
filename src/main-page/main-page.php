@@ -105,16 +105,15 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks2" onclick="openphp(event, '/forms/customer.php', '/main-page/frame1.php')">Add/Edit Clients</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/product.php', '/main-page/frame1.php')">Client Master</button>
       <button class="subtablinks2" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Sales Invoice</button>
-      <button class="subtablinks2" onclick="openphp(event, '/forms/quotes.php', '/main-page/frame1.php')">Quotations</button>
+      <button class="subtablinks2" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Quotations</button>
     </div>
     <div class="sub-tab" id = "Inventory >">
       <button class="subtablinks3" onclick="openphp(event, '/forms/stockinventory.php', '/main-page/frame1.php')">Raw Material</button>
-      <button class="subtablinks3" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button> 
+      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button> 
     </div>
     <div class="sub-tab" id = "Production >">
       <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
-      <button class="subtablinks4" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
-      <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Status</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Feed</button>
     </div>
 </div>
 <footer>
@@ -143,6 +142,7 @@ function openphp(event, filename, framename, tabname) {
   subtablinks4 = document.getElementsByClassName("subtablinks4");
   framerect1 = document.getElementById("rect1");
   document.getElementById('rect1').style.left = "0%";
+  document.getElementById('rect1').style.width = "100%";
   framerect1.src = filename;
   //clear all the sub tab displays
   for (i = 0; i < subtablinks1.length; i++) {
@@ -231,6 +231,7 @@ var hamburgerMenu = document.getElementsByClassName("hamburger-menu")[0];
 hamburgerMenu.addEventListener("click", function()  {
 var tabs = document.getElementsByClassName("tab");
 document.getElementById('rect1').style.left = "10%";
+document.getElementById('rect1').style.width = "90%";
 // Loop through each tab element
 for (var i = 0; i < tabs.length; i++) {
     // Set the display property of the current tab to "block"

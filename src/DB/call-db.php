@@ -124,7 +124,7 @@ function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 //----------------------------------------DB - Add record (Customer Table)----------------------------------------//
@@ -141,7 +141,7 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -160,7 +160,7 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gs
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -266,7 +266,7 @@ function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -461,13 +461,20 @@ function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, 
 }
 
 //----------------------------------------DB - Get Single Value----------------------------------------//
-function dbgetvalue(&$db, $tablename, $columnname, $paramname, $paramvalue, &$outputvalue, &$text) {
+function dbgetvalue(&$db, $tablename, $paramname, $filter1, $value1, $filter2, $value2, &$outputvalue, &$rowdata, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $res = $db->query("SELECT $columnname FROM $tablename WHERE $paramname = '$paramvalue' and WHERE ID = '$CompanyID'");
-  //$res = $db->query("SELECT IGST FROM TEST_SUPPLIER_4");
-  $outputvalue = array();
-  while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
-      array_push($outputvalue,$value);
+  $res = $db->query("SELECT 
+                       $paramname as output 
+                     FROM $tablename 
+                     WHERE $filter1 = '$value1' 
+                       AND $filter2 = '$value2' 
+                       AND CompanyID = '$CompanyID'
+                       ");
+  $rowdata = array(array());
+  $outputvalue = 0;
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+      array_push($rowdata,$row);
+      $outputvalue = $row['output'];
       }
   $ret = $db->exec($sql);
     if(!$ret) {
@@ -564,7 +571,7 @@ function dbaddcustomersrecord(&$db, $tablename, $Cname, $Clname, $CGST, $CAddr, 
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -641,7 +648,7 @@ function dbaddproductrecord(&$db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PS
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 //----------------------------------------DB - check record (Product Table)----------------------------------------//
@@ -717,7 +724,7 @@ function dbaddpurchaserecord(&$db, $tablename, $pONum, $pODate, $pOTime, $pOSnam
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -785,7 +792,7 @@ function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -897,7 +904,7 @@ function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, 
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records created succssfully<br>";
+          $text .= "Records created successfully<br>";
       }
 }
 
@@ -946,7 +953,7 @@ function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) {
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records edited succssfully<br>";
+          $text .= "Records edited successfully<br>";
       }
 }
 
@@ -968,7 +975,7 @@ function dbeditproductrecord(&$db, $tablename, $cname, $size, $os, $prod, $cs, $
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records edited succssfully<br>";
+          $text .= "Records edited successfully<br>";
       }
 }
 
@@ -995,7 +1002,7 @@ function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $rn, $rw, $rat
           $text .= $err;
           $text .= "<br>";
         } else { 
-          $text .= "Records edited succssfully<br>";
+          $text .= "Records edited successfully<br>";
       }
 }
 

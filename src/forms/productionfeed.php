@@ -42,6 +42,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   dblistuniquecolvalues($db, $tablename, $columnname, $dbrnvalues, $text);
   $dbtabdata2 = array(array());
   dbreadstocktable($db, $tablename, $dbtabdata2, $text);
+  $tablename = $_SESSION["PListTabName"];
+  dbcreateproducttable($db, $tablename, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($dbtabdata2);

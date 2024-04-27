@@ -317,6 +317,13 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 	  <?php $pUsedweight = $myArray[4]; ?>
 	  <?php $pEstWastage = $myArray[5]; ?>
     <?php dbsetup($db, $text); ?>
+    <?php $tablename = $_SESSION["PListTabName"]; ?>
+    <?php dbcreateproducttable($db, $tablename, $text); ?>
+    <?php $paramname = "CLOSINGSTOCK"; ?>
+    <?php $filter1 = "CUSTOMERNAME"; ?>
+    <?php $filter2 = "SIZE"; ?>
+    <?php dbgetvalue($db, $tablename, $paramname, $filter1, $pCnum, $filter2, $pSize, $outputvalue, $rowdata, $text); ?>
+    <?php $newStock = $pActual + $outputvalue; ?>
     <?php $tablename = $_SESSION["ProdTabName"]; ?>
     <?php dbcheckprodfeedrecord ($db, $tablename, $ID, $found, $text); ?>
     <?php if ($found) {  ?>
@@ -325,6 +332,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
     <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Edited.<br>"; ?>
     <?php } else { ?>
@@ -334,12 +343,14 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
     <?php echo $pUsedweight; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Added.<br>"; ?>
     <?php } ?>
     <?php dbclose($db, $text); ?>
-    <?php header("Location: productionfeed.php"); ?>
-    <?php exit; ?>
+    <?php //header("Location: productionfeed.php"); ?>
+    <?php //exit; ?>
 <?php } ?>
 <?php /*form - Edit Stock record------------------------------------------------- */ ?>
 <?php if ($_POST["sttableData"] != "") {  ?>
@@ -393,20 +404,21 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbcreateproducttable($db, $tablename, $text); ?>
   <?php $i = 0; ?>
   <?php foreach ($tableData as $row) { ?>
-        <?php if ($i >= 0) { ?>
+        <?php if ($i <= (count($tableData) - 1)) { ?>
         <?php $rowstr = json_encode($row); ?>
         <?php $word1 = str_replace("]","",$rowstr); ?>
         <?php $word2 = str_replace("[","", $word1); ?>
         <?php $word3 = str_replace('"', '',$word2); ?>
         <?php $myArray = explode(",", $word3); ?>
-        <?php dbeditproductrecord($db, $tablename, $cName, $myArray[0], $myArray[1], $myArray[2], $myArray[3], $myArray[5], $text); ?>
+        <?php dbeditproductrecord($db, $tablename, $cName, $myArray[1], $myArray[2], $myArray[3], $myArray[4], $myArray[6], $text); ?>
+        <?php echo $text; ?>
         <?php  } ?>
       <?php $i = $i+1; ?>
   <?php } ?>
   <?php echo "Records Edited.<br>"; ?>
   <?php dbclose($db, $text); ?>
-  <?php //header("Location: finishedgoods.php"); ?>
-  <?php //exit; ?>
+  <?php header("Location: finishedgoods.php"); ?>
+  <?php exit; ?>
 <?php } ?>
 </body>
 </html>
