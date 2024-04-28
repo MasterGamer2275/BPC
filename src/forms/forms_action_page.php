@@ -280,78 +280,6 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php header("Location: product.php"); ?>
   <?php exit; ?>
 <?php } ?>
-<?php /*form - production feed- ($_POST["pRC-Add"] not working)------------------------------------------------- */ ?>
-<?php if ($_POST["tableData"] != "") {  ?>
-    <?php $pDate = $_POST["pRC-Date"]; ?>
-   	<?php $pTime = date("h:i:s a"); ?>
-	  <?php $pMname = $_POST["pRC-Machine"]; ?>
-	  <?php $pCnum = $_POST["pRC-P-CName"]; ?>
-	  <?php $pSize = $_POST["pRC-P-Size"]; ?>
-	  <?php $pReelNumber = $_POST["pRCRN"]; ?>
-    <?php //$pActual = $_POST["pRC-P-Actual"]; ?>
-    <?php //$pActWastage = $_POST["pRc-Wastage"]; ?>
-    <?php $pStatus = $_POST["wOStatus"]; ?>
-    <?php $tableDataJSON = $_POST['tableData']; ?>
-    <?php $tableData = json_decode($tableDataJSON, true); ?>
-    <?php $myArray = array(); ?>
-    <?php $str = json_encode($tableData); ?>
-    <?php $word1 = str_replace("]","",$str); ?>
-    <?php $word2 = str_replace("[","", $word1); ?>
-    <?php $word3 = str_replace('"', '',$word2); ?>
-    <?php $myArray = explode(",", $word3); ?>
-    <!--
-	  <?php $pReelWidth = $_POST["pRC-ReelWidth"]; ?>
-	  <?php $pReelLength = $_POST["pRC-ReelLength"]; ?>
-	  <?php $pEstProd = $_POST["pRC-Est-Prod"]; ?>
-	  <?php $pCutReel = $_POST["pRC-CutReel"]; ?>
-	  <?php $pUsedweight = $_POST["pRC-Uw"]; ?>
-	  <?php $pEstWastage = $_POST["pRc-Est-Wastage"]; ?>
-	  -->
-    <?php $ID = $myArray[6]; ?>
-    <?php $pActual = $myArray[7]; ?>
-    <?php $pActWastage = $myArray[8]; ?>
-    <?php $pReelWidth = $myArray[1]; ?>
-	  <?php $pReelLength = $myArray[2]; ?>
-	  <?php $pEstProd = $myArray[3]; ?>
-	  <?php $pCutReel = $myArray[0]; ?>
-	  <?php $pUsedweight = $myArray[4]; ?>
-	  <?php $pEstWastage = $myArray[5]; ?>
-    <?php dbsetup($db, $text); ?>
-    <?php $tablename = $_SESSION["PListTabName"]; ?>
-    <?php dbcreateproducttable($db, $tablename, $text); ?>
-    <?php $paramname = "CLOSINGSTOCK"; ?>
-    <?php $filter1 = "CUSTOMERNAME"; ?>
-    <?php $filter2 = "SIZE"; ?>
-    <?php dbgetvalue($db, $tablename, $paramname, $filter1, $pCnum, $filter2, $pSize, $outputvalue, $rowdata, $text); ?>
-    <?php $newStock = $pActual + $outputvalue; ?>
-    <?php $tablename = $_SESSION["ProdTabName"]; ?>
-    <?php dbcheckprodfeedrecord ($db, $tablename, $ID, $found, $text); ?>
-    <?php if ($found) {  ?>
-    <?php $tablename = $_SESSION["ProdTabName"]; ?>
-    <?php dbeditprodfeed($db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
-    <?php $tablename = $_SESSION["StListTabName"]; ?>
-    <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
-    <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
-    <?php $tablename = $_SESSION["ProdTabName"]; ?>
-    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
-    <?php echo $text; ?><br>
-    <?php echo "Record Edited.<br>"; ?>
-    <?php } else { ?>
-    <?php $tablename = $_SESSION["ProdTabName"]; ?>
-    <?php dbaddprodfeedrecord($db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
-    <?php $tablename = $_SESSION["StListTabName"]; ?>
-    <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
-    <?php echo $pUsedweight; ?>
-    <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
-    <?php $tablename = $_SESSION["ProdTabName"]; ?>
-    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
-    <?php echo $text; ?><br>
-    <?php echo "Record Added.<br>"; ?>
-    <?php } ?>
-    <?php dbclose($db, $text); ?>
-    <?php //header("Location: productionfeed.php"); ?>
-    <?php //exit; ?>
-<?php } ?>
 <?php /*form - Edit Stock record------------------------------------------------- */ ?>
 <?php if ($_POST["sttableData"] != "") {  ?>
 <?php //echo "welcome to edit stock record<br>"; ?>
@@ -419,6 +347,80 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php dbclose($db, $text); ?>
   <?php header("Location: finishedgoods.php"); ?>
   <?php exit; ?>
+<?php } ?>
+<?php /*form - production feed- ($_POST["pRC-Add"] not working)------------------------------------------------- */ ?>
+<?php if ($_POST["tableData"] != "") {  ?>
+    <?php $pDate = $_POST["pRC-Date"]; ?>
+   	<?php $pTime = date("h:i:s a"); ?>
+	  <?php $pMname = $_POST["pRC-Machine"]; ?>
+	  <?php $pCnum = $_POST["pRC-P-CName"]; ?>
+	  <?php $pSize = $_POST["pRC-P-Size"]; ?>
+	  <?php $pReelNumber = $_POST["pRCRN"]; ?>
+    <?php //$pActual = $_POST["pRC-P-Actual"]; ?>
+    <?php //$pActWastage = $_POST["pRc-Wastage"]; ?>
+    <?php $pStatus = $_POST["wOStatus"]; ?>
+    <?php $tableDataJSON = $_POST['tableData']; ?>
+    <?php $tableData = json_decode($tableDataJSON, true); ?>
+    <?php $myArray = array(); ?>
+    <?php $str = json_encode($tableData); ?>
+    <?php $word1 = str_replace("]","",$str); ?>
+    <?php $word2 = str_replace("[","", $word1); ?>
+    <?php $word3 = str_replace('"', '',$word2); ?>
+    <?php $myArray = explode(",", $word3); ?>
+    <!--
+	  <?php $pReelWidth = $_POST["pRC-ReelWidth"]; ?>
+	  <?php $pReelLength = $_POST["pRC-ReelLength"]; ?>
+	  <?php $pEstProd = $_POST["pRC-Est-Prod"]; ?>
+	  <?php $pCutReel = $_POST["pRC-CutReel"]; ?>
+	  <?php $pUsedweight = $_POST["pRC-Uw"]; ?>
+	  <?php $pEstWastage = $_POST["pRc-Est-Wastage"]; ?>
+	  -->
+    <?php $ID = $myArray[6]; ?>
+    <?php $pActual = $myArray[7]; ?>
+    <?php $pActWastage = $myArray[8]; ?>
+    <?php $pReelWidth = $myArray[1]; ?>
+	  <?php $pReelLength = $myArray[2]; ?>
+	  <?php $pEstProd = $myArray[3]; ?>
+	  <?php $pCutReel = $myArray[0]; ?>
+	  <?php $pUsedweight = $myArray[4]; ?>
+	  <?php $pEstWastage = $myArray[5]; ?>
+    <?php dbsetup($db, $text); ?>
+    <?php $tablename = $_SESSION["PListTabName"]; ?>
+    <?php dbcreateproducttable($db, $tablename, $text); ?>
+    <?php $paramname = "CLOSINGSTOCK"; ?>
+    <?php $filter1 = "CUSTOMERNAME"; ?>
+    <?php $filter2 = "SIZE"; ?>
+    <?php dbgetvalue($db, $tablename, $paramname, $filter1, $pCnum, $filter2, $pSize, $outputvalue, $rowdata, $text); ?>
+    <?php $newStock = $pActual + $outputvalue; ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbcheckprodfeedrecord ($db, $tablename, $ID, $found, $text); ?>
+    <?php if ($found) {  ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbeditprodfeed($db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
+    <?php $tablename = $_SESSION["StListTabName"]; ?>
+    <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
+    <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php $tablename = $_SESSION["PListTabName"]; ?>
+    <?php echo $newStock; ?>
+    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
+    <?php echo $text; ?><br>
+    <?php echo "Record Edited.<br>"; ?>
+    <?php } else { ?>
+    <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php dbaddprodfeedrecord($db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
+    <?php $tablename = $_SESSION["StListTabName"]; ?>
+    <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
+    <?php echo $pUsedweight; ?>
+    <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
+    <?php $tablename = $_SESSION["PListTabName"]; ?>
+    <?php echo $newStock; ?>
+    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
+    <?php echo $text; ?><br>
+    <?php echo "Record Added.<br>"; ?>
+    <?php } ?>
+    <?php dbclose($db, $text); ?>
+    <?php //header("Location: productionfeed.php"); ?>
+    <?php //exit; ?>
 <?php } ?>
 </body>
 </html>

@@ -23,6 +23,11 @@
 </head>
 <style>
 
+select{
+width : 20%;
+top: -10px;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -31,6 +36,7 @@ table {
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
+
 th, td {
   text-align: left;
   padding: 8px;
@@ -52,6 +58,11 @@ tr, td {
   border-right: 1px solid #ddd;
   white-space: wrap;
 }
+caption {
+text-align: middle; /* Move the caption text to the right */
+border: 1px solid #ddd; /* Add border to the caption */
+padding: 5px; /* Add padding to the caption */
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -68,15 +79,14 @@ tr:nth-child(even) {
   background-color: #f2f2f2
 }
 
-/* Optional: Add some margin to the input for spacing */
 #fGSave {
   margin-top: 10px; /* Adjust as needed */
-  position: absolute;
+  position: relative;
   display: none;
 }
 </style>
 <h3>FinishedGoods Inventory:</h3>
-        <label for="fG_cName"><b>Customer Name:</label>
+        <label for="fG_cName"><b>Customer Name:</label><br>
         <select name="fG_cName" id="fG_cName">
         <option value="0">Select</option>
             <?php
@@ -87,14 +97,13 @@ tr:nth-child(even) {
                     }
                 }
                 ?>
-
-        </select>
+        </select><br><br>
 <form action="forms_action_page.php" class="form-container" method="post" enctype="multipart/form-data">
         <input type="hidden" id="fgtableData" name="fgtableData">
         <input type="hidden" id="cName" name="cName">   
         <table id = "myTable" name = "myTable" oninput = "calculate();">
         </table>
-        <input type="submit" id="fGSave" value="Save 💾">
+        <input type="submit" id="fGSave" value="Save 💾">      
 </form>
 <script src="fGscript.js"></script>
 <script>
@@ -131,9 +140,10 @@ function calculate(){
                 }
             }
     var formattedTotalSum = totalsum.toLocaleString();
-    caption[0].textContent = "💰Stock Value: ₹" + formattedTotalSum;
+    caption[0].textContent = document.getElementById('cName').value + ":-💰Stock Value: ₹" + formattedTotalSum;
     document.getElementById('fgtableData').value = JSON.stringify(tableData);
     document.getElementById('cName').value = document.getElementById('fG_cName').value;
+    document.getElementById('fGSave').style.display = "block";
     }
 
 </script>

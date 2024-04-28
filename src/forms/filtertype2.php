@@ -51,7 +51,7 @@ $totalval = number_format($totalval, 2);
 $gst = number_format($gst, 2);
 $lastrow = ['', '', '', '', '', '', $totalval, $gst];
 array_push($dbtabdata,$lastrow);
-echo "<caption style = \"right:0\">💰Stock Value: ₹";
+echo "<caption>$cName   :-💰Stock Value: ₹";
 echo number_format($sum, 2);
 echo "</caption>";
 echo "<tr>";
