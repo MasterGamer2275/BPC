@@ -88,7 +88,7 @@ img {vertical-align: middle;}
 </div>
 
 </div>
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
 <div style="text-align:center">
   <span class="dot"></span> 

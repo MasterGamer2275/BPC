@@ -83,6 +83,25 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
       $text .= "Table Read Successfully<br>";
     }
 }  
+
+//----------------------------------------DB - Read Table(wdate filter)----------------------------------------//
+
+function dbreadtablewdatefilter(&$db, $tablename, $fromDate, $toDate, &$dbtabdata, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  //echo "<script>alert('" . "Hello!" . "');</script>";
+  $res = $db->query("SELECT * FROM $tablename WHERE DATE BETWEEN '$fromDate' AND '$toDate' AND CompanyID = ' $CompanyID' ORDER BY ID DESC");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  array_push($dbtabdata,$row);
+  }
+  $ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table Read Successfully<br>";
+    }
+} 
 //----------------------------------------DB - Get unique column values----------------------------------------//
 
 function dblistuniquecolvalues(&$db, $tablename, $columnname, &$dbcolvalues, &$text) { 

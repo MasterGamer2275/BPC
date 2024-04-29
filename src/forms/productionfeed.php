@@ -22,7 +22,10 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $tablename = $_SESSION["ProdTabName"];
   dbcreateProdfeedtable($db, $tablename, $text);
   $dbpdtabdata = array(array());
-  dbreadtable($db, $tablename, $dbpdtabdata, $text);
+  $toDate = date('Y-m-d'); // Current date
+  $fromDate = (new DateTime($toDate))->modify('-1 month')->format('Y-m-d');
+  dbreadtablewdatefilter($db, $tablename, $fromDate, $toDate, $dbpdtabdata, $text);
+  //dbreadtable($db, $tablename, $dbpdtabdata, $text);
   $tablename = $_SESSION["CoListTabName"];
   $paramname = "ID";
   $paramvalue = "6100";
@@ -143,7 +146,7 @@ tr:nth-child(even) {
 
   th:nth-child(2),
   td:nth-child(2) {
-  display: none;
+  //display: none;
 }
   th:nth-child(3),
   td:nth-child(3) {

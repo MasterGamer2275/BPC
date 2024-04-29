@@ -14,7 +14,7 @@
       SUPPLIERNAME,
       COUNT(REELNUMBER) As NumofReels,
       SUM(REELWEIGHT) As TotalWeight,
-      SUM(TOTAL) AS TotalPrice
+      printf('%,.2f', SUM(TOTAL)) AS TotalPrice
     FROM 
       $tablename 
     WHERE 
@@ -25,8 +25,12 @@
       TotalPrice DESC;
 ");
 // Output data
+$i = 0;
 while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  if ($i <= 10) {
   array_push($dbtabdata,$row);
+  }
+  $i++;
 }
 
   dbclose($db, $text);
@@ -67,7 +71,14 @@ body {
     left: 30%;
     top: 0%;
 }
-
+.box h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size : 15px;
+    position: relative;
+    left: 30%;
+    top: 0%;
+}
 .box p {
     margin-bottom: 0;
     font-size : 15px;
@@ -91,7 +102,7 @@ body {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 20%;
+  width: auto;
   border: none;
   border-bottom: 1px solid none;
   border-right: 1px solid none;
@@ -99,23 +110,39 @@ table {
 
 th, td {
   text-align: left;
-  padding: 8px;
-  font-size: 15px;
+  padding: 1px;
+  font-size: 12px;
   font-weight: bold;
+  color: #f0f0f0;
   border-bottom: none;
   border-right: none;
   position: relative;
+  margin-top: 0;
   overflow: hidden; /* Optional: hides content that overflows the cell */
   white-space: wrap;
 }
 
 tr, td {
   text-align: left;
-  padding: 16px;
-  font-size: 15px;
+  padding: 1px;
+  color: black;
+  font-size: 10px;
   font-weight: normal;
   border-bottom: none;
   border-right: none;
+}
+
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    width: 300px; /* Set your desired width */
+}
+
+.rectangle2 {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 20px;
+  text-align: left;
 }
 </style>
 
@@ -140,10 +167,11 @@ tr, td {
     </div>
     <div class="dashboard">
             <div class="box">
-            </div>
+                        </div>
+                                    <div class="box">
+                        </div>
             <div class="box">
-               <i class='fa fa-cart-plus' style='font-size:48px;color:red'></i>
-               <h2 style="left:0%;">Purchase Summary:</h2>
+               <!--<h3 style="left:0%;">Purchase Summary:</h3>-->
                <table id = "myTable">
                     <tr>
                         <th>Invoice No:</th>

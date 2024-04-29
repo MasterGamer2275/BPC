@@ -391,18 +391,25 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php $filter1 = "CUSTOMERNAME"; ?>
     <?php $filter2 = "SIZE"; ?>
     <?php dbgetvalue($db, $tablename, $paramname, $filter1, $pCnum, $filter2, $pSize, $outputvalue, $rowdata, $text); ?>
-    <?php $newStock = $pActual + $outputvalue; ?>
+    <?php $openingStock = $outputvalue; ?>
     <?php $tablename = $_SESSION["ProdTabName"]; ?>
     <?php dbcheckprodfeedrecord ($db, $tablename, $ID, $found, $text); ?>
     <?php if ($found) {  ?>
     <?php $tablename = $_SESSION["ProdTabName"]; ?>
+    <?php $paramname = "ACTUAL"; ?>
+    <?php $filter1 = "CUSTOMERNAME"; ?>
+    <?php $filter2 = "SIZE"; ?>
+    <?php dbgetvalue($db, $tablename, $paramname, $filter1, $pCnum, $filter2, $pSize, $outputvalue, $rowdata, $text); ?>
+    <?php $oldActualval = $outputvalue; ?>
     <?php dbeditprodfeed($db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, $text); ?>
     <?php $tablename = $_SESSION["StListTabName"]; ?>
     <?php $pUsedweight = $pUsedweight + $pActWastage; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
     <?php $tablename = $_SESSION["PListTabName"]; ?>
+    <?php $openingStock = $openingStock - $oldActualval; ?>
+    <?php $newStock = $openingStock + $pActual; ?>
     <?php echo $newStock; ?>
-    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
+    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $openingStock, $pActual, $newStock, "0", $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Edited.<br>"; ?>
     <?php } else { ?>
@@ -413,14 +420,15 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php echo $pUsedweight; ?>
     <?php dbeditstockrecord($db, $tablename, $pReelNumber, $pUsedweight, $pStatus, $text); ?>
     <?php $tablename = $_SESSION["PListTabName"]; ?>
+    <?php $newStock = $openingStock + $pActual; ?>
     <?php echo $newStock; ?>
-    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $newStock, "0", $newStock, "0", $text); ?>
+    <?php dbeditproductrecord($db, $tablename, $pCnum, $pSize, $openingStock, $pActual, $newStock, "0", $text); ?>
     <?php echo $text; ?><br>
     <?php echo "Record Added.<br>"; ?>
     <?php } ?>
     <?php dbclose($db, $text); ?>
-    <?php //header("Location: productionfeed.php"); ?>
-    <?php //exit; ?>
+    <?php header("Location: productionfeed.php"); ?>
+    <?php exit; ?>
 <?php } ?>
 </body>
 </html>
