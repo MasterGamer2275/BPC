@@ -251,18 +251,32 @@ input[type=number] {
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post" enctype="multipart/form-data">
     <input type = "button" style="font-size:18px" class = "updatebtn" id = "SE2Save2" name = "SE2Save2" value = "V" onclick = "createSubmitevent();">
-    <input type = "button" style="font-size:18px" class = "delete" id = "SEdelete2" name = "SEdelete2" value = "Del" disabled>
+    <input type = "button" style="font-size:18px" class = "delete" id = "SEdelete2" name = "SEdelete2" value = "Del">
     <input type = "button" style="font-size:18px" class = "cancel" id = "SEcancel2" name = "SEcancel2" value = "X" onclick= "closeForm()"><br>
     <label for="Pdate2"><b>Purchase Date:</label>
     <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required>    
     <input type = "number" id = "id2" name = "id2" hidden>
     <label for="PInv2"><b>InvNum: *</label>
     <input type = "text" id = "PInv2" name = "PInv2" required width="4px" min = "1"step="1"><br>
-    <label for="PSname2"><b>Supplier:</label>
-    <input type = "text" id = "PSname2" name = "PSname2" required width="4px" min = "1"step="1" disabled><br>
-    <label for="PCname2"><b>Commodity</label>
-    <input type = "text" id = "PCname2" name = "PCname2" required width="4px" min = "1"step="1" disabled><br>
-    <label for=""PCname3""><b>MaterialType:</label>
+    <label for="PSname"><b>Supplier: *</label>
+    <select name= = "PSname" id = "PSname"onchange="getcommoditylist();updateval();setformstate();">
+    <option value="">Select</option>
+      <?php
+        // Loop through the array to generate list items
+      foreach ($dbcolvalues as $row) {
+          foreach ($row as $value) {
+            echo "<option value='$value'>$value</option>";
+          }
+      }
+      ?>
+    </select><br>
+    <input type = "text" id = "PSname2" name = "PSname2" style = "display:none">
+    <label for="PCname"><b>Commodity</label>
+    <select name="PCname" id="PCname" onchange = "updateval();">
+    <option value="">Select</option>
+    </select><br>
+    <input type = "text" id = "PCname2" name = "PCname2" style = "display:none">
+    <label for="PCname3"><b>MaterialType:</label>
     <input type = "text" id="PCname3" name="PCname3" disabled><br>
     <label for="PGSM2"><b>GSM:</label>
     <input type = "number" id = "PGSM2" disabled><br>
@@ -301,6 +315,7 @@ input[type=number] {
 </div>
 </body>
 <script>
+  getcommoditylist();
   document.getElementById("myForm").style.display = "none";
   function closeForm() {
     document.getElementById("myForm").style.display = "none";
@@ -323,6 +338,7 @@ input[type=number] {
       var invnum = cells[2].innerText;
       var sname = cells[3].innerText.trim();
       var cname = cells[4].innerText;
+      const myArray = cname.split("-");
       var gsm = cells[5].innerText;
       var bf = cells[6].innerText;
       var rs = cells[7].innerText;
@@ -338,8 +354,12 @@ input[type=number] {
       document.getElementById("id2").value = id;
       document.getElementById("Pdate2").value = date;
       document.getElementById("PInv2").value = invnum;
+      document.getElementById("PSname").value = sname;
       document.getElementById("PSname2").value = sname;
+      getcommoditylist();
       document.getElementById("PCname2").value = cname;
+      document.getElementById("PCname3").value = myArray[0];
+      document.getElementById("PCname").value = myArray[0] +"-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
       document.getElementById("PGSM2").value = gsm;
       document.getElementById("PBF2").value = bf;   
       document.getElementById("PRS2").value = rs;
@@ -359,7 +379,7 @@ input[type=number] {
   });
 
 function createSubmitevent() {
-  var data = [document.getElementById("PTotal2").value, document.getElementById("PSLoc2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value];
+  var data = [document.getElementById("PTotal2").value, document.getElementById("PSLoc2").value, document.getElementById("PSGST2").value, document.getElementById("PCGST2").value, document.getElementById("PIGST2").value, document.getElementById("PCname3").value, document.getElementById("PGSM2").value, document.getElementById("PBF2").value, document.getElementById("PRS2").value];
     // Set the table data as a JSON string in the hidden input field
   document.getElementById('sttableData').value = JSON.stringify(data);
   document.getElementById("SE2Save").value = "SE2Save";
@@ -378,6 +398,7 @@ function calculatetotal2() {
   total= (rweight * rate) * taxsum + (rweight * rate);
   document.getElementById("PTotal2").value = parseFloat(total).toFixed(2);
 }
+
 function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");
@@ -495,6 +516,74 @@ function setformstate2() {
         }
 }
 
+function updateval() {
+  var selectElement = document.getElementById("PCname");
+  var val = (selectElement.options[selectElement.selectedIndex].value);
+  updated = (val >= 1);
+  if (updated){
+    var c = selectElement.options[selectElement.selectedIndex].text;
+    document.getElementById("PCname2").value = c;
+    const myArray = c.split("-");
+    let word = myArray[0];
+    let word1 = myArray[1];
+    let word2 = myArray[2];
+    let word3 = myArray[3];
+    const myArray0 = word.split(":");
+    const myArray1 = word1.split(":");
+    const myArray2 = word2.split(":");
+    const myArray3 = word3.split(":");
+    document.getElementById("PCname3").value = myArray0[0];
+    document.getElementById("PGSM2").value = myArray1[1];
+    document.getElementById("PBF2").value = myArray2[1];
+    document.getElementById("PRS2").value = myArray3[1];
+  } else {
+    document.getElementById("PCname3").value = "";
+    document.getElementById("PGSM2").value = 0;
+    document.getElementById("PBF2").value = 0;
+    document.getElementById("PRS2").value = 0;
+  }
+}
+
+function getcommoditylist() {
+  var select = document.getElementById("PCname");
+  var numberOfOptions = select.options.length;
+  for (let i = 1; i < numberOfOptions; i++) {
+  select.remove(1);
+    }
+  select.selectedIndex = 0;
+  //update commodity list
+  var supplierstr = document.getElementById("PSname").value;
+  document.getElementById("PSname2").value = supplierstr;
+  var tr = "\"" + supplierstr + "\"";
+  for (let i = 1; i < jsArray_2.length; i++) {
+    let c = JSON.stringify(jsArray_2[i]);
+    let position = c.search(tr);
+    let found = (position>0);
+    if (found) {
+          const myArray = c.split(",");
+          let word1 = myArray[1];
+          let gsm1 = myArray[3];
+          let bf1 = myArray[4];
+          let rs1 = myArray[6];
+          const myArray2 = word1.split(":");
+          let word2 = myArray2[1];
+          let word3 = word2. replaceAll("\"", "");
+          const myArray3 = gsm1.split(":");
+          let gsm2 = myArray3[1];
+          const myArray4 = bf1.split(":");
+          let bf2 = myArray4[1];
+          const myArray5 = rs1.split(":");
+          let rs2 = myArray5[1];
+          let rs3 = rs2. replaceAll("}", "");
+          var option = document.createElement("option");
+          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs3;
+          option.value = i;
+          select.appendChild(option);
+      } else {
+      select.selectedIndex = 0;
+      }
+  }
+}
 </script>
 </body>
 </html>

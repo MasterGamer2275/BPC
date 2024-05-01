@@ -288,6 +288,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php $InvNum= $_POST["PInv2"]; ?>
 <?php $rn= $_POST["PRN2"]; ?>
 <?php $rw= $_POST["PRW2"]; ?>
+<?php $sname= $_POST["PSname2"]; ?>
 <?php $rate= $_POST["PRate2"]; ?>
 <?php $sttableData = $_POST["sttableData"]; ?>
     <?php $myArr = array(); ?>
@@ -302,9 +303,13 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php $sgst= $myArr[2]; ?>
 <?php $cgst= $myArr[3]; ?>
 <?php $igst= $myArr[4]; ?>
+<?php $cname= $myArr[5]; ?>
+<?php $gsm= $myArr[6]; ?>
+<?php $bf= $myArr[7]; ?>
+<?php $rs= $myArr[8]; ?>
 <?php dbsetup($db, $text); ?>
 <?php $tablename = $_SESSION["StListTabName"]; ?>
-<?php dbeditstockrecord2($db, $tablename,$ID, $date, $InvNum, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $location, $text); ?>
+<?php dbeditstockrecord2($db, $tablename,$ID, $date, $InvNum, $sname, $cname, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $location, $text); ?>
 <?php dbclose($db, $text); ?>
 <?php //echo $text; ?>
 <?php header("Location: edit-stock-table.php"); ?>

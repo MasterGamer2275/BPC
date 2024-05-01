@@ -1000,12 +1000,17 @@ function dbeditproductrecord(&$db, $tablename, $cname, $size, $os, $prod, $cs, $
 
 //----------------------------------------DB - Edit record2 (Stock Table)----------------------------------------//
 
-function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, &$text) { 
+function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $sname, $cname, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, &$text) { 
   $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
     UPDATE $tablename SET
     DATE = '$date',
     INVNUM  = '$invnum',
+    SUPPLIERNAME = '$sname',
+    COMMODITYNAME = '$cname',
+    GSM = '$gsm',
+    BF = '$bf',
+    REELSIZE = '$rs',
     REELNUMBER = '$rn',
     REELWEIGHT = '$rw',
     RATE = '$rate',
