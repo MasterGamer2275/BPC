@@ -20,12 +20,12 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <!--<title>InfiPackaging</title> -->
     <link rel="stylesheet" type="text/css" href="/main-page/main-page.css" />
     <!-- Link the default CSS file -->
-    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="/main-page/default.css">
 
     <!-- Use media queries to link specific CSS file based on screen size -->
-    <link rel="stylesheet" media="screen and (max-width: 600px)" href="small-screen.css">
-    <link rel="stylesheet" media="screen and (min-width: 601px) and (max-width: 1200px)" href="medium-screen.css">
-    <link rel="stylesheet" media="screen and (min-width: 1201px)" href="large-screen.css">
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href="/main-page/small-screen.css">
+    <link rel="stylesheet" media="screen and (min-width: 601px) and (max-width: 1200px)" href="/main-page/medium-screen.css">
+    <link rel="stylesheet" media="screen and (min-width: 1201px)" href="/main-page/large-screen.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

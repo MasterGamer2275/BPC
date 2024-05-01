@@ -277,7 +277,7 @@ input[type=number] {
     </select><br>
     <input type = "text" id = "PCname2" name = "PCname2" style = "display:none">
     <label for="PCname3"><b>MaterialType:</label>
-    <input type = "text" id="PCname3" name="PCname3" disabled><br>
+    <input type = "text" id="PCname3" name="PCname3" disabled>
     <label for="PGSM2"><b>GSM:</label>
     <input type = "number" id = "PGSM2" disabled><br>
     <label for="PBF2"><b>BF:</label>
@@ -359,7 +359,8 @@ input[type=number] {
       getcommoditylist();
       document.getElementById("PCname2").value = cname;
       document.getElementById("PCname3").value = myArray[0];
-      document.getElementById("PCname").value = myArray[0] +"-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
+      var cstr =  myArray[0] +"-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
+      document.getElementById("PCname").value = cstr;
       document.getElementById("PGSM2").value = gsm;
       document.getElementById("PBF2").value = bf;   
       document.getElementById("PRS2").value = rs;
