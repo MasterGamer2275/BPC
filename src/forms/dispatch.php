@@ -92,12 +92,12 @@ table {
   border-right: 1px solid #ddd;
 }
 
-table tr td:nth-child(2),
-table tr th:nth-child(2) {
-    width: 370px; /* Set your desired width */
-}
 table tr td:nth-child(3),
 table tr th:nth-child(3) {
+    width: 370px; /* Set your desired width */
+}
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
     width: 110px; /* Set your desired width */
 }
 
@@ -132,9 +132,6 @@ tr, td {
   white-space: wrap;
 }
 
-tr:nth-child(even) {
-  background-color: #ddd;
-}
   th:nth-child(11),
   td:nth-child(11) {
   display: none;
@@ -185,15 +182,20 @@ width: 10%;
 height: 20px;
 }
 
+.customselect {
+width: 8.5%;
+/* width: 120px;*/
+height: 20px;
 
+}
 </style>
 </head>
  
 <body>
 <div id="id01">
-  <form action="forms_action_page.php" method="post" enctype="multipart/form-data">
+  <form action="forms_action_page.php" method="post" enctype="multipart/form-data" id = "entryform">
     <h3>Dispatch Feed:</h3>
-    <label for="dp-Date">Date:</label>
+    <label for="dp-Date"><b>Date:</label>
     <input type = "date" id = "dp-Date" name = "dp-Date" required value="<?php echo date('Y-m-d'); ?>">
     <label for="dp-CName"><b>Client Name: *</label>
     <select name="dp-CName" id="dp-CName" onchange="getsizelist();enablebutton();">
@@ -208,61 +210,111 @@ height: 20px;
         ?>
         </select>
     <label for="dp-Size"><b>Size: *</label>
-    <select name="dp-Size" id="dp-Size" onchange = "updateinfo();enablebutton();">
+    <select name="dp-Size" id="dp-Size" onchange = "updateinfo();enablebutton();" class = "customselect">
       <option value="0">Select</option>
     </select> 
     <label for="dp-Rate"><b>Rate(₹):</label>
     <input type = "number" id = "dp-Rate" name = "dp-Rate" value = "0" disabled>
     <input type = "hidden" id = "dp-Rate2" value = "0" name = "dp-Rate2"> 
     <label for="dp-CountSt"><b>Stock Count:</label>
-    <input type = "number" id = "dp-CountSt" name = "dp-CountSt" value = "0" disabled>        
+    <input type = "number" id = "dp-CountSt" name = "dp-CountSt" value = "0" disabled><br><br>    
     <label for="dp-Count"><b>Count: *</label>
     <input type = "number" id = "dp-Count" name = "dp-Count" value = "0" step = "1" min = "0" onchange = "calculateval();enablebutton();">
     <label for="dp-Weight"><b>Total Weight(Kg): *</label>
-    <input type = "number" id = "dp-Weight" name = "dp-Weight" value = "0" step = "0.01" min = "0"><br><br>
+    <input type = "number" id = "dp-Weight" name = "dp-Weight" value = "0" step = "0.01" min = "0">
     <label for="dp-TotRate"><b>Total Rate(₹):</label>
     <input type = "number" id = "dp-TotRate" name = "dp-TotRate" value = "0" disabled>
     <label for="dp-KGperPackage"><b>KGperPackage: *</label>
     <input type = "number" id = "dp-KGperPackage" name = "dp-KGperPackage" value = "0" step = "1" min = "0">
-    <input type = "button" name = "dp-Add" id = "dp-Add" value = "Add to table" disabled onclick = "addtotable();">
-    <input type = "submit" name = "dp-Submit" id = "dp-Submit" value = "Save" disabled>
+    <input type = "button" name = "dp-Add" id = "dp-Add" value = "Add to table" disabled onclick = "addtotable();"><br><br>
+    <input type = "button" onclick="deleteSelectedRows();" disabled id = "delbutton" name = "delbutton" value = "Delete Selected Rows">
 </form>
-
-<br><br>
-<table id = "myTable" name = "myTable">
-<caption style="text-align: middle;">
-    <?php echo $mycompanyvalues[1] . " PACKAGING LIST"; ?> 
-    <span style="float: left;"> 
-        <?php echo date('Y-m-d, H:i:s');  ?> 
-    </span> 
-    <span style="float: right;"> 
-        Location: <?php echo $mycompanyvalues[4]; ?>  
-    </span> 
-</caption>
-  <tr>
-    <th>S.No:</th>
-    <th>CustomerName</th>
-    <th>Size(Cm)</th>
-    <th>RatePerC(₹)</th>
-    <th>Count</th>
-    <th>Weight(Kg)</th>
-    <th>Rate(₹)</th>
-  </tr>
-  <?php
-  // Loop through the array to generate table rows
-  foreach ($dbdptabdata as $row) {
-      echo "<tr>";
-      foreach ($row as $cell) {
-                echo "<td>$cell</td>";
-              }
-      echo "</tr>";
-  }
-  ?>
-</table>
 </div>
-
+<div>
+<form action="forms_action_page.php" method="post" enctype="multipart/form-data" id = "form2">
+  <table id = "myTable" name = "myTable">
+  <caption style="text-align: middle;">
+      <?php echo $mycompanyvalues[1] . " PACKING LIST"; ?> 
+      <span style="float: left;"> 
+          <?php //echo date('Y-m-d, H:i:s');  ?> 
+          <?php echo "Date:" . date('Y-m-d');  ?>
+      </span> 
+      <span style="float: right;"> 
+          Location: <?php echo $mycompanyvalues[4]; ?>  
+      </span> 
+  </caption>
+    <tr>
+      <td><input type="checkbox" class = "selectallbutton" onchange = "selectAll(this);"></td>
+      <th>S.No:</th>
+      <th>CustomerName</th>
+      <th>Size(Cm)</th>
+      <th>RatePerC(₹)</th>
+      <th>Count</th>
+      <th>Weight(Kg)</th>
+      <th>Rate(₹)</th>
+    </tr>
+    <?php
+    // Loop through the array to generate table rows
+    foreach ($dbdptabdata as $row) {
+        echo "<tr>";
+        foreach ($row as $cell) {
+                  echo "<td>$cell</td>";
+                }
+        echo "</tr>";
+    }
+    ?>
+  </table>
+      <input type = "button" id = "Print" name = "Print" value = "Print" disabled onclick = "printPL();">
+      <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmit();">
+</form>
+</div>
 </body>
 <script>
+
+function hideColumn() {
+  var table = document.getElementById("myTable");
+  var rows = table.getElementsByTagName("tr");
+  for (var i = 0; i < rows.length; i++) {
+    var cells = rows[i].getElementsByTagName("td");
+    if (cells.length > 0) {
+      cells[0].style.display = "none"; // Hide the first cell (column)
+    }
+  }
+}
+
+function unhideColumn() {
+  var table = document.getElementById("myTable");
+  var rows = table.getElementsByTagName("tr");
+  for (var i = 0; i < rows.length; i++) {
+    var cells = rows[i].getElementsByTagName("td");
+    if (cells.length > 0) {
+      cells[0].style.display = "block"; // Hide the first cell (column)
+    }
+  }
+}
+
+function selectAll(box) {
+var checkboxes = document.getElementsByClassName('row-checkbox');
+  for (var i = 0; i < checkboxes.length; i++) {
+      if (box.checked) {
+        checkboxes[i].checked = true;
+        } else {
+        checkboxes[i].checked = false;
+      }
+  }
+}
+
+function printPL() {
+document.getElementById("entryform").style.display = "none";
+document.getElementById("Print").hidden = true;
+document.getElementById("SaveRecord").hidden = true;
+hideColumn();
+window.print();
+document.getElementById("entryform").style.display = "block";
+document.getElementById("Print").hidden = false;
+document.getElementById("SaveRecord").hidden = false;
+unhideColumn();
+}
 
 function getsizelist() {
   var select = document.getElementById("dp-Size");
@@ -330,9 +382,20 @@ function enablebutton() {
     let val = (document.getElementById("dp-CName").value !== "0" && document.getElementById("dp-Size").value !== "0" && document.getElementById("dp-Count").value !== "0");
     if (val) {
         document.getElementById("dp-Add").disabled = false;
+        document.getElementById("delbutton").disabled = false;
     } else {
         document.getElementById("dp-Add").disabled = true;
+        document.getElementById("delbutton").disabled = true;
     }
+}
+
+function reorderid() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var rows = table.getElementsByTagName("tr");
+  for (var i = 1; i < rows.length; i++) {
+    var cells = rows[i].getElementsByTagName("td");
+    cells[1].innerText = i;
+  }
 }
 
 function addtotable() {
@@ -350,10 +413,16 @@ function addtotable() {
   var countpp = countPkg * perKg;
   var qofC = Math.floor(totcount/countpp);
   var rofC = totcount % countpp;
+  if (rofW != 0) {
+  labelcount = qofW + 1;
+  } else {
+  labelcount = qofW;
+  }
   for (let j = 0; j < qofW; j++) {
     var newRow = table.insertRow(table.rows.length);
     newRowId = rowoffset + j;
-    const myArray = [newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, countpp, perKg, (document.getElementById("dp-Rate").value*countpp)];
+    var selectValue1 = selectValue + "&emsp;(" + (j + 1) + " of " + labelcount + ")";
+    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, countpp, perKg, (document.getElementById("dp-Rate").value*countpp)];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
@@ -361,15 +430,38 @@ function addtotable() {
       }
       if (rofW != 0) {
       newRowId = newRowId + 1;
-      const myArray = [newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofC, rofW, (document.getElementById("dp-Rate").value*rofC)];
+      var selectValue1 = selectValue + "&emsp;(" + (j + 1) + "of" + labelcount + ")";
+      const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofC, rofW, (document.getElementById("dp-Rate").value*rofC)];
         var newRow = table.insertRow(table.rows.length);
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
          }
          }
-  document.getElementById("dp-Submit").disabled = false;
+  document.getElementById("Print").disabled = false;
+  document.getElementById("SaveRecord").disabled = false;
 }
+
+function deleteSelectedRows() {
+  var checkboxes = document.getElementsByClassName('row-checkbox');
+  var checkboxAll = document.getElementsByClassName('selectallbutton');
+  var rowsToDelete = [];
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      rowsToDelete.push(checkboxes[i].parentNode.parentNode);
+    }
+  }
+  for (var i = 0; i < rowsToDelete.length; i++) {
+    rowsToDelete[i].parentNode.removeChild(rowsToDelete[i]);
+  }
+  if (checkboxes.length == 0) {
+  checkboxAll[0].checked = false;
+  document.getElementById("Print").disabled = true;
+  document.getElementById("SaveRecord").disabled = true;
+  }
+  reorderid();
+}
+
 
 </script>
 </html> 
