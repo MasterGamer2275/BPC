@@ -25,7 +25,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     <!-- Use media queries to link specific CSS file based on screen size -->
     <link rel="stylesheet" media="screen and (max-width: 600px)" href="/main-page/small-screen.css">
     <link rel="stylesheet" media="screen and (min-width: 601px) and (max-width: 1200px)" href="/main-page/medium-screen.css">
-    <link rel="stylesheet" media="screen and (min-width: 1201px)" href="/main-page/large-screen.css">
+    <link rel="stylesheet" media="screen and (min-width: 1900px)" href="/main-page/large-screen.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -83,7 +83,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="tablinks" onclick="opensubtab(this, 'Production >', '4')">Production ></button>
       <!--<buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>-->
-      <buttonDisabled class="tablinks"></buttonDisabled>
+      <button class="tablinks" onclick="opensubtab(this, 'Dispatch >', '5')">Dispatch ></button>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <buttonDisabled class="tablinks"></buttonDisabled>
       <button class="tablinks" onclick="exporttoexcel();"><i class="fas fa-file-excel"></i> Export</button>
@@ -113,7 +113,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     </div>
     <div class="sub-tab" id = "Production >">
       <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
-      <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatch Feed</button>
+    </div>
+    <div class="sub-tab" id = "Dispatch >">
+      <button class="subtablinks5" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Feed</button>
     </div>
 </div>
 <footer>
@@ -133,13 +135,14 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
 
 function openphp(event, filename, framename, tabname) {
-  var i, subtablinks1, subtablinks2, subtablinks3, subtablinks4, tablinks, framerect1;
+  var i, subtablinks1, subtablinks2, subtablinks3, subtablinks4, subtablinks5, tablinks, framerect1;
   var tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
   subtablinks2 = document.getElementsByClassName("subtablinks2");
   subtablinks3 = document.getElementsByClassName("subtablinks3");
   subtablinks4 = document.getElementsByClassName("subtablinks4");
+  subtablinks5 = document.getElementsByClassName("subtablinks5");
   framerect1 = document.getElementById("rect1");
   document.getElementById('rect1').style.left = "0%";
   document.getElementById('rect1').style.width = "100%";
@@ -157,6 +160,9 @@ function openphp(event, filename, framename, tabname) {
   for (i = 0; i < subtablinks4.length; i++) {
     subtablinks4[i].style.display = "none";
    }
+     for (i = 0; i < subtablinks5.length; i++) {
+    subtablinks5[i].style.display = "none";
+   }
 // Clear all tabs display
   for (var i = 0; i < tabs.length; i++) {
     // Set the display property of the current tab to "block"
@@ -166,13 +172,14 @@ function openphp(event, filename, framename, tabname) {
 
 function opensubtab(evt, tabname, tabindex) {
   //define all the variables used
-  var i, subtablinks1, subtablinks2, subtablinks3, tablinks;
+  var i, subtablinks1, subtablinks2, subtablinks3, subtablinks4, subtablinks5, tablinks;
   tabs = document.getElementsByClassName("tab");
   tablinks = document.getElementsByClassName("tablinks");
   subtablinks1 = document.getElementsByClassName("subtablinks1");
   subtablinks2 = document.getElementsByClassName("subtablinks2");
   subtablinks3 = document.getElementsByClassName("subtablinks3");
   subtablinks4 = document.getElementsByClassName("subtablinks4");
+  subtablinks5 = document.getElementsByClassName("subtablinks5");
 
   //clear all the sub tab displays
   for (i = 0; i < subtablinks1.length; i++) {
@@ -186,6 +193,9 @@ function opensubtab(evt, tabname, tabindex) {
    }
   for (i = 0; i < subtablinks4.length; i++) {
     subtablinks4[i].style.display = "none";
+   }
+     for (i = 0; i < subtablinks5.length; i++) {
+    subtablinks5[i].style.display = "none";
    }
    //enable the sub tab for the selected tab
   for (i = 0; i < subtablinks1.length; i++) {
@@ -210,6 +220,13 @@ function opensubtab(evt, tabname, tabindex) {
   for (i = 0; i < subtablinks4.length; i++) {
     if (tabindex==4) {
     subtablinks4[i].style.display = "block";
+    //subtablinks4[i].style.left = tabs[4].style.left;
+    //subtablinks4[i].style.top = tabs[4].style.top;
+    }
+   }
+     for (i = 0; i < subtablinks5.length; i++) {
+    if (tabindex==5) {
+    subtablinks5[i].style.display = "block";
     //subtablinks4[i].style.left = tabs[4].style.left;
     //subtablinks4[i].style.top = tabs[4].style.top;
     }

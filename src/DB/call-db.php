@@ -1,3 +1,11 @@
+ <?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
 <?php
 //change the global variable to a function input
 //***SQL Injection Vulnerability: Your code is vulnerable to SQL injection attacks because it directly inserts variables into SQL queries. Consider using prepared statements or parameterized queries to prevent this vulnerability.
@@ -37,9 +45,9 @@ $_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
 $_SESSION["PListTabName"] = "TEST_PRODUCT_1";
 $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
 $_SESSION["ProdTabName"] = "TEST_PRODUCTION_3";
+$_SESSION["DispTabName"] = "TEST_DISPATCH_TABLE_1";
 $_SESSION["InitPONum"] = "6100000";
 $_SESSION["InitWONum"] = "6100000";
-$_SESSION["FGTabName"] = "TEST_FG_1";
 */
 $_SESSION["companyID"] = "6100";
 $_SESSION["SListTabName"] = "SUPPLIER_TABLE";
@@ -53,7 +61,7 @@ $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
 $_SESSION["ProdTabName"] = "PROD_FEED_TABLE";
 $_SESSION["InitPONum"] = "6100000";
 $_SESSION["InitWONum"] = "6100000";
-$_SESSION["FGTabName"] = "TEST_FG_1";
+$_SESSION["DispTabName"] = "TEST_DISPATCH_TABLE_1";
 }
 
 //----------------------------------------DB - Close----------------------------------------//
@@ -232,8 +240,6 @@ function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCit
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
-          $text .= "<br>";
-          echo "<script>alert('" . $err . "');</script>";
         } else { 
           $text .= "Records updated successfully<br>";
       }
@@ -283,7 +289,6 @@ function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
-          $text .= "<br>";
         } else { 
           $text .= "Records created successfully<br>";
       }
@@ -295,7 +300,7 @@ function dbcheckcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, 
   $CompanyID = $_SESSION["companyID"];
   $dbtabdata = array(array());
   $i = 0;
-  $res = $db->query("SELECT * FROM $tablename WHERE NAME='$Cname' and SUPPLIERNAME='$CSname' and GSM='$CGSM' and BF='$CBF' and COMPANYID ='$CompanyID' and REELSIZEinCM = '$ReelSize'");
+  $res = $db->query("SELECT * FROM $tablename WHERE NAME='" . trim($Cname) . "' and SUPPLIERNAME='" . trim($CSname) . "' and GSM='$CGSM' and BF='$CBF' and COMPANYID ='$CompanyID' and REELSIZEinCM = '$ReelSize'");
   while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
   array_push($dbtabdata,$row);
   $i = $i+1;
@@ -303,15 +308,15 @@ function dbcheckcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, 
   $found = ($i>0);
   if ($found) {
    $text .= "Record Already Exists <br>";
+   return "Record Already Exists";
   }
   $ret = $db->exec($sql);
    if(!$ret) {
       $err = $db->lastErrorMsg();
       $text .= $err;
-      $text .= "<br>";
-      echo "<script>alert('" . $err . "');</script>";
    } else {
       $text .= "DB check completed<br>";
+      return "DB check completed";
     }
 } 
 
@@ -1134,5 +1139,33 @@ ORDER BY
        array_push($dbtabdata,$row);
     }
     }
+}
+
+//----------------------------------------DB - Create Table (Dispatch)----------------------------------------//
+
+function dbcreatedispatchtable(&$db, $tablename, &$text) {
+   $text .= "welcome to create dispatch table if not exists";
+
+  $sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   DATE          TEXT  NOT NULL,
+   TIME          TEXT  NOT NULL,
+   CUSTOMERNAME  TEXT  NOT NULL,
+   SIZE          TEXT  NOT NULL,
+   NUMBERS       INTEGER  NOT NULL,
+   WEIGHT        INTEGER  NOT NULL,
+   KGperPACKAGE  INTEGER  NOT NULL,
+   COMPANYID     INTEGER  NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
 }
 ?>

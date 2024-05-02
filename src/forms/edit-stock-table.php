@@ -43,12 +43,16 @@ dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
   $jsonArray_2 = json_encode($dbtabdata);
+  $jsonArray_3 = json_encode($dbcolvalues);
+  echo '<script>alert("Hello!");</script>';
   // Echo the JSON array
   echo '<script>';
   echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
   echo 'console.log(jsArray_1);'; // Output the array in the browser console
   echo 'var jsArray_2 = ' . $jsonArray_2 . ';';
   echo 'console.log(jsArray_2);'; // Output the array in the browser console
+  echo 'var jsArray_3 = ' . $jsonArray_3 . ';';
+  echo 'console.log(jsArray_3);'; // Output the array in the browser console
   echo '</script>';
 ?>
 <!DOCTYPE html>

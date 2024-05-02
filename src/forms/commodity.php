@@ -3,6 +3,7 @@
   //---define all variables and constants used
   //---read a table
   //find the root path to calling the php filles by path
+// Check if the returned text contains an alert message
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
