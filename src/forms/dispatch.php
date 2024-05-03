@@ -271,6 +271,16 @@ height: 20px;
 </body>
 <script>
 
+function reorderid() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      cells[0].innerText = i;
+    }
+}
+
+
 function hideColumn() {
   var table = document.getElementById("myTable");
   var rows = table.getElementsByTagName("tr");
@@ -389,15 +399,6 @@ function enablebutton() {
     }
 }
 
-function reorderid() {
-  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
-  var rows = table.getElementsByTagName("tr");
-  for (var i = 1; i < rows.length; i++) {
-    var cells = rows[i].getElementsByTagName("td");
-    cells[1].innerText = i;
-  }
-}
-
 function addtotable() {
   var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
   var rowoffset = (table.rows.length-1);
@@ -413,31 +414,33 @@ function addtotable() {
   var countpp = countPkg * perKg;
   var qofC = Math.floor(totcount/countpp);
   var rofC = totcount % countpp;
+/*
   if (rofW != 0) {
   labelcount = qofW + 1;
   } else {
   labelcount = qofW;
   }
+  */
   for (let j = 0; j < qofW; j++) {
     var newRow = table.insertRow(table.rows.length);
     newRowId = rowoffset + j;
-    var selectValue1 = selectValue + "&emsp;(" + (j + 1) + " of " + labelcount + ")";
+    //var selectValue1 = selectValue + "&emsp;(" + (j + 1) + " of " + labelcount + ")";
     const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, countpp, perKg, (document.getElementById("dp-Rate").value*countpp)];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
          }
-      }
-      if (rofW != 0) {
-      newRowId = newRowId + 1;
-      var selectValue1 = selectValue + "&emsp;(" + (j + 1) + "of" + labelcount + ")";
-      const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofC, rofW, (document.getElementById("dp-Rate").value*rofC)];
-        var newRow = table.insertRow(table.rows.length);
-        for (let i = 0; i < myArray.length; i++) {
-        var cell = newRow.insertCell(i);
-        cell.innerHTML = myArray[i];
-         }
-         }
+  }
+  if (rofW != 0) {
+    newRowId = newRowId + 1;
+    //var selectValue1 = selectValue + "&emsp;(" + (j + 1) + "of" + labelcount + ")";
+    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofC, rofW, (document.getElementById("dp-Rate").value*rofC)];
+    var newRow = table.insertRow(table.rows.length);
+      for (let i = 0; i < myArray.length; i++) {
+          var cell = newRow.insertCell(i);
+          cell.innerHTML = myArray[i];
+          }
+   }
   document.getElementById("Print").disabled = false;
   document.getElementById("SaveRecord").disabled = false;
 }
@@ -459,7 +462,7 @@ function deleteSelectedRows() {
   document.getElementById("Print").disabled = true;
   document.getElementById("SaveRecord").disabled = true;
   }
-  reorderid();
+reorderid();
 }
 
 
