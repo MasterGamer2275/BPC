@@ -115,7 +115,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
     </div>
     <div class="sub-tab" id = "Dispatch >">
-      <button class="subtablinks5" onclick="openphp(event, '/forms/dispatch.php', '/main-page/frame1.php')">Dispatch Feed</button>
+      <button class="subtablinks5" onclick="openphp(event, '/forms/dispatch2.php', '/main-page/frame1.php')">Dispatch Feed</button>
     </div>
 </div>
 <footer>

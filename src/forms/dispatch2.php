@@ -1,4 +1,4 @@
- <?php
+  <?php
 // If the request is made from our space preview functionality then turn on PHP error reporting
 if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
   ini_set('display_errors', 1);
@@ -271,14 +271,7 @@ height: 20px;
 </body>
 <script>
 
-function reorderid() {
-  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
-  var rows = table.getElementsByTagName("tr");
-    for (var i = 1; i < rows.length; i++) {
-      var cells = rows[i].getElementsByTagName("td");
-      cells[0].innerText = i;
-    }
-}
+
 
 
 function hideColumn() {
@@ -413,7 +406,7 @@ function addtotable() {
   for (let j = 0; j < qofc; j++) {
     var newRow = table.insertRow(table.rows.length);
     newRowId = rowoffset + j;
-    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, (selectValue + "&emsp;bundle" + (j+1)), document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, perC, "<td><div input type = \"number\" contenteditable>0</div></td>", (document.getElementById("dp-Rate").value * perC)];
+    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, perC, "<td><div input type = \"number\" contenteditable>0</div></td>", (document.getElementById("dp-Rate").value * perC)];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];
@@ -421,7 +414,7 @@ function addtotable() {
   }
   if (rofc != 0) {
     newRowId = newRowId + 1;
-    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, (selectValue + "&emsp;bundle" + (j+2)), document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofc, "<td><div input type = \"number\" contenteditable>0</div></td>", (document.getElementById("dp-Rate").value * perC)];
+    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofc, "<td><div input type = \"number\" contenteditable>0</div></td>", (document.getElementById("dp-Rate").value * perC)];
     var newRow = table.insertRow(table.rows.length);
       for (let i = 0; i < myArray.length; i++) {
           var cell = newRow.insertCell(i);
@@ -449,6 +442,14 @@ function deleteSelectedRows() {
   document.getElementById("Print").disabled = true;
   document.getElementById("SaveRecord").disabled = true;
   }
+  function reorderid() {
+  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  var rows = table.getElementsByTagName("tr");
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      cells[0].innerText = i;
+    }
+}
 reorderid();
 }
 
