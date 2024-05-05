@@ -114,7 +114,8 @@ function dbreadtablewdatefilter(&$db, $tablename, $fromDate, $toDate, &$dbtabdat
 
 function dblistuniquecolvalues(&$db, $tablename, $columnname, &$dbcolvalues, &$text) { 
 $dbtabdata = array(array());
-$res = $db->query("SELECT DISTINCT $columnname FROM $tablename"); 
+$CompanyID = $_SESSION["companyID"];
+$res = $db->query("SELECT DISTINCT $columnname FROM $tablename WHERE CompanyID = '$CompanyID'");
      while (($val = $res->fetchArray(SQLITE3_ASSOC))) {
       array_push($dbtabdata,$val);
   }

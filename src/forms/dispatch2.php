@@ -16,9 +16,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
-  $tablename = $_SESSION["PListTabName"];
-  $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata, $text);
   $tablename = $_SESSION["DispTabName"];
   dbcreatedispatchtable($db, $tablename, $text);
   $dbdptabdata = array(array());
@@ -47,6 +44,11 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   dbreadstocktable($db, $tablename, $dbtabdata2, $text);
   $tablename = $_SESSION["PListTabName"];
   dbcreateproducttable($db, $tablename, $text);
+  $columnname = "CUSTOMERNAME";
+  $dbcolvalues2 = array(array());
+  dblistuniquecolvalues($db, $tablename, $columnname, $dbcolvalues2, $text);
+  $dbtabdata = array(array());
+  dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($dbtabdata2);
@@ -92,15 +94,6 @@ table {
   border-right: 1px solid #ddd;
 }
 
-table tr td:nth-child(3),
-table tr th:nth-child(3) {
-    width: 370px; /* Set your desired width */
-}
-table tr td:nth-child(4),
-table tr th:nth-child(4) {
-    width: 110px; /* Set your desired width */
-}
-
 th, td {
   text-align: left;
   padding: 8px;
@@ -111,15 +104,7 @@ th, td {
   border-right: 1px solid #ddd;
   position: relative;
   overflow: hidden; /* Optional: hides content that overflows the cell */
-  white-space: wrap;
-}
-caption {
-text-align: middle; /* Move the caption text to the right */
-border: 1px solid #ddd; /* Add border to the caption */
-padding: 5px; /* Add padding to the caption */
-}
-th input[type=text]{
-width: 80%;
+  white-space: pre-wrap;
 }
 
 tr, td {
@@ -132,9 +117,55 @@ tr, td {
   white-space: wrap;
 }
 
-  th:nth-child(11),
-  td:nth-child(11) {
+table tr td:nth-child(3),
+table tr th:nth-child(3) {
+    width: 370px; /* Set your desired width */
+}
+table tr td:nth-child(4),
+table tr th:nth-child(4) {
+    width: 110px; /* Set your desired width */
+}
+table tr td:nth-child(7),
+table tr th:nth-child(7) {
+    width: 60px; /* Set your desired width */
+}
+table tr td:nth-child(8),
+table tr th:nth-child(8) {
+    width: 60px; /* Set your desired width */
+}
+/*
+td:nth-child(5),
+th:nth-child(5) {
   display: none;
+}
+td:nth-child(7),
+th:nth-child(7) {
+  display: none;
+}
+td:nth-child(8),
+th:nth-child(8) {
+  display: none;
+}
+*/
+td:nth-child(9),
+th:nth-child(9) {
+  display: none;
+}
+td:nth-child(10),
+th:nth-child(10) {
+  display: none;
+}
+caption {
+text-align: middle; /* Move the caption text to the right */
+border: 1px solid #ddd; /* Add border to the caption */
+padding: 5px; /* Add padding to the caption */
+}
+
+tfoot input[type=text]{
+width: 100%;
+}
+th input[type=text]{
+width: 80%;
 }
 
 tr > img {
@@ -148,21 +179,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* The popup form - hidden by default */
-.form-popup {
-  display: none;
-  position: fixed;
-  max-width: 500px;
-  width: 320px;
-  top: 10px;
-  bottom: 0;
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  color: black;
-}
-
-
 /* Full-width input fields */
 input[type=text], input[type=date], input[type=number]{
   width: 75px;
@@ -170,10 +186,9 @@ input[type=text], input[type=date], input[type=number]{
 input[type=date] {
  width: 100px;
 }
-select type1{
-width: 16%;
-/* width: 120px;*/
-height: 20px;
+
+.hidden {
+        display: none;
 }
 
 select {
@@ -196,17 +211,15 @@ height: 20px;
   <form action="forms_action_page.php" method="post" enctype="multipart/form-data" id = "entryform">
     <h3>Dispatch Feed:</h3>
     <label for="dp-Date"><b>Date:</label>
-    <input type = "date" id = "dp-Date" name = "dp-Date" required value="<?php echo date('Y-m-d'); ?>">
+    <input type = "date" id = "dp-Date" name = "dp-Date" required value="<?php echo date('Y-m-d'); ?>" onchange = "copydate();">
     <label for="dp-CName"><b>Client Name: *</label>
     <select name="dp-CName" id="dp-CName" onchange="getsizelist();enablebutton();">
       <option value="0">Select</option>
       <?php
       // Loop through the array to generate list items
-        foreach ($dbcolvalues as $row) {
-            foreach ($row as $value) {
+            foreach ($dbcolvalues2 as $value) {
               echo "<option value='$value'>$value</option>";
             }
-        }
         ?>
         </select>
     <label for="dp-Size"><b>Size: *</label>
@@ -219,25 +232,36 @@ height: 20px;
     <label for="dp-CountSt"><b>Stock Count:</label>
     <input type = "number" id = "dp-CountSt" name = "dp-CountSt" value = "0" disabled><br><br>    
     <label for="dp-Count"><b>Count: *</label>
-    <input type = "number" id = "dp-Count" name = "dp-Count" value = "0" step = "1" min = "0" onchange = "calculateval();enablebutton();">
-    <label for="dp-Weight"><b>Total Weight(Kg): *</label>
-    <input type = "number" id = "dp-Weight" name = "dp-Weight" value = "0" step = "0.01" min = "0">
-    <label for="dp-TotRate"><b>Total Rate(₹):</label>
-    <input type = "number" id = "dp-TotRate" name = "dp-TotRate" value = "0" disabled>
-    <label for="dp-CperPackage"><b>CountperPackage: *</label>
-    <input type = "number" id = "dp-CperPackage" name = "dp-CperPackage" value = "0" step = "1" min = "0">
+    <input type = "number" id = "dp-Count" name = "dp-Count" value = "0" step = "1" min = "0" onchange = "enablebutton();">
+    <label for="dp-Weight"><b>Weight(Kg): *</label>
+    <input type = "number" id = "dp-Weight" name = "dp-Weight" value = "0" step = "0.01" min = "0" onchange = "enablebutton();">
+    <input type = "text" id = "dp-Desc" name = "dp-Desc" style = "display:none;">
+    <label for="dp-Bundle"><b>No. of Bundles: *</label>
+    <input type = "number" id = "dp-Bundle" name = "dp-Bundle" value = "0" step = "1" min = "0" onchange = "enablebutton();">
+        <label for="dp-CName"><b>Ship To: *</label>
+    <select name="dp-CuName" id="dp-CuName">
+      <option value="0">Select</option>
+      <?php
+      // Loop through the array to generate list items
+        foreach ($dbcolvalues as $row) {
+            foreach ($row as $value) {
+              echo "<option value='$value'>$value</option>";
+            }
+        }
+        ?>
+        </select>
     <input type = "button" name = "dp-Add" id = "dp-Add" value = "Add to table" disabled onclick = "addtotable();"><br><br>
     <input type = "button" onclick="deleteSelectedRows();" disabled id = "delbutton" name = "delbutton" value = "Delete Selected Rows">
 </form>
 </div>
 <div>
 <form action="forms_action_page.php" method="post" enctype="multipart/form-data" id = "form2">
-  <table id = "myTable" name = "myTable">
+  <table id = "myTable" name = "myTable" oninput = "calculate();">
   <caption style="text-align: middle;">
       <?php echo $mycompanyvalues[1] . " PACKING LIST"; ?> 
       <span style="float: left;"> 
           <?php //echo date('Y-m-d, H:i:s');  ?> 
-          <?php echo "Date:" . date('Y-m-d');  ?>
+          Date: <input type = "text" id = "dAte2" name = "dAte2" disabled>
       </span> 
       <span style="float: right;"> 
           Location: <?php echo $mycompanyvalues[4]; ?>  
@@ -246,12 +270,14 @@ height: 20px;
     <tr>
       <td><input type="checkbox" class = "selectallbutton" onchange = "selectAll(this);"></td>
       <th>S.No:</th>
-      <th>CustomerName</th>
+      <th>ItemName</th>
       <th>Size(Cm)</th>
       <th>RatePerC(₹)</th>
       <th>Count</th>
       <th>Weight(Kg)</th>
       <th>Rate(₹)</th>
+      <th>P</th>
+      <th>CustomerName</th>
     </tr>
     <?php
     // Loop through the array to generate table rows
@@ -263,38 +289,55 @@ height: 20px;
         echo "</tr>";
     }
     ?>
+    <tfoot>
+    <tr>
+    <td colspan="1"></td>
+    <td colspan="1"></td>
+    <td colspan="1"></td>
+    <td colspan="1"></td>
+    <td colspan="1"></td>
+    <td colspan="1"></td>
+    <td colspan="1"><input type = "text" id = "totw" name = "totw" disabled></td>
+    <td colspan="1"><input type = "text" id = "totc" name = "totc" disabled></td>
+    </tr>
+  </tfoot>
+
   </table>
       <input type = "button" id = "Print" name = "Print" value = "Print" disabled onclick = "printPL();">
+      <input type = "button" id = "PrintLabel" name = "PrintLabel" value = "Print Labels" disabled onclick = "printlabel();">
       <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmit();">
 </form>
 </div>
 </body>
 <script>
 
+function copydate() {
+document.getElementById("dAte2").value = document.getElementById("dp-Date").value
+}
+copydate();
 
-
-
-function hideColumn() {
+function hideColumn(columnIndex) {
   var table = document.getElementById("myTable");
   var rows = table.getElementsByTagName("tr");
   for (var i = 0; i < rows.length; i++) {
     var cells = rows[i].getElementsByTagName("td");
-    if (cells.length > 0) {
-      cells[0].style.display = "none"; // Hide the first cell (column)
+    if (cells.length > columnIndex) {
+      cells[columnIndex].style.display = 'none';// Hide the first cell (column)
     }
-  }
+ }
 }
 
-function unhideColumn() {
+function unhideColumn(columnIndex) {
   var table = document.getElementById("myTable");
   var rows = table.getElementsByTagName("tr");
   for (var i = 0; i < rows.length; i++) {
     var cells = rows[i].getElementsByTagName("td");
-    if (cells.length > 0) {
-      cells[0].style.display = "block"; // Hide the first cell (column)
+    if (cells.length > columnIndex) {
+      cells[columnIndex].style.display = ''; //unhide the first cell (column)
     }
   }
 }
+
 
 function selectAll(box) {
 var checkboxes = document.getElementsByClassName('row-checkbox');
@@ -311,13 +354,69 @@ function printPL() {
 document.getElementById("entryform").style.display = "none";
 document.getElementById("Print").hidden = true;
 document.getElementById("SaveRecord").hidden = true;
-hideColumn();
+document.getElementById("PrintLabel").hidden = true;
+hideColumn(0);
 window.print();
 document.getElementById("entryform").style.display = "block";
 document.getElementById("Print").hidden = false;
 document.getElementById("SaveRecord").hidden = false;
-unhideColumn();
+document.getElementById("PrintLabel").hidden = false;
+unhideColumn(0);
 }
+
+function calculate(){
+    var table = document.getElementById('myTable');
+    var rows = table.getElementsByTagName('tr');
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        var resultCell = cells[7];
+        if (cells.length >= 2) {
+            var value1 = parseInt(cells[4].textContent);
+            var value2 = parseInt(cells[5].textContent);
+            if (!isNaN(value1) && !isNaN(value2)) {
+              resultCell.textContent = value1 * value2;
+            }
+      }
+    }
+    calculate3();
+}
+
+function calculate2(){
+    var table = document.getElementById('myTable');
+    var rows = table.getElementsByTagName('tr');
+    for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        var resultCell = cells[1];
+        if (cells.length >= 2) {
+            var value1 = i-1;
+            if (!isNaN(value1)) {
+              resultCell.textContent = value1;
+            }
+      }
+    }
+}
+function calculate3() {
+    var table = document.getElementById('myTable');
+    var rows = table.getElementsByTagName('tr');
+    document.getElementById("totw").value = 0;
+    document.getElementById("totc").value = 0;
+    var sum1 = 0;
+    var sum2 = 0;
+    for (var i = 1; i < (rows.length-1); i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        if (cells.length >= 5) {
+        var ct = cells[6].textContent;
+        var value1 = parseInt(ct);
+        var ct1 = cells[7].textContent;
+        var value2 = parseInt(ct1);
+        sum1 = sum1 + value1;
+        sum2 = sum2 + value2;
+        }
+      }
+    document.getElementById("totw").value = sum1;
+    document.getElementById("totc").value = sum2;
+}
+
 
 function getsizelist() {
   var select = document.getElementById("dp-Size");
@@ -365,24 +464,31 @@ var tr = "SIZE:" + sizestr + ",";
     const myArray= cstr2.split(",");
           let rt1 = myArray[7];
           let ct1 = myArray[12];
+          let ds1 = myArray[2];
+          let spec1 = myArray[3];
           const myArray1= rt1.split(":");
           let rt2 = myArray1[1];
           const myArray2= ct1.split(":");
           let ct2 = myArray2[1];
+          const myArray3= ds1.split(":");
+          let ds2 = myArray3[1];
+          const myArray4= spec1.split(":");
+          let spec2 = myArray4[1];
     document.getElementById("dp-Rate").value = rt2;
     document.getElementById("dp-CountSt").value = ct2;
+    document.getElementById("dp-Desc").value = ds2 + "(" + spec2 + ")";
       }
   }
 }
-
+/*
 function calculateval() {
 var rt = document.getElementById("dp-Rate").value;
 var nums = document.getElementById("dp-Count").value;
 document.getElementById("dp-TotRate").value = rt * nums;
 }
-
+*/
 function enablebutton() {
-    let val = (document.getElementById("dp-CName").value !== "0" && document.getElementById("dp-Size").value !== "0" && document.getElementById("dp-Count").value !== "0");
+    let val = (document.getElementById("dp-CName").value !== "0" && document.getElementById("dp-Size").value !== "0" && document.getElementById("dp-Count").value !== "0" && document.getElementById("dp-Weight").value !== "0" && document.getElementById("dp-Bundle").value !== "0");
     if (val) {
         document.getElementById("dp-Add").disabled = false;
         document.getElementById("delbutton").disabled = false;
@@ -398,32 +504,25 @@ function addtotable() {
   const selectElement = document.getElementById("dp-CName");
   var selectValue= selectElement.options[selectElement.selectedIndex].text;
   var w = document.getElementById("dp-Weight").value;
-  var perC = document.getElementById("dp-CperPackage").value;
-  var totcount = document.getElementById("dp-Count").value;
-  var nump = (totcount/perC);
-  var qofc = Math.floor(totcount/perC);
-  var rofc = totcount % perC;
-  for (let j = 0; j < qofc; j++) {
-    var newRow = table.insertRow(table.rows.length);
-    newRowId = rowoffset + j;
-    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, perC, "<td><div input type = \"number\" contenteditable>0</div></td>", (document.getElementById("dp-Rate").value * perC)];
-        for (let i = 0; i < myArray.length; i++) {
-        var cell = newRow.insertCell(i);
-        cell.innerHTML = myArray[i];
-         }
-  }
-  if (rofc != 0) {
-    newRowId = newRowId + 1;
-    const myArray = ["<td><input type=\"checkbox\" class=\"row-checkbox\"></td>", newRowId, selectValue, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, rofc, "<td><div input type = \"number\" contenteditable>0</div></td>", (document.getElementById("dp-Rate").value * perC)];
-    var newRow = table.insertRow(table.rows.length);
+  var numofbundles = document.getElementById("dp-Bundle").value;
+  var count = document.getElementById("dp-Count").value;
+  var ds = document.getElementById("dp-Desc").value;
+    for (let j = 0; j < numofbundles; j++) {
+      var newRow = table.insertRow(table.rows.length);
+      newRowId = rowoffset + j;
+      var actbundle = parseInt(numofbundles) + parseInt(rowoffset-1);
+      var ds1 = ds + "&nbsp;&nbsp;&nbsp;&nbsp;" + ((j+1) + " / " + actbundle);
+      const myArray = ['<td><input type=\"checkbox\" class=\"row-checkbox\"></td>', newRowId, ds1, document.getElementById("dp-Size").value, document.getElementById("dp-Rate").value, '<td><div input type = \"number\" contenteditable>' + count + '</div></td>', '<td><div input type = \"number\" contenteditable>' + w + '</div></td>', (document.getElementById("dp-Rate").value * count), ((j+1) + " / " + actbundle), selectValue];
       for (let i = 0; i < myArray.length; i++) {
           var cell = newRow.insertCell(i);
           cell.innerHTML = myArray[i];
-          }
-   }
-  document.getElementById("Print").disabled = false;
-  document.getElementById("SaveRecord").disabled = false;
+      }
+    }
+ document.getElementById("Print").disabled = false;
+ document.getElementById("SaveRecord").disabled = false;
+ calculate3();
 }
+
 
 function deleteSelectedRows() {
   var checkboxes = document.getElementsByClassName('row-checkbox');
@@ -442,15 +541,8 @@ function deleteSelectedRows() {
   document.getElementById("Print").disabled = true;
   document.getElementById("SaveRecord").disabled = true;
   }
-  function reorderid() {
-  var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
-  var rows = table.getElementsByTagName("tr");
-    for (var i = 1; i < rows.length; i++) {
-      var cells = rows[i].getElementsByTagName("td");
-      cells[0].innerText = i;
-    }
-}
-reorderid();
+  calculate2();
+  calculate3();
 }
 
 

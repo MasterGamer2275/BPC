@@ -44,7 +44,7 @@ dbclose($db, $text);
   $jsonArray_1 = json_encode($igstlist);
   $jsonArray_2 = json_encode($dbtabdata);
   $jsonArray_3 = json_encode($dbcolvalues);
-  echo '<script>alert("Hello!");</script>';
+  //echo '<script>alert("Hello!");</script>';
   // Echo the JSON array
   echo '<script>';
   echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
@@ -355,16 +355,18 @@ input[type=number] {
       var total = cells[14].innerText;
       var location = cells[15].innerText;
       // Set the values of the form fields
+      document.getElementById("PCname").value = "";
+      document.getElementById("PSname").value = "";
       document.getElementById("id2").value = id;
       document.getElementById("Pdate2").value = date;
       document.getElementById("PInv2").value = invnum;
-      document.getElementById("PSname").value = sname;
       document.getElementById("PSname2").value = sname;
+      document.getElementById("PSname").value = sname;
       getcommoditylist();
       document.getElementById("PCname2").value = cname;
       document.getElementById("PCname3").value = myArray[0];
       var cstr =  myArray[0] +"-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
-      document.getElementById("PCname").value = cstr;
+      //document.getElementById("PCname").value = cstr;
       document.getElementById("PGSM2").value = gsm;
       document.getElementById("PBF2").value = bf;   
       document.getElementById("PRS2").value = rs;
