@@ -227,6 +227,9 @@ input[type=number] {
   opacity: 1;
 }
 
+.form-container select{
+font-size: 12px;
+}
 </style>
 <body>
   <h3>Edit/View Raw Material Stock:</h3>
@@ -341,8 +344,7 @@ input[type=number] {
       var date = cells[1].innerText;
       var invnum = cells[2].innerText;
       var sname = cells[3].innerText.trim();
-      var cname = cells[4].innerText;
-      const myArray = cname.split("-");
+      var cname = cells[4].innerText.trim();
       var gsm = cells[5].innerText;
       var bf = cells[6].innerText;
       var rs = cells[7].innerText;
@@ -361,12 +363,39 @@ input[type=number] {
       document.getElementById("Pdate2").value = date;
       document.getElementById("PInv2").value = invnum;
       document.getElementById("PSname2").value = sname;
-      document.getElementById("PSname").value = sname;
+      var supselect = document.getElementById("PSname");
+      var sindex = -1;
+      var soptions = supselect.options;
+      for (var i = 0; i < soptions.length; i++) {
+          let sstr = soptions[i].text;
+          let sposition = sstr.search(sname);
+          let srfound = (sposition !== -1); // Check if sname is found in sstr
+          if (srfound) {
+              sindex = i; // Assign the index to the outer sindex variable
+              break;
+          }
+      }
+
+      // Set the selected index of "PSname" outside the loop
+      document.getElementById("PSname").selectedIndex = sindex;
       getcommoditylist();
-      document.getElementById("PCname2").value = cname;
-      document.getElementById("PCname3").value = myArray[0];
-      var cstr =  myArray[0] +"-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
-      //document.getElementById("PCname").value = cstr;
+      var cstr = cname + "-" + "GSM:" + gsm + "-" + "BF:" + bf + "-" + "RS:" + rs;
+      var cselect = document.getElementById("PCname");
+      var cindex = -1;
+      var coptions = cselect.options;
+      for (var j = 0; j < coptions.length; j++) {
+          let str1 = coptions[j].text;
+          let cposition = str1.search(cstr);
+          let cfound = (cposition !== -1); // Check if cstr is found in str1
+          if (cfound) {
+              cindex = j; // Assign the index to the outer cindex variable
+              break;
+          }
+      }
+      // Set the selected index of "PCname" outside the loop
+      document.getElementById("PCname").selectedIndex = cindex;
+      document.getElementById("PCname3").value = cname;
+      document.getElementById("PCname2").value = cstr;
       document.getElementById("PGSM2").value = gsm;
       document.getElementById("PBF2").value = bf;   
       document.getElementById("PRS2").value = rs;
@@ -583,7 +612,8 @@ function getcommoditylist() {
           let rs2 = myArray5[1];
           let rs3 = rs2. replaceAll("}", "");
           var option = document.createElement("option");
-          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs3;
+          var str = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs3;
+          option.text = str;
           option.value = i;
           select.appendChild(option);
       } else {

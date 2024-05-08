@@ -61,7 +61,8 @@ $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
 $_SESSION["ProdTabName"] = "PROD_FEED_TABLE";
 $_SESSION["InitPONum"] = "6100000";
 $_SESSION["InitWONum"] = "6100000";
-$_SESSION["DispTabName"] = "TEST_DISPATCH_TABLE_1";
+$_SESSION["DispTabName"] = "DISPATCH_TABLE_1";
+$_SESSION["DocIdTabName"] = "DOC_ID_TABLE_1";
 }
 
 //----------------------------------------DB - Close----------------------------------------//
@@ -1142,22 +1143,21 @@ ORDER BY
     }
 }
 
-//----------------------------------------DB - Create Table (Dispatch)----------------------------------------//
+//----------------------------------------DB - Create Table (Document ID)----------------------------------------//
+// Type - PurchaseOrder, Dispatch, Invoice, Quotation//
+// Status - alloted, used, free//
 
-function dbcreatedispatchtable(&$db, $tablename, &$text) {
-   $text .= "welcome to create dispatch table if not exists";
-
+function dbcreatedocidtable(&$db, $tablename, &$text) {
+  $text .= "welcome to create document id table if not exists";
   $sql =<<<EOF
    CREATE TABLE if not exists $tablename(
-   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   DATE          TEXT  NOT NULL,
-   TIME          TEXT  NOT NULL,
-   CUSTOMERNAME  TEXT  NOT NULL,
-   SIZE          TEXT  NOT NULL,
-   NUMBERS       INTEGER  NOT NULL,
-   WEIGHT        INTEGER  NOT NULL,
-   KGperPACKAGE  INTEGER  NOT NULL,
-   COMPANYID     INTEGER  NOT NULL
+   ID 			   INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   DATE           TEXT     NOT NULL,
+   TIME           TEXT     NOT NULL,
+   TYPE           TEXT     NOT NULL,
+   DOCID          INTEGER  NOT NULL	UNIQUE,
+   STATUS         TEXT,
+   COMPANYID      INTEGER
 );
 EOF;
    $ret = $db->exec($sql);
@@ -1168,5 +1168,147 @@ EOF;
    } else {
       $text .= "Table created successfully<br>";
    }
+}
+
+//----------------------------------------DB - Add record (Document ID Table)----------------------------------------//
+
+function dbadddocidrecord(&$db, $tablename, $diType, $diD, &$text) { 
+$text .= "welcome to add record to document id table";
+  $CompanyID = $_SESSION["companyID"];
+  $date = date("Y-m-d");
+  $time = date("h:i:s a");
+  $dStat = "free";
+  $sql =<<<EOF
+    INSERT INTO $tablename (DATE,TIME,TYPE,DOCID,STATUS,COMPANYID)
+    VALUES ('$date', '$time', '$diType', '$diD', '$dStat', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created successfully<br>";
+      }
+}
+//----------------------------------------DB - Get ID (Document ID Table)----------------------------------------//
+
+function dbgetdocid(&$db, $tablename, $diType, &$DOCID, &$text) { 
+$text .= "welcome to get document id table";
+$CompanyID = $_SESSION["companyID"];
+$sql = "SELECT MIN(DOCID) FROM $tablename
+        WHERE TYPE = '$diType'
+        AND STATUS = 'free'
+        AND COMPANYID = '$CompanyID'";
+$res = $db->query($sql);
+$DOCID = 0;
+if (!$res) {
+    echo $db->lastErrorMsg();
+} else {
+    $row = $res->fetchArray(SQLITE3_ASSOC); // Fetch the result as an associative array
+    $minDocID = $row['MIN(DOCID)']; // Access the minimum DOCID value
+    $DOCID  =$minDocID; 
+}
+}
+//----------------------------------------DB - Edit record (Document ID Table)----------------------------------------//
+
+function dbeditdocidrecord(&$db, $tablename, $diType, $diD, $dStat, &$text) { 
+$text .= "welcome to edit record to document id table";
+  $CompanyID = $_SESSION["companyID"];
+  $date = date("Y-m-d");
+  $time = date("h:i:s a");
+  $sql =<<<EOF
+      $res = $db->query("UPDATE $tablename SET 
+                        STATUS = '$dStat',
+                        DATE = '$date',
+                        TIME = '$time' 
+                     WHERE DOCID = '$diD'
+                        AND TYPE = '$diType'
+                        AND COMPANYID = '$CompanyID'");
+  EOF;
+  $ret = $db->exec($sql);
+  if(!$ret){
+      echo $db->lastErrorMsg();
+   } else {
+      echo "Done!";
+   }
+}
+
+//----------------------------------------DB - cleanup document id table ----------------------------------------//
+// Type - PurchaseOrder, Dispatch, Invoice, Quotation
+// Status - alloted, used, free
+
+function dbcleanupdocidtable(&$db, $tablename, &$text) { 
+    $text .= "Welcome to dispatch table cleanup";
+    $CompanyID = $_SESSION["companyID"];
+    $cDate = date("Y-m-d"); // Current date
+    $fromDate = (new DateTime($cDate))->modify('-1 day')->format("Y-m-d");
+    $cTime = date("h:i:s a");
+    $fromTime = (new DateTime($cTime))->modify('-3 hours')->format("h:i:s a");
+    
+    // Prepare the SQL statement with placeholders
+    $sql = "UPDATE $tablename 
+            SET STATUS = 'free' 
+            WHERE (DATE BETWEEN '$fromDate' AND '$cDate' OR TIME < '$fromTime') 
+                AND STATUS = 'alloted' 
+                AND COMPANYID = '$CompanyID'";
+    
+    // Execute the statement
+    $ret = $db->exec($sql);
+    
+    if (!$ret) {
+        $text .= $db->lastErrorMsg();
+    } else {
+        $text .= "Done!";
+    }
+}
+
+//----------------------------------------DB - Create Table (Dispatch)----------------------------------------//
+
+function dbcreatedispatchtable(&$db, $tablename, &$text) {
+   $text .= "welcome to create dispatch table if not exists";
+
+  $sql =<<<EOF
+   CREATE TABLE if not exists $tablename(
+   ID             INTEGER  		PRIMARY KEY AUTOINCREMENT  UNIQUE,
+   DISPATCHID     INTEGER  		NOT NULL,
+   SNUM			   INTEGER        NOT NULL,
+   DATE           TEXT     		NOT NULL,
+   CUSTOMERNAME   TEXT     		NOT NULL,
+   CUSTOMERNAME2  TEXT           NOT NULL,
+   SIZE           TEXT     		NOT NULL,
+   COUNT          INTEGER  		NOT NULL,
+   WEIGHT         INTEGER  		NOT NULL,
+   PONUMBER		   VARCHAR(15)	   NOT NULL,
+   COMMENT		   TEXT,
+   COMPANYID      INTEGER  		NOT NULL
+);
+EOF;
+   $ret = $db->exec($sql);
+   if(!$ret){
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table created successfully<br>";
+   }
+}
+
+//----------------------------------------DB - Add record (Dispatch Table)----------------------------------------//
+
+function dbadddispatchrecord(&$db, $tablename, $Snum, $DiD, $DDate, $DCname, $DCname2, $DSize, $DCount, $DWeight, $DCPoNum, &$text) { 
+  $CompanyID = $_SESSION["companyID"];
+  $sql =<<<EOF
+    INSERT INTO $tablename (SNUM,DISPATCHID,DATE,CUSTOMERNAME,CUSTOMERNAME2,SIZE,COUNT,WEIGHT,PONUMBER,COMPANYID)
+    VALUES ('$DiD', '$DSnum', '$DDate', '$DCname', '$DCname2', '$DSize', '$DCount', '$DWeight', '$DCPoNum', '$CompanyID');
+  EOF;
+  $ret = $db->exec($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records created successfully<br>";
+      }
 }
 ?>

@@ -111,9 +111,12 @@ input[type=number] {
         margin-right: 5px; /* Adjust spacing between icon and text */
         color: green; /* Color of the arrow */
     }
+              .highlighted-text4 {
+        color: orange;
+    }
 </style>
 <body>
-  <h3>Raw Material Inventory</h3>
+  <h3> Raw Material Inventory</h3>
   <table id="myTable">
     <tr>
       <td onclick="expandtable()">[+/-]</td>
@@ -295,13 +298,17 @@ function hightlightcolumn() {
             // If the cell content matches your condition, change the background color to green
             cell1.innerHTML = "<span class='highlighted-text1'>" + cell1.textContent + "</span>";
         }
-        if (cell1.textContent.trim() > 100) {
+        if (cell1.textContent.trim() > 500) {
             // If the cell content matches your condition, change the background color to green
             cell1.innerHTML = "<span class='highlighted-text3'>" + cell1.textContent + "</span>";
         }
         if (cell2.textContent.toLowerCase().includes("active")){
             // If the cell content matches your condition, change the background color to green
             cell2.innerHTML = "<span class='highlighted-text2'>" + cell2.textContent + "</span>";
+        }
+        if (cell2.textContent.toLowerCase().includes("finished")){
+            // If the cell content matches your condition, change the background color to green
+            cell2.innerHTML = "<span class='highlighted-text4'>" + cell2.textContent + "</span>";
         }
     }
 }

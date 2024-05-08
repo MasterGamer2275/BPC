@@ -144,19 +144,35 @@ table tr th:nth-child(2) {
   font-size: 20px;
   text-align: left;
 }
+    .button-panel {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .button {
+      padding: 10px;
+      border: none;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .button i {
+      margin-right: 5px;
+    }
 </style>
 
 <body>
 <h3>👋 Welcome User!<h3>
     <div class="dashboard">
         <div class="box">
-            <h2>Items Low in Stock:</h2>
-            <p>SDLX GSM 60 30%</p>
-            <p>KY GSM 80 20%</p>
-            <i class='fa fa-stock' style='font-size:48px;color:red'></i>
+            <h2 style="left:0%;"><i class="fa fa-arrow-down"></i>  Items Low in Stock:</h2>
+            <p style="left:0%;">SDLX GSM 60 30%</p>
+            <p style="left:0%;">KY GSM 80 20%</p>
         </div>
         <div class="box">
-            <h2 style="left:0%;">Dispatch Status:</h2>
+            <h2 style="left:0%;"><i class="fa fa-truck"></i>  Dispatch Status:</h2>
             <p style="left:0%;">Job _____ done on 8/10</p>
         </div>
         <div class="box">
@@ -167,11 +183,10 @@ table tr th:nth-child(2) {
     </div>
     <div class="dashboard">
             <div class="box">
-                        </div>
-                                    <div class="box">
-                        </div>
+
+            </div>
             <div class="box">
-               <!--<h3 style="left:0%;">Purchase Summary:</h3>-->
+               <h2 style="left:0%;"><i class="fa fa-shopping-cart"></i>  Purchase History:</h2>
                <table id = "myTable">
                     <tr>
                         <th>Invoice No:</th>

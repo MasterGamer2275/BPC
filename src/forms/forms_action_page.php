@@ -435,5 +435,30 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php header("Location: productionfeed.php"); ?>
     <?php exit; ?>
 <?php } ?>
+<?php /*form - dispatch feed- ($_POST["dpSave"] not working)------------------------------------------------- */ ?>
+<?php if ($_POST["dptableData"] != "") {  ?>
+    <?php $dDate = $_POST["dp-Date"]; ?>
+	  <?php $DiD = $_POST["dp-Dispatch ID"]; ?>
+	  <?php $pCnum = $_POST["dp-pOnum"]; ?>
+	  <?php $CuName = $_POST["dp-CuName"]; ?>
+    <?php $tableDataJSON = $_POST['dptableData']; ?>
+    <?php $tableData = json_decode($tableDataJSON, true); ?>
+    <?php $myArray = array(); ?>
+    <?php $str = json_encode($tableData); ?>
+    <?php $word1 = str_replace("]","",$str); ?>
+    <?php $word2 = str_replace("[","", $word1); ?>
+    <?php $word3 = str_replace('"', '',$word2); ?>
+    <?php $myArray = explode(";", $word3); ?>
+    <?php dbsetup($db, $text); ?>
+    <?php $tablename = $_SESSION["DispTabName"]; ?>
+    <?php for ($i = 0; $i < count($myArray); $i++) {  ?>
+    <?php $myArray1 = explode(",", $myArray[$i]); ?>
+    <?php dbadddispatchrecord($db, $tablename, ($i+1), $DiD, $dDate, $myArray1[9], $CuName, $myArray1[3], $myArray1[5], $myArray1[6], $pCnum, $text); ?>
+    <?php echo $myArray1[2]; ?>
+    <?php } ?>
+    <?php dbclose($db, $text); ?>
+    <?php //header("Location: dispatch2.php"); ?>
+    <?php //exit; ?>
+<?php } ?>
 </body>
 </html>

@@ -98,6 +98,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Stock Feed</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/edit-stock-table.php', '/main-page/frame1.php')">Edit/Review Stock</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stockstatistics.php', '/main-page/frame1.php')">Stock Statistics</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Generate PO</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Purchase Orders</button>
    </div>
 
@@ -113,9 +114,11 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     </div>
     <div class="sub-tab" id = "Production >">
       <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>
+      <button class="subtablinks4" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Finished Goods</button>
     </div>
     <div class="sub-tab" id = "Dispatch >">
       <button class="subtablinks5" onclick="openphp(event, '/forms/dispatch2.php', '/main-page/frame1.php')">Dispatch Feed</button>
+      <button class="subtablinks5" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Dispatched Goods</button>
     </div>
 </div>
 <footer>

@@ -69,3 +69,28 @@ UPDATE $tablename SET REELSIZEinCM = '31.2' WHERE ID BETWEEN '1' AND '6';
    } else {
       echo "Done!";
    }
+
+   <?php
+  $root = $_SERVER['DOCUMENT_ROOT'];
+  //---add the DB API file
+  require $root."/DB/call-db.php";
+  //---open SQL lite 3 .db file
+  dbsetup($db, $text);
+  $tablename = $_SESSION["DocIdTabName"];
+  dbcreatedocidtable($db, $tablename, $text);
+for ($i = 0; $i < 15000; $i++) {
+    $k = 820000 + $i; // Increment $k within the loop
+    dbadddocidrecord($db, $tablename, "Quotation", $k, $text);
+}
+  $dbtabdata = array(array());
+  dbreadtable($db, $tablename, $dbtabdata, $text);
+      foreach ($dbtabdata as $row) {
+        echo "<tr>";
+        foreach ($row as $cell) {
+                  echo "<td>$cell</td>";
+                }
+        echo "</tr>";
+    }
+  dbclose($db, $text);
+  echo $text;
+  ?>
