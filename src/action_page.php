@@ -13,7 +13,7 @@ Signup  <?php echo $_POST["signup"]; ?><br>
     <?php $lgn = $_POST["login"]; ?>
     <?php $sp = $_POST["signup"]; ?>
    <!-- Place holder for SQL table query -->
-  <?php if ($lgn != "" && $name == "Admin1234567" && $password == "Admin") { ?>
+  <?php if ($lgn != "" && $name == "AdminInfiPack" && $password == "Admin") { ?>
      <!-- Place holder to open the .htm file for main log in page -->
      <?php include 'main-page/main-page.php';?>
     <?php } ?>
