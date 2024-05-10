@@ -285,12 +285,12 @@ height: 20px;
 }
 </style>
 </head>
- 
+<script src="script2.js"></script>
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Barcode+128">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text">
 <div id="id01">
-  <form action="forms_action_page.php" method="post" enctype="multipart/form-data" id = "entryform">
+  <form action="#" method="post" enctype="multipart/form-data" id = "entryform">
     <h3>Dispatch Feed:</h3>
     <input type = "text" id = "dp-DiD" name = "dp-DiD" value = "<?php echo $DOCID; ?>" step = "1" min = "0" hidden>
     <label for="dp-Date"><b>Date:</label>
@@ -338,7 +338,7 @@ height: 20px;
         ?>
         </select>
     <input type="hidden" id="dptableData" name="dptableData">
-    <input type = "submit" id = "dpSave" value = "dpSave" style="display: none;">
+    <input type = "button" id = "dpSave" name = "dpSave" value = "dpSave" style="display: none;">
     <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmitevent();"><br><br>
     <input type = "button" onclick="deleteSelectedRows();" disabled id = "delbutton" name = "delbutton" value = "Deleted Selected Rows &#x1F5D1;">
 </form>
@@ -492,6 +492,7 @@ height: 20px;
 
 </div>
 </body>
+
 <script>
 function scrollback() {
   var curindex = document.getElementById("ri").value;
@@ -782,6 +783,7 @@ for (var i = 1; i < (rows.length-1); i++) {
 document.getElementById('dptableData').value = JSON.stringify(data);
 document.getElementById("dpSave").value = "dpSave";
 document.getElementById("dpSave").click();
+alert("sendtosave");
 }
 
 function addbundlenum() {

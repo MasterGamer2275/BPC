@@ -470,8 +470,10 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php dbgetvalue($db, $tablename, $paramname, $filter1, $myArray1[9], $filter2, $myArray1[3], $outputvalue, $rowdata, $text); ?>    
         <?php $newStock = $outputvalue - $myArray1[5]; ?>
         <?php dbeditproductrecord($db, $tablename, $myArray1[9], $myArray1[3], $outputvalue, $myArray1[5], $newStock, "0", $text); ?>
+        <?php echo "Record Added.<br>"; ?>
     <?php } ?>
     <?php dbclose($db, $text); ?>
+    <?php echo $text; ?><br>
     <?php header("Location: dispatch2.php"); ?>
     <?php exit; ?>
 <?php } ?>
