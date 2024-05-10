@@ -167,7 +167,7 @@ table tr th:nth-child(2) {
 <h3>👋 Welcome User!<h3>
     <div class="dashboard">
         <div class="box">
-            <h2 style="left:0%;"><i class="fa fa-arrow-down"></i>  Items Low in Stock:</h2>
+            <h2 style="left:0%;">  Items Low in Stock:</h2>
             <p style="left:0%;">SDLX GSM 60 30%</p>
             <p style="left:0%;">KY GSM 80 20%</p>
         </div>

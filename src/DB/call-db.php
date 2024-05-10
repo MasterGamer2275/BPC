@@ -61,7 +61,7 @@ $_SESSION["PRTabName"] = "TEST_PURCHASE_3";
 $_SESSION["ProdTabName"] = "PROD_FEED_TABLE";
 $_SESSION["InitPONum"] = "6100000";
 $_SESSION["InitWONum"] = "6100000";
-$_SESSION["DispTabName"] = "DISPATCH_TABLE_1";
+$_SESSION["DispTabName"] = "DISPATCH_TABLE_2";
 $_SESSION["DocIdTabName"] = "DOC_ID_TABLE_1";
 }
 
@@ -111,6 +111,26 @@ function dbreadtablewdatefilter(&$db, $tablename, $fromDate, $toDate, &$dbtabdat
       $text .= "Table Read Successfully<br>";
     }
 } 
+
+//----------------------------------------DB - Read table 2----------------------------------------//
+
+function dbreadtable2(&$db, $tablename, &$dbtabdata, &$text) {
+  $CompanyID = $_SESSION["companyID"];
+  $dbtabdata = array(array());
+  $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = ' $CompanyID' ORDER BY ID DESC");
+  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  array_push($dbtabdata,$row);
+  }
+  $ret = $db->exec($sql);
+   if(!$ret) {
+      $err = $db->lastErrorMsg();
+      $text .= $err;
+      $text .= "<br>";
+   } else {
+      $text .= "Table Read Successfully<br>";
+    }
+
+}
 //----------------------------------------DB - Get unique column values----------------------------------------//
 
 function dblistuniquecolvalues(&$db, $tablename, $columnname, &$dbcolvalues, &$text) { 
@@ -1203,7 +1223,9 @@ $sql = "SELECT MIN(DOCID) FROM $tablename
 $res = $db->query($sql);
 $DOCID = 0;
 if (!$res) {
-    echo $db->lastErrorMsg();
+    $err = $db->lastErrorMsg();
+    $text .= $err;
+    $text .= "<br>";
 } else {
     $row = $res->fetchArray(SQLITE3_ASSOC); // Fetch the result as an associative array
     $minDocID = $row['MIN(DOCID)']; // Access the minimum DOCID value
@@ -1212,27 +1234,51 @@ if (!$res) {
 }
 //----------------------------------------DB - Edit record (Document ID Table)----------------------------------------//
 
-function dbeditdocidrecord(&$db, $tablename, $diType, $diD, $dStat, &$text) { 
-$text .= "welcome to edit record to document id table";
-  $CompanyID = $_SESSION["companyID"];
-  $date = date("Y-m-d");
-  $time = date("h:i:s a");
-  $sql =<<<EOF
-      $res = $db->query("UPDATE $tablename SET 
-                        STATUS = '$dStat',
-                        DATE = '$date',
-                        TIME = '$time' 
-                     WHERE DOCID = '$diD'
-                        AND TYPE = '$diType'
-                        AND COMPANYID = '$CompanyID'");
-  EOF;
-  $ret = $db->exec($sql);
-  if(!$ret){
-      echo $db->lastErrorMsg();
-   } else {
-      echo "Done!";
-   }
+function dbeditdocidrecord($db, $tablename, $diType, $diD, $dStat, &$text) { 
+    $text .= "Welcome to edit record to document id table";
+    $CompanyID = $_SESSION["companyID"];
+    $date = date("Y-m-d");
+    $time = date("h:i:s a");
+
+    // Prepare the SQL statement
+    $sql = "UPDATE $tablename SET 
+            STATUS = :status,
+            DATE = :date,
+            TIME = :time 
+            WHERE DOCID = :docid
+            AND TYPE = :type
+            AND COMPANYID = :companyid";
+
+    // Prepare the query
+    $stmt = $db->prepare($sql);
+    if (!$stmt) {
+         $err = $db->lastErrorMsg();
+         $text .= $err;
+         $text .= "<br>";
+        return;
+    }
+
+    // Bind parameters
+    $stmt->bindValue(':status', $dStat);
+    $stmt->bindValue(':date', $date);
+    $stmt->bindValue(':time', $time);
+    $stmt->bindValue(':docid', $diD);
+    $stmt->bindValue(':type', $diType);
+    $stmt->bindValue(':companyid', $CompanyID);
+
+    // Execute the query
+    $ret = $stmt->execute();
+    
+    // Check if query executed successfully
+    if (!$ret) {
+        $err =  $db->lastErrorMsg();
+        $text .= $err;
+        $text .= "<br>";
+    } else {
+        $text .= "Done!";
+    }
 }
+
 
 //----------------------------------------DB - cleanup document id table ----------------------------------------//
 // Type - PurchaseOrder, Dispatch, Invoice, Quotation
@@ -1242,19 +1288,32 @@ function dbcleanupdocidtable(&$db, $tablename, &$text) {
     $text .= "Welcome to dispatch table cleanup";
     $CompanyID = $_SESSION["companyID"];
     $cDate = date("Y-m-d"); // Current date
-    $fromDate = (new DateTime($cDate))->modify('-1 day')->format("Y-m-d");
-    $cTime = date("h:i:s a");
-    $fromTime = (new DateTime($cTime))->modify('-3 hours')->format("h:i:s a");
+    $fromDate = date("Y-m-d", strtotime("-1 day")); // One day ago
+    $cTime = date("H:i:s"); // Current time
+    $fromTime = date("H:i:s", strtotime("-3 hours")); // Three hours ago
     
     // Prepare the SQL statement with placeholders
     $sql = "UPDATE $tablename 
             SET STATUS = 'free' 
-            WHERE (DATE BETWEEN '$fromDate' AND '$cDate' OR TIME < '$fromTime') 
+            WHERE (DATE BETWEEN :fromDate AND :cDate OR TIME < :fromTime) 
                 AND STATUS = 'alloted' 
-                AND COMPANYID = '$CompanyID'";
+                AND COMPANYID = :CompanyID";
     
-    // Execute the statement
-    $ret = $db->exec($sql);
+    // Prepare the query
+    $stmt = $db->prepare($sql);
+    if (!$stmt) {
+        $text .= $db->lastErrorMsg();
+        return;
+    }
+
+    // Bind parameters
+    $stmt->bindParam(':fromDate', $fromDate);
+    $stmt->bindParam(':cDate', $cDate);
+    $stmt->bindParam(':fromTime', $fromTime);
+    $stmt->bindParam(':CompanyID', $CompanyID);
+
+    // Execute the query
+    $ret = $stmt->execute();
     
     if (!$ret) {
         $text .= $db->lastErrorMsg();
@@ -1277,8 +1336,10 @@ function dbcreatedispatchtable(&$db, $tablename, &$text) {
    CUSTOMERNAME   TEXT     		NOT NULL,
    CUSTOMERNAME2  TEXT           NOT NULL,
    SIZE           TEXT     		NOT NULL,
+   RATE           INTEGER        NOT NULL,
    COUNT          INTEGER  		NOT NULL,
    WEIGHT         INTEGER  		NOT NULL,
+   TOTALRATE      INTEGER        NOT NULL,
    PONUMBER		   VARCHAR(15)	   NOT NULL,
    COMMENT		   TEXT,
    COMPANYID      INTEGER  		NOT NULL
@@ -1296,11 +1357,11 @@ EOF;
 
 //----------------------------------------DB - Add record (Dispatch Table)----------------------------------------//
 
-function dbadddispatchrecord(&$db, $tablename, $Snum, $DiD, $DDate, $DCname, $DCname2, $DSize, $DCount, $DWeight, $DCPoNum, &$text) { 
+function dbadddispatchrecord(&$db, $tablename, $DSnum, $DiD, $DDate, $DCname, $DCname2, $DSize, $Rate, $DCount, $DWeight, $totRate, $DCPoNum, &$text) { 
   $CompanyID = $_SESSION["companyID"];
   $sql =<<<EOF
-    INSERT INTO $tablename (SNUM,DISPATCHID,DATE,CUSTOMERNAME,CUSTOMERNAME2,SIZE,COUNT,WEIGHT,PONUMBER,COMPANYID)
-    VALUES ('$DiD', '$DSnum', '$DDate', '$DCname', '$DCname2', '$DSize', '$DCount', '$DWeight', '$DCPoNum', '$CompanyID');
+    INSERT INTO $tablename (SNUM,DISPATCHID,DATE,CUSTOMERNAME,CUSTOMERNAME2,SIZE,RATE,COUNT,WEIGHT,TOTALRATE,PONUMBER,COMPANYID)
+    VALUES ('$DiD', '$DSnum', '$DDate', '$DCname', '$DCname2', '$DSize', '$Rate', '$DCount', '$DWeight', '$totRate', '$DCPoNum', '$CompanyID');
   EOF;
   $ret = $db->exec($sql);
      if(!$ret) {
