@@ -1,23 +1,21 @@
+ <?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
 <?php
-  //---define all variables and constants used
-  //---read a table
-  //find the root path to calling the php filles by path
-// Check if the returned text contains an alert message
-  $root = $_SERVER['DOCUMENT_ROOT'];
-  //---add the DB API file
-  require $root."/DB/call-db.php";
-  //---open SQL lite 3 .db file
-  //echo "<script>alert('" . "Hello!" . "');</script>";
-  dbsetup($db, $text);
+  require "/home/app/src/Reset.php";
+  require "/home/app/src/DB/call-db.php";
   $tablename = $_SESSION["ComListTabName"];
-  dbcreatecommoditytable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   $tablename = $_SESSION["SListTabName"];
   $columnname = "NAME";
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
-  dbclose($db, $text);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +49,7 @@ table tr th:nth-child(1) {
 }
 table tr td:nth-child(2),
 table tr th:nth-child(2) {
-    width: 110px; /* Set your desired width */
+    width: 100px; /* Set your desired width */
 }
 table tr td:nth-child(3),
 table tr th:nth-child(3) {
@@ -67,7 +65,7 @@ table tr th:nth-child(5) {
 }
 table tr td:nth-child(6),
 table tr th:nth-child(6) {
-    width: 50px; /* Set your desired width */
+    width: 74px; /* Set your desired width */
 }
 
 th, td {
@@ -97,10 +95,9 @@ tr, td {
 tr:nth-child(even) {
   background-color: rgb(255, 208, 162);
 }
-
 /* Hide the fifth column by default */
-  th:nth-child(6),
-  td:nth-child(6) {
+  th:nth-child(7),
+  td:nth-child(7) {
   display: none;
 }
 
@@ -117,7 +114,7 @@ input[type=number] {
 }
 
 select {
-width: 29%;
+width: 27%;
 /* width: 120px;*/
 height: 20px;
 }
@@ -156,11 +153,11 @@ height: 20px;
 </select>
 <br><br>
 <label for="CGSM"><b>GSM: *</label>
-<input type = "number" id = "CGSM" name = "CGSM" required min = "1" step=".01">
+<input type = "number" id = "CGSM" name = "CGSM" required min = "1" step="1">
 <label for="CBF"><b>BF: *</label>
-<input type = "number" id = "CBF" name = "CBF" required min = "1" step=".01">
+<input type = "number" id = "CBF" name = "CBF" required min = "1" step="1">
 <label for="CRS"><b>ReelSize(Cm): *</label>
-<input type = "number" id = "CRS" name = "CRS" required min = "1" step="0.01">
+<input type = "number" id = "CRS" name = "CRS" required min = "0.01" step="0.01">
 <input type = "submit" id = "CAdd" name = "CAdd" value = "Add Record">
 <br><br>
 
@@ -180,8 +177,8 @@ height: 20px;
       <input type="text" id="gsmFilter" class="filter-input" placeholder="Filter by name">
     </th>
     <th>BF</th>
-    <th>COMPANYID</th>
     <th>Reel Size(Cm)</th>
+    <th>COMPANYID</th>
   </tr>
   <?php
   // Loop through the array to generate table rows

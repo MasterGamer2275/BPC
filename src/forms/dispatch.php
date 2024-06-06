@@ -10,6 +10,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
   $tablename = $_SESSION["ClListTabName"];
@@ -20,7 +21,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   $tablename = $_SESSION["DispTabName"];
-  dbcreatedispatchtable($db, $tablename, $text);
   $dbdptabdata = array(array());
   $toDate = date('Y-m-d'); // Current date
   $fromDate = (new DateTime($toDate))->modify('-1 day')->format('Y-m-d');
@@ -39,14 +39,12 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $machinelist = explode(",", $val);
   //add filter by unfinished stock.
   $tablename = $_SESSION["StListTabName"];
-  dbcreatestocktable($db, $tablename, $text);
   $dbrnvalues = array();
   $columnname = "REELNUMBER";
   dblistuniquecolvalues($db, $tablename, $columnname, $dbrnvalues, $text);
   $dbtabdata2 = array(array());
   dbreadstocktable($db, $tablename, $dbtabdata2, $text);
   $tablename = $_SESSION["PListTabName"];
-  dbcreateproducttable($db, $tablename, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($dbtabdata2);

@@ -4,11 +4,10 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 //---add the DB API file
 require $root."/DB/call-db.php";
-
+require "/home/app/src/Reset.php";
 $sum = array(array());
 dbsetup($db, $text);
 $tablename = $_SESSION["PListTabName"];
-dbcreateproducttable($db, $tablename, $text);
 $dbtabdata = array(array());
 $colname = "CUSTOMERNAME";
 $companyId = $_SESSION["companyID"];
@@ -21,16 +20,15 @@ $dbtabheader = ["S.No:", "Size", "Opening Stock", "Production", "Closing Stock",
 // Perform SQL query
 $res = $db->query("
     SELECT 
-      ROW_NUMBER() OVER (ORDER BY SIZE),
       SIZE,
-      CLOSINGSTOCK as Openingst,
-      '0' as Production,
-      CLOSINGSTOCK as ClosingSt,
+      CLOSINGSTOCK AS Openingst,
+      '0' AS Production,
+      CLOSINGSTOCK AS ClosingSt,
       RATE,
-      printf('%,.2f', RATE * CLOSINGSTOCK) as TotalValue,
-      printf('%,.2f', RATE * CLOSINGSTOCK * 12 / 100) as GST
+      (RATE * CLOSINGSTOCK) AS TotalValue,
+      (RATE * CLOSINGSTOCK * 12 / 100) AS GST
     FROM 
-      $tablename 
+      `$tablename`
     WHERE 
       $colname = '$cName' 
       AND COMPANYID = '$companyId' 
@@ -41,11 +39,14 @@ $res = $db->query("
 $sum = 0;
 $gst = 0;
 $totalval = 0;
-while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+$i = 1;
+while (($row = $res->fetch_assoc())) {
+  array_unshift($row,$i);
   array_push($dbtabdata,$row);
   $sum = $row['TotalValue'] + $row['GST'] + $sum;
   $gst = $gst + $row['GST'];
   $totalval = $totalval + $row['TotalValue'];
+  $i++;
 }
 $totalval = number_format($totalval, 2);
 $gst = number_format($gst, 2);
@@ -72,16 +73,6 @@ foreach ($dbtabdata as $row) {
             }      
     echo "</tr>";
     }
-$sql =<<<EOF
-EOF;
-$ret = $db->exec($sql);
-if(!$ret) {
-    //echo $db->lastErrorMsg();
-   // echo "<br>";
-} else {
-    //echo "Tabe Read Successfully<br>";
-}
-
 // Close connection
 dbclose($db, $text);
 ?>

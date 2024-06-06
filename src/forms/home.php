@@ -1,39 +1,38 @@
 <?php
-  $root = $_SERVER['DOCUMENT_ROOT'];
-  //---add the DB API file
-  require $root."/DB/call-db.php";
-  //---open SQL lite 3 .db file
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
+<?php
+  require "/home/app/src/Reset.php";
   $dbtabdata = array(array());
-  dbsetup($db, $text);
   $tablename = $_SESSION["StListTabName"];
   $companyId = $_SESSION["companyID"];
-  dbcreatestocktable($db, $tablename, $text);
   $res = $db->query("
     SELECT 
       INVNUM,
       SUPPLIERNAME,
       COUNT(REELNUMBER) As NumofReels,
-      SUM(REELWEIGHT) As TotalWeight,
-      printf('%,.2f', SUM(TOTAL)) AS TotalPrice
+      CONCAT(SUM(REELWEIGHT),' Kg') As TotalWeight,
+      CONCAT('₹ ',FORMAT(SUM(TOTAL), 2)) AS TotalPrice
     FROM 
-      $tablename 
+      `$tablename`
     WHERE 
-      COMPANYID = '$companyId' 
+      COMPANYID = '$companyId'
     GROUP BY 
       INVNUM
     ORDER BY
-      TotalPrice DESC;
+      TotalPrice DESC
+    LIMIT 10;
 ");
 // Output data
-$i = 0;
-while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
-  if ($i <= 10) {
+while (($row = $res->fetch_assoc())) {
   array_push($dbtabdata,$row);
-  }
-  $i++;
 }
 
-  dbclose($db, $text);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +41,6 @@ while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Sample Dashboard Boxes</title>
 </head>
 <style>
 body {
@@ -50,12 +48,17 @@ body {
     font-family: "Trebuchet MS", sans-serif;
     margin: 0;
     padding: 0;
+    color: black;
+}
+h3{
+color: black;
 }
 .dashboard {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
+    color: black;
 }
 .box {
     background-color: #f0f0f0;

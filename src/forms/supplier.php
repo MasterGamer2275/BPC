@@ -5,10 +5,10 @@
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
   $tablename = $_SESSION["SListTabName"];
-  dbcreatesuppliertable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);

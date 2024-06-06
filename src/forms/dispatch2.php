@@ -10,6 +10,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
   $tablename = $_SESSION["ClListTabName"];
@@ -24,7 +25,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   // Implode rows with row separator
   $implodeResult = implode(';', $rowImploded);
   $tablename = $_SESSION["DispTabName"];
-  dbcreatedispatchtable($db, $tablename, $text);
   $dbdptabdata = array(array());
   $toDate = date('Y-m-d'); // Current date
   $fromDate = (new DateTime($toDate))->modify('-1 day')->format('Y-m-d');
@@ -43,26 +43,20 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   $machinelist = explode(",", $val);
   //add filter by unfinished stock.
   $tablename = $_SESSION["StListTabName"];
-  dbcreatestocktable($db, $tablename, $text);
   $dbrnvalues = array();
   $columnname = "REELNUMBER";
   dblistuniquecolvalues($db, $tablename, $columnname, $dbrnvalues, $text);
   $dbtabdata2 = array(array());
-  dbreadstocktable($db, $tablename, $dbtabdata2, $text);
   $tablename = $_SESSION["PListTabName"];
-  dbcreateproducttable($db, $tablename, $text);
   $columnname = "CUSTOMERNAME";
   $dbcolvalues2 = array(array());
   dblistuniquecolvalues($db, $tablename, $columnname, $dbcolvalues2, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   $tablename = $_SESSION["DocIdTabName"];
-  dbcreatedocidtable($db, $tablename, $text);
-  dbcleanupdocidtable($db, $tablename, $text);
   dbgetdocid($db, $tablename, "Dispatch", $DOCID, $text);
   dbeditdocidrecord($db, $tablename, "Dispatch", $DOCID, "alloted", $text);
   $tablename = $_SESSION["DispTabName"];
-  dbcreatedispatchtable($db, $tablename, $text);
   $tablename = $_SESSION["CoListTabName"];
   $paramname = "ID";
   $paramvalue = "6100";
@@ -285,6 +279,7 @@ height: 20px;
 }
 </style>
 </head>
+ 
 <body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Barcode+128">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text">
@@ -337,7 +332,7 @@ height: 20px;
         ?>
         </select>
     <input type="hidden" id="dptableData" name="dptableData">
-    <input type = "submit" id = "dpSave" name = "dpSave" value = "dpSave" style="display: none;">
+    <input type = "submit" id = "dpSave" value = "dpSave" style="display: none;">
     <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmitevent();"><br><br>
     <input type = "button" onclick="deleteSelectedRows();" disabled id = "delbutton" name = "delbutton" value = "Deleted Selected Rows &#x1F5D1;">
 </form>
@@ -491,7 +486,6 @@ height: 20px;
 
 </div>
 </body>
-
 <script>
 function scrollback() {
   var curindex = document.getElementById("ri").value;
@@ -782,7 +776,6 @@ for (var i = 1; i < (rows.length-1); i++) {
 document.getElementById('dptableData').value = JSON.stringify(data);
 document.getElementById("dpSave").value = "dpSave";
 document.getElementById("dpSave").click();
-alert("sendtosave");
 }
 
 function addbundlenum() {
@@ -876,20 +869,23 @@ function getsizelist() {
 
 function updateinfo() {
 var sizestr = document.getElementById("dp-Size").value;
+var cname = document.getElementById("dp-CName").value;
 document.getElementById("dp-Rate").value = "0";
 document.getElementById("dp-CountSt").value = "0";
 var tr = "SIZE:" + sizestr + ",";
+var tr2 = "CUSTOMERNAME:" + cname + ",";
   for (let i = 1; i < jsArray_2.length; i++) {
     let c = JSON.stringify(jsArray_2[i]);
     let cstr = c.replaceAll("\"", "");
     let cstr1 = cstr.replaceAll("}", "");
     let cstr2 = cstr1.replaceAll("{", "");
     let position = cstr2.search(tr);
-    let found = (position>0);
+    let position2 = cstr2.search(tr2);
+    let found = (position > 0 && position2 > 0);
     if (found) {
     const myArray= cstr2.split(",");
           let rt1 = myArray[7];
-          let ct1 = myArray[12];
+          let ct1 = myArray[10];
           let ds1 = myArray[2];
           let spec1 = myArray[3];
           const myArray1= rt1.split(":");

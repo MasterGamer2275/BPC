@@ -13,6 +13,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 $root = $_SERVER['DOCUMENT_ROOT'];
 //---add the DB API file
 require $root."/DB/call-db.php";
+require "/home/app/src/Reset.php";
 $dbtabdata = array(array());
 dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];

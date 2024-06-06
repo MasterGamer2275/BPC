@@ -2,6 +2,7 @@
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
   $tablename = $_SESSION["SListTabName"];
@@ -445,7 +446,7 @@ function getcommoditylist() {
           let word1 = myArray[1];
           let gsm1 = myArray[3];
           let bf1 = myArray[4];
-          let rs1 = myArray[6];
+          let rs1 = myArray[5];
           const myArray2 = word1.split(":");
           let word2 = myArray2[1];
           let word3 = word2. replaceAll("\"", "");
@@ -456,8 +457,9 @@ function getcommoditylist() {
           const myArray5 = rs1.split(":");
           let rs2 = myArray5[1];
           let rs3 = rs2. replaceAll("}", "");
+          let rs4 = rs3. replaceAll("\"", "");
           var option = document.createElement("option");
-          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs3;
+          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs4;
           option.value = i;
           select.appendChild(option);
       } else {

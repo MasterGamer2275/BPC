@@ -1,12 +1,12 @@
  <?php
   $root = $_SERVER['DOCUMENT_ROOT'];
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   dbsetup($db, $text);
   $tablename = $_SESSION["CoListTabName"];
   $paramname = "ID";
   $paramvalue = "6100";
   $dbrowvalues = array();
-  dbcreatecompanylisttable($db, $tablename, $text);
   dbreadrecord($db, $tablename, $paramname, $paramvalue, $dbrowvalues, $text);
   dbclose($db, $text);
   $jsonArray_1 = json_encode($dbrowvalues);
@@ -176,7 +176,7 @@ input[type="file"] {
         <input type="text" name="file3_name" id="file3-name-hidden" hidden>
         <label for="mList">Machine Name List: *</label>(Add comma seperated by a line for each machine name)
         <textarea name="mList" id="mList" required></textarea><br><br>
-        <label for="gList">Godown Name List: *</label>(Add comma seperated by a line for each machine name)
+        <label for="gList">Godown Name List: *</label>(Add comma seperated by a line for each godown name)
         <textarea name="gList" id="gList" required></textarea><br><br>
         <input type = "submit" class="input-box" id = "CoSave" name = "CoSave" value = "Save">
         <br><br>

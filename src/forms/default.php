@@ -1,2 +1,1 @@
-<?php echo "Site is under construction!" ?>
-
+<?php echo "To be Added Soon!" ?>

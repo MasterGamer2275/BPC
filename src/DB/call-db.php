@@ -7,6 +7,10 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   }
 ?>
 <?php
+//session_start();
+?>
+
+<?php
 //change the global variable to a function input
 //***SQL Injection Vulnerability: Your code is vulnerable to SQL injection attacks because it directly inserts variables into SQL queries. Consider using prepared statements or parameterized queries to prevent this vulnerability.
 //Passing variables by reference (&) is not necessary unless you intend to modify them within the function. In most cases, it's better to pass variables by value.
@@ -16,175 +20,146 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
 //SQL lite 3 DB API for all forms
 //----------------------------------------DB - Setup----------------------------------------//
+
 function dbsetup(&$db, &$text) {
-     $text = "Debug Mode:<br>";
-     $err = "Db Error:";
-     class MyDB extends SQLite3 {
-      function __construct() {
-         $this->open('w3s-dynamic-storage\database.db');
-      }
-   }
-   $db = new MyDB();
-   if(!$db) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-     $text .= "Opened database successfully<br>";
-   }
-   //add delete stock 4, 5, 6, 7 & 8
-session_start();
-/*
-$_SESSION["companyID"] = "6100";
-$_SESSION["SListTabName"] = "TEST_SUPPLIER_4";
-$_SESSION["ComListTabName"] = "TEST_COMMODITY_3";
-$_SESSION["StListTabName"] = "TEST_STOCK_8";
-$_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
-$_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
-$_SESSION["ClListTabName"] = "TEST_CUSTOMER_3";
-$_SESSION["PListTabName"] = "TEST_PRODUCT_1";
-$_SESSION["PRTabName"] = "TEST_PURCHASE_3";
-$_SESSION["ProdTabName"] = "TEST_PRODUCTION_3";
-$_SESSION["DispTabName"] = "TEST_DISPATCH_TABLE_1";
-$_SESSION["InitPONum"] = "6100000";
-$_SESSION["InitWONum"] = "6100000";
-*/
-$_SESSION["companyID"] = "6100";
-$_SESSION["SListTabName"] = "SUPPLIER_TABLE";
-$_SESSION["ComListTabName"] = "COMMODITY_TABLE";
-$_SESSION["StListTabName"] = "RMSTOCK_TABLE";
-$_SESSION["PRNumTabName"] = "TEST_PRNUM_1";
-$_SESSION["CoListTabName"] = "TEST_COMPANY_LIST_2";
-$_SESSION["ClListTabName"] = "CUSTOMER_TABLE_1";
-$_SESSION["PListTabName"] = "PRODUCT_TABLE_1";
-$_SESSION["PRTabName"] = "TEST_PURCHASE_3";
-$_SESSION["ProdTabName"] = "PROD_FEED_TABLE";
-$_SESSION["InitPONum"] = "6100000";
-$_SESSION["InitWONum"] = "6100000";
-$_SESSION["DispTabName"] = "DISPATCH_TABLE_2";
-$_SESSION["DocIdTabName"] = "DOC_ID_TABLE_1";
+  //$db = $_SESSION["DBRef"];
 }
 
 //----------------------------------------DB - Close----------------------------------------//
 
-function dbclose (&$db, &$text) {
-   $db->close();
-   $text .= "Closed database successfully<br>";
-   //echo $text;
-   session_destroy();
+function dbclose(&$db, &$text) {
+
 }
+
 
 //----------------------------------------DB - Read Table----------------------------------------//
 
 function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
-  $CompanyID = $_SESSION["companyID"];
-  //echo "<script>alert('" . "Hello!" . "');</script>";
-  $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = ' $CompanyID' ORDER BY ID DESC");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
-  array_push($dbtabdata,$row);
-  }
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table Read Successfully<br>";
+    $text .= "Reading table<br>";
+    
+    // Get company ID from session (make sure session is started before calling this function)
+    $CompanyID = $_SESSION["companyID"];
+    
+    // Prepare and execute query using prepared statement
+    $stmt = $db->prepare("SELECT * FROM `$tablename` WHERE CompanyID = ?");
+    $stmt->bind_param("i", $CompanyID); // Assuming CompanyID is an integer
+    $stmt->execute();
+    
+    // Get result
+    $result = $stmt->get_result();
+    
+    // Fetch rows
+    while ($row = $result->fetch_assoc()) {
+        $dbtabdata[] = $row;
     }
-}  
+    
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error reading table: $err<br>";
+    } else {
+        $text .= "Table read successfully<br>";
+    }
+    
+    // Close statement
+    $stmt->close();
+}
 
 //----------------------------------------DB - Read Table(wdate filter)----------------------------------------//
 
 function dbreadtablewdatefilter(&$db, $tablename, $fromDate, $toDate, &$dbtabdata, &$text) {
   $CompanyID = $_SESSION["companyID"];
   //echo "<script>alert('" . "Hello!" . "');</script>";
-  $res = $db->query("SELECT * FROM $tablename WHERE DATE BETWEEN '$fromDate' AND '$toDate' AND CompanyID = ' $CompanyID' ORDER BY ID DESC");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  $res = $db->query("SELECT * FROM `$tablename` WHERE DATE BETWEEN $fromDate AND $toDate AND CompanyID = '$CompanyID' ORDER BY ID DESC");
+  while (($row = $res->fetch_assoc())) {
   array_push($dbtabdata,$row);
   }
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table Read Successfully<br>";
-    }
 } 
 
 //----------------------------------------DB - Read table 2----------------------------------------//
 
 function dbreadtable2(&$db, $tablename, &$dbtabdata, &$text) {
-  $CompanyID = $_SESSION["companyID"];
-  $dbtabdata = array(array());
-  $res = $db->query("SELECT * FROM $tablename WHERE CompanyID = ' $CompanyID' ORDER BY ID DESC");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
-  array_push($dbtabdata,$row);
-  }
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table Read Successfully<br>";
+    $text .= "Reading table<br>";
+    
+    // Get company ID from session (make sure session is started before calling this function)
+    $CompanyID = $_SESSION["companyID"];
+    
+    // Prepare and execute query using prepared statement
+    $stmt = $db->prepare("SELECT * FROM `$tablename` WHERE CompanyID = ? ORDER BY ID DESC");
+    $stmt->bind_param("i", $CompanyID); // Assuming CompanyID is an integer
+    $stmt->execute();
+    
+    // Get result
+    $result = $stmt->get_result();
+    
+    // Fetch rows
+    while ($row = $result->fetch_assoc()) {
+        $dbtabdata[] = $row;
     }
-
+    
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error reading table: $err<br>";
+    } else {
+        $text .= "Table read successfully<br>";
+    }
+    
+    // Close statement
+    $stmt->close();
 }
+
 //----------------------------------------DB - Get unique column values----------------------------------------//
 
 function dblistuniquecolvalues(&$db, $tablename, $columnname, &$dbcolvalues, &$text) { 
 $dbtabdata = array(array());
 $CompanyID = $_SESSION["companyID"];
-$res = $db->query("SELECT DISTINCT $columnname FROM $tablename WHERE CompanyID = '$CompanyID'");
-     while (($val = $res->fetchArray(SQLITE3_ASSOC))) {
+$res = $db->query("SELECT DISTINCT `$columnname` FROM `$tablename` WHERE CompanyID = '$CompanyID'");
+     while (($val = $res->fetch_assoc())) {
       array_push($dbtabdata,$val);
   }
-$sql =<<<EOF
-EOF;
 $dbcolvalues = array();
    foreach ($dbtabdata as $row) {
       foreach ($row as $cell) {
                 array_push($dbcolvalues,$cell);
               }
   }
-$ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Column Read Successfully<br>";
-    }
 }
 
 
 //----------------------------------------DB - Add record (Supplier Table)----------------------------------------//
 
 function dbaddsupplierrecord(&$db, $tablename, $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, &$CompanyID, $SIGST, &$text) { 
-  $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
-    VALUES ('$Sname', '$SuGST', '$SAddr', '$SCity', '$SState', '$SPcode', '$SPh', '$SEmail', '$CompanyID','$SIGST');
-  EOF;
-  $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records created successfully<br>";
-      }
+    // Get company ID from session (make sure session is started before calling this function)
+    $CompanyID = $_SESSION["companyID"];
+    
+    // Prepare statement
+    $stmt = $db->prepare("
+        INSERT INTO $tablename (NAME, GSTIN, ADDRESS, CITY, STATE, PINCODE, PHONE, EMAIL, COMPANYID, IGST)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    
+    // Bind parameters
+    $stmt->bind_param("ssssssssis", $Sname, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $CompanyID, $SIGST);
+    
+    // Execute statement
+    if ($stmt->execute()) {
+        $text .= "Records created successfully<br>";
+    } else {
+        $text .= "Error creating records: " . $stmt->error . "<br>";
+    }
+    
+    // Close statement
+    $stmt->close();
 }
 //----------------------------------------DB - Add record (Customer Table)----------------------------------------//
 
 function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$CompanyID, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
+  $sql ="
     INSERT INTO $tablename (NAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,COMPANYID,IGST)
-    VALUES ('$Sname', '$SuGST', '$SAddr', '$SCity', '$SState', '$SPcode', '$SPh', '$SEmail', '$CompanyID','$SIGST');
-  EOF;
-  $ret = $db->exec($sql);
+    VALUES ('$Sname', '$SuGST', '$SAddr', '$SCity', '$SState', '$SPcode', '$SPh', '$SEmail', '$CompanyID','$SIGST')";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -196,51 +171,75 @@ function dbaddcustomerrecord(&$db, $tablename, $Cname, $CGST, $CAddr, $CCity, $C
 
 //----------------------------------------DB - Add record (Stock Table)----------------------------------------//
 
-function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) { 
-  $CompanyID = $_SESSION["companyID"];
-  $status = "in-stock";
-  $sql =<<<EOF
-    INSERT INTO $tablename (DATE,INVNUM,SUPPLIERNAME,COMMODITYNAME,GSM,BF,REELSIZE,REELNUMBER,REELWEIGHT,RATE,SGST,CGST,IGST,TOTAL,GODOWNNAME,USEDWEIGHT,STATUS,COMPANYID)
-    VALUES ('$date', '$invnum', '$name', '$mattype', '$gsm', '$bf', '$rs', '$rn', '$rw', '$rate', '$sgst', '$cgst', '$igst', '$total', '$godownname', '0', '$status', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records created successfully<br>";
-      }
+function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, &$text) {
+
+    $CompanyID = $_SESSION["companyID"];
+    $status = "in-stock";
+    $usedweight = 0;
+
+    // Prepare the SQL statement with placeholders
+    $sql = "INSERT INTO `$tablename` (DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER, REELWEIGHT, RATE, SGST, CGST, IGST, TOTAL, GODOWNNAME, USEDWEIGHT, STATUS, COMPANYID)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Prepare the statement
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt) {
+        $text .= "Error preparing statement: " . $db->error . "<br>";
+        return;
+    }
+
+    // Bind the parameters
+    $stmt->bind_param("ssssiididdddddsdsi", $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, $usedweight, $status, $CompanyID);
+
+    // Execute the statement
+    $ret = $stmt->execute();
+
+    if ($ret) {
+        $text .= "Records created successfully<br>";
+    } else {
+        $err = $stmt->error;
+        $text .= "Error creating record: " . $err . "<br>";
+    }
+
+    // Close the statement
+    $stmt->close();
 }
 
 //----------------------------------------DB - Update record (Supplier Table)----------------------------------------//
 
 function dbeditsupplierrecord(&$db, $tablename, $ID, $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $SIGST, &$text) { 
-    $sql =<<<EOF
-    UPDATE $tablename SET 
-    GSTIN = '$SuGST',
-    ADDRESS = '$SAddr',
-    CITY= '$SCity',
-    STATE= '$SState',
-    PINCODE= '$SPcode',
-    PHONE= '$SPh',
-    EMAIL= '$SEmail',
-    IGST= '$SIGST' WHERE ID = '$ID';
-  EOF;
-  $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records updated successfully<br>";
-      }
+$stmt = $db->prepare("UPDATE $tablename SET 
+                    GSTIN = ?, 
+                    ADDRESS = ?, 
+                    CITY = ?, 
+                    STATE = ?, 
+                    PINCODE = ?, 
+                    PHONE = ?, 
+                    EMAIL = ?, 
+                    IGST = ? 
+                WHERE ID = ?");
+        if (!$stmt) {
+            throw new Exception("Statement preparation failed: " . $db->error);
+        }
+
+                // Bind parameters to statement
+        $stmt->bind_param("ssssssssi", $SuGST, $SAddr, $SCity, $SState, $SPcode, $SPh, $SEmail, $SIGST, $ID);
+                // Execute the statement
+        $ret = $stmt->execute();
+
+        if ($ret) {
+            $text .= "Records updated successfully<br>";
+        } else {
+            $err = $stmt->error;
+            $text .= "Error updating record: " . $err . "<br>";
+        }
 }
 
 //----------------------------------------DB - Update record (CompanyList Table)----------------------------------------//
 
 function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCity, $Costate, $CoPcode, $CoPh, $CoEmail, $CoGST, $CoAcode, $CoAPh, $fileToUpload1, $fileToUpload2, $fileToUpload3, $machinelist, $godownlist, &$text) { 
-    $sql =<<<EOF
+    $sql =("
     UPDATE $tablename SET 
     NAME = '$Coname',
     GSTIN = '$CoGST',
@@ -256,9 +255,8 @@ function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCit
     DIGISIG = '$fileToUpload2',
     LETTERHEAD = '$fileToUpload3', 
     MACHINELIST = '$machinelist',
-    GODOWNLIST= '$godownlist' WHERE ID = '$ID';
-  EOF;
-  $ret = $db->exec($sql);
+    GODOWNLIST= '$godownlist' WHERE ID = '$ID'");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -269,27 +267,39 @@ function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCit
 
 //----------------------------------------DB - Delete record (Supplier Table)----------------------------------------//
 
-function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) { 
-  $sql =<<<EOF
-  DELETE FROM $tablename WHERE ID = '$ID';
-  EOF;
-  $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records deleted successfully<br>";
-      }
+function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) {
+    // Ensure $tablename and $ID are properly escaped or sanitized
+    // Prepare the DELETE statement
+    $sql = "DELETE FROM `$tablename` WHERE ID = ?";
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt) {
+        $text .= "Error preparing statement: " . $db->error . "<br>";
+        return;
+    }
+
+    // Bind the ID parameter
+    $stmt->bind_param("i", $ID);
+
+    // Execute the statement
+    $ret = $stmt->execute();
+
+    if ($ret) {
+        $text .= "Records deleted successfully<br>";
+    } else {
+        $err = $stmt->error;
+        $text .= "Error deleting record: " . $err . "<br>";
+    }
+
+    // Close the statement
+    $stmt->close();
 }
 
 //----------------------------------------DB - Delete record----------------------------------------//
 
 function dbdelrecord(&$db, $tablename, $ID, &$text) { 
-  $sql =<<<EOF
-  DELETE FROM $tablename WHERE ID = '$ID';
-  EOF;
-  $ret = $db->exec($sql);
+  $sql ="DELETE FROM $tablename WHERE ID = '$ID'";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -301,206 +311,118 @@ function dbdelrecord(&$db, $tablename, $ID, &$text) {
 
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 
-function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$text) {
-  $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (NAME,SUPPLIERNAME,GSM,BF,COMPANYID,REELSIZEinCM)
-    VALUES ('$Cname', '$CSname', '$CGSM', '$CBF', '$CompanyID', '$ReelSize');
- EOF;
- $ret = $db->exec($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-        } else { 
-          $text .= "Records created successfully<br>";
-      }
+function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CRS, &$text) {
+    $CompanyID = $_SESSION["companyID"];
+
+    // Prepare the SQL statement with placeholders
+    $sql = "INSERT INTO `$tablename` (NAME, SUPPLIERNAME, GSM, BF, REELSIZEinCM, COMPANYID)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    // Prepare the statement
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt) {
+        $text .= "Error preparing statement: " . $db->error . "<br>";
+        return;
+    }
+
+    // Bind the parameters
+    $stmt->bind_param("ssiidi", $Cname, $CSname, $CGSM, $CBF, $CRS, $CompanyID);
+
+    // Execute the statement
+    $ret = $stmt->execute();
+
+    if ($ret) {
+        $text .= "Records created successfully<br>";
+    } else {
+        $err = $stmt->error;
+        $text .= "Error creating record: " . $err . "<br>";
+    }
+
+    // Close the statement
+    $stmt->close();
 }
 
 //----------------------------------------DB - check record (Commodity Table)----------------------------------------//
 
 function dbcheckcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, &$CompanyID, $ReelSize, &$found, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $dbtabdata = array(array());
-  $i = 0;
-  $res = $db->query("SELECT * FROM $tablename WHERE NAME='" . trim($Cname) . "' and SUPPLIERNAME='" . trim($CSname) . "' and GSM='$CGSM' and BF='$CBF' and COMPANYID ='$CompanyID' and REELSIZEinCM = '$ReelSize'");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
-  array_push($dbtabdata,$row);
-  $i = $i+1;
-  }
-  $found = ($i>0);
-  if ($found) {
-   $text .= "Record Already Exists <br>";
-   return "Record Already Exists";
-  }
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-   } else {
-      $text .= "DB check completed<br>";
-      return "DB check completed";
+    // Prepare the SQL statement
+    $sql = "SELECT * FROM `$tablename` WHERE NAME=? AND SUPPLIERNAME=? AND GSM=? AND BF=? AND COMPANYID=? AND REELSIZEinCM=?";
+
+    // Prepare the statement
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt) {
+        $text .= "Error preparing statement: " . $db->error . "<br>";
+        return;
+    }
+
+    // Bind the parameters
+    $stmt->bind_param("ssiiid", $Cname, $CSname, $CGSM, $CBF, $CompanyID, $ReelSize);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Store the result
+    $result = $stmt->get_result();
+
+    // Check if the record exists
+    $found = $result->num_rows > 0;
+    // Close the statement
+    $stmt->close();
+
+    if ($found) {
+        $text .= "Record Already Exists <br>";
+        return "Record Already Exists";
+    } else {
+        $text .= "DB check completed<br>";
+        return "DB check completed";
     }
 } 
 
-//----------------------------------------DB - Create Table (Suppliers)----------------------------------------//
-
-function dbcreatesuppliertable(&$db, $tablename, &$text) {
-   $text .= "welcome to create supplier table if not exists";
-
-  $sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   NAME           TEXT  NOT NULL UNIQUE,
-   GSTIN          VARCHAR(15)  NOT NULL,
-   ADDRESS        TEXT,
-   CITY           TEXT,
-   STATE          TEXT,
-   PINCODE        TEXT(6),
-   PHONE          TEXT(10),
-   EMAIL          TEXT,
-   COMPANYID   INTEGER,
-   IGST        TEXT
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
-}
-
-//----------------------------------------DB - Create Table (Commodities)----------------------------------------//
-
-function dbcreatecommoditytable(&$db, $tablename, &$text) {
- $text .= "welcome to create commodity table if not exists\n";
- $sql =<<<EOF
-   CREATE TABLE if not exists $tablename (
-   ID           INTEGER     NOT NULL    PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   NAME         TEXT        NOT NULL,
-   SUPPLIERNAME TEXT        NOT NULL,
-   GSM          INTEGER     NOT NULL,
-   BF           INTEGER     NOT NULL,
-   COMPANYID    INTEGER     NOT NULL,
-   REELSIZEinCM   INTEGER  NOT NULL
-);
-EOF;
-$ret = $db->exec($sql);
-    if(!$ret){
-        $err = $db->lastErrorMsg();
-        $text .= $err;
-        $text .= "<br>";
-    } else {
-        $text .= "Commodity Table created successfully<br>";
-    }
-}
-//----------------------------------------DB - Create Table (Stock)----------------------------------------//
-
-function dbcreatestocktable(&$db, &$tablename, &$text) {
-   $text .= "welcome to create stock table if not exists<br>";
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID INTEGER PRIMARY KEY AUTOINCREMENT         UNIQUE,
-   DATE                 TEXT        NOT NULL,
-   INVNUM               TEXT        NOT NULL,
-   SUPPLIERNAME         TEXT        NOT NULL,
-   COMMODITYNAME        TEXT        NOT NULL,
-   GSM                  INTEGER     NOT NULL,
-   BF                   INTEGER     NOT NULL,
-   REELSIZE             INTEGER     NOT NULL,
-   REELNUMBER           INTEGER     NOT NULL,
-   REELWEIGHT           INTEGER     NOT NULL,
-   RATE                 INTEGER,
-   SGST                 INTEGER,
-   CGST                 INTEGER,
-   IGST                 INTEGER,
-   TOTAL                INTEGER,
-   GODOWNNAME           TEXT        NOT NULL,
-   USEDWEIGHT           TEXT        NOT NULL,
-   STATUS               TEXT        NOT NULL,
-   COMPANYID            INTEGER     NOT NULL
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Stock table created successfully<br>";
-   }
-}
-
-//----------------------------------------DB - Create Table (Company)----------------------------------------//
-
-function dbcreatecompanylisttable(&$db, &$tablename, &$text) {
-   $text .= "welcome to create companies list table if not exists<br>";
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID                      INTEGER           PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   NAME                    TEXT              NOT NULL    UNIQUE,
-   GSTIN                   VARCHAR(15)       NOT NULL    UNIQUE,
-   ADDRESS                 TEXT              NOT NULL,
-   CITY                    TEXT              NOT NULL,
-   STATE                   TEXT              NOT NULL,
-   PINCODE                 TEXT              NOT NULL,
-   PHONE                   TEXT              NOT NULL,
-   EMAIL                   TEXT              NOT NULL,
-   ADMINPHONEAREACODE      TEXT,
-   ADMINPHONE              TEXT,
-   COMPANYLOGO             TEXT              NOT NULL,
-   DIGISIG                 TEXT              NOT NULL,
-   LETTERHEAD              TEXT              NOT NULL,
-   MACHINELIST             TEXT              NOT NULL,
-   GODOWNLIST              TEXT              NOT NULL
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "companies list table created successfully<br>";
-   }
-}
-
 //----------------------------------------DB - Get Column Values----------------------------------------//
 
-function dbgetcolumnname(&$db, $tablename, $columnname, &$dbcolvalues, &$text) {
-  $CompanyID = $_SESSION["companyID"];
-  $res = $db->query("SELECT $columnname FROM $tablename WHERE CompanyID = '$CompanyID' ORDER BY ID DESC");
-  $dbcolvalues = array();
-  while (($value = $res->fetcharray(SQLITE3_ASSOC))) {
-      array_push($dbcolvalues,$value);
-      }
-    $ret = $db->exec($sql);
-    if(!$ret) {
-        $err = $db->lastErrorMsg();
-        $text .= $err;
-        $text .= "<br>";
+function dbgetcolumnname($db, $tablename, $columnname, &$dbcolvalues, &$text) {
+    $CompanyID = $_SESSION["companyID"];
+    // Assuming $db is a valid MySQLi database connection object
+
+    // Prepare and execute the query
+    $stmt = $db->prepare("SELECT  `$columnname` FROM  `$tablename` WHERE CompanyID = ? ORDER BY ID DESC");
+    $stmt->bind_param("i", $CompanyID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Fetch column values and store them in $dbcolvalues
+    $dbcolvalues = array();
+    while ($row = $result->fetch_assoc()) {
+        $dbcolvalues[] = $row;
+    }
+
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error: $err<br>";
     } else {
         $text .= "Column Read Successfully<br>";
     }
 }
-
 //----------------------------------------DB - Read db record----------------------------------------//
 
 function dbreadrecord(&$db, $tablename, $paramname, $paramvalue, &$dbrowvalues, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $res = $db->query("SELECT * FROM $tablename WHERE $paramname = '$paramvalue'");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+    $stmt = $db->prepare("SELECT * FROM `$tablename` WHERE $paramname = '$paramvalue'");
+    $stmt->execute();
+    $result = $stmt->get_result();
+  while (($row = $result->fetch_assoc())) {
           foreach($row as $key  => $value) {
              array_push($dbrowvalues,$value);
          }
     }
-    $ret = $db->exec($sql);
-    if(!$ret) {
-        $err = $db->lastErrorMsg();
-        $text .= $err;
-        $text .= "<br>";
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error: $err<br>";
     } else {
         $text .= "Record Read Successfully<br>";
     }
@@ -511,25 +433,17 @@ function dbgetvalue(&$db, $tablename, $paramname, $filter1, $value1, $filter2, $
   $CompanyID = $_SESSION["companyID"];
   $res = $db->query("SELECT 
                        $paramname as output 
-                     FROM $tablename 
+                     FROM `$tablename` 
                      WHERE $filter1 = '$value1' 
                        AND $filter2 = '$value2' 
                        AND CompanyID = '$CompanyID'
                        ");
   $rowdata = array(array());
   $outputvalue = 0;
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  while (($row = $res->fetch_assoc())) {
       array_push($rowdata,$row);
       $outputvalue = $row['output'];
       }
-  $ret = $db->exec($sql);
-    if(!$ret) {
-        $err = $db->lastErrorMsg();
-        $text .= $err;
-        $text .= "<br>";
-    } else {
-        $text .= "Data Read Successfully<br>";
-    }
 }
 
 //----------------------------------------DB - Read Stock Table values----------------------------------------//
@@ -538,62 +452,17 @@ function dbreadstocktable(&$db, $tablename, &$dbtabdata, &$text) {
 $dbtabdata = array(array());
 $companyId = $_SESSION["companyID"];
 $tablename = $_SESSION["StListTabName"];
-  $res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER, REELWEIGHT FROM $tablename WHERE COMPANYID = '$companyId' GROUP BY REELNUMBER");
-     while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  $res = $db->query("SELECT ID, DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER, REELWEIGHT FROM `$tablename` WHERE COMPANYID = '$companyId' GROUP BY REELNUMBER");
+     while (($row = $res->fetch_assoc())) {
              array_push($dbtabdata,$row);
          }
-$sql =<<<EOF
-EOF;
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Stock Table Read Successfully<br>";
-    }
-}
-
-//----------------------------------------DB - Create Table (Customers)----------------------------------------//
-
-function dbcreatecustomertable(&$db, $tablename, &$text) {
-   $text .= "welcome to create customer table if not exists";
-
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   NAME           TEXT  NOT NULL UNIQUE,
-   CLIENTNAME     TEXT,
-   GSTIN          VARCHAR(15)  NOT NULL,
-   ADDRESS        TEXT		   NOT NULL,
-   CITY           TEXT		   NOT NULL,
-   STATE          TEXT		   NOT NULL,
-   PINCODE        TEXT		   NOT NULL,
-   PHONE          TEXT		   NOT NULL,
-   EMAIL          TEXT		   NOT NULL,
-   SECADDRESS     TEXT,
-   AREACODE       TEXT,
-   ADMINPHONE     TEXT,
-   COMPANYID      INTEGER		   NOT NULL   
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
 }
 
 //----------------------------------------DB - Delete record (Customer Table)----------------------------------------//
 
 function dbdeletecustomerrecord(&$db, $tablename, $ID, &$text) { 
-  $sql =<<<EOF
-  DELETE FROM $tablename WHERE ID = '$ID';
-  EOF;
-  $ret = $db->exec($sql);
+  $sql ="DELETE FROM `$tablename` WHERE ID = '$ID'";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -607,11 +476,9 @@ function dbdeletecustomerrecord(&$db, $tablename, $ID, &$text) {
 
 function dbaddcustomersrecord(&$db, $tablename, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (NAME,CLIENTNAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,SECADDRESS,AREACODE,ADMINPHONE,COMPANYID)
-    VALUES ('$Cname', '$Clname', '$CGST', '$CAddr', '$CCity', '$CState', '$CPcode', '$CPh', '$CEmail', '$CSAddr', '$CACode', '$CACPh', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql ="INSERT INTO `$tablename` (NAME,CLIENTNAME,GSTIN,ADDRESS,CITY,STATE,PINCODE,PHONE,EMAIL,SECADDRESS,AREACODE,ADMINPHONE,COMPANYID)
+    VALUES ('$Cname', '$Clname', '$CGST', '$CAddr', '$CCity', '$CState', '$CPcode', '$CPh', '$CEmail', '$CSAddr', '$CACode', '$CACPh', '$CompanyID')";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -623,8 +490,7 @@ function dbaddcustomersrecord(&$db, $tablename, $Cname, $Clname, $CGST, $CAddr, 
 
 //----------------------------------------DB - Update record (Customer Table)----------------------------------------//
 function dbeditcustomer(&$db, $tablename, $ID, $Cname, $Clname, $CGST, $CAddr, $CCity, $CState, $CPcode, $CPh, $CEmail, $CSAddr, $CACode, $CACPh, &$text) { 
-   $sql =<<<EOF
-   UPDATE $tablename SET
+   $sql ="UPDATE $tablename SET
    NAME = '$Cname',
    CLIENTNAME = '$Clname',
    GSTIN = '$CGST',
@@ -636,9 +502,8 @@ function dbeditcustomer(&$db, $tablename, $ID, $Cname, $Clname, $CGST, $CAddr, $
    EMAIL= '$CEmail',
    SECADDRESS = '$CSAddr',
    AREACODE = '$CACode',
-   ADMINPHONE = '$CACPh' WHERE ID = '$ID';
- EOF;
-  $ret = $db->exec($sql);
+   ADMINPHONE = '$CACPh' WHERE ID = '$ID'";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -648,47 +513,13 @@ function dbeditcustomer(&$db, $tablename, $ID, $Cname, $Clname, $CGST, $CAddr, $
       }
 }
 
-//----------------------------------------DB - Create Table (Products)----------------------------------------//
-
-function dbcreateproducttable(&$db, $tablename, &$text) {
-   $text .= "welcome to create product table if not exists";
-
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID INTEGER  PRIMARY KEY    AUTOINCREMENT  UNIQUE,
-   CUSTOMERNAME   TEXT        NOT NULL,
-   DESCRIPTION    TEXT        NOT NULL,
-   SPEC           TEXT		   NOT NULL,
-   GSM            TEXT		   NOT NULL,
-   SIZE           TEXT		   NOT NULL,
-   UNIT           TEXT		   NOT NULL,
-   RATE           TEXT		   NOT NULL,
-   OPENINGSTOCK   TEXT        NOT NULL,
-   PRODUCTION     TEXT        NOT NULL,
-   CLOSINGSTOCk   TEXT        NOT NULL,
-   TOTALVAL       TEXT        NOT NULL,
-   COMPANYID      INTEGER		NOT NULL
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
-}
-
 //----------------------------------------DB - Add record (Product Table)----------------------------------------//
 
 function dbaddproductrecord(&$db, $tablename, $PCName, $PDes, $PSpec, $PGSM, $PSize, $Punit, $PRate, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (CUSTOMERNAME,DESCRIPTION,SPEC,GSM,SIZE,UNIT,RATE,COMPANYID)
-    VALUES ('$PCName', '$PDes', '$PSpec', '$PGSM', '$PSize', '$Punit', '$PRate', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql ="INSERT INTO `$tablename` (CUSTOMERNAME,DESCRIPTION,SPEC,GSM,SIZE,UNIT,RATE,COMPANYID)
+    VALUES ('$PCName', '$PDes', '$PSpec', '$PGSM', '$PSize', '$Punit', '$PRate', '$CompanyID')";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -703,8 +534,8 @@ function dbcheckprrecord (&$db, $tablename, $PCName, $PSpec, $PDes, $PGSM, $PSiz
   $CompanyID = $_SESSION["companyID"];
   $dbtabdata = array(array());
   $i = 0;
-  $res = $db->query("SELECT * FROM $tablename WHERE CUSTOMERNAME='$PCName' and SPEC='$PSpec'and DESCRIPTION = '$PDes' and GSM = '$PGSM' and SIZE='$PSize' and UNIT='$Punit' and COMPANYID ='$CompanyID'");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  $res = $db->query("SELECT * FROM `$tablename` WHERE CUSTOMERNAME='$PCName' and SPEC='$PSpec'and DESCRIPTION = '$PDes' and GSM = '$PGSM' and SIZE='$PSize' and UNIT='$Punit' and COMPANYID ='$CompanyID'");
+  while (($row = $res->fetch_assoc())) {
   array_push($dbtabdata,$row);
   $i = $i+1;
   }
@@ -712,59 +543,16 @@ function dbcheckprrecord (&$db, $tablename, $PCName, $PSpec, $PDes, $PGSM, $PSiz
   if ($found) {
    $text .= "Record Already Exists <br>";
   }
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "DB check completed<br>";
-    }
-} 
-
-//----------------------------------------DB - Create table (Purchase Table)----------------------------------------//
-
-function dbcreatePRtable(&$db, $tablename, &$text) {
-$text .= "welcome to create purchase req table if not exists";
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-      ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
-      PONUM          INTEGER    NOT NULL,
-      PORELEASEDATE  TEXT		  NOT NULL,
-      PORELEASETIME  TEXT		  NOT NULL,
-      SUPPLIERNAME   TEXT       NOT NULL,
-      SERIALNUMBER   TEXT       NOT NULL,
-      PARTICULARS    TEXT       NOT NULL,
-      NUMBEROFREELS  TEXT		  NOT NULL,
-      RATEPER        TEXT		  NOT NULL,
-      QNTY           TEXT		  NOT NULL,
-      RATE           TEXT		  NOT NULL,
-      DISCOUNT       TEXT		  NOT NULL,
-      AMOUNT         TEXT		  NOT NULL,
-      DDFROM         TEXT		  NOT NULL,
-      DDTO           TEXT		  NOT NULL,
-      COMPANYID      INTEGER	  NOT NULL
-);
-EOF;
-$ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
 }
 
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
 function dbaddpurchaserecord(&$db, $tablename, $pONum, $pODate, $pOTime, $pOSname, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (PONUM,PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
-    VALUES ('$pONum', '$pODate', '$pOTime', '$pOSname', '$pOSnum', '$pODes', '$pONR', '$pORPer', '$pOQnty', '$pORate', '$pODiscount', '$pOAmount', '$pODdfrom', '$pODdto', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql =("
+    INSERT INTO `$tablename` (PONUM,PORELEASEDATE,PORELEASETIME,SUPPLIERNAME,SERIALNUMBER,PARTICULARS,NUMBEROFREELS,RATEPER,QNTY,RATE,DISCOUNT,AMOUNT,DDFROM,DDTO,COMPANYID)
+    VALUES ('$pONum', '$pODate', '$pOTime', '$pOSname', '$pOSnum', '$pODes', '$pONR', '$pORPer', '$pOQnty', '$pORate', '$pODiscount', '$pOAmount', '$pODdfrom', '$pODdto', '$CompanyID')");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -776,8 +564,8 @@ function dbaddpurchaserecord(&$db, $tablename, $pONum, $pODate, $pOTime, $pOSnam
 
 //----------------------------------------DB - Update record (Purchase Table)----------------------------------------//
 function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum, $pODes, $pONR, $pORPer, $pOQnty, $pORate, $pODiscount, $pOAmount, $pODdfrom, $pODdto, &$text) { 
-   $sql =<<<EOF
-   UPDATE $tablename SET
+   $sql =("
+   UPDATE `$tablename` SET
    PONUM = '$pONum',
    PORELEASEDATE = '$pODate',
    PORELEASETIME = '$pOTime',
@@ -790,9 +578,8 @@ function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum
    DISCOUNT = '$pODiscount',
    AMOUNT = '$pOAmount',
    DDFROM = '$pODdfrom',
-   DDTO = '$pODdto' WHERE ID = '$ID';
- EOF;
-  $ret = $db->exec($sql);
+   DDTO = '$pODdto' WHERE ID = '$ID'");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -802,37 +589,14 @@ function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum
       }
 }
 
-//----------------------------------------DB - Create Table (PRNumber)----------------------------------------//
-
-function dbcreateprnumtable(&$db, $tablename, &$text) {
-$text .= "welcome to create pr num table if not exists";
-$sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID             INTEGER     PRIMARY KEY    AUTOINCREMENT  UNIQUE,
-   PRNUMBER			TEXT        NOT NULL UNIQUE,
-   DESCRIPTION    TEXT        NOT NULL,
-   COMPANYID      INTEGER		NOT NULL
-   );
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
-}
-
 //----------------------------------------DB - Add record (PRNumber Table)----------------------------------------//
 
 function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (PRNUMBER,DESCRIPTION,COMPANYID)
-    VALUES ('$PRNum', '$PRDes', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql =("
+    INSERT INTO `$tablename` (PRNUMBER,DESCRIPTION,COMPANYID)
+    VALUES ('$PRNum', '$PRDes', '$CompanyID')");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -845,11 +609,9 @@ function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
 //----------------------------------------DB - Update record (PRNumber Table)----------------------------------------//
 function dbeditprnumrecord(&$db, $tablename, $ID, $PRNum, $PRDes, &$text) { 
    $CompanyID = $_SESSION["companyID"];
-   $sql =<<<EOF
-   UPDATE $tablename SET
-   DESCRIPTION = '$PRDes' WHERE PRNUMBER = '$PRNum';
- EOF;
-  $ret = $db->exec($sql);
+   $sql ="UPDATE `$tablename` SET
+   DESCRIPTION = '$PRDes' WHERE PRNUMBER = '$PRNum'";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -863,10 +625,8 @@ function dbeditprnumrecord(&$db, $tablename, $ID, $PRNum, $PRDes, &$text) {
 
 function dbdeleteprnumrecord(&$db, $tablename, $PRNum, &$text) {
    $CompanyID = $_SESSION["companyID"];
-   $sql =<<<EOF
-     DELETE FROM $tablename WHERE PRNUMBER = '$PRNum';
-   EOF;
-	  $ret = $db->exec($sql);
+   $sql ="DELETE FROM `$tablename` WHERE PRNUMBER = '$PRNum'";
+	  $ret = $db->query($sql);
 		 if(!$ret) {
 			  $err = $db->lastErrorMsg();
 			  $text .= $err;
@@ -880,71 +640,26 @@ function dbdeleteprnumrecord(&$db, $tablename, $PRNum, &$text) {
 
 function dbreadprnumrecord(&$db, $tablename, $paramname, &$PRNum, &$text){ 
 $dbtabdata = array(array());
-$res = $db->query("SELECT MAX($paramname) As PRNum FROM $tablename"); 
-     while (($val = $res->fetchArray(SQLITE3_ASSOC))) {
+$res = $db->query("SELECT MAX(`$paramname`) As PRNum FROM `$tablename`"); 
+     while (($val = $res->fetch_assoc())) {
       array_push($dbtabdata,$val);
   }
-$sql =<<<EOF
-EOF;
 $PRNum = 0;
    foreach ($dbtabdata as $row) {
       foreach ($row as $cell) {
                 $PRNum = intval($cell) + 1;
               }
   }
-$ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Column Read Successfully<br>";
-    }
 }
-//----------------------------------------DB - Create table (Production feed Table)----------------------------------------//
-
-function dbcreateProdfeedtable(&$db, $tablename, &$text) {
-    $text .= "Welcome to create production feed req table if not exists";
-    $sql =<<<EOF
-    CREATE TABLE IF NOT EXISTS $tablename(
-        ID             INTEGER    PRIMARY KEY    AUTOINCREMENT  UNIQUE,
-        DATE           TEXT       NOT NULL,
-        TIME           TEXT       NOT NULL,
-        MACHINENUM     TEXT       NOT NULL,
-        CUSTOMERNAME   TEXT       NOT NULL,
-        SIZE           TEXT       NOT NULL,
-        REELNUMBER     INTEGER    NOT NULL,
-        REELWIDTH      INTEGER    NOT NULL,
-        REELLENGTH     INTEGER    NOT NULL,
-        ESTPRODUCTION  INTEGER    NOT NULL,
-        ACTUAL         INTEGER,
-        STATUS         TEXT       NOT NULL,
-        CUTREEL        TEXT,
-        USEDWEIGHT     INTEGER,
-        ESTWASTAGE     INTEGER,
-        ACTWASTAGE     INTEGER,
-        COMPANYID      INTEGER    NOT NULL
-    );
-EOF;
-    $ret = $db->exec($sql);
-    if(!$ret) {
-        $err = $db->lastErrorMsg();
-        $text .= $err;
-        $text .= "<br>";
-    } else {
-            $text .= "Table created successfully<br>";
-        }
-    }
 
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
 function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelWidth, $pReelLength, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) {
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (DATE,TIME,MACHINENUM,CUSTOMERNAME,SIZE,REELNUMBER,REELWIDTH,REELLENGTH,ESTPRODUCTION,ACTUAL,STATUS,CUTREEL,USEDWEIGHT,ESTWASTAGE,ACTWASTAGE,COMPANYID)
-    VALUES ('$pDate', '$pTime', '$pMname', '$pCnum', '$pSize', '$pReelNumber', '$pReelWidth', '$pReelLength', '$pEstProd', '$pActual', '$pStatus', '$pCutReel', '$pUsedweight', '$pEstWastage', '$pActWastage', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql =("
+    INSERT INTO `$tablename` (DATE,TIME,MACHINENUM,CUSTOMERNAME,SIZE,REELNUMBER,REELWIDTH,REELLENGTH,ESTPRODUCTION,ACTUAL,STATUS,CUTREEL,USEDWEIGHT,ESTWASTAGE,ACTWASTAGE,COMPANYID)
+    VALUES ('$pDate', '$pTime', '$pMname', '$pCnum', '$pSize', '$pReelNumber', '$pReelWidth', '$pReelLength', '$pEstProd', '$pActual', '$pStatus', '$pCutReel', '$pUsedweight', '$pEstWastage', '$pActWastage', '$CompanyID')");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -956,8 +671,8 @@ function dbaddprodfeedrecord(&$db, $tablename, $pDate, $pTime, $pMname, $pCnum, 
 
 //----------------------------------------DB - Update record (Purchase Table)----------------------------------------//
 function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, $pSize, $pReelNumber, $pReelLength, $pReelWidth, $pEstProd, $pActual, $pStatus, $pCutReel, $pUsedweight, $pEstWastage, $pActWastage, &$text) { 
-   $sql =<<<EOF
-   UPDATE $tablename SET
+   $sql =("
+   UPDATE `$tablename` SET
       DATE = '$pDate',
       TIME = '$pTime',
       MACHINENUM = '$pMname',
@@ -972,9 +687,8 @@ function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, 
       CUTREEL = '$pCutReel',
       USEDWEIGHT = '$pUsedweight',
       ESTWASTAGE = '$pEstWastage',
-      ACTWASTAGE = '$pActWastage' WHERE ID = '$ID';
- EOF;
-  $ret = $db->exec($sql);
+      ACTWASTAGE = '$pActWastage' WHERE ID = '$ID'");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -988,12 +702,11 @@ function dbeditprodfeed(&$db, $tablename, $ID, $pDate, $pTime, $pMname, $pCnum, 
 
 function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    UPDATE $tablename SET
+  $sql =("
+    UPDATE `$tablename` SET
     USEDWEIGHT = '$uw',
-    STATUS = '$stat' WHERE COMPANYID = '$CompanyID' AND REELNUMBER = '$rn';
-  EOF;
-  $ret = $db->exec($sql);
+    STATUS = '$stat' WHERE COMPANYID = '$CompanyID' AND REELNUMBER = '$rn'");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -1007,15 +720,13 @@ function dbeditstockrecord(&$db, $tablename,$rn, $uw, $stat, &$text) {
 
 function dbeditproductrecord(&$db, $tablename, $cname, $size, $os, $prod, $cs, $val, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    UPDATE $tablename SET
+  $sql ="UPDATE `$tablename` SET
     OPENINGSTOCK = '$os',
     PRODUCTION = '$prod',
     CLOSINGSTOCK = '$cs',
     TOTALVAL = '$val'
-    WHERE COMPANYID = '$CompanyID' AND CUSTOMERNAME = '$cname' AND SIZE = '$size';
-  EOF;
-  $ret = $db->exec($sql);
+    WHERE COMPANYID = '$CompanyID' AND CUSTOMERNAME = '$cname' AND SIZE = '$size'";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -1029,8 +740,8 @@ function dbeditproductrecord(&$db, $tablename, $cname, $size, $os, $prod, $cs, $
 
 function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $sname, $cname, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    UPDATE $tablename SET
+  $sql =("
+    UPDATE `$tablename` SET
     DATE = '$date',
     INVNUM  = '$invnum',
     SUPPLIERNAME = '$sname',
@@ -1045,9 +756,8 @@ function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $sname, $cname
     CGST = '$cgst',
     IGST = '$igst',
     TOTAL = '$total',
-    GODOWNNAME = '$loc' WHERE COMPANYID = '$CompanyID' AND ID = '$Id';
-  EOF;
-  $ret = $db->exec($sql);
+    GODOWNNAME = '$loc' WHERE COMPANYID = '$CompanyID' AND ID = '$Id'");
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -1064,8 +774,8 @@ function dbcheckprodfeedrecord (&$db, $tablename, $ID, &$found, &$text) {
   $CompanyID = $_SESSION["companyID"];
   $dbtabdata = array(array());
   $i = 0;
-  $res = $db->query("SELECT * FROM $tablename WHERE ID = '$ID' and COMPANYID ='$CompanyID'");
-  while (($row = $res->fetchArray(SQLITE3_ASSOC))) {
+  $res = $db->query("SELECT * FROM `$tablename` WHERE ID = '$ID' and COMPANYID ='$CompanyID'");
+  while (($row = $res->fetch_assoc())) {
   array_push($dbtabdata,$row);
   $i = $i+1;
   }
@@ -1073,17 +783,9 @@ function dbcheckprodfeedrecord (&$db, $tablename, $ID, &$found, &$text) {
   if ($found) {
    $text .= "Record Already Exists <br>";
   }
-  $ret = $db->exec($sql);
-   if(!$ret) {
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "DB check completed<br>";
-    }
 } 
 
-//----------------------------------------DB - Setup----------------------------------------//
+//----------------------------------------DB - get inventory report (Raw Material)----------------------------------------//
 function dbgeninvrep(&$db, $tablename, &$dbtabdata, &$text) {
 $CompanyID = $_SESSION["companyID"];
 $dbtabdata = array(array());
@@ -1094,7 +796,7 @@ SELECT
     BF,
     REELSIZE,
     COUNT(Reelnumber) AS NumOfReels,
-    CAST(ROUND(SUM(NetReelWeight), 2) AS REAL) AS TotalNetReelWeight,
+    CAST(ROUND(SUM(NetReelWeight), 2) AS DECIMAL) AS TotalNetReelWeight,
     GODOWNNAME,
     STATUS 
 FROM (
@@ -1108,7 +810,7 @@ FROM (
         GODOWNNAME,
         STATUS 
     FROM 
-        $tablename 
+        `$tablename` 
     WHERE 
         COMPANYID = '$CompanyID'
     GROUP BY 
@@ -1122,7 +824,7 @@ ORDER BY
 ");
 
     // Loop through each row
-    while (($row = $res_query1->fetchArray(SQLITE3_ASSOC))) {
+    while (($row = $res_query1->fetch_assoc())) {
         // Access individual values from the current row
         $commodityName = $row['COMMODITYNAME'];
         $gsm = $row['GSM'];
@@ -1143,11 +845,11 @@ ORDER BY
                 '' AS REELSIZE,
                 '' AS RS,
                 REELNUMBER,
-                CAST(ROUND(REELWEIGHT - USEDWEIGHT, 2) AS REAL),
+                CAST(ROUND(REELWEIGHT - USEDWEIGHT, 2) AS DECIMAL),
                 GODOWNNAME,
                 STATUS 
             FROM 
-                $tablename
+                `$tablename`
             WHERE 
                 COMPANYID = '$CompanyID' 
                 AND COMMODITYNAME = '$commodityName'
@@ -1157,39 +859,75 @@ ORDER BY
             GROUP BY
                 REELNUMBER;
 ");
-    while (($row = $res_query2->fetchArray(SQLITE3_ASSOC))) {
+    while (($row = $res_query2->fetch_assoc())) {
        array_push($dbtabdata,$row);
     }
     }
 }
+//----------------------------------------DB - get inventory report (Raw Material)----------------------------------------//
+function dbgenfginvrep(&$db, $tablename, &$dbtabdata, &$text) {
+    $CompanyID = $_SESSION["companyID"];
+    $tablename = $_SESSION["PListTabName"];
+    $dbtabdata = array();
+    
+    $res_query1 = $db->query("
+        SELECT
+            CUSTOMERNAME,
+            SUM(TOTALVAL) AS StockVal
+        FROM 
+            `$tablename`
+        WHERE 
+            COMPANYID = '$CompanyID'
+        GROUP BY 
+            CUSTOMERNAME;
+    ");
+    
+    // Check if the query was successful
+    if ($res_query1 === false) {
+        $text = "Error in first query: " . $db->error;
+        return;
+    }
+    // Loop through each row from the first query
+    while ($row1 = $res_query1->fetch_assoc()) {
+        $cName = $row1['CUSTOMERNAME'];
+        $Stval = $row1['StockVal'];
+        $addline = [$cName, '', '', '', '', '', '', '', $Stval];
+        // Add the row to the dbtabdata array
+        array_push($dbtabdata,$addline);
 
-//----------------------------------------DB - Create Table (Document ID)----------------------------------------//
-// Type - PurchaseOrder, Dispatch, Invoice, Quotation//
-// Status - alloted, used, free//
+        $res_query2 = $db->query("
+            SELECT
+                  '' AS NA,
+                  SIZE,
+                  CLOSINGSTOCK AS Openingst,
+                  '0' AS Production,
+                  CLOSINGSTOCK AS ClosingSt,
+                  RATE,
+                  ROUND((RATE * CLOSINGSTOCK), 2) AS val,
+                  ROUND((RATE * CLOSINGSTOCK * 12 / 100), 2) AS GST,
+                  '' AS TOTALVAL
+            FROM 
+                `$tablename`
+            WHERE 
+                COMPANYID = '$CompanyID'
+                AND CUSTOMERNAME = '$cName'
+            ORDER BY
+                CUSTOMERNAME, SIZE;
+        ");
 
-function dbcreatedocidtable(&$db, $tablename, &$text) {
-  $text .= "welcome to create document id table if not exists";
-  $sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID 			   INTEGER  PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   DATE           TEXT     NOT NULL,
-   TIME           TEXT     NOT NULL,
-   TYPE           TEXT     NOT NULL,
-   DOCID          INTEGER  NOT NULL	UNIQUE,
-   STATUS         TEXT,
-   COMPANYID      INTEGER
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
+        // Check if the second query was successful
+        if ($res_query2 === false) {
+            $text = "Error in second query: " . $db->error;
+            return;
+        }
+
+        // Loop through each row from the second query
+        while ($row2 = $res_query2->fetch_assoc()) {
+            // Add the row to the dbtabdata array
+            array_push($dbtabdata,$row2);
+        }
+    }
 }
-
 //----------------------------------------DB - Add record (Document ID Table)----------------------------------------//
 
 function dbadddocidrecord(&$db, $tablename, $diType, $diD, &$text) { 
@@ -1198,11 +936,10 @@ $text .= "welcome to add record to document id table";
   $date = date("Y-m-d");
   $time = date("h:i:s a");
   $dStat = "free";
-  $sql =<<<EOF
-    INSERT INTO $tablename (DATE,TIME,TYPE,DOCID,STATUS,COMPANYID)
-    VALUES ('$date', '$time', '$diType', '$diD', '$dStat', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql ="
+    INSERT INTO `$tablename` (DATE,TIME,TYPE,DOCID,STATUS,COMPANYID)
+    VALUES ('$date', '$time', '$diType', '$diD', '$dStat', '$CompanyID')";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;
@@ -1213,10 +950,15 @@ $text .= "welcome to add record to document id table";
 }
 //----------------------------------------DB - Get ID (Document ID Table)----------------------------------------//
 
-function dbgetdocid(&$db, $tablename, $diType, &$DOCID, &$text) { 
+function dbgetdocid(&$db, $tablename, $diType, &$DOCID, &$text) {
+$text .= "welcome clear document id";
+$sql = "DELETE FROM DOCID_TABLE
+WHERE TIME < NOW() - INTERVAL 3 HOUR
+      AND STATUS = 'alloted'";
+$res = $db->query($sql);
 $text .= "welcome to get document id table";
 $CompanyID = $_SESSION["companyID"];
-$sql = "SELECT MIN(DOCID) FROM $tablename
+$sql = "SELECT MIN(DOCID) FROM `$tablename`
         WHERE TYPE = '$diType'
         AND STATUS = 'free'
         AND COMPANYID = '$CompanyID'";
@@ -1227,7 +969,7 @@ if (!$res) {
     $text .= $err;
     $text .= "<br>";
 } else {
-    $row = $res->fetchArray(SQLITE3_ASSOC); // Fetch the result as an associative array
+    $row = $res->fetch_assoc(); // Fetch the result as an associative array
     $minDocID = $row['MIN(DOCID)']; // Access the minimum DOCID value
     $DOCID  =$minDocID; 
 }
@@ -1241,34 +983,16 @@ function dbeditdocidrecord($db, $tablename, $diType, $diD, $dStat, &$text) {
     $time = date("h:i:s a");
 
     // Prepare the SQL statement
-    $sql = "UPDATE $tablename SET 
-            STATUS = :status,
-            DATE = :date,
-            TIME = :time 
-            WHERE DOCID = :docid
-            AND TYPE = :type
-            AND COMPANYID = :companyid";
+    $sql = ("UPDATE `$tablename` SET 
+            STATUS = '$dStat',
+            DATE = '$date',
+            TIME = '$time'
+            WHERE DOCID = '$diD'
+            AND TYPE = '$diType'
+            AND COMPANYID = '$CompanyID'");
 
     // Prepare the query
-    $stmt = $db->prepare($sql);
-    if (!$stmt) {
-         $err = $db->lastErrorMsg();
-         $text .= $err;
-         $text .= "<br>";
-        return;
-    }
-
-    // Bind parameters
-    $stmt->bindValue(':status', $dStat);
-    $stmt->bindValue(':date', $date);
-    $stmt->bindValue(':time', $time);
-    $stmt->bindValue(':docid', $diD);
-    $stmt->bindValue(':type', $diType);
-    $stmt->bindValue(':companyid', $CompanyID);
-
-    // Execute the query
-    $ret = $stmt->execute();
-    
+    $ret = $db->query($sql);
     // Check if query executed successfully
     if (!$ret) {
         $err =  $db->lastErrorMsg();
@@ -1279,91 +1003,16 @@ function dbeditdocidrecord($db, $tablename, $diType, $diD, $dStat, &$text) {
     }
 }
 
-
 //----------------------------------------DB - cleanup document id table ----------------------------------------//
 // Type - PurchaseOrder, Dispatch, Invoice, Quotation
 // Status - alloted, used, free
-
-function dbcleanupdocidtable(&$db, $tablename, &$text) { 
-    $text .= "Welcome to dispatch table cleanup";
-    $CompanyID = $_SESSION["companyID"];
-    $cDate = date("Y-m-d"); // Current date
-    $fromDate = date("Y-m-d", strtotime("-1 day")); // One day ago
-    $cTime = date("H:i:s"); // Current time
-    $fromTime = date("H:i:s", strtotime("-3 hours")); // Three hours ago
-    
-    // Prepare the SQL statement with placeholders
-    $sql = "UPDATE $tablename 
-            SET STATUS = 'free' 
-            WHERE (DATE BETWEEN :fromDate AND :cDate OR TIME < :fromTime) 
-                AND STATUS = 'alloted' 
-                AND COMPANYID = :CompanyID";
-    
-    // Prepare the query
-    $stmt = $db->prepare($sql);
-    if (!$stmt) {
-        $text .= $db->lastErrorMsg();
-        return;
-    }
-
-    // Bind parameters
-    $stmt->bindParam(':fromDate', $fromDate);
-    $stmt->bindParam(':cDate', $cDate);
-    $stmt->bindParam(':fromTime', $fromTime);
-    $stmt->bindParam(':CompanyID', $CompanyID);
-
-    // Execute the query
-    $ret = $stmt->execute();
-    
-    if (!$ret) {
-        $text .= $db->lastErrorMsg();
-    } else {
-        $text .= "Done!";
-    }
-}
-
-//----------------------------------------DB - Create Table (Dispatch)----------------------------------------//
-
-function dbcreatedispatchtable(&$db, $tablename, &$text) {
-   $text .= "welcome to create dispatch table if not exists";
-
-  $sql =<<<EOF
-   CREATE TABLE if not exists $tablename(
-   ID             INTEGER  		PRIMARY KEY AUTOINCREMENT  UNIQUE,
-   DISPATCHID     INTEGER  		NOT NULL,
-   SNUM			   INTEGER        NOT NULL,
-   DATE           TEXT     		NOT NULL,
-   CUSTOMERNAME   TEXT     		NOT NULL,
-   CUSTOMERNAME2  TEXT           NOT NULL,
-   SIZE           TEXT     		NOT NULL,
-   RATE           INTEGER        NOT NULL,
-   COUNT          INTEGER  		NOT NULL,
-   WEIGHT         INTEGER  		NOT NULL,
-   TOTALRATE      INTEGER        NOT NULL,
-   PONUMBER		   VARCHAR(15)	   NOT NULL,
-   COMMENT		   TEXT,
-   COMPANYID      INTEGER  		NOT NULL
-);
-EOF;
-   $ret = $db->exec($sql);
-   if(!$ret){
-      $err = $db->lastErrorMsg();
-      $text .= $err;
-      $text .= "<br>";
-   } else {
-      $text .= "Table created successfully<br>";
-   }
-}
-
 //----------------------------------------DB - Add record (Dispatch Table)----------------------------------------//
 
 function dbadddispatchrecord(&$db, $tablename, $DSnum, $DiD, $DDate, $DCname, $DCname2, $DSize, $Rate, $DCount, $DWeight, $totRate, $DCPoNum, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $sql =<<<EOF
-    INSERT INTO $tablename (SNUM,DISPATCHID,DATE,CUSTOMERNAME,CUSTOMERNAME2,SIZE,RATE,COUNT,WEIGHT,TOTALRATE,PONUMBER,COMPANYID)
-    VALUES ('$DiD', '$DSnum', '$DDate', '$DCname', '$DCname2', '$DSize', '$Rate', '$DCount', '$DWeight', '$totRate', '$DCPoNum', '$CompanyID');
-  EOF;
-  $ret = $db->exec($sql);
+  $sql ="INSERT INTO `$tablename` (SNUM,DISPATCHID,DATE,CUSTOMERNAME,CUSTOMERNAME2,SIZE,RATE,COUNT,WEIGHT,TOTALRATE,PONUMBER,COMPANYID)
+    VALUES ('$DiD', '$DSnum', '$DDate', '$DCname', '$DCname2', '$DSize', '$Rate', '$DCount', '$DWeight', '$totRate', '$DCPoNum', '$CompanyID')";
+  $ret = $db->query($sql);
      if(!$ret) {
           $err = $db->lastErrorMsg();
           $text .= $err;

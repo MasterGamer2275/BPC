@@ -4,12 +4,30 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
-  // Start the session
-  //session_start();
-  $globalVariable = "World";
 }
 ?>
+<?php
+/*
+  $root = $_SERVER['DOCUMENT_ROOT'];
+  //---add the DB API file
+  require $root."/DB/call-db.php";
+session_start();
+*/
+?>
+<!DOCTYPE html>
+<html>
+<body>
 
+<?php
+// Echo session variables that were set on previous page
+//echo "Favorite color is " . $_SESSION["companyID"] . ".<br>";
+//echo "Favorite animal is " . $_SESSION["companyID"] . ".";
+//$cId = $_SESSION["companyID"];
+//echo $cId;
+?>
+
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +116,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       <button class="subtablinks1" onclick="openphp(event, '/forms/stock.php', '/main-page/frame1.php')">Stock Feed</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/edit-stock-table.php', '/main-page/frame1.php')">Edit/Review Stock</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/stockstatistics.php', '/main-page/frame1.php')">Stock Statistics</button>
-      <button class="subtablinks1" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Generate PO</button>
+      <button class="subtablinks1" onclick="openphp(event, '/forms/purchaseorders.php', '/main-page/frame1.php')">Generate PO</button>
       <button class="subtablinks1" onclick="openphp(event, '/forms/default.php', '/main-page/frame1.php')">Purchase Orders</button>
    </div>
 

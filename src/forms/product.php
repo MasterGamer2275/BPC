@@ -5,6 +5,7 @@
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
   $tablename = $_SESSION["ClListTabName"];
@@ -12,7 +13,6 @@
   $dbcolvalues = array(array());
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $tablename = $_SESSION["PListTabName"];
-  dbcreateproducttable($db, $tablename, $text);
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);

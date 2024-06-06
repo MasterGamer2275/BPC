@@ -8,9 +8,16 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 ?>
 <html>
 <body>
+<script>
+function setMouseCursorToBusy() {
+    document.body.style.cursor = 'wait'; // Change mouse cursor to 'wait' or 'progress'
+}
+setMouseCursorToBusy();
+</script>
 <!-- define variables and set to empty values*-->
 <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
 <?php require $root.'/DB/call-db.php'; ?>
+<?php require "/home/app/src/Reset.php"; ?>
 <?php date_default_timezone_set('Asia/Kolkata'); ?>
 <?php /* Debug strings------------------------------------------------- */ ?>
 <!--
@@ -58,7 +65,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $tablename = $_SESSION["ComListTabName"]; ?>
   <?php dbcheckcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $found, $text); ?>
   <?php if ($found == 0) {  ?>
-  <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CompanyID, $CRS, $text); ?>
+  <?php dbaddcommodityrecord($db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CRS, $text); ?>
   <?php  }  ?>
   <?php dbclose($db, $text); ?>
   <?php echo "Record Added.<br>"; ?>
@@ -107,7 +114,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
   <?php dbsetup($db, $text); ?>
   <?php $tablename = $_SESSION["StListTabName"]; ?>
-  <?php dbcreatestocktable($db, $tablename, $text); ?>
+  <?php //dbcreatestocktable($db, $tablename, $text); ?>
   <?php $i = 0; ?>
   <?php foreach ($tableData as $row) { ?>
         <?php if ($i >= 1) { ?>
@@ -334,7 +341,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
   <?php dbsetup($db, $text); ?>
   <?php $tablename = $_SESSION["PListTabName"]; ?>
-  <?php dbcreateproducttable($db, $tablename, $text); ?>
+  <?php //dbcreateproducttable($db, $tablename, $text); ?>
   <?php $i = 0; ?>
   <?php foreach ($tableData as $row) { ?>
         <?php if ($i <= (count($tableData) - 1)) { ?>
@@ -391,7 +398,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 	  <?php $pEstWastage = $myArray[5]; ?>
     <?php dbsetup($db, $text); ?>
     <?php $tablename = $_SESSION["PListTabName"]; ?>
-    <?php dbcreateproducttable($db, $tablename, $text); ?>
+    <?php //dbcreateproducttable($db, $tablename, $text); ?>
     <?php $paramname = "CLOSINGSTOCK"; ?>
     <?php $filter1 = "CUSTOMERNAME"; ?>
     <?php $filter2 = "SIZE"; ?>
@@ -451,14 +458,14 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php $myArray = explode(";", $word3); ?>
     <?php dbsetup($db, $text); ?>
     <?php $tablename = $_SESSION["DocIdTabName"]; ?>
-    <?php dbcreatedocidtable($db, $tablename, $text); ?>
+    <?php //dbcreatedocidtable($db, $tablename, $text); ?>
     <?php dbcleanupdocidtable($db, $tablename, $text); ?>
     <?php dbgetdocid($db, $tablename, "Dispatch", $DOCID, $text); ?>
     <?php dbeditdocidrecord($db, $tablename, "Dispatch", $DiD, "used", $text); ?>
     <?php $tablename = $_SESSION["DispTabName"]; ?>
-    <?php dbcreatedispatchtable($db, $tablename, $text); ?>
+    <?php //dbcreatedispatchtable($db, $tablename, $text); ?>
     <?php $tablename = $_SESSION["PListTabName"]; ?>
-    <?php dbcreateproducttable($db, $tablename, $text); ?>
+    <?php //dbcreateproducttable($db, $tablename, $text); ?>
     <?php for ($i = 1; $i < (count($myArray)-1); $i++) {  ?>
         <?php $myArray1 = explode(",", $myArray[$i]); ?>
         <?php $tablename = $_SESSION["DispTabName"]; ?>
@@ -470,10 +477,8 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php dbgetvalue($db, $tablename, $paramname, $filter1, $myArray1[9], $filter2, $myArray1[3], $outputvalue, $rowdata, $text); ?>    
         <?php $newStock = $outputvalue - $myArray1[5]; ?>
         <?php dbeditproductrecord($db, $tablename, $myArray1[9], $myArray1[3], $outputvalue, $myArray1[5], $newStock, "0", $text); ?>
-        <?php echo "Record Added.<br>"; ?>
     <?php } ?>
     <?php dbclose($db, $text); ?>
-    <?php echo $text; ?><br>
     <?php header("Location: dispatch2.php"); ?>
     <?php exit; ?>
 <?php } ?>

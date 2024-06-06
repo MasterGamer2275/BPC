@@ -2,6 +2,7 @@
   $root = $_SERVER['DOCUMENT_ROOT'];
   //---add the DB API file
   require $root."/DB/call-db.php";
+  require "/home/app/src/Reset.php";
   //---open SQL lite 3 .db file
   dbsetup($db, $text);
   $tablename = $_SESSION["SListTabName"];
@@ -747,7 +748,7 @@ function getcommoditylist() {
           let word1 = myArray[1];
           let gsm1 = myArray[3];
           let bf1 = myArray[4];
-          let rs1 = myArray[6];
+          let rs1 = myArray[5];
           const myArray2 = word1.split(":");
           let word2 = myArray2[1];
           let word3 = word2. replaceAll("\"", "");
@@ -758,8 +759,9 @@ function getcommoditylist() {
           const myArray5 = rs1.split(":");
           let rs2 = myArray5[1];
           let rs3 = rs2. replaceAll("}", "");
+          let rs4 = rs2. replaceAll("\"", "");
           var option = document.createElement("option");
-          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs3;
+          option.text = word3 +"-" + "GSM:" + gsm2 + "-" + "BF:" + bf2 + "-" + "RS:" + rs4;
           option.value = i;
           select.appendChild(option);
           document.getElementById("PSname").disabled = true;
@@ -909,6 +911,7 @@ document.getElementById('form2').addEventListener('submit', function(event) {
     // Submit the form
     this.submit();
 });
+
 function calculateSum() {
             var table = document.getElementById('myTable2');
             var sum = 0;
@@ -922,56 +925,23 @@ function calculateSum() {
             // Display the sum in the input box
             document.getElementById('pOTotal').value = sum;
             document.getElementById('pOGTotal').value = sum;
-            var sumInWords = toWords(sum);
+            var sumInWords = numToWords(sum);
             document.getElementById('pOAmtWords').value = sumInWords;
-        }
-var th = ['','thousand','million', 'billion','trillion'];
-var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
- var tn = ['ten','eleven','twelve','thirteen', 'fourteen','fifteen','sixteen', 'seventeen','eighteen','nineteen'];
- var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
- 
-function toWords(s) {
-    s = s.toString();
-    s = s.replace(/[\, ]/g,'');
-    if (s != parseFloat(s)) return 'not a number';
-    var x = s.indexOf('.');
-    if (x == -1)
-        x = s.length;
-    if (x > 15)
-        return 'too big';
-    var n = s.split(''); 
-    var str = '';
-    var sk = 0;
-    for (var i=0;   i < x;  i++) {
-        if ((x-i)%3==2) { 
-            if (n[i] == '1') {
-                str += tn[Number(n[i+1])] + ' ';
-                i++;
-                sk=1;
-            } else if (n[i]!=0) {
-                str += tw[n[i]-2] + ' ';
-                sk=1;
-            }
-        } else if (n[i]!=0) { // 0235
-            str += dg[n[i]] +' ';
-            if ((x-i)%3==0) str += 'hundred ';
-            sk=1;
-        }
-        if ((x-i)%3==1) {
-            if (sk)
-                str += th[(x-i-1)/3] + ' ';
-            sk=0;
-        }
+}
+function numToWords(num) {
+    const a = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+    const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+    function convertToWords(n) {
+        if (n < 20) return a[n];
+        if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? ' ' + a[n % 10] : '');
+        if (n < 1000) return a[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' and ' + convertToWords(n % 100) : '');
+        if (n < 100000) return convertToWords(Math.floor(n / 1000)) + ' thousand' + (n % 1000 ? ' ' + convertToWords(n % 1000) : '');
+        if (n < 10000000) return convertToWords(Math.floor(n / 100000)) + ' lakh' + (n % 100000 ? ' ' + convertToWords(n % 100000) : '');
+        return convertToWords(Math.floor(n / 10000000)) + ' crore' + (n % 10000000 ? ' ' + convertToWords(n % 10000000) : '');
     }
-    
-    if (x != s.length) {
-        var y = s.length;
-        str += 'point ';
-        for (var i=x+1; i<y; i++)
-            str += dg[n[i]] +' ';
-    }
-    return str.replace(/\s+/g,' ');
-    alert(str);
+
+    return num === 0 ? 'zero rupees only' : convertToWords(num) + ' rupees only';
 }
 </script>
 
