@@ -26,13 +26,33 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
       INVNUM
     ORDER BY
       TotalPrice DESC
-    LIMIT 10;
+    LIMIT 5;
 ");
 // Output data
 while (($row = $res->fetch_assoc())) {
   array_push($dbtabdata,$row);
 }
-
+    $CompanyID = $_SESSION["companyID"];
+    $tablename = $_SESSION["PListTabName"];
+    $dbtabdata2 = array(array());
+    $res_query1 = $db->query("
+         SELECT
+            CUSTOMERNAME,
+            CONCAT('₹ ',FORMAT(SUM(TOTALVAL), 2)) AS StockVal
+        FROM 
+            `$tablename`
+        WHERE 
+            COMPANYID = '$CompanyID'
+        GROUP BY 
+            CUSTOMERNAME
+        ORDER BY
+            StockVal DESC
+        LIMIT 5;
+");
+// Output data
+while (($row1 = $res_query1->fetch_assoc())) {
+  array_push($dbtabdata2,$row1);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +157,7 @@ tr, td {
 
 table tr td:nth-child(2),
 table tr th:nth-child(2) {
-    width: 300px; /* Set your desired width */
+    width: 200px; /* Set your desired width */
 }
 
 .rectangle2 {
@@ -186,7 +206,28 @@ table tr th:nth-child(2) {
     </div>
     <div class="dashboard">
             <div class="box">
-
+               <h2 style="left:0%;">  💰 Stock Value:</h2>
+               <table id = "myTable">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Stock Value (₹)</th>
+                    </tr>
+                <?php
+                    foreach ($dbtabdata2 as $row) {
+                        echo "<tr>";
+                        $i = 0;
+                            foreach ($row as $cell) {
+                                If ($i < 1) {
+                                  echo "<td><a href=\"/forms/finishedgoods.php?clickedValue=$i-$cell\">$cell</a></td>";
+                                  } else {
+                                      echo "<td>$cell</td>";                   
+                                  }
+                                  $i++;
+                            }      
+                    echo "</tr>";
+                    }
+                ?>
+                </table>
             </div>
             <div class="box">
                <h2 style="left:0%;"><i class="fa fa-shopping-cart"></i>  Purchase History:</h2>
@@ -214,6 +255,10 @@ table tr th:nth-child(2) {
                     }
                 ?>
                 </table>
+
+            </div>
+            <div class="box">
+
 
             </div>
     </div>

@@ -871,16 +871,16 @@ function dbgenfginvrep(&$db, $tablename, &$dbtabdata, &$text) {
     $dbtabdata = array();
     
     $res_query1 = $db->query("
-        SELECT
+         SELECT
             CUSTOMERNAME,
-            SUM(TOTALVAL) AS StockVal
+            FORMAT(SUM(TOTALVAL), 2) AS StockVal
         FROM 
             `$tablename`
         WHERE 
             COMPANYID = '$CompanyID'
         GROUP BY 
-            CUSTOMERNAME;
-    ");
+            CUSTOMERNAME"
+            );
     
     // Check if the query was successful
     if ($res_query1 === false) {
@@ -891,7 +891,7 @@ function dbgenfginvrep(&$db, $tablename, &$dbtabdata, &$text) {
     while ($row1 = $res_query1->fetch_assoc()) {
         $cName = $row1['CUSTOMERNAME'];
         $Stval = $row1['StockVal'];
-        $addline = [$cName, '', '', '', '', '', '', '', $Stval];
+        $addline = [$cName, '', '', '', '', '', '', $Stval];
         // Add the row to the dbtabdata array
         array_push($dbtabdata,$addline);
 
@@ -903,8 +903,8 @@ function dbgenfginvrep(&$db, $tablename, &$dbtabdata, &$text) {
                   '0' AS Production,
                   CLOSINGSTOCK AS ClosingSt,
                   RATE,
-                  ROUND((RATE * CLOSINGSTOCK), 2) AS val,
-                  ROUND((RATE * CLOSINGSTOCK * 12 / 100), 2) AS GST,
+                  FORMAT(ROUND((RATE * CLOSINGSTOCK), 2), 2) AS val,
+                  FORMAT(ROUND((RATE * CLOSINGSTOCK * 12 / 100), 2), 2) AS GST,
                   '' AS TOTALVAL
             FROM 
                 `$tablename`

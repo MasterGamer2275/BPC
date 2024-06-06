@@ -129,31 +129,16 @@ input[type=number] {
   <table id="myTable">
     <tr>
       <td onclick="expandtable()">[+/-]</td>
-      <th>Customer Name<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('cnameFilter')"></i>      
+      <th>Customer Name / Size<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('cnameFilter')"></i>      
         <input type="text" id="typeFilter" class="filter-input" placeholder="Filter by name">
         
       </th>
-      <th>Size<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('szFilter')"></i>      
-        <input type="text" id="bfFilter" class="filter-input" placeholder="Filter by name">
-        
-      </th>
-      <th>OpeningStcok<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('ostFilter')"></i>    
-        <input type="text" id="szFilter" class="filter-input" placeholder="Filter by name">
-        
-      </th>
-      <th>Produtcion<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('prodFilter')"></i>      
-        <input type="text" id="numFilter" class="filter-input" placeholder="Filter by name">
-        
-      </th>
-      <th>ClosingStock<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('clstFilter')"></i>      
-        <input type="text" id="kgFilter" class="filter-input" placeholder="Filter by name">
-        
-      </th>
-      <th>Rate (₹)</th>
-      <th>TotalValue (₹)<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('statFilter')"></i> 
-        <input type="text" id="statFilter" class="filter-input" placeholder="Filter by name">
-        
-      </th>
+      <th>OpeningStcok</th>
+      <th>Produtcion</th>
+      <th>ClosingStock</th>
+      <th>Rate (₹)<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('rateFilter')"></i> 
+        <input type="text" id="statFilter" class="filter-input" placeholder="Filter by name"></th>
+      <th>TotalValue (₹)</th>
       <th>GST (₹)</th>
       <th>💰Stock Value (₹)</th>
     </tr>
