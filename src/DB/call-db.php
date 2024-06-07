@@ -621,68 +621,6 @@ function dbeditpurchase(&$db, $tablename, $ID, $pONum, $pODate, $pOTime, $pOSnum
       }
 }
 
-//----------------------------------------DB - Add record (PRNumber Table)----------------------------------------//
-
-function dbaddprnumrecord(&$db, $tablename, $PRNum, $PRDes, &$text) {
-  $CompanyID = $_SESSION["companyID"];
-  $sql =("
-    INSERT INTO `$tablename` (PRNUMBER,DESCRIPTION,COMPANYID)
-    VALUES ('$PRNum', '$PRDes', '$CompanyID')");
-  $ret = $db->query($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records created successfully<br>";
-      }
-}
-
-//----------------------------------------DB - Update record (PRNumber Table)----------------------------------------//
-function dbeditprnumrecord(&$db, $tablename, $ID, $PRNum, $PRDes, &$text) { 
-   $CompanyID = $_SESSION["companyID"];
-   $sql ="UPDATE `$tablename` SET
-   DESCRIPTION = '$PRDes' WHERE PRNUMBER = '$PRNum'";
-  $ret = $db->query($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records updated successfully<br>";
-      }
-}
-
-//----------------------------------------DB - Delete record (PRNumber Table)----------------------------------------//
-
-function dbdeleteprnumrecord(&$db, $tablename, $PRNum, &$text) {
-   $CompanyID = $_SESSION["companyID"];
-   $sql ="DELETE FROM `$tablename` WHERE PRNUMBER = '$PRNum'";
-	  $ret = $db->query($sql);
-		 if(!$ret) {
-			  $err = $db->lastErrorMsg();
-			  $text .= $err;
-			  $text .= "<br>";
-			} else { 
-			  $text .= "Record Deleted Successfully<br>";
-		  }
-}
-
-//----------------------------------------DB - Get PRNum(PRNumber Table)----------------------------------------//
-
-function dbreadprnumrecord(&$db, $tablename, $paramname, &$PRNum, &$text){ 
-$dbtabdata = array(array());
-$res = $db->query("SELECT MAX(`$paramname`) As PRNum FROM `$tablename`"); 
-     while (($val = $res->fetch_assoc())) {
-      array_push($dbtabdata,$val);
-  }
-$PRNum = 0;
-   foreach ($dbtabdata as $row) {
-      foreach ($row as $cell) {
-                $PRNum = intval($cell) + 1;
-              }
-  }
-}
 
 //----------------------------------------DB - Add record (Purchase Table)----------------------------------------//
 
@@ -983,12 +921,13 @@ $text .= "welcome to add record to document id table";
 //----------------------------------------DB - Get ID (Document ID Table)----------------------------------------//
 
 function dbgetdocid(&$db, $tablename, $diType, &$DOCID, &$text) {
-/*$text .= "welcome clear document id";
-$sql = "DELETE FROM DOCID_TABLE
-WHERE TIME < NOW() - INTERVAL 3 HOUR
-      AND STATUS = 'alloted'";
+    $text .= "welcome clear document id";
+    $current_time = date("h:i:s a");
+    $current_datetime_sql = date("Y-m-d H:i:s");
+    $sql = "UPDATE `$tablename` SET STATUS = 'free'
+        WHERE TIME < DATE_SUB('$current_datetime_sql', INTERVAL 1 HOUR)
+              AND STATUS = 'alloted'";
 $res = $db->query($sql);
-*/
 $text .= "welcome to get document id table";
 $CompanyID = $_SESSION["companyID"];
 $sql = "SELECT MIN(DOCID) FROM `$tablename`

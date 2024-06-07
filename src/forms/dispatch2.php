@@ -332,7 +332,7 @@ height: 20px;
         ?>
         </select>
     <input type="hidden" id="dptableData" name="dptableData">
-    <input type = "submit" id = "dpSave" value = "dpSave" style="display: none;">
+    <input type = "button" id = "dpSave" value = "dpSave" style="display: none;">
     <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmitevent();"><br><br>
     <input type = "button" onclick="deleteSelectedRows();" disabled id = "delbutton" name = "delbutton" value = "Deleted Selected Rows &#x1F5D1;">
 </form>
@@ -776,6 +776,7 @@ for (var i = 1; i < (rows.length-1); i++) {
 document.getElementById('dptableData').value = JSON.stringify(data);
 document.getElementById("dpSave").value = "dpSave";
 document.getElementById("dpSave").click();
+addrecord();
 }
 
 function addbundlenum() {
@@ -982,6 +983,43 @@ function deleteSelectedRows() {
   }
 }
 
+function addrecord() {
+  var dpdate = document.getElementById("dp-Date").value;
+  var dpdid = document.getElementById("dp-DiD").value;
+  var dpcuname = document.getElementById("dp-CuName").value;
+  var jsonData = document.getElementById('dptableData').value;
+$.ajax({
+    url: 'save-dispatch-list.php',
+    type: 'POST',
+    data: { 
+        dpdate: dpdate, 
+        dpdid: dpdid, 
+        dpcuname: dpcuname, 
+        dptableData: jsonData 
+    },
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    success: function(response) {
+        // Request was successful, handle response here
+        // Assuming response is a string
+        alert('Response from server: ' + response);
+        
+        // If response is expected to be JSON, you can parse it like this:
+        // let jsonResponse = JSON.parse(response);
+        // alert('Response from server: ' + jsonResponse.message);
+    },
+    error: function(xhr, status, error) {
+        // Request failed, handle error here
+        alert('Request failed with status: ' + status + ', error: ' + error);
+    }
+});
 
+}
+
+function handleSubmit(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+  const inputField = document.getElementById('inputField');
+  console.log("Input value:", inputField.value);
+  // Further processing or form submission logic can go here
+    }
 </script>
 </html> 

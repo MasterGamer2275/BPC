@@ -4,7 +4,6 @@ require $root."/DB/call-db.php";
 require "/home/app/src/Reset.php";
 dbsetup($db, $text);
 $tablename = $_SESSION["PRTabName"];
-dbcreatePRtable($db, $tablename, $text);
 $tablestr = $_POST['tabdata'];
 $pONum = $_POST['ponum'];
 $pODate = date("d-m-Y");
@@ -23,9 +22,9 @@ foreach ($tableData as $row) {
         dbaddpurchaserecord($db, $tablename, $pONum, $pODate, $pOTime, $pOSname, $myArray[0], $myArray[2], $myArray[3], $myArray[4], $myArray[5], $myArray[6], $myArray[7], $myArray[8], $myArray[9], $myArray[10], $text);
   }
 echo "Records Added.";
-$tablename = $_SESSION["PRNumTabName"];
-$PRNum = $pONum;
-dbdeleteprnumrecord($db, $tablename, $PRNum, $text);
+$tablename = $_SESSION["DocIdTabName"];
+dbgetdocid($db, $tablename, "Purchase", $pONum, $text);
+dbeditdocidrecord($db, $tablename, "Purchase", $pONum, "used", $text);
 dbclose($db, $text);
 
 ?>

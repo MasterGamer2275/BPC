@@ -442,45 +442,6 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php header("Location: productionfeed.php"); ?>
     <?php exit; ?>
 <?php } ?>
-<?php /*form - dispatch feed- ($_POST["dpSave"] not working)------------------------------------------------- */ ?>
-<?php if ($_POST["dptableData"] != "") {  ?>
-    <?php $dDate = $_POST["dp-Date"]; ?>
-	  <?php $DiD = $_POST["dp-DiD"]; ?>
-	  <?php $pCnum = $_POST["dp-pOnum"]; ?>
-	  <?php $CuName = $_POST["dp-CuName"]; ?>
-    <?php $tableDataJSON = $_POST['dptableData']; ?>
-    <?php $tableData = json_decode($tableDataJSON, true); ?>
-    <?php $myArray = array(); ?>
-    <?php $str = json_encode($tableData); ?>
-    <?php $word1 = str_replace("]","",$str); ?>
-    <?php $word2 = str_replace("[","", $word1); ?>
-    <?php $word3 = str_replace('"', '',$word2); ?>
-    <?php $myArray = explode(";", $word3); ?>
-    <?php dbsetup($db, $text); ?>
-    <?php $tablename = $_SESSION["DocIdTabName"]; ?>
-    <?php //dbcreatedocidtable($db, $tablename, $text); ?>
-    <?php //dbcleanupdocidtable($db, $tablename, $text); ?>
-    <?php dbgetdocid($db, $tablename, "Dispatch", $DOCID, $text); ?>
-    <?php dbeditdocidrecord($db, $tablename, "Dispatch", $DiD, "used", $text); ?>
-    <?php $tablename = $_SESSION["DispTabName"]; ?>
-    <?php //dbcreatedispatchtable($db, $tablename, $text); ?>
-    <?php $tablename = $_SESSION["PListTabName"]; ?>
-    <?php //dbcreateproducttable($db, $tablename, $text); ?>
-    <?php for ($i = 1; $i < (count($myArray)-1); $i++) {  ?>
-        <?php $myArray1 = explode(",", $myArray[$i]); ?>
-        <?php $tablename = $_SESSION["DispTabName"]; ?>
-        <?php dbadddispatchrecord($db, $tablename, ($i+1), $DiD, $dDate, $myArray1[9], $CuName, $myArray1[3], $myArray1[4], $myArray1[5], $myArray1[6], $myArray1[7], $pCnum, $text); ?>
-        <?php $tablename = $_SESSION["PListTabName"]; ?>
-        <?php $paramname = "CLOSINGSTOCK"; ?>
-        <?php $filter1 = "CUSTOMERNAME"; ?>
-        <?php $filter2 = "SIZE"; ?>
-        <?php dbgetvalue($db, $tablename, $paramname, $filter1, $myArray1[9], $filter2, $myArray1[3], $outputvalue, $rowdata, $text); ?>    
-        <?php $newStock = $outputvalue - $myArray1[5]; ?>
-        <?php dbeditproductrecord($db, $tablename, $myArray1[9], $myArray1[3], $outputvalue, $myArray1[5], $newStock, "0", $text); ?>
-    <?php } ?>
-    <?php dbclose($db, $text); ?>
-    <?php header("Location: dispatch2.php"); ?>
-    <?php exit; ?>
-<?php } ?>
+
 </body>
 </html>

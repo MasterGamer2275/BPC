@@ -27,25 +27,11 @@
   $tablename = $_SESSION["ComListTabName"];
   $dbtabdata = array(array());
   dbreadtable($db, $tablename, $dbtabdata, $text);
-    $tablename = $_SESSION["PRTabName"];
-  dbcreatePRtable($db, $tablename, $text);
-  $paramname = "PRNUMBER";
-  $tablename = $_SESSION["PRNumTabName"];
-  dbcreateprnumtable($db, $tablename, $text);
-  dbreadprnumrecord($db, $tablename, $paramname, $newPRNum, $text);
-    if ($newPRNum == 1) {
-        $paramname = "PONUM";
-        $tablename = $_SESSION["PRTabName"];
-        dbreadprnumrecord($db, $tablename, $paramname, $newPRNum, $text);
-          if ($newPRNum == 1) {
-              $newPRNum = $_SESSION["InitPONum"] + 1;
-          }
-      }
-  $tablename = $_SESSION["PRNumTabName"];
-  $PRDes = "Allocated";
-  dbaddprnumrecord($db, $tablename, $newPRNum, $PRDes, $text);
+  $tablename = $_SESSION["DocIdTabName"];
+  dbgetdocid($db, $tablename, "Purchase", $DOCID, $text);
+  dbeditdocidrecord($db, $tablename, "Purchase", $DOCID, "alloted", $text);
   dbclose($db, $text);
-  $PONum = $newPRNum;
+  $PONum = $DOCID;
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($igstlist);
   //commodity table data
@@ -625,7 +611,6 @@ function submitFirstForm(event) {
           tabdata.push(rowData);
       }
   var jsonData = JSON.stringify(tabdata);
-  alert(jsonData);
   $.ajax({
           url: 'save-pr-list.php',
           type: 'POST',
@@ -636,7 +621,7 @@ function submitFirstForm(event) {
           },
           success: function(response) {
               // Request was successful, handle response here
-              alert(response);
+              //alert(response);
           },
           error: function(xhr, status, error) {
               // Request failed, handle error here
