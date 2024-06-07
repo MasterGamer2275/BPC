@@ -109,3 +109,32 @@ for ($i = 0; $i < 15000; $i++) {
   dbclose($db, $text);
   echo $text;
   ?>
+
+  <?php
+  require "/home/app/src/Reset.php";
+  require "/home/app/src/DB/call-db.php";
+$tablename = "DOCID_TABLE";
+
+for ($i = 0; $i < 15000; $i++) {
+    $k = 820000 + $i; // Increment $k within the loop
+    dbadddocidrecord($db, $tablename, "Quotation", $k, $text);
+}
+
+for ($i = 0; $i < 15000; $i++) {
+    $k = 710000 + $i; // Increment $k within the loop
+    dbadddocidrecord($db, $tablename, "Dispatch", $k, $text);
+}
+
+
+for ($i = 0; $i < 15000; $i++) {
+    $k = 810000 + $i; // Increment $k within the loop
+    dbadddocidrecord($db, $tablename, "Purchase", $k, $text);
+}
+
+
+for ($i = 0; $i < 15000; $i++) {
+    $k = 720000 + $i; // Increment $k within the loop
+    dbadddocidrecord($db, $tablename, "Invoice", $k, $text);
+}
+
+?>

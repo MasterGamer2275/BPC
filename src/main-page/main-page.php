@@ -140,14 +140,31 @@ session_start();
     </div>
 </div>
 <footer>
-      <p>Copyright 2021-2024 by Infi Packaging. All Rights Reserved.&emsp;<a href="#" style="color: white;">About</a>&emsp;<a href="#" style="color: white;">Disclaimer</a>&emsp;<a href="#" style="color: white;">Privacy Policy</a>&emsp;<a href="#" style="color: white;">Terms of Service</a>&emsp;<a href="#" style="color: white;">Help</a></p>
-      <!--
-      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">About</a></p>
-      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Disclaimer</a></p>
-      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Privacy Policy</a></p>
-      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Terms of Service</a></p>
-      <p style="color: white;font-size: 12px;display: inline;margin-right: 8px;"><a href="#" style="color: white;">Help</a></p>
--->
+<?php
+// Define the file paths and their display names
+$links = [
+    'About' => '/main-page/about.php',
+    'Disclaimer' => '/main-page/disclaimer.php',
+    'Privacy Policy' => '/main-page/privacypolicy.php',
+    'Terms of Service' => '/main-page/termsofservice.php',
+    'Help' => '/main-page/help.php'
+];
+
+function generateLink($href, $text) {
+    $safeHref = htmlspecialchars($href, ENT_QUOTES, 'UTF-8');
+    $safeText = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    return "<a href='$safeHref' style='color: white;'>$safeText</a>";
+}
+?>
+
+<p>Copyright 2021-2024 by Infi Bee Solutions Pvt. Ltd. All Rights Reserved.
+<?php
+// Generate the links dynamically
+foreach ($links as $text => $href) {
+    echo '&emsp;' . generateLink($href, $text);
+}
+?>
+</p>
 </footer>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>

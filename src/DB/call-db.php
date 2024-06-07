@@ -65,6 +65,38 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
     $stmt->close();
 }
 
+//----------------------------------------DB - Read Stock Table----------------------------------------//
+
+function dbreadsttable(&$db, $tablename, &$dbtabdata, &$text) {
+    $text .= "Reading table<br>";
+    
+    // Get company ID from session (make sure session is started before calling this function)
+    $CompanyID = $_SESSION["companyID"];
+    
+    // Prepare and execute query using prepared statement
+    $stmt = $db->prepare("SELECT * FROM `$tablename` WHERE CompanyID = ? AND STATUS != 'finished'");
+    $stmt->bind_param("i", $CompanyID); // Assuming CompanyID is an integer
+    $stmt->execute();
+    
+    // Get result
+    $result = $stmt->get_result();
+    
+    // Fetch rows
+    while ($row = $result->fetch_assoc()) {
+        $dbtabdata[] = $row;
+    }
+    
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error reading table: $err<br>";
+    } else {
+        $text .= "Table read successfully<br>";
+    }
+    
+    // Close statement
+    $stmt->close();
+}
 //----------------------------------------DB - Read Table(wdate filter)----------------------------------------//
 
 function dbreadtablewdatefilter(&$db, $tablename, $fromDate, $toDate, &$dbtabdata, &$text) {
@@ -951,11 +983,12 @@ $text .= "welcome to add record to document id table";
 //----------------------------------------DB - Get ID (Document ID Table)----------------------------------------//
 
 function dbgetdocid(&$db, $tablename, $diType, &$DOCID, &$text) {
-$text .= "welcome clear document id";
+/*$text .= "welcome clear document id";
 $sql = "DELETE FROM DOCID_TABLE
 WHERE TIME < NOW() - INTERVAL 3 HOUR
       AND STATUS = 'alloted'";
 $res = $db->query($sql);
+*/
 $text .= "welcome to get document id table";
 $CompanyID = $_SESSION["companyID"];
 $sql = "SELECT MIN(DOCID) FROM `$tablename`
@@ -971,7 +1004,7 @@ if (!$res) {
 } else {
     $row = $res->fetch_assoc(); // Fetch the result as an associative array
     $minDocID = $row['MIN(DOCID)']; // Access the minimum DOCID value
-    $DOCID  =$minDocID; 
+    $DOCID  =$minDocID;
 }
 }
 //----------------------------------------DB - Edit record (Document ID Table)----------------------------------------//

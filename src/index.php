@@ -17,7 +17,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 //---add the DB API file
 require "Reset.php";
 require $root."/DB/call-db.php";
-include 'DB/createDBTables.php';
+//include 'DB/createDBTables.php';
 include 'main-page/main-page.php';
 ?> 
 </body>

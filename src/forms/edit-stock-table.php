@@ -17,7 +17,7 @@ dbsetup($db, $text);
 $tablename = $_SESSION["StListTabName"];
 $companyId = $_SESSION["companyID"];
 $dbtabdata2 = array(array());
-dbreadtable($db, $tablename, $dbtabdata2, $text);
+dbreadsttable($db, $tablename, $dbtabdata2, $text);
 $tablename = $_SESSION["SListTabName"];
 $columnname = "NAME";
 $dbcolvalues = array(array());

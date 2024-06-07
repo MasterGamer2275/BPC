@@ -25,7 +25,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
     GROUP BY 
       INVNUM
     ORDER BY
-      TotalPrice DESC
+      SUM(TOTAL) DESC
     LIMIT 5;
 ");
 // Output data
@@ -46,7 +46,7 @@ while (($row = $res->fetch_assoc())) {
         GROUP BY 
             CUSTOMERNAME
         ORDER BY
-            StockVal DESC
+            SUM(TOTALVAL) DESC
         LIMIT 5;
 ");
 // Output data

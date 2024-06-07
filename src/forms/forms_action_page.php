@@ -459,7 +459,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
     <?php dbsetup($db, $text); ?>
     <?php $tablename = $_SESSION["DocIdTabName"]; ?>
     <?php //dbcreatedocidtable($db, $tablename, $text); ?>
-    <?php dbcleanupdocidtable($db, $tablename, $text); ?>
+    <?php //dbcleanupdocidtable($db, $tablename, $text); ?>
     <?php dbgetdocid($db, $tablename, "Dispatch", $DOCID, $text); ?>
     <?php dbeditdocidrecord($db, $tablename, "Dispatch", $DiD, "used", $text); ?>
     <?php $tablename = $_SESSION["DispTabName"]; ?>
