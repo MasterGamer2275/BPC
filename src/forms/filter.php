@@ -1,4 +1,4 @@
- <?php
+<?php
 // Assuming you have a database connection established
 // Connect to database
 $root = $_SERVER['DOCUMENT_ROOT'];
@@ -13,9 +13,7 @@ $tablename = $_SESSION["StListTabName"];
 $companyId = $_SESSION["companyID"];
 $dbtabheader = ["Stock ID", "Date", "Invoice No.", "SupplierName", "Commodity/Desc", "GSM", "BF","ReelSize", "ReelNo.", "TotalWeight(kg)", "CurrentPrice(₹) breakup", "SGST(%) breakup", "CGST(%) breakup", "IGST(%) breakup","Total(₹)", "Actual Price(₹/Kg)", "Purchase Price(₹/Kg)", "Tax Savings(₹/Kg)", "Total Tax Savings(₹)"];
 $fromDate = $_POST['fromDate'];
-echo $fromDate;
 $toDate = $_POST['toDate'];
-$repnum = $_POST['repnum'];
 // Sanitize and validate input (this is important to prevent SQL injection)
 //$fromDate = mysqli_DECIMAL_escape_string($dbConnection, $fromDate);
 //$toDate = mysqli_DECIMAL_escape_string($dbConnection, $toDate);
@@ -55,10 +53,13 @@ while (($row = $res->fetch_assoc())) {
   $sum = $row['Totalsavings'] + $sum;
 }
 
+echo '<table style="border-collapse: collapse; width: 100%;">';
+
 echo "<caption>Total Savings: ₹";
 echo number_format($sum, 2);
 echo "</caption>";
 echo "<tr>";
+
 foreach ($dbtabheader as $cell) {
         echo "<th>$cell</th>";
         }      

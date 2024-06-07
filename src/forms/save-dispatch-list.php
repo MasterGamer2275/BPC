@@ -1,11 +1,20 @@
- <?php
- /*form - dispatch feed- ($_POST["dpSave"] not working)------------------------------------------------- */ if ($_POST["dptableData"] != "") { 
+<?php
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+  }
+?>
+<?php
+$root = $_SERVER['DOCUMENT_ROOT'];
+require $root."/DB/call-db.php";
+require "/home/app/src/Reset.php";
+dbsetup($db, $text);
  $dDate = $_POST["dpdate"];
  $DiD = $_POST["dpdid"];
  $CuName = $_POST["dpcuname"];
  $tableDataJSON = $_POST['dptableData'];
- echo $tableDataJSON;
- echo '<script>alert("This is an alert from PHP!");</script>';
  $tableData = json_decode($tableDataJSON, true);
  $myArray = array();
  $str = json_encode($tableData);
@@ -13,9 +22,6 @@
  $word2 = str_replace("[","", $word1);
  $word3 = str_replace('"', '',$word2);
  $myArray = explode(";", $word3);
- dbsetup($db, $text);
- $tablename = $_SESSION["DocIdTabName"];
- dbeditdocidrecord($db, $tablename, "Dispatch", $DiD, "used", $text);
  for ($i = 1; $i < (count($myArray)-1); $i++) { 
      $myArray1 = explode(",", $myArray[$i]);
      $tablename = $_SESSION["DispTabName"];
@@ -28,7 +34,9 @@
      $newStock = $outputvalue - $myArray1[5];
      dbeditproductrecord($db, $tablename, $myArray1[9], $myArray1[3], $outputvalue, $myArray1[5], $newStock, "0", $text);
  }
+ echo "Records Added.";
+ $tablename = $_SESSION["DocIdTabName"];
+ dbeditdocidrecord($db, $tablename, "Dispatch", $DiD, "used", $text);
  dbclose($db, $text);
- echo json_encode(['status' => 'success', 'message' => 'Data saved successfully']);
 
 ?>
