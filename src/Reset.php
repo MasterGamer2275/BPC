@@ -32,7 +32,8 @@ if(session_status() !== 1) session_start();
     } else {
         $text .= "Connected to MySQL database successfully<br>";
     }
-    $_SESSION["companyID"] = "6100";
+    $_SESSION["companyID"] = "0";
+    $_SESSION["user"] = "NA";
     $_SESSION["SListTabName"] = "SUPPLIER_TABLE";
     $_SESSION["ComListTabName"] = "COMMODITY_TABLE";
     $_SESSION["StListTabName"] = "RMSTOCK_TABLE";
@@ -43,6 +44,7 @@ if(session_status() !== 1) session_start();
     $_SESSION["ProdTabName"] = "PRODFEED_TABLE";
     $_SESSION["DispTabName"] = "DISPATCH_TABLE";
     $_SESSION["DocIdTabName"] = "DOCID_TABLE";
+    $_SESSION["UserTabName"] = "USER_TABLE";
     $_SESSION["DBRef"] = $db;
 
 function log_session_variables_to_console() {

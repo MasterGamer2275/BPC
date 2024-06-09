@@ -89,6 +89,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 button {
   padding: 1px 6px 1px 6px;
@@ -284,7 +285,7 @@ height: 20px;
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Barcode+128">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text">
 <div id="id01">
-  <form action="forms_action_page.php" method="post" enctype="multipart/form-data" id = "entryform">
+  <form action="#" method="post" enctype="multipart/form-data" id = "entryform">
     <h3>Dispatch Feed:</h3>
     <input type = "text" id = "dp-DiD" name = "dp-DiD" value = "<?php echo $DOCID; ?>" step = "1" min = "0" hidden>
     <label for="dp-Date"><b>Date:</label>
@@ -332,8 +333,8 @@ height: 20px;
         ?>
         </select>
     <input type="hidden" id="dptableData" name="dptableData">
-    <input type = "button" id = "dpSave" value = "dpSave" style="display: none;">
-    <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmitevent();"><br><br>
+    <input type = "button" id = "dpSave" value = "dpSave" style="display: none;" onclick = "addrecord()">
+    <input type = "button" id = "SaveRecord" name = "SaveRecord" value = "SaveRecord" disabled onclick = "createsubmitevent()"><br><br>
     <input type = "button" onclick="deleteSelectedRows();" disabled id = "delbutton" name = "delbutton" value = "Deleted Selected Rows &#x1F5D1;">
 </form>
 </div>
@@ -689,6 +690,8 @@ document.getElementById("sub-form2").style.display = "none";
 document.getElementById("Print").hidden = true;
 document.getElementById("SaveRecord").hidden = true;
 document.getElementById("PrintLabel").hidden = true;
+document.getElementById("back").hidden = true;
+document.getElementById("forward").hidden = true;
 hideColumn(0);
 hideColumn(4);
 hideColumn(6);
@@ -701,6 +704,8 @@ document.getElementById("sub-form2").style.display = sfstat2;
 document.getElementById("Print").hidden = false;
 document.getElementById("SaveRecord").hidden = false;
 document.getElementById("PrintLabel").hidden = false;
+document.getElementById("back").hidden = false;
+document.getElementById("forward").hidden = false;
 unhideColumn(0);
 unhideColumn(4);
 unhideColumn(6);
@@ -776,7 +781,6 @@ for (var i = 1; i < (rows.length-1); i++) {
 document.getElementById('dptableData').value = JSON.stringify(data);
 document.getElementById("dpSave").value = "dpSave";
 document.getElementById("dpSave").click();
-addrecord();
 }
 
 function addbundlenum() {
@@ -984,42 +988,43 @@ function deleteSelectedRows() {
 }
 
 function addrecord() {
-  var dpdate = document.getElementById("dp-Date").value;
-  var dpdid = document.getElementById("dp-DiD").value;
-  var dpcuname = document.getElementById("dp-CuName").value;
-  var dptableData = document.getElementById('dptableData').value;
-$.ajax({
-    url: 'save-dispatch-list.php',
-    type: 'POST',
-    data: { 
-        dpdate: dpdate, 
-        dpdid: dpdid, 
-        dpcuname: dpcuname, 
-        dptableData: dptableData 
-    },
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-    success: function(response) {
-        // Request was successful, handle response here
-        // Assuming response is a string
-        alert('Response from server: ' + response);
-        
-        // If response is expected to be JSON, you can parse it like this:
-        // let jsonResponse = JSON.parse(response);
-        // alert('Response from server: ' + jsonResponse.message);
-    },
-    error: function(xhr, status, error) {
-        // Request failed, handle error here
-        alert('Request failed with status: ' + status + ', error: ' + error);
-    }
-});
+    // Get values from input elements
+    var dpdate = document.getElementById("dp-Date").value;
+    var dpdid = document.getElementById("dp-DiD").value;
+    var dpcuname = document.getElementById("dp-CuName").value;
+    var dptableData = document.getElementById("dptableData").value;
 
+    // Create data object to be sent to the server
+    var data = {
+        dpdate: dpdate,
+        dpdid: dpdid,
+        dpcuname: dpcuname,
+        dptableData: dptableData
+    };
+
+    // Make AJAX request
+    $.ajax({
+        url: 'saverecord-dispatch.php', // URL of the server-side script
+        type: 'POST', // HTTP method to use for the request
+        enctype: 'multipart/form-data',
+        data: data, // Data to send to the server
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Content type of the request
+        success: function(response) {
+            // Handle successful response
+            //alert('Response from server: ' + response);
+            
+            // If expecting JSON response, you can parse it like this:
+            // let jsonResponse = JSON.parse(response);
+            // alert('Response from server: ' + jsonResponse.message);
+            alert ("record saved!");
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            alert('Request failed with status: ' + status + ', error: ' + error);
+        }
+    });
 }
 
-function handleSubmit(event) {
-  event.preventDefault(); // Prevent default form submission behavior
-  const inputField = document.getElementById('inputField');
-  console.log("Input value:", inputField.value);
-  // Further processing or form submission logic can go here
-    }
+
 </script>
 </html> 

@@ -622,6 +622,7 @@ function submitFirstForm(event) {
           success: function(response) {
               // Request was successful, handle response here
               //alert(response);
+              alert ("record saved!");
           },
           error: function(xhr, status, error) {
               // Request failed, handle error here
