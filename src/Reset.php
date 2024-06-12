@@ -11,17 +11,16 @@ if (!is_dir('/home/app/src/custom_sessions')) {
  // Start the session
 // Print the current session status
 // remove all session variables
+//$db->close();
 session_unset();
-
 // destroy the session
 session_destroy();
 //echo "Before session_start(): " . session_status() . "<br>"; 
+session_cache_limiter('private');
+$cache_limiter = session_cache_limiter();
 if(session_status() !== 2) {
     session_start();
 /* set the cache limiter to 'private' */
-
-session_cache_limiter('private');
-$cache_limiter = session_cache_limiter();
 
 //echo "The cache limiter is now set to $cache_limiter<br />";
     //echo "Session ID: " . session_id() . "<br>";
@@ -45,6 +44,7 @@ $cache_limiter = session_cache_limiter();
         $text .= "<br>";
     } else {
     $text .= "Connected to MySQL database successfully<br>";
+    $_SESSION["companyID"] = "6100";
     $_SESSION["CompanyID"] = "6100";
     $_SESSION["SListTabName"] = "SUPPLIER_TABLE";
     $_SESSION["ComListTabName"] = "COMMODITY_TABLE";
@@ -57,6 +57,7 @@ $cache_limiter = session_cache_limiter();
     $_SESSION["DispTabName"] = "DISPATCH_TABLE";
     $_SESSION["DocIdTabName"] = "DOCID_TABLE";
     $_SESSION["UserTabName"] = "USER_TABLE";
+    $_SESSION["JobTabName"] = "JOB_TABLE";
     $_SESSION["DBRef"] = $db;
     $_SESSION["DBConnStr"] = "Connected";
     echo "<script>console.log('status:', " . $_SESSION["DBConnStr"] . ");</script>";
