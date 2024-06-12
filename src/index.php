@@ -36,7 +36,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 
     <div class="container" style="background-color:#f1f1f1">
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="pwd">Forgot <a href="#">password?</a></span>
+      <span class="pwd">Forgot <a href='#'>password?</a></span>
     </div>
   </form>
 </div>

@@ -7,6 +7,13 @@ Password  <?php echo $_POST["pwd"]; ?><br>
 Login  <?php echo $_POST["login"]; ?><br>
 Signup  <?php echo $_POST["signup"]; ?><br>
 -->
+<?php
+// remove all session variables
+session_unset();
+
+// destroy the session
+session_destroy();
+?>
     <?php //---add the DB API file ?>
     <?php $root = $_SERVER['DOCUMENT_ROOT']; ?>
     <?php require $root."/DB/call-db.php"; ?>
@@ -43,13 +50,31 @@ Signup  <?php echo $_POST["signup"]; ?><br>
     <?php //echo 'User found: ' . print_r($row, true); ?>
     <?php // Set session variables ?>
     <?php // Start the session ?>
-    <?php if(session_status() !== 1) session_start(); ?>
-    <?php //echo $row['COMPANYID']; ?>
-    <?php $_SESSION["companyID"] = $row['COMPANYID']; ?>
-    <?php $_SESSION["User"] = $row['USERNAME']; ?>
-<?php // Log session variables to the console ?>
-<?php log_session_variables_to_console(); ?>
-    <!-- Place holder to open the .htm file for main log in page -->    
+    <?php
+// Start the session
+//session_start();
+//if(session_status() !== 1) session_start();
+// Unset specific session variables
+unset($_SESSION['companyID']);
+unset($_SESSION['User']);
+
+// Optionally, check if the variables are unset
+if (!isset($_SESSION['companyID']) && !isset($_SESSION['User'])) {
+    echo 'Session variables unset successfully.';
+} else {
+    echo 'Failed to unset session variables.';
+}
+
+$_SESSION['companyID'] = $row['COMPANYID'];
+$_SESSION['User'] = $row['USERNAME'];
+echo "<script>console.log('COMPANYID:', " . $_SESSION['companyID'] . ");</script>";
+echo "<script>console.log('USER:', " . $_SESSION['User'] . ");</script>";
+    if (isset($_SESSION['companyID']) && isset($_SESSION['User'])) {
+        echo 'Session variables set successfully.';
+} else {
+    echo 'Failed to set session variables.';
+}
+?>  
     <?php include 'main-page/main-page.php'; ?>
 <?php } else { ?>
     <?php echo 'No user found with username: ' . $searchUsername; ?>

@@ -1,17 +1,31 @@
- <?php
+<?php
+// Specify a custom session save path
 session_save_path('/home/app/src/custom_sessions');
 
 // Ensure the directory exists and is writable
 if (!is_dir('/home/app/src/custom_sessions')) {
     mkdir('/home/app/src/custom_sessions', 0777, true);
 }
-// Start the session
-if(session_status() !== 1) session_start();
-
 ?>
-
  <?php
+ // Start the session
+// Print the current session status
+// remove all session variables
+session_unset();
 
+// destroy the session
+session_destroy();
+//echo "Before session_start(): " . session_status() . "<br>"; 
+if(session_status() !== 2) {
+    session_start();
+/* set the cache limiter to 'private' */
+
+session_cache_limiter('private');
+$cache_limiter = session_cache_limiter();
+
+//echo "The cache limiter is now set to $cache_limiter<br />";
+    //echo "Session ID: " . session_id() . "<br>";
+    //echo "After session_start(): " . session_status() . "<br>"; 
     $text = "Debug Mode:<br>";
     $err = "Db Error:";
     
@@ -30,10 +44,8 @@ if(session_status() !== 1) session_start();
         $text .= $err;
         $text .= "<br>";
     } else {
-        $text .= "Connected to MySQL database successfully<br>";
-    }
-    $_SESSION["companyID"] = "0";
-    $_SESSION["user"] = "NA";
+    $text .= "Connected to MySQL database successfully<br>";
+    $_SESSION["CompanyID"] = "6100";
     $_SESSION["SListTabName"] = "SUPPLIER_TABLE";
     $_SESSION["ComListTabName"] = "COMMODITY_TABLE";
     $_SESSION["StListTabName"] = "RMSTOCK_TABLE";
@@ -46,12 +58,16 @@ if(session_status() !== 1) session_start();
     $_SESSION["DocIdTabName"] = "DOCID_TABLE";
     $_SESSION["UserTabName"] = "USER_TABLE";
     $_SESSION["DBRef"] = $db;
+    $_SESSION["DBConnStr"] = "Connected";
+    echo "<script>console.log('status:', " . $_SESSION["DBConnStr"] . ");</script>";
+
 
 function log_session_variables_to_console() {
     echo "<script>console.log('Session Variables:', " . json_encode($_SESSION) . ");</script>";
+    //echo json_encode($_SESSION);
 }
-
-// Log session variables to the console
 log_session_variables_to_console();
 
+    }
+}
 ?>

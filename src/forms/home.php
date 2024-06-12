@@ -8,9 +8,10 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 ?>
 <?php
   require "/home/app/src/Reset.php";
+  require "/home/app/src/DB/call-db.php";
   $dbtabdata = array(array());
   $tablename = $_SESSION["StListTabName"];
-  $companyId = $_SESSION["companyID"];
+  $companyId = $_SESSION["CompanyID"];
   $res = $db->query("
     SELECT 
       INVNUM,
@@ -32,7 +33,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 while (($row = $res->fetch_assoc())) {
   array_push($dbtabdata,$row);
 }
-    $CompanyID = $_SESSION["companyID"];
+    $CompanyID = $_SESSION["CompanyID"];
     $tablename = $_SESSION["PListTabName"];
     $dbtabdata2 = array(array());
     $res_query1 = $db->query("
