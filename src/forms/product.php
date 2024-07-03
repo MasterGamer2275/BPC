@@ -14,7 +14,7 @@
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $tablename = $_SESSION["PListTabName"];
   $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata, $text);
+  dbreadtableproduct($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
 ?>  
 <!DOCTYPE html>
@@ -54,7 +54,7 @@ table tr th:nth-child(2) {
 }
 table tr td:nth-child(3),
 table tr th:nth-child(3) {
-    width: 105px; /* Set your desired width */
+    width: 300px; /* Set your desired width */
 }
 table tr td:nth-child(4),
 table tr th:nth-child(4) {
@@ -106,6 +106,10 @@ tr:nth-child(even) {
   td:nth-child(7) {
   display: none;
 }
+  th:nth-child(8),
+  td:nth-child(8) {
+  //display: none;
+}
   th:nth-child(9),
   td:nth-child(9) {
   display: none;
@@ -124,6 +128,11 @@ tr:nth-child(even) {
 }
   th:nth-child(13),
   td:nth-child(13) {
+  display: none;
+}
+
+  th:nth-child(14),
+  td:nth-child(14) {
   display: none;
 }
 
@@ -157,10 +166,15 @@ height: 20px;
     cursor: pointer;
     margin-left: 4px;
   }
+  .longtext input[type=text] {
+  -moz-appearance: textfield;
+  width: 25%;
+}
 input[type=number], input[type=text] {
   -moz-appearance: textfield;
   width: 5%;
 }
+
 .sizeclass {
 
 }
@@ -176,6 +190,83 @@ select {
 width: 25%;
 /* width: 120px;*/
 height: 20px;
+}
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  max-width: 300px;
+  width: auto;
+  top:0;
+  right: 5px;
+  height: auto;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  color: black;
+}
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+  font: inherit;
+ 
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password], .form-container input[type=email], .form-container input[type=date]{
+  width: 90%;
+  height: 0px;
+  padding: 12px;
+  margin: 5px 0 2px 0;
+  border: none;
+  font-family: "Source Sans Pro", "sans-serif";
+  font-size: 16px;
+  background: #f2f2f2;
+}
+label {
+  /* Your general styles for labels */
+  font-size: 16px;
+  color: #333;
+}
+.form-container select{
+  width: 90%;
+  padding: auto;
+  border: none;
+  background: #f2f2f2;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #f2f2f2;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #f2f2f2;
+  color: #f2f2f2;
+  border: none;
+  cursor: pointer;
+  margin-bottom:10px;
+  opacity: 0.2;
+}
+/* Add a red background color to the cancel button */
+.form-container .updatebtn {
+  background-color: #f2f2f2;
+  color: Green;
+  opacity: 0.7;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: #f2f2f2;
+  opacity: 0.5;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
 }
 </style>
 <body>
@@ -195,8 +286,8 @@ height: 20px;
       ?>
     </select>
     <label for="pDes"><b>Description: *</label>
-    <input type = "text" id = "pDes" name = "pDes" required size="15" placeholder = "Brown Cover GY">
-    <label for="pSpec"><b>Spec: *</label>
+    <input type = "text" class = "longtext" id = "pDes" name = "pDes" required placeholder = "Brown Cover GY">
+    <label for="pSpec"><b>Spec/ReelSize: *</label>
     <input type = "text" id = "pSpec" name = "pSpec" required size="15"><br><br>
     <div class = "sizeclass">
       <label for="pGSM"><b>GSM: *</label>

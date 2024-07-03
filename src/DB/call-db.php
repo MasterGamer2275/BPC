@@ -65,6 +65,71 @@ function dbreadtable(&$db, $tablename, &$dbtabdata, &$text) {
     $stmt->close();
 }
 
+//----------------------------------------DB - Read Product Table----------------------------------------//
+
+function dbreadtableproduct(&$db, $tablename, &$dbtabdata, &$text) {
+    $text .= "Reading table<br>";
+    
+    // Get company ID from session (make sure session is started before calling this function)
+    $CompanyID = $_SESSION["companyID"];
+    
+    // Prepare and execute query using prepared statement
+    $stmt = $db->prepare("SELECT * FROM `$tablename` WHERE CompanyID = ? GROUP BY CUSTOMERNAME, SPEC");
+    $stmt->bind_param("i", $CompanyID); // Assuming CompanyID is an integer
+    $stmt->execute();
+    
+    // Get result
+    $result = $stmt->get_result();
+    
+    // Fetch rows
+    while ($row = $result->fetch_assoc()) {
+        $dbtabdata[] = $row;
+    }
+    
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error reading table: $err<br>";
+    } else {
+        $text .= "Table read successfully<br>";
+    }
+    
+    // Close statement
+    $stmt->close();
+}
+
+//----------------------------------------DB - Read Product Table----------------------------------------//
+
+function dbreadtableproduction(&$db, $tablename, &$dbtabdata, &$text) {
+    $text .= "Reading table<br>";
+    
+    // Get company ID from session (make sure session is started before calling this function)
+    $CompanyID = $_SESSION["companyID"];
+    
+    // Prepare and execute query using prepared statement
+    $stmt = $db->prepare("SELECT * FROM `$tablename` WHERE CompanyID = ? ORDER BY STATUS");
+    $stmt->bind_param("i", $CompanyID); // Assuming CompanyID is an integer
+    $stmt->execute();
+    
+    // Get result
+    $result = $stmt->get_result();
+    
+    // Fetch rows
+    while ($row = $result->fetch_assoc()) {
+        $dbtabdata[] = $row;
+    }
+    
+    // Check for errors
+    if ($stmt->errno) {
+        $err = $stmt->error;
+        $text .= "Error reading table: $err<br>";
+    } else {
+        $text .= "Table read successfully<br>";
+    }
+    
+    // Close statement
+    $stmt->close();
+}
 //----------------------------------------DB - Read Stock Table----------------------------------------//
 
 function dbreadsttable(&$db, $tablename, &$dbtabdata, &$text) {
@@ -843,7 +908,7 @@ function dbgenfginvrep(&$db, $tablename, &$dbtabdata, &$text) {
     $res_query1 = $db->query("
          SELECT
             CUSTOMERNAME,
-            FORMAT(SUM(TOTALVAL), 2) AS StockVal
+            FORMAT((SUM((RATE * CLOSINGSTOCK) + (RATE * CLOSINGSTOCK * 12 / 100))), 2) AS StockVal
         FROM 
             `$tablename`
         WHERE 

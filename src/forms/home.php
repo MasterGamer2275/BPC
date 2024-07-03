@@ -39,7 +39,7 @@ while (($row = $res->fetch_assoc())) {
     $res_query1 = $db->query("
          SELECT
             CUSTOMERNAME,
-            CONCAT('₹ ',FORMAT(SUM(TOTALVAL), 2)) AS StockVal
+            CONCAT('₹ ',FORMAT((SUM((RATE * CLOSINGSTOCK) + (RATE * CLOSINGSTOCK * 12 / 100))), 2)) AS StockVal
         FROM 
             `$tablename`
         WHERE 
@@ -47,7 +47,7 @@ while (($row = $res->fetch_assoc())) {
         GROUP BY 
             CUSTOMERNAME
         ORDER BY
-            SUM(TOTALVAL) DESC
+            SUM((RATE * CLOSINGSTOCK) + (RATE * CLOSINGSTOCK * 12 / 100)) DESC
         LIMIT 5;
 ");
 // Output data
