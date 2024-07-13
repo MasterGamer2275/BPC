@@ -1,13 +1,12 @@
 <?php
-// Specify a custom session save path
-session_save_path('/home/app/src/custom_sessions');
-
-// Ensure the directory exists and is writable
-if (!is_dir('/home/app/src/custom_sessions')) {
-    mkdir('/home/app/src/custom_sessions', 0777, true);
+// If the request is made from our space preview functionality then turn on PHP error reporting
+if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
+  ini_set('display_errors', 0);
+  ini_set('display_startup_errors', 0);
+  error_reporting(0);
 }
 ?>
- <?php
+<?php
  // Start the session
 // Print the current session status
 // remove all session variables
@@ -60,14 +59,14 @@ if(session_status() !== 2) {
     $_SESSION["JobTabName"] = "JOB_TABLE";
     $_SESSION["DBRef"] = $db;
     $_SESSION["DBConnStr"] = "Connected";
-    echo "<script>console.log('status:', " . $_SESSION["DBConnStr"] . ");</script>";
+    //echo "<script>console.log('status:', " . $_SESSION["DBConnStr"] . ");</script>";
 
 
 function log_session_variables_to_console() {
     echo "<script>console.log('Session Variables:', " . json_encode($_SESSION) . ");</script>";
     //echo json_encode($_SESSION);
 }
-log_session_variables_to_console();
+//log_session_variables_to_console();
 
     }
 }

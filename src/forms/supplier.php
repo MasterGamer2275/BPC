@@ -298,7 +298,6 @@ height: 20px;
    <input type = "text" inputmode="numeric" id = "SPh2" name = "SPh2" size="10" maxlength = "10" placeholder="xxxxxxxxxxxx">
    <label for="SEmail2"><b>Email:</label>
    <input type = "email" id = "SEmail2" name = "SEmail2" size="43" maxlength = "43">
-
   </form>
 </div>
 

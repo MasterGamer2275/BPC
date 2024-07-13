@@ -1,19 +1,3 @@
-<?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-  }
-?>
-<?php
-// If the request is made from our space preview functionality then turn on PHP error reporting
-if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-  }
-?>
 <!DOCTYPE html>
 <html>
 <style>
@@ -21,7 +5,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED
 </style>
 <?php include 'header.php';?>
 <h3>Welcome to Kraft Paper Cover Manufacturing Execution System Online Portal, please Log In to continue.</h3>
-
 <div id="id01">
   <form class="modal-content animate" action="/action_page.php" method="post">
     <div class="container">

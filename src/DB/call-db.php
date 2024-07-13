@@ -406,6 +406,45 @@ function dbdelrecord(&$db, $tablename, $ID, &$text) {
       }
 }
 
+//----------------------------------------DB - Edit product record method 2----------------------------------------//
+
+function dbeditproductrecord1(&$db, $tablename, $ID, $tabdata, &$text) {
+      // Optionally, sanitize the input
+  $delimiter = ",";
+  $myArray = explode($delimiter, $tabdata);
+  $id = $myArray[0];
+  $cname = $myArray[1];
+  $des = $myArray[2];
+  $spec = $myArray[3];
+  $gsm = $myArray[4];
+  $size = $myArray[5];
+  $rate = $myArray[6];
+    // Sanitize input to prevent SQL injection
+    $id = $db->real_escape_string($id);
+    $cname = $db->real_escape_string($cname);
+    $des = $db->real_escape_string($des);
+    $spec = $db->real_escape_string($spec);
+    $gsm = $db->real_escape_string($gsm);
+    $size = $db->real_escape_string($size);
+    $rate = $db->real_escape_string($rate);
+  $CompanyID = $_SESSION["companyID"];
+  $sql ="UPDATE `$tablename` SET
+    CUSTOMERNAME = '$cname',
+    DESCRIPTION = '$des',
+    SPEC = '$spec',
+    GSM = '$gsm',
+    SIZE = '$size',
+    RATE = '$rate' WHERE COMPANYID = '$CompanyID' AND ID = '$id'";
+  $ret = $db->query($sql);
+     if(!$ret) {
+          $err = $db->lastErrorMsg();
+          $text .= $err;
+          $text .= "<br>";
+        } else { 
+          $text .= "Records edited successfully<br>";
+      }
+}
+
 //----------------------------------------DB - Add record (Commodity Table)----------------------------------------//
 
 function dbaddcommodityrecord(&$db, $tablename, $Cname, $CSname, $CGSM, $CBF, $CRS, &$text) {

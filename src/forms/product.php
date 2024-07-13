@@ -14,8 +14,15 @@
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $tablename = $_SESSION["PListTabName"];
   $dbtabdata = array(array());
-  dbreadtableproduct($db, $tablename, $dbtabdata, $text);
+  dbreadtable($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
+  // Convert the array of objects to a JSON array
+  $jsonArray_1 = json_encode($dbcolvalues);
+    // Echo the JSON array
+  echo '<script>';
+  echo 'var jsArray_1 = ' . $jsonArray_1 . ';';
+  echo 'console.log(jsArray_1);'; // Output the array in the browser console
+  echo '</script>';
 ?>  
 <!DOCTYPE html>
 <html>
@@ -197,7 +204,7 @@ height: 20px;
   position: fixed;
   max-width: 300px;
   width: auto;
-  top:0;
+  top: 0;
   right: 5px;
   height: auto;
   border: 3px solid #f1f1f1;
@@ -206,11 +213,11 @@ height: 20px;
 }
 /* Add styles to the form container */
 .form-container {
-  max-width: 300px;
+  max-width: 500px;
+  width: 300px;
   padding: 10px;
   background-color: white;
   font: inherit;
- 
 }
 
 /* Full-width input fields */
@@ -270,7 +277,7 @@ label {
 }
 </style>
 <body>
-    <form action="forms_action_page.php" method="post" id = "myForm">
+    <form action="forms_action_page.php" method="post" id = "Form">
     <h3>Create/Add Client Master:</h3>
     <label for="pCus"><b>Customer Name: *</label>
     <select name="pCus" id="pCus">
@@ -286,7 +293,7 @@ label {
       ?>
     </select>
     <label for="pDes"><b>Description: *</label>
-    <input type = "text" class = "longtext" id = "pDes" name = "pDes" required placeholder = "Brown Cover GY">
+    <input type = "text" class = "longtext" id = "pDes" name = "pDes" required size="40" placeholder = "Brown Cover GY">
     <label for="pSpec"><b>Spec/ReelSize: *</label>
     <input type = "text" id = "pSpec" name = "pSpec" required size="15"><br><br>
     <div class = "sizeclass">
@@ -302,6 +309,7 @@ label {
       <input type = "number" id = "pRate" name = "pRate" required min = "0.01" step = "0.01" class = "number">
       <input type = "submit" id = "PAdd" name = "PAdd" value = "Add Record"></div>
     </div><br><br>
+
     <table id = "myTable">
       <tr>    
             <th>Product ID</th>
@@ -343,9 +351,84 @@ label {
   ?>
     </table>
     </form>
+  	<div class="form-popup" id="myForm">
+  <form action="#" class="form-container" method="post">
+   <input type = "number" id = "pID" name = "pID" maxlength = "6" size = "6" hidden>
+   <input type = "number" id = "rID" name = "rID" maxlength = "6" size = "6" hidden>
+      <input type = "button" style="font-size:18px" class = "updatebtn" id = "p2Save" name = "p2Save" value = "V" onclick = "editRow()"></button>
+   <input type = "button" style="font-size:18px" class = "delete" id = "pdelete" name = "pdelete" value = "Del" onclick = "deleteRow()">
+   <input type = "button" style="font-size:18px" class = "cancel" id = "pcancel" name = "pcancel" value = "X" onclick= "closeForm()"><br>
+   <label for="cName2"><b>Customer Name: * &nbsp;</label>
+       <select name="cName2" id="cName2">
+       <option value='0'>Select</option>
+       <?php
+      // Loop through the array to generate list items
+      foreach ($dbcolvalues as $row) {
+          foreach ($row as $value) {
+      echo "<option value='$value'>$value</option>";
+          }
+      }
+      ?>
+	   </select><br>
+   <input type= "hidden" id = "Sname2" name = "Sname2" required size="75" disabled>
+   <label for="pDes2"><b>Description: *</label>
+   <input type = "text" id = "pDes2" name = "pDes2" required><br>
+   <label for="pSpec2"><b>Spec: *</label>
+   <input type = "text" id = "pSpec2" name = "pSpec2"><br>
+   <label for="pGSM2"><b>GSM: *</label>
+   <input type = "text" id = "pGSM2" name = "pGSM2"><br>
+   <label for="pSizet2"><b>Size: *</label>
+   <input type = "text" id = "pSizet2" name = "pSizet2"><br>
+   <label for="pRate2"><b>Rate(Rs.):*</label>
+   <input type = "text" id = "pRate2" name = "pRate2">
+  </form>
+</div>
 </body>
 <script>
-    function toggleFilter(inputId) {
+// Get the table element
+  var table = document.getElementById("myTable");
+
+  // Attach a click event listener to the table
+  table.addEventListener("click", function(event) {
+    // Check if the clicked element is a table row
+    if (event.target.tagName === "TD") {
+      document.getElementById("myForm").style.display = "block";
+      // Get the data of the clicked row
+      var row = event.target.parentNode; // Get the parent row (<tr>)
+      var rowIndex = row.rowIndex;
+      var cells = row.getElementsByTagName("td"); // Get all cells (<td>) in the row
+      // Extract the data from cells
+      var name = cells[1].innerText;
+      var cselect = document.getElementById("cName2");
+      var cindex = -1;
+      var coptions = cselect.options;
+      for (var i = 0; i < coptions.length; i++) {
+          let sstr = coptions[i].text;
+          let sposition = sstr.search(name);
+          let srfound = (sposition !== -1); // Check if sname is found in sstr
+          if (srfound) {
+              cindex = i; // Assign the index to the outer sindex variable
+              break;
+          }
+      }
+      document.getElementById("cName2").selectedIndex = cindex;
+      var id = cells[0].innerText;   
+      var desc = cells[2].innerText;
+	    var spec = cells[3].innerText;
+      var gsm = cells[4].innerText;
+      var size = cells[5].innerText;
+      var rate = cells[7].innerText;
+      document.getElementById("pID").value = id;
+      document.getElementById("rID").value = rowIndex;
+	    //document.getElementById("cName2").value = name;
+      document.getElementById("pDes2").value = desc;
+      document.getElementById("pSpec2").value = spec;
+      document.getElementById("pGSM2").value = gsm;
+      document.getElementById("pSizet2").value = size;
+      document.getElementById("pRate2").value = rate;      
+    }
+  });
+function toggleFilter(inputId) {
         var input = document.getElementById(inputId);
         input.classList.toggle("active");
         if (input.classList.contains("active")) {
@@ -356,7 +439,7 @@ label {
         }
     }
 
-    function filterTable() {
+function filterTable() {
         var filterInputs = document.getElementsByClassName("filter-input");
         var table = document.getElementById("myTable");
         var tr = table.getElementsByTagName("tr");
@@ -396,19 +479,63 @@ label {
         filterInputs[i].addEventListener("input", filterTable);
     }
 
-function deleteRow(rowId) {
-    var table = document.getElementById("myTable");
-    var rowIndex = rowId.parentNode.parentNode.rowIndex;
-    var row = table.rows[rowIndex];
+function editRow() {
+	  var table = document.getElementById("myTable");
+	  var rowId = document.getElementById("rID").value;
+    var row = table.rows[rowId];
     var cell = row.cells[0]; // Assuming you want to access the second column (0-based index)
     var id = cell.innerText;
-    var tablename = "product";
+    var tablename = "PRODUCT_TABLE";
+	  var edit = "true";
+    var id = document.getElementById("pID").value;
+    var name = document.getElementById("cName2").value;
+    var desc = document.getElementById("pDes2").value;
+      var spec = document.getElementById("pSpec2").value;
+      var gsm = document.getElementById("pGSM2").value;
+      var size = document.getElementById("pSizet2").value;
+      var rate = document.getElementById("pRate2").value;    
+	    var tabdata1 = [id, name, desc, spec, gsm, size, rate];
+        let tabdata = tabdata1.join(',');
       $.ajax({
         type: 'POST', // Request type (POST in this case)
-        url: 'del-table-rowdata.php', // URL of the PHP file to which the request is sent
+        enctype: 'multipart/form-data',
+        url: 'edit-table-rowdata.php', // URL of the PHP file to which the request is sent
         data: { 
               id: id, 
-              tablename: tablename 
+              tablename: tablename,
+			        edit: edit,
+			        tabdata: tabdata 
+          },
+          success: function(response) {
+              // Request was successful, handle response here
+              alert(response);
+              location.reload();
+          },
+          error: function(xhr, status, error) {
+              // Request failed, handle error here
+              alert('Request failed with status:', error, status);
+          }
+    
+    });
+    
+}
+function deleteRow(rowId) {
+	  var table = document.getElementById("myTable");
+	  rowId = document.getElementById("rID").value;
+    var row = table.rows[rowId];
+    var cell = row.cells[0]; // Assuming you want to access the second column (0-based index)
+    var id = cell.innerText;
+    var tablename = "PRODUCT_TABLE";
+	  var edit = "false";
+	  var tabdata = [];
+      $.ajax({
+        type: 'POST', // Request type (POST in this case)
+        url: 'edit-table-rowdata.php', // URL of the PHP file to which the request is sent
+        data: { 
+              id: id,
+              tablename: tablename,
+			        edit: edit,
+			        tabdata: tabdata 
           },
           success: function(response) {
               // Request was successful, handle response here
@@ -422,5 +549,9 @@ function deleteRow(rowId) {
     });
     location.reload();
 }
+
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
 </script>
 </html>
