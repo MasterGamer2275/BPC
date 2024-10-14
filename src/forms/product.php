@@ -14,7 +14,7 @@
   dbgetcolumnname($db, $tablename, $columnname, $dbcolvalues, $text);
   $tablename = $_SESSION["PListTabName"];
   $dbtabdata = array(array());
-  dbreadtable($db, $tablename, $dbtabdata, $text);
+  dbreadtableproduct($db, $tablename, $dbtabdata, $text);
   dbclose($db, $text);
   // Convert the array of objects to a JSON array
   $jsonArray_1 = json_encode($dbcolvalues);

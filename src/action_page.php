@@ -70,17 +70,22 @@ unset($_SESSION['User']);
 
 // Optionally, check if the variables are unset
 if (!isset($_SESSION['companyID']) && !isset($_SESSION['User'])) {
-    echo 'Session variables unset successfully.';
+    //echo 'Session variables unset successfully.';
 } else {
     echo 'Failed to unset session variables.';
 }
 
 $_SESSION['companyID'] = $row['COMPANYID'];
+$x = $_SESSION['companyID'];
+$_SESSION['CompanyID'] = $row['COMPANYID'];
 $_SESSION['User'] = $row['USERNAME'];
-echo "<script>console.log('COMPANYID:', " . $_SESSION['companyID'] . ");</script>";
-echo "<script>console.log('USER:', " . $_SESSION['User'] . ");</script>";
+$y = $_SESSION['User'];
+echo "<script>console.log('COMPANYID:', " . $x . ");</script>";
+echo "<script>console.log('USER:', " . $y . ");</script>";
+//echo $x;
+//echo $y;
     if (isset($_SESSION['companyID']) && isset($_SESSION['User'])) {
-        echo 'Session variables set successfully.';
+        //echo 'Session variables set successfully.';
 } else {
     echo 'Failed to set session variables.';
 }

@@ -3,11 +3,15 @@
 if (isset($_SERVER['HTTP_X_FORWARDED_URL']) && strpos($_SERVER['HTTP_X_FORWARDED_URL'], '.w3spaces-preview.com/') !== false) {
   ini_set('display_errors', 0);
   ini_set('display_startup_errors', 0);
-  error_reporting(0);
+  error_reporting(1);
 }
 ?>
 <?php
- // Start the session
+
+
+if(session_status() !== 2) {
+$cache_limiter = session_cache_limiter();
+// Start the session
 // Print the current session status
 // remove all session variables
 //$db->close();
@@ -16,8 +20,6 @@ session_unset();
 session_destroy();
 //echo "Before session_start(): " . session_status() . "<br>"; 
 session_cache_limiter('private');
-$cache_limiter = session_cache_limiter();
-if(session_status() !== 2) {
     session_start();
 /* set the cache limiter to 'private' */
 
@@ -43,8 +45,8 @@ if(session_status() !== 2) {
         $text .= "<br>";
     } else {
     $text .= "Connected to MySQL database successfully<br>";
-    $_SESSION["companyID"] = "6100";
-    $_SESSION["CompanyID"] = "6100";
+    $_SESSION["companyID"] = "6300";
+    $_SESSION["CompanyID"] = "6300";
     $_SESSION["SListTabName"] = "SUPPLIER_TABLE";
     $_SESSION["ComListTabName"] = "COMMODITY_TABLE";
     $_SESSION["StListTabName"] = "RMSTOCK_TABLE";
