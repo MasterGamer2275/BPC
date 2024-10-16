@@ -842,31 +842,43 @@ function dbeditproductrecord(&$db, $tablename, $cname, $size, $os, $prod, $cs, $
 
 function dbeditstockrecord2(&$db, $tablename,$Id, $date, $invnum, $sname, $cname, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, &$text) { 
   $CompanyID = $_SESSION["companyID"];
-  $sql =("
-    UPDATE `$tablename` SET
-    DATE = '$date',
-    INVNUM  = '$invnum',
-    SUPPLIERNAME = '$sname',
-    COMMODITYNAME = '$cname',
-    GSM = '$gsm',
-    BF = '$bf',
-    REELSIZE = '$rs',
-    REELNUMBER = '$rn',
-    REELWEIGHT = '$rw',
-    RATE = '$rate',
-    SGST = '$sgst',
-    CGST = '$cgst',
-    IGST = '$igst',
-    TOTAL = '$total',
-    GODOWNNAME = '$loc' WHERE COMPANYID = '$CompanyID' AND ID = '$Id'");
-  $ret = $db->query($sql);
-     if(!$ret) {
-          $err = $db->lastErrorMsg();
-          $text .= $err;
-          $text .= "<br>";
-        } else { 
-          $text .= "Records edited successfully<br>";
-      }
+    // Prepare the SQL statement
+    $sql = "
+        UPDATE `$tablename` SET
+        DATE = ?, 
+        INVNUM = ?, 
+        SUPPLIERNAME = ?, 
+        COMMODITYNAME = ?, 
+        GSM = ?, 
+        BF = ?, 
+        REELSIZE = ?, 
+        REELNUMBER = ?, 
+        REELWEIGHT = ?, 
+        RATE = ?, 
+        SGST = ?, 
+        CGST = ?, 
+        IGST = ?, 
+        TOTAL = ?, 
+        GODOWNNAME = ? 
+        WHERE COMPANYID = ? AND ID = ?
+    ";
+
+    // Prepare the statement
+    $stmt = $db->prepare($sql);
+    
+    // Bind parameters
+    $stmt->bind_param("ssssiidsddddddsii", $date, $invnum, $sname, $cname, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $loc, $CompanyID, $Id);
+
+    // Execute the statement
+    if (!$stmt->execute()) {
+        $err = $stmt->error; // Get the error from the statement
+        $text .= "Error editing record: " . $err . "<br>";
+    } else {
+        $text .= "Records edited successfully<br>";
+    }
+
+    // Close the statement
+    $stmt->close();
 }
 
 

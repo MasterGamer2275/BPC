@@ -323,13 +323,13 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php $tablename = $_SESSION["StListTabName"]; ?>
 <?php dbeditstockrecord2($db, $tablename,$ID, $date, $InvNum, $sname, $cname, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $location, $text); ?>
 <?php dbclose($db, $text); ?>
-<?php //echo $text; ?>
 <?php header("Location: edit-stock-table.php"); ?>
 <?php exit; ?>
 <?php }?>
 <?php /*form - Delete Stock record------------------------------------------------- */ ?>
-<?php if ($_POST["SEdelete2"] != "") {  ?>
-<?php echo $_POST["SEdelete2"]; ?>
+<?php if ($_POST["SED"] != "") {  ?>
+<?php echo "welcome to delete customer record<br>"; ?>
+<?php echo $_POST["SED"]; ?>
 <?php $ID= $_POST["id2"]; ?>
 <?php echo $ID; ?>
 <?php dbsetup($db, $text); ?>
@@ -358,14 +358,13 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php $word3 = str_replace('"', '',$word2); ?>
         <?php $myArray = explode(",", $word3); ?>
         <?php dbeditproductrecord($db, $tablename, $cName, $myArray[1], $myArray[2], $myArray[3], $myArray[4], $myArray[6], $text); ?>
-        <?php echo $text; ?>
         <?php  } ?>
       <?php $i = $i+1; ?>
   <?php } ?>
   <?php echo "Records Edited.<br>"; ?>
   <?php dbclose($db, $text); ?>
-  <?php header("Location: finishedgoods.php"); ?>
-  <?php exit; ?>
+  <?php //header("Location: finishedgoods.php"); ?>
+  <?php //exit; ?>
 <?php } ?>
 <?php /*form - production feed- ($_POST["pRC-Add"] not working)------------------------------------------------- */ ?>
 <?php if ($_POST["tableData"] != "") {  ?>

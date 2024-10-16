@@ -128,7 +128,8 @@ session_start();
     </div>
     <div class="sub-tab" id = "Inventory >">
       <button class="subtablinks3" onclick="openphp(event, '/forms/stockinventory.php', '/main-page/frame1.php')">Raw Material</button>
-      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button> 
+      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods.php', '/main-page/frame1.php')">Finished Goods</button>
+      <button class="subtablinks3" onclick="openphp(event, '/forms/finishedgoods2.php', '/main-page/frame1.php')">Finished Goods(Manual Feed)</button> 
     </div>
     <div class="sub-tab" id = "Production >">
       <button class="subtablinks4" onclick="openphp(event, '/forms/productionfeed.php', '/main-page/frame1.php')">Production Feed</button>

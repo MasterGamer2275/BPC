@@ -126,7 +126,14 @@ input[type=number] {
 </style>
 <body>
   <h3> Finished Goods Inventory</h3>
-  <table id="myTable">
+
+  <form action="forms_action_page.php" class="form-container" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="fgtableData" name="fgtableData">
+        <input type="hidden" id="cName" name="cName">   
+        <input type="submit" id="fGSave" value="Save 💾" style="display:none;"><br><br>    
+</form>
+
+  <table id="myTable" oninput = "calculate();">
     <tr>
       <td onclick="expandtable()">[+/-]</td>
       <th>Customer Name / Size<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('cnameFilter')"></i>      
@@ -161,7 +168,7 @@ foreach ($dbtabdata as $row) {
             if (!$parent) {
                 // Making the Opening Stock editable
                 if ($i == 2) {
-                    echo "<td>$cell</td>";
+                    echo "<td contenteditable='true' oninput='updateCell(this)'>$cell</td>";
                 } else {
                     echo "<td>$cell</td>";
                 }
@@ -176,6 +183,47 @@ foreach ($dbtabdata as $row) {
 </table>
 
 <script>
+function calculate(){
+            var table = document.getElementById('myTable');
+            const parentRows = table.getElementsByClassName('parent');
+            var rows = table.getElementsByTagName('tr');
+            var caption = table.getElementsByTagName('caption');
+            var totalsum = 0;
+            var tableData = [];
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName('td');
+                var resultCell = cells[4]; // Third cell for result (Closing stock)
+                var resultCell2 = cells[6]; // Fifth cell for result (Total Value)
+                var resultCell3 = cells[7]; // Fifth cell for result (Total GST)
+                if (cells.length >= 2) {
+                    var value1 = parseInt(cells[2].textContent); // Value from first column (Opening Stock)
+                    var value2 = parseInt(cells[3].textContent);// Value from second column (Production Stock)
+                    var value3 = parseFloat(cells[5].textContent); // Value from fourth column(Stock Price)
+                    if (!isNaN(value1) && !isNaN(value2) && !isNaN(value3)) {
+                        resultCell.textContent = value1 + value2; // Multiply values and write to result cell
+                        resultCell2.textContent = (resultCell.textContent * value3); // Multiply values and write to result cell
+                        resultCell3.textContent = (resultCell.textContent * value3 * 12 / 100);
+                        var val = parseFloat((resultCell.textContent * value3) + (resultCell.textContent * value3 * 12 / 100));
+                        totalsum += val;
+                    var rowData = [];
+                    // Loop through table cells
+                    for (var j = 0; j < rows[i].cells.length; j++) {
+                            var cell = rows[i].cells[j];
+                            rowData.push(cell.textContent);
+                            }
+                    tableData.push(rowData);
+                    }
+                }
+            }
+    document.getElementById('fGSave').style.display = "block";
+    //var formattedTotalSum = totalsum.toLocaleString();
+    //caption[0].textContent = document.getElementById('cName').value + ":-💰Stock Value: ₹" + formattedTotalSum;
+    document.getElementById('fgtableData').value = JSON.stringify(tableData);
+    //document.getElementById('cName').value = document.getElementById('fG_cName').value;
+    }
+
+
+
 
 function expandtable() {
   var table = document.getElementById("myTable");
