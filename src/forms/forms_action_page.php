@@ -123,7 +123,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php $word2 = str_replace("[","", $word1); ?>
         <?php $word3 = str_replace('"', '',$word2); ?>
         <?php $myArray = explode(",", $word3); ?>
-        <?php dbaddstockrecord($db, $tablename, $myArray[2], $InvNum, $myArray[3], $myArray[4], $myArray[5], $myArray[6], $myArray[7], $myArray[8], $myArray[9], $myArray[10], $myArray[11], $myArray[12], $myArray[13], $myArray[14], $myArray[16], $text); ?>
+        <?php $allowed_characters = '/[^\d\/\\\\]/'; // Keep digits, forward slashes, and backslashes ?>
+        <?php $wrn= preg_replace($allowed_characters, '', $myArray[8]); ?>
+        <?php $expected_string1 = str_replace("\\/", "/", $wrn); ?>
+        <?php $expected_string2 = str_replace("\\\\", "\\", $expected_string1); ?>
+        <?php $wrn = $expected_string2; ?>
+        <?php dbaddstockrecord($db, $tablename, $myArray[2], $InvNum, $myArray[3], $myArray[4], $myArray[5], $myArray[6], $myArray[7], $wrn, $myArray[9], $myArray[10], $myArray[11], $myArray[12], $myArray[13], $myArray[14], $myArray[16], $text); ?>
         <?php  } ?>
       <?php $i = $i+1; ?>
   <?php } ?>
@@ -324,10 +329,12 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php }?>
 <?php /*form - Delete Stock record------------------------------------------------- */ ?>
 <?php if ($_POST["SEdelete2"] != "") {  ?>
+<?php echo $_POST["SEdelete2"]; ?>
 <?php $ID= $_POST["id2"]; ?>
+<?php echo $ID; ?>
 <?php dbsetup($db, $text); ?>
 <?php $tablename = $_SESSION["StListTabName"]; ?>
-<?php //add dbrecord delete?>
+<?php dbdeletestockrecord($db, $tablename, $ID, $text); ?>
 <?php dbclose($db, $text); ?>
 <?php header("Location: edit-stock-table.php"); ?>
 <?php exit; ?>

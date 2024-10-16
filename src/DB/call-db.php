@@ -273,7 +273,6 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gs
     $CompanyID = $_SESSION["companyID"];
     $status = "in-stock";
     $usedweight = 0;
-
     // Prepare the SQL statement with placeholders
     $sql = "INSERT INTO `$tablename` (DATE, INVNUM, SUPPLIERNAME, COMMODITYNAME, GSM, BF, REELSIZE, REELNUMBER, REELWEIGHT, RATE, SGST, CGST, IGST, TOTAL, GODOWNNAME, USEDWEIGHT, STATUS, COMPANYID)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -287,11 +286,10 @@ function dbaddstockrecord(&$db, $tablename, $date, $invnum, $name, $mattype, $gs
     }
 
     // Bind the parameters
-    $stmt->bind_param("ssssiididdddddsdsi", $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, $usedweight, $status, $CompanyID);
+    $stmt->bind_param("ssssiidsddddddsdsi", $date, $invnum, $name, $mattype, $gsm, $bf, $rs, $rn, $rw, $rate, $sgst, $cgst, $igst, $total, $godownname, $usedweight, $status, $CompanyID);
 
     // Execute the statement
     $ret = $stmt->execute();
-
     if ($ret) {
         $text .= "Records created successfully<br>";
     } else {
@@ -365,6 +363,36 @@ function dbeditcompanylistrecord(&$db, $tablename, $ID, $Coname, $CoAddr, $CoCit
 //----------------------------------------DB - Delete record (Supplier Table)----------------------------------------//
 
 function dbdeletesupplierrecord(&$db, $tablename, $ID, &$text) {
+    // Ensure $tablename and $ID are properly escaped or sanitized
+    // Prepare the DELETE statement
+    $sql = "DELETE FROM `$tablename` WHERE ID = ?";
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt) {
+        $text .= "Error preparing statement: " . $db->error . "<br>";
+        return;
+    }
+
+    // Bind the ID parameter
+    $stmt->bind_param("i", $ID);
+
+    // Execute the statement
+    $ret = $stmt->execute();
+
+    if ($ret) {
+        $text .= "Records deleted successfully<br>";
+    } else {
+        $err = $stmt->error;
+        $text .= "Error deleting record: " . $err . "<br>";
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+//----------------------------------------DB - Delete record (Stock Table)----------------------------------------//
+
+function dbdeletestockrecord(&$db, $tablename, $ID, &$text) {
     // Ensure $tablename and $ID are properly escaped or sanitized
     // Prepare the DELETE statement
     $sql = "DELETE FROM `$tablename` WHERE ID = ?";

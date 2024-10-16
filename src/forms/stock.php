@@ -229,7 +229,7 @@ height: 20px;
     <label for="PRS"><b>Reel Size (Cm): *</label>
     <input type = "number" class = "numeric-input1" id = "PRS" name = "PRS" required size="3" min = "1" step="0.01" disabled>
     <label for="PRN"><b>Reel Number :*</label>
-    <input type = "number" class = "numeric-input1" id = "PRN" name = "PRN" required size="7" min = "5" step="1">
+    <input type = "text" id = "PRN" name = "PRN" required size="14">
     <label for="PRW"><b>Reel Weight (Kg) : *</label>
     <input type = "number" class = "numeric-input1" id = "PRW" name = "PRW" required size="7" min = "1" step=".01" onchange = "calculatetotal()"><br><br>
     <label for="PRate"><b>Rate(Rs.):</label>

@@ -259,7 +259,7 @@ font-size: 12px;
 <div class="form-popup" id="myForm">
   <form action="forms_action_page.php" class="form-container" method="post" enctype="multipart/form-data">
     <input type = "button" style="font-size:18px" class = "updatebtn" id = "SE2Save2" name = "SE2Save2" value = "V" onclick = "createSubmitevent();">
-    <input type = "button" style="font-size:18px" class = "delete" id = "SEdelete2" name = "SEdelete2" value = "Del">
+    <input type = "button" style="font-size:18px" class = "delete" id = "SEdelete2" name = "SEdelete2" value = "Del" onclick = "createdelSubmitevent();">
     <input type = "button" style="font-size:18px" class = "cancel" id = "SEcancel2" name = "SEcancel2" value = "X" onclick= "closeForm()"><br>
     <label for="Pdate2"><b>Purchase Date:</label>
     <input type = "date" id = "Pdate2" name = "Pdate2" size="10"  required>    
@@ -293,7 +293,7 @@ font-size: 12px;
     <label for="PRS2"><b>ReelSize:</label>
     <input type = "number" id = "PRS2" disabled><br>
     <label for="PRN2"><b>ReelNumber: *</label>
-    <input type = "number" id = "PRN2" name = "PRN2" required width="4px" min = "5"step="1"><br>
+    <input type = "text" id = "PRN2" name = "PRN2" required width="14px"><br>
     <label for="PRW2"><b>RWeight(Kg): *</label>
     <input type = "number" id = "PRW2" name = "PRW2" required width="4px" min = "1" step=".01" onchange="calculatetotal2();" ><br>
     <label for="PRate2"><b>Rate(Rs.):</label>
@@ -420,6 +420,15 @@ function createSubmitevent() {
     // Set the table data as a JSON string in the hidden input field
   document.getElementById('sttableData').value = JSON.stringify(data);
   document.getElementById("SE2Save").value = "SE2Save";
+  document.getElementById("SEdelete2").value = "";
+  document.getElementById("SE2Save").click();
+}
+
+function createdelSubmitevent() {
+ 
+  document.getElementById('sttableData').value = "";
+  document.getElementById("SE2Save").value = "";
+  document.getElementById("SEdelete2").value = "Del";
   document.getElementById("SE2Save").click();
 }
 
