@@ -537,7 +537,7 @@ function addtotable() {
   const selectElement = document.getElementById("PCname");
   var selectValue= selectElement.options[selectElement.selectedIndex].text;
   const myArray1 = selectValue.split("-");
-  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, myArray1[0], document.getElementById("PGSM").value, document.getElementById("PBF").value, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, document.getElementById("PIGST").disabled, document.getElementById("PSLoc").value];
+  const myArray = [newRowId, "", document.getElementById("Pdate").value, document.getElementById("PSname").value, myArray1[0], document.getElementById("PGSM").value, document.getElementById("PBF").value, document.getElementById("PRS").value, document.getElementById("PRN").value, document.getElementById("PRW").value, document.getElementById("PRate").value, document.getElementById("PSGST").value, document.getElementById("PCGST").value, document.getElementById("PIGST").value, document.getElementById("PTotal").value, !document.getElementById("PIGST").disabled, document.getElementById("PSLoc").value];
         for (let i = 0; i < myArray.length; i++) {
         var cell = newRow.insertCell(i);
         cell.innerHTML = myArray[i];

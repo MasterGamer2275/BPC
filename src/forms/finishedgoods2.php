@@ -125,15 +125,15 @@ input[type=number] {
     }
 </style>
 <body>
-  <h3> Finished Goods Inventory</h3>
+<h3> Finished Goods Inventory</h3>
 
-  <form action="forms_action_page.php" class="form-container" method="post" enctype="multipart/form-data">
+<form action="#" class="form-container" method="post" enctype="multipart/form-data">
         <input type="hidden" id="fgtableData" name="fgtableData">
         <input type="hidden" id="cName" name="cName">   
         <input type="submit" id="fGSave" value="Save 💾" style="display:none;"><br><br>    
 </form>
 
-  <table id="myTable" oninput = "calculate();">
+  <table id="myTable">
     <tr>
       <td onclick="expandtable()">[+/-]</td>
       <th>Customer Name / Size<br><i class="fa fa-search" style="font-size:14px;color:grey" onclick="toggleFilter('cnameFilter')"></i>      
@@ -157,7 +157,7 @@ foreach ($dbtabdata as $row) {
     $parent = false; // Initialize parent flag
     
     foreach ($row as $cell) {      
-        if(!$i) {
+        if(!$i) { //executes while i=0
             $parent = ($cell != ""); // Check if the cell is a parent
             if ($parent) {
                 echo "<tr class=\"parent\"><td onclick=\"hideunhiderows(this);\">[+]</td>";
@@ -165,10 +165,10 @@ foreach ($dbtabdata as $row) {
                 echo "<tr class=\"child hide\">";
             }               
         }
-            if (!$parent) {
+        if (!$parent) {
                 // Making the Opening Stock editable
                 if ($i == 2) {
-                    echo "<td contenteditable='true' oninput='updateCell(this)'>$cell</td>";
+                    echo "<td contenteditable='true' onblur=\"calculate(event);\">$cell</td>";
                 } else {
                     echo "<td>$cell</td>";
                 }
@@ -183,45 +183,78 @@ foreach ($dbtabdata as $row) {
 </table>
 
 <script>
-function calculate(){
-            var table = document.getElementById('myTable');
-            const parentRows = table.getElementsByClassName('parent');
-            var rows = table.getElementsByTagName('tr');
-            var caption = table.getElementsByTagName('caption');
-            var totalsum = 0;
-            var tableData = [];
-            for (var i = 0; i < rows.length; i++) {
-                var cells = rows[i].getElementsByTagName('td');
-                var resultCell = cells[4]; // Third cell for result (Closing stock)
-                var resultCell2 = cells[6]; // Fifth cell for result (Total Value)
-                var resultCell3 = cells[7]; // Fifth cell for result (Total GST)
-                if (cells.length >= 2) {
-                    var value1 = parseInt(cells[2].textContent); // Value from first column (Opening Stock)
-                    var value2 = parseInt(cells[3].textContent);// Value from second column (Production Stock)
-                    var value3 = parseFloat(cells[5].textContent); // Value from fourth column(Stock Price)
-                    if (!isNaN(value1) && !isNaN(value2) && !isNaN(value3)) {
-                        resultCell.textContent = value1 + value2; // Multiply values and write to result cell
-                        resultCell2.textContent = (resultCell.textContent * value3); // Multiply values and write to result cell
-                        resultCell3.textContent = (resultCell.textContent * value3 * 12 / 100);
-                        var val = parseFloat((resultCell.textContent * value3) + (resultCell.textContent * value3 * 12 / 100));
-                        totalsum += val;
-                    var rowData = [];
-                    // Loop through table cells
-                    for (var j = 0; j < rows[i].cells.length; j++) {
-                            var cell = rows[i].cells[j];
-                            rowData.push(cell.textContent);
-                            }
-                    tableData.push(rowData);
-                    }
-                }
-            }
-    document.getElementById('fGSave').style.display = "block";
-    //var formattedTotalSum = totalsum.toLocaleString();
-    //caption[0].textContent = document.getElementById('cName').value + ":-💰Stock Value: ₹" + formattedTotalSum;
-    document.getElementById('fgtableData').value = JSON.stringify(tableData);
-    //document.getElementById('cName').value = document.getElementById('fG_cName').value;
+
+function calculate(event) {
+    const input = event.target; // Get the input that triggered the event
+    const currentRow = input.closest('tr'); // Find the closest row
+    const cells = currentRow.getElementsByTagName('td'); // Get all cells in the row
+    let tableData = []; // Initialize table data array
+
+    // Initialize an array to hold previous rows
+    const previousRows = [];
+    let prevRow = currentRow.previousElementSibling; // Get the previous row
+    let parent = ""; // Initialize parent variable
+    let pcellname = ""; // Initialize pcellname variable
+
+    // Collect previous rows until there are no more
+    let i = 0;
+    while (prevRow) { // Corrected the loop condition
+        i++;
+        alert(i); // Debugging: shows the count of previous rows
+        previousRows.push(prevRow); // Store the previous row
+        parent = prevRow.cells[0].textContent.trim(); // Correctly accessing the first cell
+        prevRow = prevRow.previousElementSibling; // Move to the previous row
     }
 
+    if (previousRows.length > 0) { // Ensure there's at least one previous row
+        pcellname = previousRows[previousRows.length - 1].cells[1].textContent.trim(); // Get the second cell's text
+    }
+
+    alert(pcellname); // Debugging: shows the name of the parent cell
+    // Ensure there are enough cells to avoid out-of-bounds errors
+    if (cells.length >= 8) {
+        const resultCell = cells[4]; // Closing stock cell
+        const resultCell2 = cells[6]; // Total Value cell
+        const resultCell3 = cells[7]; // Total GST cell
+
+        // Parse values from specific cells
+        const value1 = parseInt(cells[2].textContent) || 0; // Value from first column (Opening Stock)
+        const value2 = parseInt(cells[3].textContent) || 0; // Value from second column (Production Stock)
+        const value3 = parseFloat(cells[5].textContent) || 0; // Value from fourth column (Stock Price)
+
+        // Calculate if all values are valid numbers
+        if (!isNaN(value1) && !isNaN(value2) && !isNaN(value3)) {
+            const closingStock = value1 + value2; // Calculate Closing Stock
+            resultCell.textContent = closingStock; // Update Closing stock
+            const totalValue = closingStock * value3; // Calculate Total Value
+            resultCell2.textContent = totalValue; // Update Total Value
+            const totalGST = totalValue * 0.12; // Calculate Total GST (12%)
+            resultCell3.textContent = totalGST; // Update Total GST
+
+            // Prepare row data
+            const rowData = [pcellname]; // Initialize rowData with the first element
+            for (let j = 0; j < cells.length; j++) {
+                rowData.push(cells[j].textContent); // Collect text content of each cell
+            }
+            tableData.push(rowData); // Add the row data to tableData
+        }
+    }
+
+    // Get old value from fgtableData
+    const fgTableDataElement = document.getElementById('fgtableData');
+    const oldValue = fgTableDataElement.value;
+
+    // Concatenate old value with new tableData
+    if (oldValue) {
+        const newValue = oldValue + ',' + JSON.stringify(tableData);
+        fgTableDataElement.value = newValue;
+    } else {
+        fgTableDataElement.value = JSON.stringify(tableData);
+    }
+
+    // Show save button
+    document.getElementById('fGSave').style.display = "block";
+}
 
 
 

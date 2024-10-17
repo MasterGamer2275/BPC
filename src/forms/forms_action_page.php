@@ -132,10 +132,10 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php  } ?>
       <?php $i = $i+1; ?>
   <?php } ?>
-  <?php echo "Records Added.<br>"; ?>
+  <?php echo ($i-1)." Records Added.<br>"; ?>
   <?php dbclose($db, $text); ?>
-  <?php header("Location: stock.php"); ?>
-  <?php exit; ?>
+  <?php //header("Location: stock.php"); ?>
+  <?php //exit; ?>
 <?php } ?>
 <?php /*form - po------------------------------------------------- */ ?>
 <?php if ($_POST["POSubmit"] != "") {  ?>
@@ -343,7 +343,7 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
 <?php /* ------------------- */ ?>
 <?php if ($_POST["fgtableData"] != "") {  ?>
   <?php echo "welcome to edit product record<br>"; ?>
-  <?php $cName= $_POST["cName"]; ?>
+  
   <?php $tableDataJSON = $_POST['fgtableData']; ?>
   <?php $tableData = json_decode($tableDataJSON, true); ?>
   <?php dbsetup($db, $text); ?>
@@ -357,11 +357,14 @@ Welcome  <?php echo $_POST["CSname"]; ?><br>
         <?php $word2 = str_replace("[","", $word1); ?>
         <?php $word3 = str_replace('"', '',$word2); ?>
         <?php $myArray = explode(",", $word3); ?>
-        <?php dbeditproductrecord($db, $tablename, $cName, $myArray[1], $myArray[2], $myArray[3], $myArray[4], $myArray[6], $text); ?>
+        <?php $cName= $myArray[0]; ?>
+        <?php echo $cName; ?>
+        <?php dbeditproductrecord($db, $tablename,$myArray[1], $myArray[2], $myArray[3], $myArray[4], $myArray[6], $text); ?>
         <?php  } ?>
       <?php $i = $i+1; ?>
   <?php } ?>
   <?php echo "Records Edited.<br>"; ?>
+  <?php echo $text; ?>
   <?php dbclose($db, $text); ?>
   <?php //header("Location: finishedgoods.php"); ?>
   <?php //exit; ?>
